@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wafflebeanz Navigation</title>
+    
+    <!-- Load Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts (Quicksand for a soft, rounded, pastel-friendly look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        pastel: {
+                            pink: '#ffd6e0',
+                            purple: '#e8dff5',
+                            yellow: '#fce1e4',
+                            blue: '#d0f4de',
+                            rose: '#ffcbf2'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Add a subtle floating animation for decorative elements */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Glassmorphism effect for the main card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-purple to-pastel-rose text-gray-800 flex items-center justify-center p-4 sm:p-8 selection:bg-pink-300 selection:text-white">
+
+    <!-- Decorative background blobs -->
+    <div class="fixed top-10 left-10 w-32 h-32 bg-pastel-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 0s;"></div>
+    <div class="fixed bottom-10 right-10 w-40 h-40 bg-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s;"></div>
+
+    <main class="glass-card w-full max-w-lg rounded-3xl shadow-2xl p-8 sm:p-12 relative z-10 text-center">
+        
+        <!-- Header Section -->
+        <div class="mb-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border-4 border-pastel-pink">
+                <span class="text-4xl">🌸</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Welcome</h1>
+            <p class="text-gray-600 font-medium">Select a document below to view</p>
+        </div>
+
+        <nav class="flex flex-col gap-4">
+            
+            <!-- Link to the PFRS Guide -->
+            <!-- Note: The href matches the exact filename you uploaded to GitHub -->
+            <a href="pfrs_comparison_guide.html" 
+               class="group relative w-full flex items-center justify-center p-5 bg-white rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+                
+                <!-- Hover background effect -->
+                <div class="absolute inset-0 bg-gradient-to-r from-pastel-pink to-pastel-rose opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                
+                <div class="flex flex-col items-center relative z-10">
+                    <span class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📊</span>
+                    <span class="text-sm sm:text-base font-semibold text-gray-800 text-center leading-snug">
+                        Comprehensive Comparison: <br/> 
+                        <span class="text-pink-600">Full PFRS vs. PFRS for SMEs vs. PFRS for SEs</span>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Placeholder for future links -->
+            <a href="#" 
+               class="group relative w-full flex items-center justify-center p-4 bg-white/50 rounded-2xl border border-dashed border-gray-300 hover:border-pastel-purple transition-all duration-300">
+                <span class="text-gray-400 font-medium text-sm group-hover:text-purple-400">
+                    + More documents coming soon
+                </span>
+            </a>
+
+        </nav>
+    </main>
+
+</body>
+</html>
