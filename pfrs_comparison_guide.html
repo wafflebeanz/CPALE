@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Comparison: Full PFRS vs. PFRS for SMEs vs. PFRS for SEs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom base styles for accessibility */
+        :root {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background-color: #f8fafc; /* Tailwind slate-50 */
+            color: #0f172a; /* Tailwind slate-900 */
+            line-height: 1.6;
+        }
+        /* Ensure focus states are clearly visible for keyboard navigation */
+        *:focus-visible {
+            outline: 3px solid #2563eb; /* Tailwind blue-600 */
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 lg:p-12">
+    <main class="max-w-5xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        
+        <header class="bg-slate-800 text-white p-6 md:p-10">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">PFRS Comparison Guide</h1>
+            <p class="text-lg text-slate-300 max-w-3xl">A comprehensive comparison between Full PFRS, PFRS for SMEs, and PFRS for SEs based on the Philippine Securities and Exchange Commission (SEC) and the Financial Reporting Standards Council (FRSC) tiered framework.</p>
+        </header>
+
+        <div class="p-6 md:p-10 space-y-12">
+            
+            <section aria-labelledby="tier-summary-heading">
+                <h2 id="tier-summary-heading" class="text-2xl font-semibold text-slate-800 mb-6 border-b pb-2 border-slate-200">Framework Tiers</h2>
+                <ul class="space-y-4 text-slate-700">
+                    <li class="flex items-start">
+                        <span class="bg-blue-100 text-blue-800 font-bold px-3 py-1 rounded-full text-sm mr-4 mt-1 shrink-0">Tier 1</span>
+                        <div>
+                            <strong class="text-slate-900 block md:inline">Large / Public Interest Entities:</strong> Use <strong>Full PFRS</strong>. 
+                            <span class="text-slate-500 text-sm md:text-base block">(Generally, Total Assets > ₱350M or Total Liabilities > ₱250M)</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded-full text-sm mr-4 mt-1 shrink-0">Tier 2</span>
+                        <div>
+                            <strong class="text-slate-900 block md:inline">Medium-sized Entities:</strong> Use <strong>PFRS for SMEs</strong>. 
+                            <span class="text-slate-500 text-sm md:text-base block">(Total Assets ₱100M - ₱350M or Total Liabilities ₱100M - ₱250M)</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full text-sm mr-4 mt-1 shrink-0">Tier 3</span>
+                        <div>
+                            <strong class="text-slate-900 block md:inline">Small Entities:</strong> Use <strong>PFRS for SEs</strong>. 
+                            <span class="text-slate-500 text-sm md:text-base block">(Total Assets ₱3M - ₱100M or Total Liabilities ₱3M - ₱100M)</span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="matrix-heading">
+                <h2 id="matrix-heading" class="text-2xl font-semibold text-slate-800 mb-6 border-b pb-2 border-slate-200">1. Quick Reference Matrix</h2>
+                
+                <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-sm" tabindex="0" role="region" aria-label="Comparison Table">
+                    <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+                        <caption class="sr-only">A tabular comparison of accounting treatments across Full PFRS, PFRS for SMEs, and PFRS for SEs.</caption>
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-4 font-semibold text-slate-900 w-1/4">Accounting Area</th>
+                                <th scope="col" class="px-6 py-4 font-semibold text-slate-900 w-1/4 border-l border-slate-200">Full PFRS</th>
+                                <th scope="col" class="px-6 py-4 font-semibold text-slate-900 w-1/4 border-l border-slate-200">PFRS for SMEs</th>
+                                <th scope="col" class="px-6 py-4 font-semibold text-slate-900 w-1/4 border-l border-slate-200">PFRS for SEs</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Research & Development</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Research expensed; Development capitalized if criteria met.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">All R&D expensed as incurred.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">All R&D expensed as incurred.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Borrowing Costs</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Capitalized if related to a qualifying asset.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Expensed as incurred.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Expensed as incurred.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Leases (Lessee)</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Right-of-Use (ROU) asset and Lease Liability for almost all leases (PFRS 16).</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Classified as either Operating or Finance Lease.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Classified as either Operating or Finance Lease.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Goodwill</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Not amortized; tested for impairment annually.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Amortized over useful life (max 10 years if unable to estimate); tested for impairment.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Amortized over useful life (max 10 years if unable to estimate); tested for impairment.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Intangible Assets</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Can have indefinite life (no amortization).</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">All have finite lives (amortized over max 10 years if unable to estimate).</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">All have finite lives (amortized over max 10 years if unable to estimate).</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Investment Property</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Choice between Fair Value Model or Cost Model.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Fair Value if measurable without undue cost/effort; otherwise Cost Model.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Strictly Cost Model.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Income Taxes</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Deferred taxation required (Current + Deferred).</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Deferred taxation required (Current + Deferred).</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Option to use Taxes Payable Method (Current tax only) OR Deferred Method.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <th scope="row" class="px-6 py-4 font-medium text-slate-900 align-top">Employee Benefits</th>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Complex actuarial valuation (Projected Unit Credit) required.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Projected Unit Credit if possible without undue cost; otherwise simplified approach.</td>
+                                <td class="px-6 py-4 text-slate-700 align-top border-l border-slate-200">Simplest approach: Accrual based on minimum mandated by law (RA 7641) or management estimate.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section aria-labelledby="detailed-treatments-heading">
+                <h2 id="detailed-treatments-heading" class="text-2xl font-semibold text-slate-800 mb-6 border-b pb-2 border-slate-200">2. Detailed Accounting Treatments</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">A.</span> Asset Valuation
+                        </h3>
+                        <div class="space-y-4 text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Investment Property:</strong> Under Full PFRS, companies have a free policy choice between fair value and cost. SMEs must use fair value if it can be determined without undue cost or effort, defaulting to cost if it cannot. Small Entities (SEs) are entirely relieved of fair value assessments for investment properties and must strictly use the Cost-Depreciation-Impairment model.</p>
+                            <p><strong class="text-slate-900">Biological Assets (Agriculture):</strong> Full PFRS requires Fair Value less costs to sell. PFRS for SMEs requires Fair Value only if readily determinable without undue cost; otherwise, cost model. PFRS for SEs strictly uses the Cost model.</p>
+                        </div>
+                    </article>
+
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">B.</span> Intangibles and Goodwill
+                        </h3>
+                        <div class="text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Amortization:</strong> Full PFRS recognizes that some intangibles (like established brand names) have an indefinite useful life and are only checked for impairment. To simplify accounting, both SMEs and SEs assume all intangible assets and goodwill lose value over time. If management cannot reliably estimate the useful life, they are forced to amortize it over 10 years.</p>
+                        </div>
+                    </article>
+
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">C.</span> Leases (For Lessees)
+                        </h3>
+                        <div class="text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Treatment:</strong> Full PFRS (specifically PFRS 16) eliminated the concept of "Operating Leases" for lessees; almost all leases go onto the balance sheet as an asset and a liability. PFRS for SMEs and SEs retain the old rules (equivalent to the old PAS 17), meaning short-term or standard rental agreements can just be expensed straight to the income statement (Operating Lease) without inflating the balance sheet.</p>
+                        </div>
+                    </article>
+
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">D.</span> Income Taxes
+                        </h3>
+                        <div class="text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Deferred Taxes:</strong> Calculating deferred tax assets and liabilities requires tracking the temporary differences between accounting profit and taxable profit, which is notoriously complex. While Full PFRS and SMEs must do this, PFRS for SEs offers a massive simplification: the <strong>Taxes Payable Method</strong>. SEs can simply record the income tax expense equal to what is actually owed to the BIR for that year, ignoring deferred taxes entirely.</p>
+                        </div>
+                    </article>
+
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100 md:col-span-2">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">E.</span> Borrowing Costs & R&D
+                        </h3>
+                        <div class="text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Capitalization:</strong> Full PFRS requires entities to capitalize interest/borrowing costs on loans used to build major assets, and to capitalize development costs for new products. This builds up the asset value on the balance sheet. SMEs and SEs follow a much simpler "expense immediately" rule. All interest and all R&D costs hit the income statement right away, which simplifies bookkeeping but can lower short-term profitability.</p>
+                        </div>
+                    </article>
+
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">F.</span> Employee Benefits
+                        </h3>
+                        <div class="text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Retirement Accrual:</strong> Full PFRS requires hiring an independent actuary to calculate retirement obligations using the Projected Unit Credit method. SMEs should use this if it's not too costly, but can fall back to simpler methods. SEs have the easiest route: they can simply calculate their liability based on the minimum requirements of Philippine Republic Act No. 7641 (usually half a month's salary for every year of service) using management's best estimate, with no actuary required.</p>
+                        </div>
+                    </article>
+
+                    <article class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="text-blue-600" aria-hidden="true">G.</span> Financial Statement Presentation
+                        </h3>
+                        <div class="text-slate-700 text-sm">
+                            <p><strong class="text-slate-900">Statements Required:</strong> While all frameworks require a Statement of Financial Position, Income Statement, and Cash Flows, SEs and SMEs that have no Other Comprehensive Income (OCI) items can present a single "Statement of Income and Retained Earnings" instead of separate Statements of Comprehensive Income and Changes in Equity.</p>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+        </div>
+        
+        <footer class="bg-slate-100 p-6 text-center text-sm text-slate-500 border-t border-slate-200">
+            <p>Guide prepared for quick reference regarding Philippine Financial Reporting Standards.</p>
+        </footer>
+    </main>
+</body>
+</html>
