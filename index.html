@@ -52,13 +52,13 @@
     </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-purple to-pastel-rose text-gray-800 flex items-center justify-center p-4 sm:p-8 selection:bg-pink-300 selection:text-white">
+<body class="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-purple to-pastel-rose text-gray-800 flex items-center justify-center p-4 sm:p-8 selection:bg-pink-300 selection:text-white py-12">
 
     <!-- Decorative background blobs -->
-    <div class="fixed top-10 left-10 w-32 h-32 bg-pastel-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 0s;"></div>
-    <div class="fixed bottom-10 right-10 w-40 h-40 bg-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s;"></div>
+    <div class="fixed top-10 left-10 w-32 h-32 bg-pastel-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 0s; pointer-events: none;"></div>
+    <div class="fixed bottom-10 right-10 w-40 h-40 bg-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s; pointer-events: none;"></div>
 
-    <main class="glass-card w-full max-w-lg rounded-3xl shadow-2xl p-8 sm:p-12 relative z-10 text-center">
+    <main class="glass-card w-full max-w-lg rounded-3xl shadow-2xl p-8 sm:p-10 relative z-10 text-center">
         
         <!-- Header Section -->
         <div class="mb-8">
@@ -66,20 +66,20 @@
                 <span class="text-4xl">🌸</span>
             </div>
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Welcome</h1>
-            <p class="text-gray-600 font-medium">Select a document below to view</p>
+            <p class="text-gray-600 font-medium">Select a document or quiz below</p>
         </div>
 
-        <nav class="flex flex-col gap-4">
+        <nav class="flex flex-col gap-6">
             
             <!-- Link to the PFRS Guide -->
-            <!-- Note: The href matches the exact filename you uploaded to GitHub -->
-            <a href="pfrs_comparison_guide.html" 
-               class="group relative w-full flex items-center justify-center p-5 bg-white rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
-                
-                <!-- Hover background effect -->
-                <div class="absolute inset-0 bg-gradient-to-r from-pastel-pink to-pastel-rose opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                
-                <div class="flex flex-col items-center relative z-10">
+            <div>
+                <a href="pfrs_comparison_guide.html" 
+                   class="group relative w-full flex items-center justify-center p-5 bg-white rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    
+                    <!-- Hover background effect -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-pastel-pink to-pastel-rose opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    
+                    <div class="flex flex-col items-center relative z-10">
                     <span class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📊</span>
                     <span class="text-sm sm:text-base font-semibold text-gray-800 text-center leading-snug">
                         Comprehensive Comparison: <br/> 
@@ -88,13 +88,79 @@
                 </div>
             </a>
 
-            <!-- Placeholder for future links -->
-            <a href="#" 
-               class="group relative w-full flex items-center justify-center p-4 bg-white/50 rounded-2xl border border-dashed border-gray-300 hover:border-pastel-purple transition-all duration-300">
-                <span class="text-gray-400 font-medium text-sm group-hover:text-purple-400">
-                    + More documents coming soon
-                </span>
-            </a>
+            <div class="mt-4 mb-2">
+                <div class="flex items-center gap-4 mb-5">
+                    <div class="h-px bg-pink-200 flex-1"></div>
+                    <h2 class="text-xl font-bold text-gray-700 tracking-wide">Subject Quizzes</h2>
+                    <div class="h-px bg-pink-200 flex-1"></div>
+                </div>
+                
+                <!-- RFBT Active Quizzes -->
+                <div class="bg-white/80 rounded-2xl p-5 border border-pink-100 shadow-sm mb-5 transition-all duration-300 hover:shadow-md">
+                    <h3 class="text-lg font-bold text-pink-600 mb-4 flex items-center justify-center gap-2">
+                        <span class="text-xl">⚖️</span> RFBT
+                    </h3>
+                    <div class="flex flex-col gap-3">
+                        <a href="https://share.gemini.google/kxD98ntjRGyA" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>Contracts</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                        <a href="https://share.gemini.google/OV9bC7WKH0uh" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>Sales</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                        <a href="https://share.gemini.google/BxXCbg4AfSlM" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>Credit Transactions</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                        <a href="https://cpar-rfbt-b99.geminilaunch.com/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>CPAR B99 RFBT</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                        <a href="https://resa.geminilaunch.com/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>RESA RFBT reviewer</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- AUD Active Quizzes -->
+                <div class="bg-white/80 rounded-2xl p-5 border border-pink-100 shadow-sm mb-5 transition-all duration-300 hover:shadow-md">
+                    <h3 class="text-lg font-bold text-pink-600 mb-4 flex items-center justify-center gap-2">
+                        <span class="text-xl">🔎</span> AUD
+                    </h3>
+                    <div class="flex flex-col gap-3">
+                        <a href="https://icare-reviewer.geminilaunch.com/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>Icare reviewer</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                        <a href="https://at-book-mcq.ai.studio/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
+                            <span>KDC MCQ</span>
+                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Subject Placeholders (Coming Soon) -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
+                        <span class="font-bold text-gray-600 mb-1.5">AFAR</span>
+                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
+                    </div>
+                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
+                        <span class="font-bold text-gray-600 mb-1.5">FAR</span>
+                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
+                    </div>
+                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
+                        <span class="font-bold text-gray-600 mb-1.5">MS</span>
+                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
+                    </div>
+                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
+                        <span class="font-bold text-gray-600 mb-1.5">TAX</span>
+                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
+                    </div>
+                </div>
+            </div>
 
         </nav>
     </main>
