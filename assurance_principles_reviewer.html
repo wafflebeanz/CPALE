@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-01: Assurance Principles Reviewer</title>
+    <style>
+        /* Global Typography */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #1a1a1a;
+            margin: 0;
+            padding: 30px;
+            background-color: #f4f4f5;
+        }
+        .mono {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+        }
+
+        /* Container */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 6px solid #000000;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .title-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .main-title {
+            font-size: 28px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #000000;
+            margin: 0 0 5px 0;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #4b5563; /* Dark Gray */
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        .page-indicator {
+            font-size: 16px;
+            font-weight: 800;
+            color: #000000;
+            text-transform: uppercase;
+        }
+
+        /* Interactive Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .tab-btn {
+            font-family: inherit;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background-color: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            color: #4b5563;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background-color: #000000;
+            color: #ffffff;
+            border-color: #000000;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Structural Layout: Two-Column Grid */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .content-group {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Section Accents */
+        .concept-card h3 {
+            font-size: 18px;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .accent-purple h3 { border-left: 8px solid #6b21a8; padding-left: 12px; color: #000000; }
+        .accent-green h3 { border-left: 8px solid #166534; padding-left: 12px; color: #000000; }
+        .accent-red h3 { border-left: 8px solid #991b1b; padding-left: 12px; color: #000000; }
+        .accent-blue h3 { border-left: 8px solid #1e3a8a; padding-left: 12px; color: #000000; }
+        .accent-orange h3 { border-left: 8px solid #c2410c; padding-left: 12px; color: #000000; }
+
+        .concept-body {
+            font-size: 14px;
+            color: #374151;
+        }
+        .concept-body p { margin-top: 0; margin-bottom: 10px; }
+        .concept-body ul { margin-top: 0; margin-bottom: 10px; padding-left: 20px; }
+        .concept-body li { margin-bottom: 5px; }
+
+        /* Tables */
+        .table-wrapper {
+            width: 100%;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #d1d5db; /* Thin gray border */
+        }
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f9fafb;
+            border-bottom: 2px solid #d1d5db;
+        }
+        .th-category {
+            font-size: 16px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .th-desc {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+        /* Table Category Colors */
+        .cat-red { color: #991b1b; }
+        .cat-blue { color: #1e3a8a; }
+        .cat-purple { color: #6b21a8; }
+        .cat-green { color: #166534; }
+
+        /* Callout Blocks & Emphasis */
+        b, strong {
+            font-weight: 700;
+            color: #000000;
+        }
+        .workflow-block {
+            background-color: #f3f4f6; /* Light gray */
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border-left: 4px solid #9ca3af;
+        }
+        .workflow-block strong {
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #4b5563;
+        }
+
+        /* Footnotes */
+        .footnote {
+            font-size: 12px;
+            color: #6b7280; /* Small, gray font */
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+    
+    <!-- HEADER -->
+    <div class="header-section">
+        <div class="title-wrapper">
+            <h1 class="main-title">Fundamental Principles of Assurance and Non-Assurance Engagements</h1>
+            <h2 class="subtitle">AT-01 Study Reviewer &middot; AASC Framework Synthesis</h2>
+        </div>
+        <div class="page-indicator" id="page-indicator">Page 1 / 2</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tab1', 1)">I. Assurance Engagements</button>
+        <button class="tab-btn" onclick="switchTab('tab2', 2)">II. Non-Assurance Engagements</button>
+    </div>
+
+    <!-- TAB 1: ASSURANCE ENGAGEMENTS -->
+    <div id="tab1" class="tab-content active">
+        
+        <div class="grid-layout">
+            <!-- Left Column -->
+            <div class="content-group">
+                
+                <div class="concept-card accent-purple">
+                    <h3>Nature of Assurance Engagement</h3>
+                    <div class="concept-body">
+                        <p>An engagement in which a practitioner expresses a conclusion designed to <b>enhance the degree of confidence</b> of the intended users (other than the responsible party) about the outcome of the evaluation or measurement of a subject matter against criteria.</p>
+                        <p><b>Objective:</b> Improve the quality and credibility of information for decision-making. <b>Independence is always required</b>.</p>
+                    </div>
+                </div>
+
+                <div class="concept-card accent-blue">
+                    <h3>Types of Assurance Engagements</h3>
+                    <div class="concept-body">
+                        <p><b>1. Reasonable Assurance (Audit)</b></p>
+                        <ul>
+                            <li>Reduces engagement risk to an <b>acceptably low level</b>.</li>
+                            <li>Provides a <b>positive form</b> of conclusion (e.g., "In our opinion...").</li>
+                            <li>Provides <i>high</i>, but not absolute, assurance.</li>
+                        </ul>
+                        <div class="footnote">
+                            Absolute assurance is unattainable due to <b>UNFIT</b> factors: <b>U</b>se of judgment, <b>N</b>ature of subject matter, <b>F</b>act that evidence is persuasive not conclusive, <b>I</b>nherent limitations of internal control, <b>T</b>esting sample data.
+                        </div>
+                        <p><b>2. Limited Assurance (Review)</b></p>
+                        <ul>
+                            <li>Reduces engagement risk to a level that is <b>acceptable</b> but <i>greater</i> than reasonable assurance.</li>
+                            <li>Provides a <b>negative form</b> of conclusion (e.g., "Nothing has come to our attention...").</li>
+                            <li>Provides <i>moderate</i> assurance.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card accent-red">
+                    <h3>Assurance Engagement Risk Workflow</h3>
+                    <div class="concept-body">
+                        <p>The risk that the practitioner expresses an inappropriate conclusion when the subject matter information is materially misstated.</p>
+                        
+                        <div class="workflow-block mono">
+                            <strong>Risk Component Formula</strong>
+                            ASSURANCE ENGAGEMENT RISK (AER)<br>
+                            = Risk of Material Misstatement (RMM) * Detection Risk (DR)<br><br>
+                            Where RMM breaks down into:<br>
+                            [INHERENT RISK] : Susceptibility assuming no controls<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+<br>
+                            [CONTROL RISK]&nbsp;&nbsp;: Risk controls won't prevent/detect<br>
+                        </div>
+                        <p><i>Note:</i> In a limited assurance engagement, the level of assurance engagement risk is higher due to less extensive evidence gathering.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="content-group">
+                
+                <div class="concept-card accent-green">
+                    <h3>Elements of an Assurance Engagement</h3>
+                    <div class="concept-body">
+                        <p>All five elements must be present: <b>CPA3Y</b></p>
+                        
+                        <div class="workflow-block mono">
+                            <strong>Sequential Engagement Flow</strong>
+                            1. [C] Criteria setup (RUN CR)<br>
+                            2. [P] Proper Subject Matter defined<br>
+                            3. [A] Appropriate/Sufficient Evidence gathered<br>
+                            4. [3] 3-Party Relationship established<br>
+                            5. [Y] Yield a Written Report<br>
+                        </div>
+                        
+                        <ul>
+                            <li><b>Criteria (Benchmarks):</b> Must be <b>RUN CR</b>: Relevant, Understandable, Neutral, Complete, Reliable. Can be <i>established</i> (laws/PFRS) or <i>specifically developed</i>.</li>
+                            <li><b>Subject Matter:</b> Can be financial performance, non-financial conditions, physical characteristics, systems/processes, or behavior. Must be identifiable and capable of consistent evaluation.</li>
+                            <li><b>Evidence:</b> Planned with <b>Professional Skepticism</b>. Must evaluate <i>Sufficiency</i> (quantity, affected by risk) and <i>Appropriateness</i> (quality/relevance/reliability).</li>
+                            <li><b>3-Party Relationship:</b> 1) Practitioner (CPA), 2) Responsible Party (owns subject matter), 3) Intended Users (relies on report).</li>
+                            <li><b>Written Report:</b> Conveys the reasonable (positive) or limited (negative) conclusion.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card accent-orange">
+                    <h3>Acceptance Requisites</h3>
+                    <div class="concept-body">
+                        <p>A practitioner only accepts an engagement if preliminary knowledge indicates:</p>
+                        <ul>
+                            <li>Relevant <b>ethical requirements</b> (independence, competence) will be satisfied.</li>
+                            <li>The subject matter is appropriate.</li>
+                            <li>Criteria are suitable and available to users.</li>
+                            <li>Practitioner has access to sufficient appropriate evidence.</li>
+                            <li>There is a <b>rational purpose</b> for the engagement.</li>
+                        </ul>
+                        <div class="footnote">
+                            Trade-off restriction: Once accepted, a practitioner may not change an engagement to a non-assurance engagement, or from reasonable to limited, without <b>reasonable justification</b>.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Full Width Table -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">
+                            <span class="th-category cat-blue">AASC Engagement Standard</span>
+                            <span class="th-desc">Standard Acronym</span>
+                        </th>
+                        <th style="width: 35%;">
+                            <span class="th-category cat-purple">Related Practice Statements</span>
+                            <span class="th-desc">Interpretive Guidance</span>
+                        </th>
+                        <th style="width: 40%;">
+                            <span class="th-category cat-green">Scope / Coverage</span>
+                            <span class="th-desc">Application Area</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>PSAs</b> (Auditing)</td>
+                        <td>PAPSs (Auditing Practice Statements)</td>
+                        <td>Financial statement audit engagements (historical financial information).</td>
+                    </tr>
+                    <tr>
+                        <td><b>PSREs</b> (Review)</td>
+                        <td>PREPSs (Review Engagement Practice Statements)</td>
+                        <td>Review engagements (review of historical financial information).</td>
+                    </tr>
+                    <tr>
+                        <td><b>PSAEs</b> (Assurance)</td>
+                        <td>PAEPSs (Assurance Engagement Practice Statements)</td>
+                        <td>Assurance engagements dealing with subject matters <i>other</i> than historical financial information.</td>
+                    </tr>
+                    <tr>
+                        <td><b>PSRSs</b> (Related Services)</td>
+                        <td>PRSPSs (Related Services Practice Statements)</td>
+                        <td>Compilation, Agreed-upon procedures, and other related non-assurance services.</td>
+                    </tr>
+                    <tr>
+                        <td><b>PSQM</b> (Quality Mgt)</td>
+                        <td>Applies to all of the above.</td>
+                        <td>Quality control for PSAs, PSREs, PSAEs, and PSRSs.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB 2: NON-ASSURANCE ENGAGEMENTS -->
+    <div id="tab2" class="tab-content">
+        
+        <div class="grid-layout">
+            <!-- Left Column -->
+            <div class="content-group">
+                <div class="concept-card accent-purple">
+                    <h3>Nature of Non-Assurance</h3>
+                    <div class="concept-body">
+                        <p>Engagements that <b>do not result</b> in the practitioner's expression of a conclusion providing any level of assurance. The primary purpose is to provide advice and technical assistance to help a client conduct business more effectively.</p>
+                        <p><b>Key Rule:</b> Independence is <i>not required</i> for non-assurance engagements.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="content-group">
+                <div class="concept-card accent-red">
+                    <h3>Reports & Association Rules</h3>
+                    <div class="concept-body">
+                        <p>When issuing reports for non-assurance engagements, the practitioner must strictly avoid misleading users:</p>
+                        <ul>
+                            <li><b>Should not use</b> the words "assurance", "audit", or "review".</li>
+                            <li><b>Should not imply</b> compliance with assurance standards (PSAs, PSREs, PSAEs).</li>
+                        </ul>
+                        <div class="footnote">
+                            <b>Practitioner Association:</b> A CPA is associated when reporting on information or consenting to use their name. If a client inappropriately uses the CPA's name, the CPA must demand cessation and consider legal advice or informing third parties.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Width Comparative Table -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">
+                            <span class="th-category cat-blue">Nature of Service</span>
+                            <span class="th-desc">Engagement Type</span>
+                        </th>
+                        <th style="width: 20%;">
+                            <span class="th-category cat-purple">Audit (Assurance)</span>
+                            <span class="th-desc">Reasonable</span>
+                        </th>
+                        <th style="width: 20%;">
+                            <span class="th-category cat-purple">Review (Assurance)</span>
+                            <span class="th-desc">Limited</span>
+                        </th>
+                        <th style="width: 20%;">
+                            <span class="th-category cat-orange">Agreed-Upon Procedures</span>
+                            <span class="th-desc">Non-Assurance</span>
+                        </th>
+                        <th style="width: 20%;">
+                            <span class="th-category cat-orange">Compilation</span>
+                            <span class="th-desc">Non-Assurance</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Level of Assurance</b></td>
+                        <td>High, but not absolute</td>
+                        <td>Moderate assurance</td>
+                        <td><b>No assurance</b></td>
+                        <td><b>No assurance</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Report Provided</b></td>
+                        <td>Audit report containing <b>positive assurance</b> on assertions.</td>
+                        <td>Review report containing <b>negative assurance</b> on assertions.</td>
+                        <td>Factual findings of procedures (users draw own conclusions). Restricted distribution.</td>
+                        <td>Compilation report identifying information compiled. (Users benefit from CPA care/skill).</td>
+                    </tr>
+                    <tr>
+                        <td><b>Independence</b></td>
+                        <td>Required</td>
+                        <td>Required</td>
+                        <td>Not required</td>
+                        <td>Not required</td>
+                    </tr>
+                    <tr>
+                        <td><b>Skills Used</b></td>
+                        <td>Audit skills</td>
+                        <td>Audit skills</td>
+                        <td>Audit skills</td>
+                        <td>Accounting skills</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="footnote">
+                <b>Supplementary Note on Other Non-Assurance Services:</b><br>
+                - <i>Tax Services:</i> Providing advice on tax strategies to minimize liabilities (no conclusion conveying assurance).<br>
+                - <i>Consultancy / Advisory:</i> Management advisory to improve client resource utilization and organizational objectives.
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function switchTab(tabId, pageNum) {
+        // Hide all contents
+        document.querySelectorAll('.tab-content').forEach(function(content) {
+            content.classList.remove('active');
+        });
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab-btn').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        
+        // Show selected content and activate selected tab
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+
+        // Update Page Indicator
+        document.getElementById('page-indicator').innerText = "Page " + pageNum + " / 2";
+    }
+</script>
+
+</body>
+</html>

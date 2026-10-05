@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPALE FAR Final Reviewer</title>
+    <style>
+        /* Global Typography */
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .mono {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* Header Styling */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 5px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header-titles {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #000;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .sub-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #555;
+            margin: 0;
+            margin-top: 5px;
+        }
+
+        .page-indicator {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Tabs Styling */
+        .tab {
+            overflow: hidden;
+            border-bottom: 2px solid #ccc;
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .tab button {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: 0.3s;
+            font-size: 1em;
+            font-weight: bold;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            color: #555;
+        }
+
+        .tab button:hover {
+            background-color: #eaeaea;
+        }
+
+        .tab button.active {
+            background-color: #fff;
+            color: #000;
+            border-top: 3px solid #000;
+            border-bottom: 2px solid #fff;
+            margin-bottom: -2px;
+        }
+
+        .tabcontent {
+            display: none;
+            animation: fadeEffect 0.5s;
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        /* Structural Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Section Accents */
+        .section-header {
+            font-size: 1.4em;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-left: 12px;
+            border-left: 6px solid;
+        }
+
+        .accent-purple { border-left-color: #6a0dad; color: #6a0dad; }
+        .accent-green { border-left-color: #006400; color: #006400; }
+        .accent-red { border-left-color: #8b0000; color: #8b0000; }
+        .accent-blue { border-left-color: #00008b; color: #00008b; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #d3d3d3;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            border: 1px solid #d3d3d3;
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #fcfcfc;
+        }
+
+        th .category-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            display: block;
+        }
+
+        th .category-desc {
+            font-size: 0.8em;
+            color: #888;
+            font-weight: normal;
+            margin-top: 3px;
+            display: block;
+        }
+
+        .col-red { color: #d32f2f; }
+        .col-blue { color: #1976d2; }
+        .col-purple { color: #7b1fa2; }
+        .col-green { color: #388e3c; }
+
+        /* Callout Blocks & Emphasis */
+        .process-block {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
+            border: 1px dashed #ccc;
+        }
+
+        .process-title {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+            color: #333;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .footnotes {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            grid-column: 1 / -1;
+        }
+
+        .trap-label {
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header-container">
+        <div class="header-titles">
+            <h1 class="main-title">CPALE FINAL REVIEW: FAR</h1>
+            <h2 class="sub-title">High-Density Study Reviewer &bull; RLC Group</h2>
+        </div>
+        <div class="page-indicator" id="pageNumber">1 / 4</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'Tab1', 1)">Financial Assets (Day 1 AM)</button>
+        <button class="tablinks" onclick="openTab(event, 'Tab2', 2)">Non-Financial Assets (Day 1 PM)</button>
+        <button class="tablinks" onclick="openTab(event, 'Tab3', 3)">Liabilities & Equity (Day 2 AM)</button>
+        <button class="tablinks" onclick="openTab(event, 'Tab4', 4)">Special Topics (Day 2 PM)</button>
+    </div>
+
+    <!-- TAB 1: FINANCIAL ASSETS -->
+    <div id="Tab1" class="tabcontent" style="display: block;">
+        
+        <div class="process-block">
+            <span class="process-title">Master Decision Rule: Debt-Type Financial Assets</span>
+            [1] Identify Business Model --> [2] Test SPPI (Solely Payments of Principal & Interest) --> [3] Determine Category (AC, FVOCI, FVPL) --> [4] Apply Measurement & Impairment
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span class="category-name col-blue">Business Model</span>
+                        <span class="category-desc">Management's intent for asset</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-purple">SPPI Test</span>
+                        <span class="category-desc">Cash flow characteristics</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-green">Measurement Category</span>
+                        <span class="category-desc">IFRS 9 Classification</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-red">High-Yield Result</span>
+                        <span class="category-desc">Accounting treatment</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Hold to collect</b></td>
+                    <td>Pass</td>
+                    <td><b>Amortised Cost</b></td>
+                    <td>EIR + ECL; carrying amount at amortised cost</td>
+                </tr>
+                <tr>
+                    <td><b>Collect and sell</b></td>
+                    <td>Pass</td>
+                    <td><b>Debt FVOCI</b></td>
+                    <td>EIR/ECL in P&L; other FV change in OCI (recycled on disposal)</td>
+                </tr>
+                <tr>
+                    <td><b>Other</b></td>
+                    <td>Pass</td>
+                    <td><b>FVPL</b></td>
+                    <td>FV changes in P&L</td>
+                </tr>
+                <tr>
+                    <td><b>Any</b></td>
+                    <td>Fail</td>
+                    <td><b>FVPL</b></td>
+                    <td>FV changes in P&L</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="grid-layout">
+            <div>
+                <h3 class="section-header accent-blue">Cash & Receivables</h3>
+                <ul>
+                    <li><b>Cash equivalents:</b> Short-term, highly liquid, insignificant value risk. The 3-month rule is measured from the <b>date of acquisition</b>, not reporting date.</li>
+                    <li><b>Bank overdrafts:</b> Included only if repayable on demand and part of cash management (IAS 7).</li>
+                    <li><b>Trade receivables:</b> Initially measured at transaction price if no significant financing component.</li>
+                    <li><b>Long-term notes:</b> Measured at present value when financing effect is material.</li>
+                </ul>
+
+                <h3 class="section-header accent-purple">Debt vs. Equity Investments</h3>
+                <ul>
+                    <li><b>Transaction costs:</b> Added to initial carrying amount unless FVPL (expensed).</li>
+                    <li><b>Equity FVOCI:</b> Irrevocable election for non-trading equity. Cumulative OCI is <b>never recycled</b> to P&L. Dividends go to P&L if return on investment. No ECL applies.</li>
+                    <li><b>Debt FVOCI:</b> ECL applies. Cumulative OCI <b>is recycled</b> to P&L upon derecognition.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="section-header accent-red">Expected Credit Losses (ECL)</h3>
+                <ul>
+                    <li><b>Stage 1:</b> No significant credit risk increase. Allowance = <b>12-month ECL</b>. Interest based on <b>gross</b> carrying amount.</li>
+                    <li><b>Stage 2:</b> Significant increase in credit risk. Allowance = <b>Lifetime ECL</b>. Interest based on <b>gross</b> carrying amount.</li>
+                    <li><b>Stage 3:</b> Credit-impaired. Allowance = <b>Lifetime ECL</b>. Interest based on <b>net</b> carrying amount.</li>
+                </ul>
+
+                <div class="process-block">
+                    <span class="process-title">Key Formulas</span>
+                    Interest Income = Opening Gross Carrying Amount * EIR<br>
+                    Discount Amortization = Interest Income - Cash Interest<br>
+                    Premium Amortization = Cash Interest - Interest Income
+                </div>
+            </div>
+
+            <div class="footnotes">
+                <span class="trap-label">CPALE Trap:</span> Passing SPPI does not automatically mean amortised cost. The business model must also be satisfied. 12-month ECL is not the cash shortfall expected in the next 12 months; it reflects lifetime cash shortfalls from defaults possible within the next 12 months.
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: NON-FINANCIAL ASSETS -->
+    <div id="Tab2" class="tabcontent">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span class="category-name col-blue">Topic / Standard</span>
+                        <span class="category-desc">Asset Classification</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-purple">Core Measurement</span>
+                        <span class="category-desc">Initial & Subsequent</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-red">Exam Trigger</span>
+                        <span class="category-desc">Key testing points</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Inventories (IAS 2)</b></td>
+                    <td>Lower of cost and NRV</td>
+                    <td>Cost formulas; write-down/reversal</td>
+                </tr>
+                <tr>
+                    <td><b>PPE (IAS 16)</b></td>
+                    <td>Cost or revaluation model</td>
+                    <td>Initial cost; depreciation starts; component accounting</td>
+                </tr>
+                <tr>
+                    <td><b>Investment Property (IAS 40)</b></td>
+                    <td>Cost or fair value model</td>
+                    <td>Classification and transfers; FV changes to P&L</td>
+                </tr>
+                <tr>
+                    <td><b>Intangibles (IAS 38)</b></td>
+                    <td>Cost; finite vs indefinite life</td>
+                    <td>Research (expense) vs development (capitalize); amortisation</td>
+                </tr>
+                <tr>
+                    <td><b>Impairment (IAS 36)</b></td>
+                    <td>CA vs recoverable amount</td>
+                    <td>VIU/FVLCD; CGUs; goodwill allocation</td>
+                </tr>
+                <tr>
+                    <td><b>Agriculture (IAS 41)</b></td>
+                    <td>FV less costs to sell (FVLCTS)</td>
+                    <td>Biological assets; produce at harvest</td>
+                </tr>
+                <tr>
+                    <td><b>Held for Sale (IFRS 5)</b></td>
+                    <td>Lower of CA and FVLCTS</td>
+                    <td>Available for immediate sale; highly probable; stop depreciation</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="grid-layout">
+            <div>
+                <h3 class="section-header accent-green">Inventory & PPE</h3>
+                <ul>
+                    <li><b>NRV (Net Realizable Value):</b> Est. selling price - est. completion costs - est. selling costs.</li>
+                    <li><b>LIFO</b> is prohibited. Use FIFO, weighted average, or specific identification.</li>
+                    <li><b>PPE Initial Cost:</b> Includes purchase price (net of discounts), directly attributable costs, and PV of dismantling obligations.</li>
+                    <li><b>Depreciation:</b> Begins when the asset is <b>available for use</b>, not when actually used. Land improvements have finite lives.</li>
+                </ul>
+
+                <h3 class="section-header accent-purple">Intangibles & Agriculture</h3>
+                <ul>
+                    <li><b>Research:</b> Always expensed.</li>
+                    <li><b>Development:</b> Capitalized ONLY after technical feasibility, intention, ability to use/sell, future benefits, resources, and reliable measurement are demonstrated.</li>
+                    <li><b>Internally generated brands/customer lists:</b> Never capitalized.</li>
+                    <li><b>Agriculture:</b> Bearer plants = IAS 16 (PPE). Produce on plant = IAS 41. Harvested produce = IAS 2 (Inventory).</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="section-header accent-blue">Revaluation & Investment Property</h3>
+                <ul>
+                    <li><b>IAS 16 Revaluation:</b> Upward revaluation generally goes to OCI (Revaluation Surplus). Not recycled to P&L upon derecognition.</li>
+                    <li><b>IAS 40 Fair Value Model:</b> Fair value changes go directly to <b>Profit or Loss</b>.</li>
+                </ul>
+
+                <h3 class="section-header accent-red">Impairment (IAS 36)</h3>
+                <div class="process-block">
+                    <span class="process-title">Impairment Workflow</span>
+                    [1] Calculate Recoverable Amount = HIGHER of Value in Use (VIU) and Fair Value Less Costs of Disposal (FVLCD).<br>
+                    [2] Compare to Carrying Amount (CA). If CA > Recoverable Amount, recognize loss.<br>
+                    [3] Allocate to CGU: First to Goodwill, then pro-rata to other assets.
+                </div>
+                <ul>
+                    <li><b>Goodwill impairment:</b> Never reversed.</li>
+                </ul>
+            </div>
+
+            <div class="footnotes">
+                <span class="trap-label">CPALE Trap:</span> NRV is entity-specific and NOT the same as fair value less costs to sell. Recoverable amount is the HIGHER, not the lower, of VIU and FVLCD. For IFRS 5, management intention alone is insufficient; criteria must be met.
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: LIABILITIES & EQUITY -->
+    <div id="Tab3" class="tabcontent">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span class="category-name col-purple">Topic</span>
+                        <span class="category-desc">Liability/Equity Component</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-blue">Core Rule</span>
+                        <span class="category-desc">Measurement Standard</span>
+                    </th>
+                    <th>
+                        <span class="category-name col-red">Exam Trigger</span>
+                        <span class="category-desc">Common Adjustments</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Financial Liabilities</b></td>
+                    <td>Amortised cost using EIR</td>
+                    <td>Issue costs; discount/premium; modification</td>
+                </tr>
+                <tr>
+                    <td><b>Leases (IFRS 16)</b></td>
+                    <td>ROU asset + lease liability for lessee</td>
+                    <td>PV; interest; depreciation; remeasurement</td>
+                </tr>
+                <tr>
+                    <td><b>Income Taxes (IAS 12)</b></td>
+                    <td>Current tax + temporary differences</td>
+                    <td>Tax base; DTA/DTL; permanent differences</td>
+                </tr>
+                <tr>
+                    <td><b>Provisions (IAS 37)</b></td>
+                    <td>Present obligation + probable + reliable est.</td>
+                    <td>Provision vs contingent liability/asset</td>
+                </tr>
+                <tr>
+                    <td><b>Employee Benefits (IAS 19)</b></td>
+                    <td>Service cost/net interest vs remeasurements</td>
+                    <td>P&L vs OCI (Actuarial gains/losses)</td>
+                </tr>
+                <tr>
+                    <td><b>Equity</b></td>
+                    <td>Own-equity transactions stay in equity</td>
+                    <td>Treasury shares; issue costs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="grid-layout">
+            <div>
+                <h3 class="section-header accent-blue">Financial Liabilities & Compound Instruments</h3>
+                <ul>
+                    <li><b>Transaction costs:</b> Deducted from initial carrying amount.</li>
+                    <li><b>Compound Instruments (Convertible Bonds):</b> Measure liability first (using market rate for similar nonconvertible debt). Equity is the residual.</li>
+                </ul>
+                <div class="process-block">
+                    <span class="process-title">Lease Computation (Lessee)</span>
+                    [1] Lease Liability = PV of unpaid lease payments (use implicit rate or IBR).<br>
+                    [2] ROU Asset = Initial Liability + Prepays/Incentives + Initial Direct Costs + Restoration.<br>
+                    [3] Subsequent: Interest on liability + Depreciation on ROU asset.
+                </div>
+
+                <h3 class="section-header accent-purple">Provisions & Contingencies</h3>
+                <ul>
+                    <li><b>Provision:</b> Recognize (Probable outflow).</li>
+                    <li><b>Contingent Liability:</b> Disclose unless remote (Possible outflow).</li>
+                    <li><b>Contingent Asset:</b> Disclose if probable; recognize ONLY if virtually certain.</li>
+                    <li><b>Onerous Contract:</b> Provision based on unavoidable costs of meeting obligations.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="section-header accent-green">Current vs. Non-Current</h3>
+                <ul>
+                    <li>Focuses on rights existing at the <b>reporting date</b>.</li>
+                    <li>Right to defer settlement for at least 12 months must exist at reporting date. Post-reporting date refinancing does not count.</li>
+                </ul>
+
+                <h3 class="section-header accent-red">Income Taxes & Equity</h3>
+                <ul>
+                    <li><b>Permanent Differences:</b> Affect current tax, NO deferred tax.</li>
+                    <li><b>Taxable Temporary Differences:</b> Create DTLs.</li>
+                    <li><b>Deductible Temporary Differences:</b> Create DTAs.</li>
+                    <li><b>Treasury Shares:</b> Deducted from equity. NO gain/loss recognized in P&L on purchase, sale, issue, or cancellation.</li>
+                    <li><b>Defined Benefits:</b> Remeasurements (actuarial gains/losses) go to <b>OCI</b> and are not recycled.</li>
+                </ul>
+            </div>
+
+            <div class="footnotes">
+                <span class="trap-label">CPALE Trap:</span> Do not apply the coupon rate to the carrying amount for expense. Coupon = cash interest; EIR = interest expense. Current tax asks "what is taxable now?", Deferred tax asks "what future tax consequence is embedded?". Do not report treasury share 'gains' in P&L.
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: SPECIAL TOPICS -->
+    <div id="Tab4" class="tabcontent">
+        <div class="process-block">
+            <span class="process-title">IFRS 15: Revenue from Contracts with Customers</span>
+            [1] Identify Contract --> [2] Identify Performance Obligations --> [3] Determine Transaction Price --> [4] Allocate Price (Relative SSP) --> [5] Recognize Revenue
+        </div>
+
+        <div class="grid-layout">
+            <div>
+                <h3 class="section-header accent-blue">Revenue & Returns</h3>
+                <ul>
+                    <li><b>Allocation:</b> Generally use relative stand-alone selling prices (SSP).</li>
+                    <li><b>Timing:</b> Recognize over time ONLY if criteria met; otherwise, point in time.</li>
+                    <li><b>Variable Consideration:</b> Constrained to avoid significant reversal.</li>
+                    <li><b>Expected Returns:</b> Require a refund liability and recovery asset.</li>
+                </ul>
+
+                <h3 class="section-header accent-purple">Earnings Per Share (IAS 33)</h3>
+                <ul>
+                    <li><b>Basic EPS:</b> Profit attributable to ordinary equity holders / Weighted-average ordinary shares outstanding.</li>
+                    <li><b>Treasury Shares:</b> Excluded while held.</li>
+                    <li><b>Bonus Issues/Splits:</b> Require retrospective adjustment of share figures.</li>
+                    <li><b>Diluted EPS:</b> Potential ordinary shares included ONLY when dilutive (reduce EPS or increase loss per share).</li>
+                </ul>
+                <div class="process-block">
+                    <span class="process-title">EPS Computation Flow</span>
+                    Compute the weighted-average denominator FIRST. Then deal with bonus/split effects, and finally calculate dilution impact.
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="section-header accent-green">Statement of Cash Flows (IAS 7)</h3>
+                <ul>
+                    <li><b>Classification:</b> Operating, Investing, Financing.</li>
+                    <li><b>Noncash Transactions:</b> Excluded from statement but disclosed (e.g., equipment acquired by issuing shares).</li>
+                </ul>
+
+                <h3 class="section-header accent-red">Policies, Estimates & Events (IAS 8 & 10)</h3>
+                <ul>
+                    <li><b>Accounting Policy Change:</b> Retrospective.</li>
+                    <li><b>Accounting Estimate Change:</b> Prospective. (e.g., useful life or depreciation method change).</li>
+                    <li><b>Prior-Period Error:</b> Retrospective restatement.</li>
+                    <li><b>IAS 10 Adjusting Events:</b> Evidence of conditions existing at reporting date (e.g., customer bankruptcy confirming year-end difficulty).</li>
+                    <li><b>IAS 10 Non-Adjusting Events:</b> Conditions arising after reporting date (e.g., fire, dividends declared post year-end).</li>
+                </ul>
+            </div>
+
+            <div class="footnotes">
+                <span class="trap-label">CPALE Trap:</span> Cash received is not automatically revenue; revenue follows satisfaction of obligations. A transaction can be investing/financing in nature but excluded from cash flow statement if no cash moved. Dividends declared after reporting date are NOT liabilities at reporting date. <b>FINAL EXAM RULE: Identify the standard first, compute second.</b>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName, pageNum) {
+            var i, tabcontent, tablinks;
+            
+            // Hide all tab content
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            // Remove 'active' class from all buttons
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            // Show the current tab, and add an "active" class to the button
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+
+            // Update page number indicator
+            document.getElementById("pageNumber").innerText = pageNum + " / 4";
+        }
+    </script>
+</body>
+</html>
