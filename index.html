@@ -31,6 +31,7 @@
             }
         }
     </script>
+    
     <style>
         /* Add a subtle floating animation for decorative elements */
         @keyframes float {
@@ -49,37 +50,97 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
+
+        /* Reusable styles for the quiz links - updated for 2-column grid layout */
+        .quiz-link {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            background-color: white;
+            color: #4a5568;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: 1px solid #f3e8ff;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            text-decoration: none;
+            gap: 12px;
+        }
+        .quiz-link:hover {
+            background-color: #ffd6e0;
+            color: #97266d;
+            border-color: #ffb3c6;
+            box-shadow: 0 4px 6px rgba(255, 182, 193, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .quiz-link-title {
+            line-height: 1.25;
+            word-break: break-word;
+        }
+
+        /* Container for tags strictly aligned to the right */
+        .tags-container {
+            display: flex;
+            align-self: flex-end;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        /* Styles for the inner pill tags */
+        .tag-pill {
+            font-size: 0.6rem;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+        
+        /* Subject/Type specific tag colors */
+        .tag-quiz { background-color: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; } /* Pastel Indigo */
+        .tag-reviewer { background-color: #fef08a; color: #a16207; border: 1px solid #fde047; } /* Pastel Yellow */
+        .tag-tax { background-color: #d1fae5; color: #047857; border: 1px solid #a7f3d0; } /* Pastel Emerald */
+        .tag-tax-hard { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; } /* Pastel Red */
+
     </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-purple to-pastel-rose text-gray-800 flex items-center justify-center p-4 sm:p-8 selection:bg-pink-300 selection:text-white py-12">
+<body class="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-purple to-pastel-rose text-gray-800 flex flex-col items-center py-12 px-4 sm:px-8 selection:bg-pink-300 selection:text-white relative overflow-x-hidden">
 
     <!-- Decorative background blobs -->
-    <div class="fixed top-10 left-10 w-32 h-32 bg-pastel-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 0s; pointer-events: none;"></div>
-    <div class="fixed bottom-10 right-10 w-40 h-40 bg-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s; pointer-events: none;"></div>
+    <div class="fixed top-10 left-10 w-32 h-32 bg-pastel-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float pointer-events-none" style="animation-delay: 0s;"></div>
+    <div class="fixed bottom-10 right-10 w-40 h-40 bg-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float pointer-events-none" style="animation-delay: 2s;"></div>
 
-    <main class="glass-card w-full max-w-lg rounded-3xl shadow-2xl p-8 sm:p-10 relative z-10 text-center">
+    <!-- Main Container Expanded for Grid Layout -->
+    <main class="glass-card w-full max-w-5xl rounded-3xl shadow-2xl p-6 sm:p-12 relative z-10">
         
         <!-- Header Section -->
-        <div class="mb-8">
+        <div class="mb-10 text-center">
             <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border-4 border-pastel-pink">
                 <span class="text-4xl">🌸</span>
             </div>
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Welcome</h1>
-            <p class="text-gray-600 font-medium">Select a document or quiz below</p>
+            <p class="text-gray-600 font-medium">Select a document below to view</p>
         </div>
 
-        <nav class="flex flex-col gap-6">
-            
-            <!-- Link to the PFRS Guide -->
-            <div>
-                <a href="pfrs_comparison_guide.html" 
-                   class="group relative w-full flex items-center justify-center p-5 bg-white rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
-                    
-                    <!-- Hover background effect -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-pastel-pink to-pastel-rose opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                    
-                    <div class="flex flex-col items-center relative z-10">
+        <!-- Main Featured Document -->
+        <div class="mb-12 max-w-2xl mx-auto">
+            <a href="pfrs_comparison_guide.html" 
+               class="group relative w-full flex items-center justify-center p-5 bg-white rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden text-decoration-none">
+                
+                <div class="absolute inset-0 bg-gradient-to-r from-pastel-pink to-pastel-rose opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                
+                <div class="flex flex-col items-center relative z-10">
                     <span class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📊</span>
                     <span class="text-sm sm:text-base font-semibold text-gray-800 text-center leading-snug">
                         Comprehensive Comparison: <br/> 
@@ -87,82 +148,151 @@
                     </span>
                 </div>
             </a>
+        </div>
 
-            <div class="mt-4 mb-2">
-                <div class="flex items-center gap-4 mb-5">
-                    <div class="h-px bg-pink-200 flex-1"></div>
-                    <h2 class="text-xl font-bold text-gray-700 tracking-wide">Subject Quizzes</h2>
-                    <div class="h-px bg-pink-200 flex-1"></div>
-                </div>
-                
-                <!-- RFBT Active Quizzes -->
-                <div class="bg-white/80 rounded-2xl p-5 border border-pink-100 shadow-sm mb-5 transition-all duration-300 hover:shadow-md">
-                    <h3 class="text-lg font-bold text-pink-600 mb-4 flex items-center justify-center gap-2">
-                        <span class="text-xl">⚖️</span> RFBT
-                    </h3>
-                    <div class="flex flex-col gap-3">
-                        <a href="https://share.gemini.google/kxD98ntjRGyA" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>Contracts</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                        <a href="https://share.gemini.google/OV9bC7WKH0uh" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>Sales</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                        <a href="https://share.gemini.google/BxXCbg4AfSlM" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>Credit Transactions</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                        <a href="https://cpar-rfbt-b99.geminilaunch.com/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>CPAR B99 RFBT</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                        <a href="https://resa.geminilaunch.com/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>RESA RFBT reviewer</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                    </div>
-                </div>
+        <!-- Subject Quizzes Section Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                <span>📝</span> Subject Quizzes & Reviewers
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">Select a subject to test your knowledge</p>
+        </div>
 
-                <!-- AUD Active Quizzes -->
-                <div class="bg-white/80 rounded-2xl p-5 border border-pink-100 shadow-sm mb-5 transition-all duration-300 hover:shadow-md">
-                    <h3 class="text-lg font-bold text-pink-600 mb-4 flex items-center justify-center gap-2">
-                        <span class="text-xl">🔎</span> AUD
-                    </h3>
-                    <div class="flex flex-col gap-3">
-                        <a href="https://icare-reviewer.geminilaunch.com/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>Icare reviewer</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                        <a href="https://at-book-mcq.ai.studio/" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-3.5 bg-pastel-pink/20 hover:bg-pastel-pink/70 border border-pink-50 rounded-xl transition-all duration-300 text-sm font-semibold text-gray-700">
-                            <span>KDC MCQ</span>
-                            <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-500 font-bold">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Subject Placeholders (Coming Soon) -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
-                        <span class="font-bold text-gray-600 mb-1.5">AFAR</span>
-                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
-                    </div>
-                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
-                        <span class="font-bold text-gray-600 mb-1.5">FAR</span>
-                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
-                    </div>
-                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
-                        <span class="font-bold text-gray-600 mb-1.5">MS</span>
-                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
-                    </div>
-                    <div class="p-3 bg-white/40 rounded-xl border border-dashed border-pink-200 flex flex-col items-center justify-center min-h-[85px] transition-all hover:bg-white/60">
-                        <span class="font-bold text-gray-600 mb-1.5">TAX</span>
-                        <span class="text-[9px] font-bold tracking-wider text-pink-400 bg-pink-50 px-2 py-0.5 rounded-full shadow-sm">COMING SOON</span>
-                    </div>
+        <!-- Dynamic Responsive Grid for Subject Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- RFBT Card -->
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
+                <h3 class="text-lg font-bold text-pink-500 mb-4 flex items-center gap-2 border-b border-pink-100 pb-2">
+                    ⚖️ RFBT
+                </h3>
+                <div class="grid grid-cols-2 gap-3 flex-grow">
+                    <a href="https://share.gemini.google/BxXCbg4AfSlM" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Credit Transactions</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://cpar-rfbt-b99.geminilaunch.com/" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">CPAR B99 RFBT</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="RESA-RFBT.html" class="quiz-link">
+                        <span class="quiz-link-title">RESA RFBT</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/aZwyFEAhbLQz" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">ECA and DPA</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/LkZnG5Kh33o2" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Philippine Competition Act</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/XvVvtuPA9KPG" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Government Procurement Act</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/iWI1VlEvgYXO" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Labor and SSS</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
                 </div>
             </div>
 
-        </nav>
+            <!-- AUD Card -->
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
+                <h3 class="text-lg font-bold text-purple-500 mb-4 flex items-center gap-2 border-b border-purple-100 pb-2">
+                    🔍 AUD
+                </h3>
+                <div class="grid grid-cols-2 gap-3 flex-grow">
+                    <a href="https://at-book-mcq.ai.studio/" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">KDC MCQ</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="AT-Review-Game.html" class="quiz-link">
+                        <span class="quiz-link-title">AT Review Game</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="assurance_principles_reviewer.html" class="quiz-link">
+                        <span class="quiz-link-title">Assurance Principles Reviewer</span>
+                        <div class="tags-container"><span class="tag-pill tag-reviewer">Reviewer / Notes</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- FAR Card -->
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
+                <h3 class="text-lg font-bold text-blue-500 mb-4 flex items-center gap-2 border-b border-blue-100 pb-2">
+                    📈 FAR
+                </h3>
+                <div class="grid grid-cols-2 gap-3 flex-grow">
+                    <a href="accounting_reference_deposits_in_transit_outstanding_checks.html" class="quiz-link">
+                        <span class="quiz-link-title">Accounting Reference for DIT and OC</span>
+                        <div class="tags-container"><span class="tag-pill tag-reviewer">Reviewer / Notes</span></div>
+                    </a>
+                    <a href="cpale_far_comprehensive_reviewer.html" class="quiz-link">
+                        <span class="quiz-link-title">CPALE FAR Comp. Reviewer</span>
+                        <div class="tags-container"><span class="tag-pill tag-reviewer">Reviewer / Notes</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- TAX Card -->
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
+                <h3 class="text-lg font-bold text-green-500 mb-4 flex items-center gap-2 border-b border-green-100 pb-2">
+                    💸 TAX
+                </h3>
+                <div class="grid grid-cols-2 gap-3 flex-grow">
+                    <a href="LECPA-Tax-Theory-Drill_2.html" class="quiz-link">
+                        <span class="quiz-link-title">LECPA Tax Theory Drill</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/hAXMeP0U46LX" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Deadlines and Form numbers</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/PpQXJZ0Ygsno" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Tax incentives: CREATE Act</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                    <a href="https://share.gemini.google/LrfFcDxKRXGA" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Tax Remedies</span>
+                        <div class="tags-container">
+                            <span class="tag-pill tag-tax">RESA</span>
+                            <span class="tag-pill tag-quiz">Quiz</span>
+                        </div>
+                    </a>
+                    <a href="https://share.gemini.google/IGzMyZZiRXJ9" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Tax Remedies</span>
+                        <div class="tags-container">
+                            <span class="tag-pill tag-tax-hard">Hard</span>
+                            <span class="tag-pill tag-quiz">Quiz</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- MAS Card -->
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
+                <h3 class="text-lg font-bold text-yellow-500 mb-4 flex items-center gap-2 border-b border-yellow-100 pb-2">
+                    📊 MAS
+                </h3>
+                <div class="grid grid-cols-2 gap-3 flex-grow">
+                    <a href="horngren-cost-accounting-drills.html" class="quiz-link">
+                        <span class="quiz-link-title">Horngren MCQ</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- AFAR Placeholder -->
+            <div class="bg-white/30 p-6 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center opacity-70 h-full min-h-[150px]">
+                <h3 class="text-lg font-bold text-gray-400 mb-2">AFAR</h3>
+                <span class="text-xs font-semibold bg-gray-200 text-gray-500 py-1.5 px-3 rounded-full uppercase tracking-wider">
+                    Coming Soon
+                </span>
+            </div>
+
+        </div>
     </main>
 
 </body>
