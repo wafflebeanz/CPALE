@@ -411,15 +411,16 @@
     }
 
     .card-ribbon {
-      position: absolute;
-      top: 14px;
-      right: 14px;
+      display: inline-flex;
+      align-items: center;
       font-size: 0.72rem;
       font-weight: 800;
       padding: 3px 10px;
       border-radius: var(--radius-pill);
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      width: fit-content;
     }
 
     .ribbon-pink { background: var(--soft-pink); color: var(--primary-pink); }
@@ -438,6 +439,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .callout {
@@ -588,16 +590,20 @@
 
     .step-pill {
       display: inline-block;
-      width: 22px;
-      height: 22px;
-      line-height: 22px;
-      border-radius: 50%;
+      width: auto;
+      min-width: 24px;
+      height: auto;
+      line-height: 1.25;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
       background: var(--primary-pink);
       color: #ffffff;
       text-align: center;
       font-size: 0.75rem;
       font-weight: 800;
-      margin-right: 6px;
+      margin-right: 8px;
+      white-space: nowrap;
+      vertical-align: middle;
     }
 
     .chain-flow {
