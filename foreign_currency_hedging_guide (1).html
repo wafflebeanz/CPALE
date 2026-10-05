@@ -76,7 +76,7 @@
                 Foreign Currency & <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">Hedging Magic ✨</span>
             </h1>
             <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-medium">
-                The coziest, crystal-clear guide to derivatives, cash flow vs. fair value hedges, P&L vs. OCI, and dodging tricky CPA exam traps! 🧸✨
+                The coziest, crystal-clear guide to derivatives, options contracts, cash flow vs. fair value hedges, P&L vs. OCI, interest settlements, and dodging tricky CPA exam traps! 🧸✨
             </p>
         </div>
     </header>
@@ -89,17 +89,23 @@
             <button onclick="switchTab('hedging-types')" id="tab-hedging-types" class="tab-btn active bg-pink-100 text-pink-700 font-bold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5 shadow-sm">
                 <span>🌸</span> 1. Types of Hedges
             </button>
+            <button onclick="switchTab('options-guide')" id="tab-options-guide" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
+                <span>🧁</span> 2. Options (Call vs Put & IV/TV)
+            </button>
+            <button onclick="switchTab('interest-mechanics')" id="tab-interest-mechanics" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
+                <span>⭐</span> 3. Foreign Notes & Interest
+            </button>
             <button onclick="switchTab('pnl-vs-oci')" id="tab-pnl-vs-oci" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
-                <span>🍰</span> 2. Why P&L vs. OCI?
+                <span>🍰</span> 4. Why P&L vs. OCI?
             </button>
             <button onclick="switchTab('speculation-trap')" id="tab-speculation-trap" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
-                <span>🚨</span> 3. The AFAR "0" Exam Trap
+                <span>🚨</span> 5. The AFAR "0" Exam Trap
             </button>
             <button onclick="switchTab('translation')" id="tab-translation" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
-                <span>🌍</span> 4. FS Translation
+                <span>🌍</span> 6. FS Translation
             </button>
             <button onclick="switchTab('comparison')" id="tab-comparison" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
-                <span>💖</span> 5. Quick Master Matrix
+                <span>💖</span> 7. Quick Master Matrix
             </button>
         </div>
 
@@ -215,11 +221,299 @@
             </div>
         </div>
 
-        <!-- TAB 2: WHY P&L VS OCI? (MATCHING PRINCIPLE) -->
+        <!-- TAB 2: OPTIONS DEEP-DIVE (CALL VS. PUT & IV/TV) -->
+        <div id="content-options-guide" class="tab-content hidden space-y-6 animate-fade-in">
+            <!-- Header Card with Cute Mnemonics -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🧁</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Options Fundamentals: Call, Put & Intrinsic Value</h2>
+                        <p class="text-sm text-pink-600 font-semibold">Everything from Goodnotes & Pinna Reviewer broken down cleanly! ✨</p>
+                    </div>
+                </div>
+                
+                <!-- The Cute Mnemonic Banner -->
+                <div class="mt-4 p-4 rounded-2xl bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 border border-pink-200 text-center">
+                    <span class="text-xs uppercase font-extrabold tracking-widest text-pink-600 block mb-1">🍓 The Pinna Memory Aid</span>
+                    <p class="text-lg md:text-xl font-extrabold text-rose-700 italic">
+                        "Call for S - X, Put up with Exes (X - S)" 💖
+                    </p>
+                </div>
+            </div>
+
+            <!-- Call vs Put & Formula Grid -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Call Option Card -->
+                <div class="bubbly-card bg-white rounded-3xl p-6 border-2 border-pink-200 shadow-xs space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="cute-pill bg-pink-100 text-pink-700 font-bold">💕 Call Option</span>
+                        <span class="text-2xl">📈</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Option to BUY (S - X)</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">
+                        Gives the holder the right (not obligation) to <strong>buy</strong> foreign currency at a predetermined strike/exercise price (<strong>X</strong>).
+                    </p>
+                    <div class="p-3.5 bg-pink-50 rounded-2xl border border-pink-100 text-xs sm:text-sm space-y-1">
+                        <p><strong>Intrinsic Value (IV) Formula:</strong></p>
+                        <p class="font-mono text-pink-700 font-bold text-base">IV = S - X (if S > X, otherwise 0)</p>
+                        <p class="text-[11px] text-slate-500">Where <strong>S</strong> = Current Spot Rate, <strong>X</strong> = Exercise/Static Price.</p>
+                    </div>
+                </div>
+
+                <!-- Put Option Card -->
+                <div class="bubbly-card bg-white rounded-3xl p-6 border-2 border-purple-200 shadow-xs space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="cute-pill bg-purple-100 text-purple-700 font-bold">💕 Put Option</span>
+                        <span class="text-2xl">📉</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Option to SELL (X - S)</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">
+                        Gives the holder the right (not obligation) to <strong>sell</strong> foreign currency at a predetermined strike/exercise price (<strong>X</strong>).
+                    </p>
+                    <div class="p-3.5 bg-purple-50 rounded-2xl border border-purple-100 text-xs sm:text-sm space-y-1">
+                        <p><strong>Intrinsic Value (IV) Formula:</strong></p>
+                        <p class="font-mono text-purple-700 font-bold text-base">IV = X - S (if X > S, otherwise 0)</p>
+                        <p class="text-[11px] text-slate-500">"Put up with Exes" ➡️ <strong>X</strong> comes first!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moneyness Matrix Table -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm space-y-4">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span>🎯</span> The Moneyness Table (Spot vs. Exercise Price)
+                    </h3>
+                    <span class="cute-pill bg-honey-100 text-honey-800 font-bold">Quick Exam Decider</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-gradient-to-r from-pink-50 to-purple-50 text-slate-800 font-bold uppercase text-xs">
+                                <th class="p-3.5 rounded-l-2xl border-b border-pink-200">Condition</th>
+                                <th class="p-3.5 border-b border-pink-200">CALL Option (Right to Buy)</th>
+                                <th class="p-3.5 border-b border-pink-200">PUT Option (Right to Sell)</th>
+                                <th class="p-3.5 rounded-r-2xl border-b border-pink-200">Intrinsic Value (IV) State</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-pink-100 text-slate-700">
+                            <tr class="hover:bg-pink-50/40">
+                                <td class="p-3.5 font-bold font-mono text-purple-700">If S &gt; X</td>
+                                <td class="p-3.5 font-semibold text-emerald-600 bg-emerald-50/50">In the Money (ITM) 🟢</td>
+                                <td class="p-3.5 font-semibold text-rose-600 bg-rose-50/50">Out of the Money (OTM) 🔴</td>
+                                <td class="p-3.5 font-mono text-xs">Call has positive IV; Put IV = 0</td>
+                            </tr>
+                            <tr class="hover:bg-pink-50/40">
+                                <td class="p-3.5 font-bold font-mono text-slate-800">If S = X</td>
+                                <td class="p-3.5 font-semibold text-amber-700 bg-amber-50/50">At the Money (ATM) 🟡</td>
+                                <td class="p-3.5 font-semibold text-amber-700 bg-amber-50/50">At the Money (ATM) 🟡</td>
+                                <td class="p-3.5 font-mono text-xs">IV is exactly 0 for both</td>
+                            </tr>
+                            <tr class="hover:bg-pink-50/40">
+                                <td class="p-3.5 font-bold font-mono text-pink-700">If S &lt; X</td>
+                                <td class="p-3.5 font-semibold text-rose-600 bg-rose-50/50">Out of the Money (OTM) 🔴</td>
+                                <td class="p-3.5 font-semibold text-emerald-600 bg-emerald-50/50">In the Money (ITM) 🟢</td>
+                                <td class="p-3.5 font-mono text-xs">Put has positive IV; Call IV = 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Option Fair Value Breakdown: Intrinsic Value + Time Value -->
+            <div class="bg-gradient-to-br from-purple-50/60 via-pink-50/40 to-white rounded-3xl p-6 sm:p-8 border border-purple-200 shadow-sm space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">⚖️</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Option Fair Value (FV) Decomposition</h3>
+                        <p class="text-xs text-slate-500 font-medium">Under PAS 39 & PFRS 9, an option's market value consists of two distinct components</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl border border-purple-200 text-center shadow-xs">
+                    <span class="text-xs font-bold uppercase tracking-wider text-purple-600 block mb-1">Master Formula</span>
+                    <p class="text-xl sm:text-2xl font-black text-slate-800 font-mono">
+                        Fair Value (FV) = Intrinsic Value (IV) + Time Value (TV)
+                    </p>
+                </div>
+
+                <!-- Callout: Option Premium is Fair Value on Day 1 -->
+                <div class="p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs sm:text-sm text-amber-950 flex items-start gap-3">
+                    <span class="text-2xl">💡</span>
+                    <div>
+                        <strong class="text-amber-900 block text-sm mb-0.5">Day 1 Fair Value Rule: Option Premium = Day 1 Fair Value</strong>
+                        In almost all AFAR and CPA board exam problems, <strong>the option premium given at inception (Day 1) is the initial Fair Value of the option contract</strong>! You record the option asset on Day 1 at this exact premium amount. From there, decompose it into initial IV and initial TV.
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 text-xs sm:text-sm">
+                    <!-- Intrinsic Value Box -->
+                    <div class="p-5 rounded-2xl bg-white border border-pink-200 space-y-3 shadow-2xs">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-pink-800 text-base">1. Intrinsic Value (IV)</h4>
+                            <span class="cute-pill bg-pink-100 text-pink-700 font-bold">Portion: EFFECTIVE</span>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1.5 text-slate-600">
+                            <li><strong>What it is:</strong> Depends directly on the current <strong>Spot Price (S)</strong> relative to the strike price.</li>
+                            <li><strong>Hedge Accounting Role:</strong> Treated as the <strong class="text-pink-700">EFFECTIVE portion</strong>! It mirrors the real cash flow risk (parked in <strong>OCI</strong> for cash flow hedges).</li>
+                            <li>
+                                <strong>⭐ Exam Rule on Inception IV:</strong> 
+                                <span class="text-pink-700 font-bold">IV at inception is 0 only if purchased ATM or OTM</span> (which happens in most AFAR problems). However, if the option is purchased <strong>In-the-Money (ITM)</strong>, it already has a positive initial IV on Day 1! Always compute (S - X) or (X - S) rather than assuming 0.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Time Value Box -->
+                    <div class="p-5 rounded-2xl bg-white border border-purple-200 space-y-3 shadow-2xs">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-purple-800 text-base">2. Time Value (TV)</h4>
+                            <span class="cute-pill bg-rose-100 text-rose-800 font-bold">Portion: INEFFECTIVE</span>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1.5 text-slate-600">
+                            <li><strong>What it is:</strong> The <strong>balancing figure</strong> (TV = FV - IV) representing the probability of further favorable moves before expiration. On Day 1, if IV is 0, the entire option premium equals Time Value!</li>
+                            <li><strong>Hedge Accounting Role:</strong> Treated as the <strong class="text-rose-700">INEFFECTIVE portion</strong>! Recognized immediately in <strong>Profit or Loss (P&L)</strong>.</li>
+                            <li><strong>⭐ Golden Exam Tip:</strong> <strong class="text-amber-700">Always decreasing</strong> over time (time decay). <code class="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-mono font-bold">TV @ end is always 0</code> because at expiration, zero time remains!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step-by-Step Solving Blueprint -->
+                <div class="p-4 rounded-2xl bg-white/90 border border-purple-200 text-xs text-slate-700 space-y-2">
+                    <span class="font-bold text-purple-900 block text-sm">💡 How to Solve Option Accounting Problems on Exam Day:</span>
+                    <ol class="list-decimal list-inside space-y-1.5 pl-1 text-slate-600">
+                        <li><strong>Identify Option Fair Value:</strong> On Day 1, <strong>the given option premium is the initial Fair Value</strong>. On subsequent reporting dates, use the new quoted option market price.</li>
+                        <li><strong>Calculate Intrinsic Value (IV):</strong> Apply (S - X) for Call, or (X - S) for Put (never negative; minimum is 0). (Remember: check Day 1 rates—it is 0 only if ATM or OTM!).</li>
+                        <li><strong>Plug Time Value (TV):</strong> Compute TV = Option Fair Value - IV.</li>
+                        <li><strong>Assign Changes:</strong> Change in IV goes to <strong>OCI</strong> (Effective), while change in TV goes straight to <strong>P&L</strong> (Ineffective)!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: FOREIGN NOTES & INTEREST MECHANICS -->
+        <div id="content-interest-mechanics" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">⭐</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Foreign Notes Payable & Interest at Settlement</h2>
+                        <p class="text-sm text-sky-600 font-semibold">The crucial distinction between accrued interest vs. current incurred interest on exam day!</p>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    Foreign exchange gains or losses only arise when a monetary liability or asset sits on your books at an earlier spot rate and is subsequently settled or remeasured at a different rate!
+                </p>
+            </div>
+
+            <!-- Golden Rule & Bank Rate Cards -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Golden Rule Card -->
+                <div class="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-6 border border-pink-200 shadow-xs space-y-3">
+                    <span class="cute-pill bg-pink-100 text-pink-700">🎀 The Golden Accounting Rule</span>
+                    <h3 class="text-lg font-bold text-slate-800">Why Some Interest Has Forex & Some Has ZERO</h3>
+                    <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                        <div class="p-3 bg-white rounded-2xl border border-pink-100">
+                            <strong class="text-pink-700 block mb-0.5">✅ Prior Accrued Interest (Has Forex Effect):</strong>
+                            Interest accrued at an interim date (e.g., March 31) sits on the Statement of Financial Position as a monetary liability (Interest Payable) recorded at that date's rate. Settling it at a new rate generates a <span class="font-bold text-pink-600">Forex Gain or Loss</span>!
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl border border-pink-100">
+                            <strong class="text-amber-700 block mb-0.5">⛔ Current Period Interest (Zero Forex Effect):</strong>
+                            Interest incurred and paid within the same final period (e.g., April 1 to April 30) is recorded directly at the settlement date spot rate. Because it never sat on the balance sheet at an older rate, its <span class="font-bold text-slate-800">forex gain/loss is exactly ₱0</span>!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank Rate Selection Card -->
+                <div class="bg-gradient-to-br from-sky-50 to-white rounded-3xl p-6 border border-sky-200 shadow-xs space-y-3">
+                    <span class="cute-pill bg-sky-100 text-sky-700">🏦 Bank's Perspective Rule</span>
+                    <h3 class="text-lg font-bold text-slate-800">Buying Rate vs. Selling Rate</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">
+                        Always evaluate exchange quotes from the bank's shoes, not yours!
+                    </p>
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <div class="p-3 bg-white rounded-2xl border border-sky-100">
+                            <strong class="text-sky-800 block">🛍️ Importer / Settling Foreign Debt:</strong>
+                            <p class="text-slate-600 text-xs mt-0.5">You must purchase foreign currency from the bank, so the bank charges you their higher <strong class="text-sky-700">Selling Rate</strong>!</p>
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl border border-sky-100">
+                            <strong class="text-purple-800 block">📦 Exporter / Collecting Receivables:</strong>
+                            <p class="text-slate-600 text-xs mt-0.5">You surrender foreign currency to the bank, so the bank pays you their lower <strong class="text-purple-700">Buying Rate</strong>!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Step-by-Step Problem Breakdown -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm space-y-5">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span>📝</span> Step-by-Step Board Problem Breakdown (SG$5,000 Note Payable Case)
+                    </h3>
+                    <span class="cute-pill bg-emerald-100 text-emerald-800 font-bold">Solved Exam Walkthrough</span>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm space-y-1.5 text-slate-700">
+                    <p class="font-bold text-slate-800">The Problem Setup:</p>
+                    <p>• <strong>March 1, 2025:</strong> Issued a 60-day, 15% note payable for SG$5,000. Selling Rate: <strong>SG$1 = ₱35.47</strong>.</p>
+                    <p>• <strong>March 31, 2025:</strong> Interim reporting date. Selling Rate: <strong>SG$1 = ₱36.10</strong>.</p>
+                    <p>• <strong>April 30, 2025:</strong> Total amount due is settled. Selling Rate: <strong>SG$1 = ₱36.07</strong>.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                    <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-1">
+                        <span class="cute-pill bg-purple-100 text-purple-800 text-[11px]">Step 1: March 31 Accrual</span>
+                        <h4 class="font-bold text-purple-900">30 Days Accrued Interest</h4>
+                        <p class="font-mono text-xs text-slate-700 pt-1">
+                            SG$5,000 × 15% × (30/360) = <strong>SG$62.50</strong>
+                        </p>
+                        <p class="text-[11px] text-slate-500">
+                            Booked on March 31 at the prevailing interim rate of ₱36.10.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-1">
+                        <span class="cute-pill bg-sky-100 text-sky-800 text-[11px]">Step 2: Settlement Shift</span>
+                        <h4 class="font-bold text-sky-900">Rate Movement on April 30</h4>
+                        <p class="text-xs text-slate-700 pt-1">
+                            Rate moves from <strong>₱36.10</strong> down to <strong>₱36.07</strong> (drop of <strong>₱0.03 per SG$</strong>).
+                        </p>
+                        <p class="text-[11px] text-emerald-700 font-semibold">
+                            Fewer Pesos needed to pay off debt = <strong>Forex Gain</strong>!
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-pink-50/70 border border-pink-200 space-y-1">
+                        <span class="cute-pill bg-pink-100 text-pink-800 text-[11px]">Step 3: Total Settlement Gain</span>
+                        <h4 class="font-bold text-pink-900">Combined Exposed Debt</h4>
+                        <p class="font-mono text-xs text-slate-700 pt-1">
+                            (SG$5,000 + SG$62.50) × ₱0.03 = <strong class="text-pink-600 font-bold">₱151.875 Gain</strong>
+                        </p>
+                        <p class="text-[11px] text-slate-500">
+                            Principal Gain (₱150.000) + Interest Payable Gain (₱1.875)!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 space-y-1">
+                    <span class="font-bold flex items-center gap-1.5 text-amber-800 text-sm">
+                        <span>💡</span> Exam Alert: What about April 1 to April 30 interest?
+                    </span>
+                    <p class="text-slate-700">
+                        The remaining 30 days of interest (SG$62.50) was incurred during April and paid immediately on April 30 at the current rate of ₱36.07. It is recorded directly as:
+                        <code class="bg-white px-2 py-0.5 rounded font-mono text-pink-700 border border-amber-200">Interest Expense: SG$62.50 × ₱36.07 = ₱2,254.375</code>.
+                        Because it never sat as an opening payable at an older rate, its <strong>forex gain or loss is strictly 0</strong>!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: WHY P&L VS OCI? (MATCHING PRINCIPLE) -->
         <div id="content-pnl-vs-oci" class="tab-content hidden space-y-6 animate-fade-in">
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-purple-100 shadow-sm">
                 <div class="flex items-center gap-3 mb-3">
-                    <span class="text-3xl">⚖️️</span>
+                    <span class="text-3xl">⚖</span>
                     <div>
                         <h2 class="text-2xl font-bold text-slate-800">The Golden Rule: The Matching Principle</h2>
                         <p class="text-sm text-purple-600 font-semibold">Why does Fair Value hedge hit P&L while Cash Flow hedge sleeps in OCI?</p>
@@ -233,7 +527,7 @@
             <!-- Quick Expand/Minimize Controls -->
             <div class="flex items-center justify-between bg-white/70 backdrop-blur px-5 py-3 rounded-2xl border border-pink-100 shadow-xs">
                 <div class="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                    <span>🗂️</span>
+                    <span>🗂️️</span>
                     <span>Card Views: Click any card header to expand or collapse</span>
                 </div>
                 <div class="flex items-center gap-2">
@@ -321,7 +615,7 @@
                                     <span class="cute-pill bg-purple-200 text-purple-800 text-[10px]">Goes to OCI</span>
                                 </div>
                                 <p class="text-xs text-slate-600">
-                                    The portion that <em>perfectly matches</em> the change in expected cash flows of the hedged item.
+                                    The portion that <em>perfectly matches</em> the change in expected cash flows of the hedged item (e.g. Intrinsic Value of options).
                                 </p>
                                 <p class="text-xs text-purple-900 font-semibold mt-1">
                                     🛋️ Treatment: Parked in <strong>OCI (Cash Flow Hedge Reserve)</strong>. When the hedged transaction finally hits P&L (e.g., inventory sold as COGS), it is recycled to P&L.
@@ -335,7 +629,7 @@
                                     <span class="cute-pill bg-rose-200 text-rose-800 text-[10px]">Goes to P&L</span>
                                 </div>
                                 <p class="text-xs text-slate-600">
-                                    Any "overshoot" or slippage where the derivative moved more than the actual risk being hedged.
+                                    Any "overshoot" or slippage where the derivative moved more than the actual risk being hedged (e.g. Time Value of options).
                                 </p>
                                 <p class="text-xs text-rose-900 font-semibold mt-1">
                                     🚨 Treatment: Recognized <strong>immediately in Profit or Loss (P&L)</strong>! It never waits in OCI.
@@ -435,7 +729,7 @@
             </div>
         </div>
 
-        <!-- TAB 3: SPECULATION VS HEDGE & THE CPA BOARD TRICK -->
+        <!-- TAB 5: SPECULATION VS HEDGE & THE CPA BOARD TRICK -->
         <div id="content-speculation-trap" class="tab-content hidden space-y-6 animate-fade-in">
             <!-- Warning Box -->
             <div class="bg-gradient-to-r from-rose-50 to-pink-50 border-2 border-rose-200 rounded-3xl p-6 sm:p-8 shadow-sm">
@@ -533,7 +827,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: FS TRANSLATION (IAS 21) -->
+        <!-- TAB 6: FS TRANSLATION (IAS 21) -->
         <div id="content-translation" class="tab-content hidden space-y-6 animate-fade-in">
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm">
                 <div class="flex items-center gap-3 mb-3">
@@ -594,7 +888,7 @@
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm space-y-4">
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">📝</span>
-                    <div>
+<div>
                         <h3 class="text-xl font-bold text-slate-800">The AFAR Board Exam "Proof of CTA" Formula</h3>
                         <p class="text-xs sm:text-sm text-slate-500 font-medium">How examiners test the exact movement in the Cumulative Translation Adjustment</p>
                     </div>
@@ -637,7 +931,7 @@
             </div>
         </div>
 
-        <!-- TAB 5: QUICK COMPARISON MASTER MATRIX -->
+        <!-- TAB 7: QUICK COMPARISON MASTER MATRIX -->
         <div id="content-comparison" class="tab-content hidden space-y-6 animate-fade-in">
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm">
                 <h3 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
@@ -678,12 +972,40 @@
                                 <td class="p-3.5 font-semibold text-sky-600">Effective: OCI | Ineffective: P&L</td>
                                 <td class="p-3.5 text-xs font-semibold text-sky-800">Accounted for just like CFH! Recycled to P&L only on disposal.</td>
                             </tr>
+                            <tr class="hover:bg-purple-50/40 bg-purple-50/20">
+                                <td class="p-3.5 font-bold text-purple-800">Options: Intrinsic Value (IV)</td>
+                                <td class="p-3.5">Call: (S - X) | Put: (X - S)</td>
+                                <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes (Spot Delta)</span></td>
+                                <td class="p-3.5 font-semibold text-purple-700">OCI (Effective Portion)</td>
+                                <td class="p-3.5 text-xs font-semibold text-purple-800">IV @ start is 0 ONLY if ATM or OTM; positive if ITM!</td>
+                            </tr>
+                            <tr class="hover:bg-rose-50/40 bg-rose-50/20">
+                                <td class="p-3.5 font-bold text-rose-800">Options: Time Value (TV)</td>
+                                <td class="p-3.5">Balancing figure: TV = FV - IV</td>
+                                <td class="p-3.5"><span class="text-slate-500 font-bold">Decaying Value</span></td>
+                                <td class="p-3.5 font-semibold text-rose-600">P&L (Ineffective Portion)</td>
+                                <td class="p-3.5 text-xs font-semibold text-rose-700">Always decreasing; TV @ end is always 0!</td>
+                            </tr>
                             <tr class="hover:bg-amber-50/40">
                                 <td class="p-3.5 font-bold text-amber-800">Undesignated Hedge</td>
                                 <td class="p-3.5">Real AP/AR risk without formal documentation</td>
                                 <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes (AP/AR)</span></td>
                                 <td class="p-3.5 font-semibold text-amber-700">Immediate P&L</td>
                                 <td class="p-3.5 text-xs">Not a formal hedge relationship under PAS 39!</td>
+                            </tr>
+                            <tr class="hover:bg-pink-50/40 bg-pink-50/20">
+                                <td class="p-3.5 font-bold text-pink-800">Prior Accrued Foreign Interest</td>
+                                <td class="p-3.5">Interest payable accrued at interim date</td>
+                                <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes (Monetary Liab.)</span></td>
+                                <td class="p-3.5 font-semibold text-pink-600">Immediate P&L</td>
+                                <td class="p-3.5 text-xs font-semibold text-pink-700">Generates Forex Gain/Loss on settlement date!</td>
+                            </tr>
+                            <tr class="hover:bg-amber-50/40 bg-amber-50/20">
+                                <td class="p-3.5 font-bold text-amber-900">Current Period Incurred Interest</td>
+                                <td class="p-3.5">Incurred and settled on same date</td>
+                                <td class="p-3.5"><span class="text-slate-500 font-bold">No (Zero Balance)</span></td>
+                                <td class="p-3.5 font-semibold text-slate-700">Interest Expense Only</td>
+                                <td class="p-3.5 text-xs font-bold text-slate-800">Forex gain or loss is strictly ₱0!</td>
                             </tr>
                             <tr class="hover:bg-rose-50/40">
                                 <td class="p-3.5 font-bold text-rose-700">Pure Speculation</td>
@@ -698,13 +1020,6 @@
                                 <td class="p-3.5"><span class="text-indigo-600 font-bold">Whole Entity</span></td>
                                 <td class="p-3.5 font-semibold text-indigo-600">OCI (CTA in Equity)</td>
                                 <td class="p-3.5 text-xs">Only recycled to P&L upon disposal of foreign operation.</td>
-                            </tr>
-                            <tr class="hover:bg-purple-50/40 bg-purple-50/20">
-                                <td class="p-3.5 font-bold text-purple-900">Cumulative Adjustments</td>
-                                <td class="p-3.5">Rollforward of cumulative OCI reserves (CTA & CF Hedge)</td>
-                                <td class="p-3.5"><span class="text-purple-600 font-bold">Both Areas</span></td>
-                                <td class="p-3.5 font-semibold text-purple-700">Cumulative in OCI</td>
-                                <td class="p-3.5 text-xs">CF Hedge: Base adjust or recycle with item. Translation: Recycle only upon sale/disposal.</td>
                             </tr>
                         </tbody>
                     </table>
