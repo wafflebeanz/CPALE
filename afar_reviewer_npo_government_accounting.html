@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AFAR Reviewer 🌸 NPO & Government Accounting</title>
+  <title>AFAR Reviewer 🌸 NPO, Government Accounting & Special Topics</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,7 +91,7 @@
 
     /* Header / Hero */
     header {
-      padding: 40px 0 20px;
+      padding: 36px 0 24px;
       text-align: center;
       position: relative;
     }
@@ -128,7 +128,7 @@
     .hero-subtitle {
       font-size: 1.1rem;
       color: var(--text-muted);
-      max-width: 800px;
+      max-width: 820px;
       margin: 0 auto 20px;
       font-weight: 600;
     }
@@ -157,44 +157,96 @@
     .chip-resa { border-color: #d8b4fe; color: #7e22ce; }
     .chip-cpar { border-color: #a7f3d0; color: #047857; }
 
-    /* Sticky Search & Quick Navigator */
+    /* Master Topic Navigation Tabs */
+    .master-topic-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .topic-tab-btn {
+      background: #ffffff;
+      border: 2px solid var(--border-soft);
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-cute);
+      transition: all 0.25s ease;
+    }
+    .topic-tab-btn:hover {
+      border-color: var(--primary-pink);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .topic-tab-btn.active {
+      background: linear-gradient(135deg, var(--primary-pink), var(--accent-purple));
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(255, 133, 162, 0.35);
+    }
+
+    /* ========================================================= */
+    /* COLLAPSIBLE STICKY / FLOATING NAVIGATION BAR              */
+    /* ========================================================= */
     .sticky-nav-wrapper {
       position: sticky;
-      top: 15px;
+      top: 12px;
       z-index: 100;
-      margin-bottom: 30px;
-      backdrop-filter: blur(12px);
+      margin-bottom: 28px;
+      transition: all 0.3s ease;
     }
+
+    /* Expanded State */
     .sticky-nav-inner {
       background: rgba(255, 255, 255, 0.95);
       border: 2px solid var(--border-soft);
       border-radius: var(--radius-md);
-      padding: 12px 20px;
+      padding: 12px 18px;
       box-shadow: var(--shadow-cute);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      backdrop-filter: blur(14px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    @media (min-width: 880px) {
-      .sticky-nav-inner {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+    .sticky-nav-inner.is-minimized {
+      display: none;
+    }
+
+    .sticky-nav-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    @media (min-width: 720px) {
+      .sticky-nav-top-row {
+        flex-wrap: nowrap;
       }
     }
 
     .search-box {
       position: relative;
       flex: 1;
-      max-width: 450px;
+      min-width: 250px;
     }
     .search-input {
       width: 100%;
-      padding: 10px 18px 10px 42px;
+      padding: 9px 18px 9px 40px;
       border: 2px solid var(--border-soft);
       border-radius: 999px;
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       outline: none;
       transition: all 0.2s ease;
       background: var(--bg-cream);
@@ -210,8 +262,89 @@
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       pointer-events: none;
+    }
+
+    /* Minimize Button in Expanded Nav */
+    .nav-collapse-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      color: var(--primary-pink);
+      border: 1.5px solid var(--border-soft);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(255, 133, 162, 0.1);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .nav-collapse-btn:hover {
+      background: var(--soft-pink);
+      border-color: var(--primary-pink);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 133, 162, 0.2);
+    }
+    .nav-collapse-btn .collapse-arrow {
+      font-size: 0.75rem;
+      color: var(--accent-purple);
+    }
+
+    /* Minimized Compact Bar */
+    .nav-minimized-pill-bar {
+      display: none;
+      justify-content: center;
+      animation: fadeInDown 0.25s ease;
+    }
+    .nav-minimized-pill-bar.is-visible {
+      display: flex;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav-expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--border-soft);
+      padding: 8px 22px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-cute);
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      color: var(--text-dark);
+      transition: all 0.25s ease;
+      user-select: none;
+    }
+    .nav-expand-btn:hover {
+      border-color: var(--primary-pink);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+      background: #ffffff;
+    }
+    .nav-expand-btn .expand-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #3b283d;
+    }
+    .nav-expand-btn .expand-badge {
+      background: var(--soft-pink);
+      color: var(--primary-pink);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 999px;
     }
 
     .quick-links {
@@ -223,9 +356,9 @@
       background: var(--bg-cream);
       color: var(--text-dark);
       text-decoration: none;
-      padding: 7px 14px;
+      padding: 6px 13px;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 700;
       border: 1px solid var(--border-soft);
       transition: all 0.2s ease;
@@ -236,6 +369,47 @@
       color: #ffffff;
       border-color: var(--primary-pink);
       transform: translateY(-2px);
+    }
+
+    /* Tab Panes */
+    .tab-content-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-content-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Diagram Chain Boxes for Reinsurance */
+    .chain-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 16px 0;
+      padding: 16px;
+      background: #fffbfe;
+      border-radius: var(--radius-sm);
+      border: 1.5px dashed var(--pastel-purple);
+    }
+    .chain-node {
+      background: #ffffff;
+      border: 2px solid var(--border-soft);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+    .chain-arrow {
+      font-size: 1.4rem;
+      color: var(--accent-purple);
+      font-weight: bold;
     }
 
     /* Main Sections */
@@ -590,14 +764,6 @@
       background: var(--primary-hover);
       transform: scale(1.1);
     }
-
-    /* Subtle highlighting for search */
-    mark.highlight {
-      background-color: #ffeb3b;
-      color: inherit;
-      padding: 1px 4px;
-      border-radius: 4px;
-    }
   </style>
 </head>
 <body>
@@ -605,46 +771,97 @@
   <!-- Floating Back to Top Button -->
   <button class="back-to-top" id="backToTop" title="Back to cute top! ✨">🐾</button>
 
-  <header>
+  <header id="mainHeader">
     <div class="container">
       <div class="hero-pill">🍓 AFAR • CPALE CONCEPT REVIEWER 🍓</div>
-      <h1 class="hero-title">Not-for-Profit & <span class="magic-word">Government Accounting</span></h1>
-      <p class="hero-subtitle">Comprehensive, all-in-one mastery reviewer synthesized from premier review lectures. Every rule, journal entry, fund cluster, and practice calculation included!</p>
+      <h1 class="hero-title">AFAR Special Topics <span class="magic-word">&amp; Government Accounting</span></h1>
+      <p class="hero-subtitle">Comprehensive, all-in-one mastery reviewer synthesized from premier review lectures. Every rule, journal entry, measurement model, and practice calculation included!</p>
       
       <div class="source-chips">
-        <span class="chip chip-reo">🎀 REO Live (Sir Albert)</span>
+        <span class="chip chip-reo">🎀 REO Live (Sir Albert &amp; Sir Louie)</span>
         <span class="chip chip-resa">💜 ReSA Lecture (Sir Aldrin)</span>
         <span class="chip chip-cpar">🍃 CPAR Lecture (Sir German)</span>
-        <span class="chip">✨ Complete & No Missing Details</span>
+        <span class="chip">✨ Complete &amp; No Missing Details</span>
+      </div>
+
+      <!-- Master Tabs -->
+      <div class="master-topic-tabs">
+        <button class="topic-tab-btn active" id="tabBtn-npo-gov" onclick="switchTopicTab('tab-npo-gov')">
+          <span>🌸</span> Topics 11 &amp; 12: NPO &amp; Government Accounting
+        </button>
+        <button class="topic-tab-btn" id="tabBtn-special-topics" onclick="switchTopicTab('tab-special-topics')">
+          <span>🛡️</span> Topic 14: Insurance (PFRS 17) &amp; Service Concessions (PFRIC 12)
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Sticky Cute Search & Nav -->
-  <div class="sticky-nav-wrapper">
+  <!-- ============================================================== -->
+  <!-- COLLAPSIBLE STICKY / FLOATING SEARCH & NAVIGATION BAR         -->
+  <!-- ============================================================== -->
+  <div class="sticky-nav-wrapper" id="stickyNavWrapper">
     <div class="container">
-      <div class="sticky-nav-inner">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="reviewerSearch" class="search-input" placeholder="Search any topic, entry, rule, or account (e.g., 'TRA', '50,000', 'Service', 'VHWO')...">
+      
+      <!-- 1. Collapsed Pill State (shows when user minimizes floating nav) -->
+      <div class="nav-minimized-pill-bar" id="navMinimizedBar">
+        <button type="button" class="nav-expand-btn" onclick="toggleStickyNav()" title="Click to expand floating navigation & search">
+          <span>🔍</span>
+          <span class="expand-label">Quick Search &amp; Navigator</span>
+          <span class="expand-badge">Tap to expand ▼</span>
+        </button>
+      </div>
+
+      <!-- 2. Full Floating Navigation Card (Expanded) -->
+      <div class="sticky-nav-inner" id="stickyNavInner">
+        
+        <!-- Top row: Search input + Minimize Button -->
+        <div class="sticky-nav-top-row">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="reviewerSearch" class="search-input" placeholder="Search any topic, entry, rule, or account (e.g., 'TRA', 'PAA', 'GORTOM', '1/24th', 'PFRS 17')...">
+          </div>
+
+          <button type="button" class="nav-collapse-btn" onclick="toggleStickyNav()" title="Minimize floating navigation to free up reading space">
+            <span>🐾</span>
+            <span>Minimize Nav</span>
+            <span class="collapse-arrow">▲</span>
+          </button>
         </div>
-        <nav class="quick-links">
+        
+        <!-- Navigation Pills for NPO & Gov (Tab 1) -->
+        <nav class="quick-links" id="quickLinks-npo-gov">
           <a href="#sec-npo-basics" class="quick-pill">🎀 NPO Basics</a>
           <a href="#sec-revenue-recognition" class="quick-pill">💸 Revenue Rules</a>
-          <a href="#sec-fs-hospitals-schools" class="quick-pill">🏥 FS & Institutions</a>
-          <a href="#sec-worked-examples" class="quick-pill">📝 3 Comprehensive Problems</a>
+          <a href="#sec-fs-hospitals-schools" class="quick-pill">🏥 FS &amp; Institutions</a>
+          <a href="#sec-worked-examples" class="quick-pill">📝 3 Practice Problems</a>
           <a href="#sec-gov-framework" class="quick-pill">🏛️ Gov Framework</a>
           <a href="#sec-budget-cycle" class="quick-pill">📅 Budget Cycle</a>
-          <a href="#sec-registries-ppsas" class="quick-pill">📜 PPSAS & Registries</a>
+          <a href="#sec-registries-ppsas" class="quick-pill">📜 PPSAS &amp; Registries</a>
           <a href="#sec-gov-journal-entries" class="quick-pill">✍️ Master Gov Entries</a>
           <a href="#sec-fund-clusters" class="quick-pill">🏷️ Fund Clusters</a>
-          <a href="#sec-flashcards" class="quick-pill">🧠 Flashcards</a>
+          <a href="#sec-flashcards-npo" class="quick-pill">🧠 Flashcards</a>
+        </nav>
+
+        <!-- Navigation Pills for Special Topics (Tab 2) -->
+        <nav class="quick-links" id="quickLinks-special-topics" style="display: none;">
+          <a href="#sec-pfrs17-basics" class="quick-pill">🛡️ PFRS 17 Core &amp; Parties</a>
+          <a href="#sec-pfrs17-scope-rules" class="quick-pill">📋 Scope &amp; Key Rules</a>
+          <a href="#sec-unearned-premiums" class="quick-pill">⏱️ Premium Reserve Methods</a>
+          <a href="#sec-measurement-models" class="quick-pill">📐 General Model vs. PAA</a>
+          <a href="#sec-service-concession" class="quick-pill">🏗️ PFRIC 12 Service Concessions</a>
+          <a href="#sec-flashcards-special" class="quick-pill">🧠 Special Topic Flashcards</a>
         </nav>
       </div>
+
     </div>
   </div>
 
   <main class="container">
+
+    <!-- ============================================================== -->
+    <!-- TAB 1: TOPIC 11 & 12 (NPO & GOVERNMENT ACCOUNTING)            -->
+    <!-- ============================================================== -->
+    <div id="tab-npo-gov" class="tab-content-pane active">
 
     <!-- ========================================== -->
     <!-- SECTION 1: NPO BASICS & CHARACTERISTICS    -->
@@ -1099,7 +1316,7 @@
           </div>
 
           <div class="callout callout-yellow" style="margin-bottom: 16px;">
-            <div class="callout-icon">⚠️️</div>
+            <div class="callout-icon">⚠</div>
             <div class="callout-content">
               <strong>Crucial Preliminary Reviewer Notes:</strong>
               <ul class="cute-list checks" style="margin-top: 4px; font-size: 0.88rem;">
@@ -1901,7 +2118,7 @@
         <!-- Reversals, Petty Cash & Forex -->
         <div class="cute-card">
           <span class="card-ribbon ribbon-yellow">Reversals &amp; Operations</span>
-          <h3 class="card-title">⚙️ 5. Reversals, PCF, Supplies &amp; Forex</h3>
+          <h3 class="card-title">⚙️️ 5. Reversals, PCF, Supplies &amp; Forex</h3>
 
           <p><strong>A. Reversal of Unused NCA at Year-End:</strong></p>
           <div class="je-box">
@@ -2012,12 +2229,12 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SECTION 10: INTERACTIVE FLASHCARDS         -->
+    <!-- SECTION 10: INTERACTIVE FLASHCARDS (NPO)   -->
     <!-- ========================================== -->
-    <section id="sec-flashcards">
+    <section id="sec-flashcards-npo">
       <div class="section-header">
         <div class="section-icon">🧠</div>
-        <h2 class="section-title">Interactive CPALE Flashcard Drill</h2>
+        <h2 class="section-title">Interactive CPALE Flashcard Drill (NPO &amp; Gov)</h2>
       </div>
 
       <p style="color: var(--text-muted); font-weight: 600;">Click any card to reveal the high-yield answer!</p>
@@ -2073,10 +2290,561 @@
       </div>
     </section>
 
+    </div><!-- End Tab 1 (tab-npo-gov) -->
+
+    <!-- ============================================================== -->
+    <!-- TAB 2: TOPIC 14 (INSURANCE CONTRACTS & SERVICE CONCESSIONS)   -->
+    <!-- ============================================================== -->
+    <div id="tab-special-topics" class="tab-content-pane">
+
+      <!-- ========================================== -->
+      <!-- SECTION 14.1: PFRS 17 BASICS & PARTIES     -->
+      <!-- ========================================== -->
+      <section id="sec-pfrs17-basics">
+        <div class="section-header">
+          <div class="section-icon">🛡️</div>
+          <h2 class="section-title">Topic 14.1: Accounting for Insurance Contracts by Insurers (PFRS 17)</h2>
+        </div>
+
+        <div class="grid-3">
+          <!-- Card 1: Core Definition -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-pink">PFRS 17 Core</span>
+            <h3 class="card-title">📜 Definition of Insurance Contract</h3>
+            <p>A contract under which the <strong>insurer accepts significant insurance risk</strong> from the <strong>policyholder</strong> by agreeing to compensate the policyholder if a specified <em>uncertain future event</em> adversely affects the policyholder.</p>
+            
+            <div class="callout callout-pink" style="margin-top: 14px;">
+              <div class="callout-icon">💡</div>
+              <div class="callout-content">
+                <strong>Insurance Risk:</strong> Risk other than financial risk, transferred from the holder of a contract to the issuer.
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Reinsurance & Retrocession -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-purple">Layers of Risk</span>
+            <h3 class="card-title">🔄 Reinsurance &amp; Retrocession</h3>
+            <p><strong>1. Reinsurance Contract:</strong> A contract wherein the <em>reinsurer</em> agrees to compensate another insurer (<em>cedant</em>) for losses on one or more contracts issued by the cedant.</p>
+            <p style="margin-top: 8px;"><strong>2. Retrocession Contract:</strong> A contract wherein the <em>retrocessionaire</em> agrees to compensate another insurer (<em>reinsurer</em>) for losses on one or more contracts issued by the reinsurer.</p>
+          </div>
+
+          <!-- Card 3: Recognition Dates -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-mint">Recognition</span>
+            <h3 class="card-title">⏰ When to Recognize Contracts</h3>
+            <p>An entity shall recognize a group of insurance contracts it issues from the <strong>EARLIEST</strong> of the following dates:</p>
+            <ul class="cute-list stars" style="margin-top: 8px;">
+              <li><strong>1. Beginning of coverage period</strong> of the group of contracts;</li>
+              <li><strong>2. Date when the first payment becomes due</strong> (or when the first payment is actually made, if no due date); or</li>
+              <li><strong>3. When a group of onerous contracts becomes onerous</strong> (if facts and circumstances indicate onerousness).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Visual Parties Table & Chain Diagram -->
+        <div class="cute-card" style="margin-top: 20px;">
+          <span class="card-ribbon ribbon-peach">High-Yield Parties Mapping</span>
+          <h3 class="card-title">👥 Parties to an Insurance Contract (Direct vs. Reinsurance vs. Retrocession)</h3>
+          
+          <div class="chain-flow">
+            <div class="chain-node">
+              <strong style="color: var(--primary-pink);">Policyholder</strong>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Original Insured</div>
+            </div>
+            <div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">
+              <strong style="color: #3b283d;">Direct Insurer</strong>
+              <div style="font-size: 0.8rem; color: var(--accent-purple);">Cedant in Reinsurance</div>
+            </div>
+            <div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">
+              <strong style="color: var(--accent-purple);">Reinsurer</strong>
+              <div style="font-size: 0.8rem; color: var(--accent-peach);">Retrocedent in Retrocession</div>
+            </div>
+            <div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">
+              <strong style="color: var(--accent-mint);">Retrocessionaire</strong>
+              <div style="font-size: 0.8rem; color: var(--accent-mint);">Final Risk Absorber</div>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="cute-table">
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Party Title</th>
+                  <th style="width: 35%;">Role / Description</th>
+                  <th>Contract Level</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Insurer</strong></td>
+                  <td>The party that accepts insurance risks in a direct insurance contract.</td>
+                  <td><span class="step-pill" style="background:var(--soft-pink); color:var(--primary-pink);">Direct Insurance</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Policyholder</strong></td>
+                  <td>The party that is insured and has the right to compensation in direct insurance.</td>
+                  <td><span class="step-pill" style="background:var(--soft-pink); color:var(--primary-pink);">Direct Insurance</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Reinsurer</strong></td>
+                  <td>The insurer that agrees to assume risks and indemnify in a reinsurance contract.</td>
+                  <td><span class="step-pill" style="background:var(--pastel-purple); color:var(--accent-purple);">Reinsurance</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Cedant</strong></td>
+                  <td>The original insurer acting as the policyholder in a reinsurance contract (ceding risk).</td>
+                  <td><span class="step-pill" style="background:var(--pastel-purple); color:var(--accent-purple);">Reinsurance</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Retrocessionaire</strong></td>
+                  <td>The specialized reinsurer assuming risks in a retrocession contract.</td>
+                  <td><span class="step-pill" style="background:var(--pastel-mint); color:var(--accent-mint);">Retrocession</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Retrocedent</strong></td>
+                  <td>The reinsurer acting as the policyholder (ceding risk) in a retrocession contract.</td>
+                  <td><span class="step-pill" style="background:var(--pastel-mint); color:var(--accent-mint);">Retrocession</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECTION 14.1.2: SCOPE & KEY RULES          -->
+      <!-- ========================================== -->
+      <section id="sec-pfrs17-scope-rules">
+        <div class="section-header">
+          <div class="section-icon">📋</div>
+          <h2 class="section-title">PFRS 17 Scope &amp; Key Accounting Principles</h2>
+        </div>
+
+        <div class="grid-2">
+          <!-- In Scope vs Out of Scope -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-mint">Applicability</span>
+            <h3 class="card-title">🎯 Scope of PFRS 17</h3>
+            
+            <div style="background: #f0faf5; border: 1.5px solid var(--pastel-mint); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px;">
+              <strong style="color: var(--accent-mint);">✅ PFRS 17 APPLIES to:</strong>
+              <ul class="cute-list checks" style="margin-top: 6px; font-size: 0.9rem;">
+                <li><strong>Insurance contracts</strong> (including direct insurance issued)</li>
+                <li><strong>Reinsurance contracts</strong> (both issued and held)</li>
+                <li><strong>Investment contracts with discretionary participation features</strong> (if entity also issues insurance contracts)</li>
+              </ul>
+            </div>
+
+            <div style="background: #fff5f7; border: 1.5px solid var(--border-soft); border-radius: var(--radius-sm); padding: 14px;">
+              <strong style="color: var(--primary-pink);">❌ PFRS 17 DOES NOT APPLY to:</strong>
+              <ul class="cute-list hearts" style="margin-top: 6px; font-size: 0.9rem;">
+                <li>Financial instruments under <strong>PFRS 9</strong></li>
+                <li><strong>Product warranties</strong> issued by manufacturers, dealers, or retailers (PAS 37 / PFRS 15)</li>
+                <li><strong>Contingent consideration</strong> in a business combination (PFRS 3)</li>
+                <li><strong>Contingent contractual rights or obligations</strong></li>
+                <li><strong>Financial guarantee contracts</strong> (unless entity explicitly elected PFRS 17)</li>
+                <li>Employer's assets and liabilities under <strong>employee benefit plans</strong> (PAS 19)</li>
+                <li><strong>Direct insurance contracts that the entity holds</strong> (as a policyholder)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Key Provisions -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-yellow">Key Principles</span>
+            <h3 class="card-title">🔑 Essential Mandates under PFRS 17</h3>
+
+            <ul class="cute-list stars">
+              <li><strong>No Offsetting of Reinsurance:</strong> Reinsurance assets (net contractual rights) must <strong>NEVER be offset</strong> against reinsurance liabilities.</li>
+              <li><strong>Annual Liability Adequacy Test:</strong> Mandatory annual assessment of the adequacy of recognized insurance liabilities based on current reviews of future cash flows.</li>
+              <li><strong>Impairment Tests:</strong> Must perform regular impairment testing for insurance and reinsurance contracts held.</li>
+              <li><strong>No Catastrophe Accounting:</strong> Provisions for future claims relating to possible future catastrophes (catastrophe or equalization reserves) are <strong>NO LONGER recognized</strong>!</li>
+              <li><strong>Separation of Components (Unbundling):</strong> Embedded derivatives, investment components, and distinct performance obligations (goods or non-insurance services) must be separated from an insurance contract and accounted under relevant standards.</li>
+              <li><strong>Aggregation &amp; Portfolios:</strong> Assign contracts to portfolios of similar risks and managed together. Divide each portfolio into <strong>Three (3) Groups</strong>:
+                <br>• (a) Contracts that are <strong>onerous at inception</strong>;
+                <br>• (b) Contracts with <strong>no significant possibility of becoming onerous</strong> subsequently; and
+                <br>• (c) Any <strong>other remaining contracts</strong>.
+              </li>
+              <li><strong>Changes in Accounting Policy:</strong> Allowed <em>ONLY IF</em> the financial statements present information that is:
+                <br>• <em>More relevant and no less reliable</em>, <strong>OR</strong>
+                <br>• <em>More reliable and no less relevant</em>.
+              </li>
+              <li><strong>Modifications:</strong> If terms are modified substantially, <strong>derecognize the original contract</strong> and recognize the modified contract as a <strong>new contract</strong>!</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECTION 14.1.3: UNEARNED PREMIUM RESERVES  -->
+      <!-- ========================================== -->
+      <section id="sec-unearned-premiums">
+        <div class="section-header">
+          <div class="section-icon">⏱️</div>
+          <h2 class="section-title">Methods of Measuring Unearned Premium Reserve</h2>
+        </div>
+
+        <div class="grid-2">
+          <!-- Fixed Percentage Method -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-pink">Fixed Percentage</span>
+            <h3 class="card-title">📊 1. Fixed Percentage Method</h3>
+            <p>Measures the unearned premium reserve by applying a <strong>statutory or specific percentage</strong> to the total premiums written in each class of business insurance.</p>
+            <div class="callout callout-pink" style="margin-top: 10px;">
+              <div class="callout-icon">💡</div>
+              <div class="callout-content">
+                Typically used as a regulatory rule of thumb or baseline reserve across entire blocks of insurance policies.
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Apportionment Method Overview -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-purple">Time Apportionment</span>
+            <h3 class="card-title">⏳ 2. Time Apportionment Method</h3>
+            <p>Measures unearned premium reserve for <strong>both annual and non-annual policies</strong> based on elapsed time and unexpired risk coverage periods.</p>
+            <p style="margin-top: 8px;">Subdivided into 3 specific mathematical applications for practice and regulatory reporting:</p>
+          </div>
+        </div>
+
+        <!-- 3 Time Apportionment Specific Techniques -->
+        <div class="grid-3" style="margin-top: 20px;">
+          <!-- 1/365th Method -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-mint">Daily Pro-Rata</span>
+            <h3 class="card-title">📅 1/365th Method</h3>
+            <p>Measures unearned premiums on an exact <strong>daily pro-rata basis</strong> in respect of the unexpired portions of respective insurance policies at the end of each period (based on 365 days in a year).</p>
+            <div class="je-box" style="margin-top: 12px; font-size: 0.85rem;">
+              $$\text{Unearned Premium} = \text{Gross Premium} \times \frac{\text{Unexpired Days}}{365}$$
+            </div>
+          </div>
+
+          <!-- 1/24th Method -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-peach">Semi-Monthly</span>
+            <h3 class="card-title">🌓 1/24th Method</h3>
+            <p>A practical simplification of time apportionment, applicable <strong>ONLY to one-year term insurance policies</strong>.</p>
+            <ul class="cute-list checks" style="margin-top: 6px; font-size: 0.88rem;">
+              <li>Assumes premium payments are spread evenly twice a month ($12 \times 2 = 24$ intervals).</li>
+              <li>Treats policies written in any month as if issued in the middle of each semi-monthly block.</li>
+            </ul>
+          </div>
+
+          <!-- 1/8th Method -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-yellow">Quarterly</span>
+            <h3 class="card-title">🌗 1/8th Method</h3>
+            <p>Based on the general assumption that <strong>premiums are spread evenly over the quarter</strong> and the average date of all policies written is in the middle of the quarter.</p>
+            <ul class="cute-list stars" style="margin-top: 6px; font-size: 0.88rem;">
+              <li>Assumes premiums are accounted twice every quarter ($4 \text{ quarters} \times 2 = 8$ intervals).</li>
+              <li>Widely used for quarterly policy portfolios.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECTION 14.1.4: MEASUREMENT MODELS         -->
+      <!-- ========================================== -->
+      <section id="sec-measurement-models">
+        <div class="section-header">
+          <div class="section-icon">📐</div>
+          <h2 class="section-title">PFRS 17 Measurement Models: General Model vs. Premium Allocation Approach (PAA)</h2>
+        </div>
+
+        <div class="grid-2">
+          <!-- The General Model -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-pink">Default Approach</span>
+            <h3 class="card-title">🏛️ The General Model (Building Block Approach)</h3>
+            <p>The core standard model applied to all groups of insurance contracts upon initial recognition.</p>
+
+            <h4 style="font-family:'Quicksand'; color:var(--primary-pink); margin-top:14px; margin-bottom:6px;">Initial Measurement Formula:</h4>
+            <div class="table-container">
+              <table class="cute-table">
+                <tbody>
+                  <tr><td>Future Cash Outflows / Inflows</td><td class="table-numeric">XX</td></tr>
+                  <tr><td>Adjustment for Time Value of Money (Discounting)</td><td class="table-numeric">xx / (xx)</td></tr>
+                  <tr><td>Financial Risk</td><td class="table-numeric">XX</td></tr>
+                  <tr><td>Risk Adjustment for Non-Financial Risk</td><td class="table-numeric">xx / (xx)</td></tr>
+                  <tr style="background:#fff0f5; font-weight:800; color:#d6336c;">
+                    <td>Fulfillment Cash Flows (FCF)</td><td class="table-numeric">XX</td></tr>
+                  <tr>
+                    <td>Add: <strong>Contractual Service Margin (CSM)</strong>
+                      <br><small style="color:var(--text-muted); font-weight:normal;">(Unearned profit recognized as future services are provided. Applies only when group of contracts is NOT onerous).</small>
+                    </td>
+                    <td class="table-numeric">XX</td>
+                  </tr>
+                  <tr style="background:var(--pastel-mint); font-weight:800; color:#155724;">
+                    <td>Initial Carrying Amount of Insurance Contract Liability</td><td class="table-numeric">XXX</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="background:#faf6fc; border:1.5px solid var(--pastel-purple); border-radius:var(--radius-sm); padding:12px; margin-top:10px;">
+              <strong style="color:var(--accent-purple);">Subsequent Measurement:</strong>
+              <div style="font-size:0.9rem; margin-top:4px;">
+                $$\text{Carrying Amount} = \text{Liability for Remaining Coverage (FCF + CSM)} + \text{Liability for Incurred Claims (FCF past service)}$$
+              </div>
+            </div>
+          </div>
+
+          <!-- Premium Allocation Approach (PAA) -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-purple">Simplified Approach</span>
+            <h3 class="card-title">⚡ Premium Allocation Approach (PAA)</h3>
+            <p>A simplified approach that an entity may use <strong>ONLY IF EITHER</strong> of the following criteria is met:</p>
+            <ul class="cute-list checks" style="font-size:0.9rem; margin-top:6px;">
+              <li><strong>1. Materiality Test:</strong> The entity reasonably expects that the liability for remaining coverage will be a reasonable approximation or will not differ materially from the General Model; <strong>OR</strong></li>
+              <li><strong>2. One-Year Rule:</strong> The coverage period of each contract in the group is <strong>one (1) year or less</strong>.</li>
+            </ul>
+
+            <h4 style="font-family:'Quicksand'; color:var(--accent-purple); margin-top:14px; margin-bottom:6px;">Initial Measurement:</h4>
+            <p style="font-size:0.9rem; font-weight:700; color:var(--text-dark);">
+              $$\text{Premiums Received} - \text{Insurance Acquisition Cash Flows}$$
+            </p>
+
+            <h4 style="font-family:'Quicksand'; color:var(--accent-purple); margin-top:12px; margin-bottom:6px;">Subsequent Measurement Schedule:</h4>
+            <div class="table-container">
+              <table class="cute-table">
+                <tbody>
+                  <tr><td>Carrying Amount at Start of Reporting Period</td><td class="table-numeric">XX</td></tr>
+                  <tr><td>Add: Premiums Received in the Period</td><td class="table-numeric">XX</td></tr>
+                  <tr><td>Less: Insurance Acquisition Cash Flows Paid</td><td class="table-numeric">(xx)</td></tr>
+                  <tr><td>Add: Amortization of Acquisition Cash Flows</td><td class="table-numeric">XX</td></tr>
+                  <tr><td>Less: Insurance Revenue Recognized for the Period</td><td class="table-numeric">(xx)</td></tr>
+                  <tr><td>Less: Amount Paid for Incurred Claims</td><td class="table-numeric">(xx)</td></tr>
+                  <tr style="background:var(--pastel-purple); font-weight:800; color:#432874;">
+                    <td>Carrying Amount, Liability for Remaining Coverage</td><td class="table-numeric">XXX</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- SECTION 14.2: SERVICE CONCESSION ARRANGEMENTS (PFRIC 12)       -->
+      <!-- ============================================================== -->
+      <section id="sec-service-concession">
+        <div class="section-header">
+          <div class="section-icon">🏗️</div>
+          <h2 class="section-title">Topic 14.2: Service Concession Arrangements (PFRIC 12 &amp; PPSAS 32)</h2>
+        </div>
+
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-blue">Definition &amp; Terms</span>
+          <h3 class="card-title">🌉 What is a Service Concession Arrangement?</h3>
+          <p>An arrangement wherein the <strong>Grantor</strong> (usually the Public Sector or Government) contracts with an <strong>Operator</strong> (usually a Private Entity) to develop, upgrade, operate, and maintain the grantor's infrastructure assets (e.g., tollways, bridges, airports, water supply, power plants).</p>
+          
+          <div class="source-chips" style="justify-content: flex-start; margin-top: 10px; margin-bottom: 0;">
+            <span class="chip">🛣️ Built-Operate-Transfer (BOT)</span>
+            <span class="chip">🔄 Rehabilitate-Operate-Transfer (ROT)</span>
+            <span class="chip">🤝 Public-Private Partnership (PPP)</span>
+          </div>
+        </div>
+
+        <!-- Grantor vs Operator Breakdown -->
+        <div class="grid-2" style="margin-top: 20px;">
+          <!-- Grantor (Public Sector / Government) -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-pink">Grantor Accounting</span>
+            <h3 class="card-title">🏛️ Grantor (Public Sector / Government)</h3>
+            <p>Governed by <strong>PPSAS 32</strong> (Service Concession Arrangements: Grantor). The government agency recognizes the asset and an associated liability under either of two models:</p>
+            
+            <div style="background:#fff5f7; border:1.5px solid var(--border-soft); border-radius:var(--radius-sm); padding:12px; margin-top:12px;">
+              <strong style="color:var(--primary-pink);">1. Financial Liability Model (FLM):</strong>
+              <p style="font-size:0.88rem; margin-top:4px;">Recognized when the grantor has an unconditional obligation to pay cash or another financial asset to the operator.</p>
+            </div>
+
+            <div style="background:#fbf5ff; border:1.5px solid var(--pastel-purple); border-radius:var(--radius-sm); padding:12px; margin-top:10px;">
+              <strong style="color:var(--accent-purple);">2. Grant of a Right to the Operator Model (GORTOM):</strong>
+              <p style="font-size:0.88rem; margin-top:4px;">Recognized as <strong>Deferred Revenue</strong> (liability) when the grantor gives the operator the right to earn revenue from third-party users of the asset.</p>
+            </div>
+          </div>
+
+          <!-- Operator (Private Entity - PFRIC 12) -->
+          <div class="cute-card">
+            <span class="card-ribbon ribbon-mint">Operator Accounting</span>
+            <h3 class="card-title">🏢 Operator (Private Entity - PFRIC 12)</h3>
+            <p>Governed by <strong>PFRIC 12</strong>. Crucial rule: <em>PFRIC 12 does not specify new general accounting rules, but determines WHICH existing standard applies to the operator:</em></p>
+            
+            <div class="callout callout-mint" style="margin-top: 12px;">
+              <div class="callout-icon">💡</div>
+              <div class="callout-content">
+                The operator does NOT recognize the infrastructure as PPE because it does not control the asset. Instead, it recognizes either an <strong>Intangible Asset</strong> or a <strong>Financial Asset</strong>!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Comparison Table: Intangible vs Financial Asset Model -->
+        <div class="cute-card" style="margin-top: 20px;">
+          <span class="card-ribbon ribbon-peach">High Yield CPALE Comparison</span>
+          <h3 class="card-title">⚖️ Intangible Asset Model vs. Financial Asset Model for Operator</h3>
+          
+          <div class="table-container">
+            <table class="cute-table">
+              <thead>
+                <tr>
+                  <th style="width: 20%;">Feature / Aspect</th>
+                  <th style="width: 40%;">Intangible Asset Model</th>
+                  <th style="width: 40%;">Financial Asset Model</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nature of Rights</strong></td>
+                  <td>Receives a <strong>contractual right to charge users</strong> of the public service (e.g., collecting tolls from motorists).</td>
+                  <td>Receives an <strong>unconditional contractual right to receive a specified amount of cash</strong> from or at the direction of the grantor.</td>
+                </tr>
+                <tr>
+                  <td><strong>Demand / Usage Risk</strong></td>
+                  <td><strong>Operator bears the usage risk:</strong> No unconditional right to cash; revenue is fully contingent on the extent to which the public uses the service.</td>
+                  <td><strong>Grantor bears the risk:</strong> Includes guarantees where the grantor agrees to pay for any shortfall between amounts received from users and the specified target!</td>
+                </tr>
+                <tr>
+                  <td><strong>Applicable Standard</strong></td>
+                  <td><strong>PAS 38</strong> (Intangible Assets)</td>
+                  <td><strong>PFRS 9</strong> (Financial Instruments)</td>
+                </tr>
+                <tr>
+                  <td><strong>Borrowing Costs</strong></td>
+                  <td><span class="step-pill" style="background:var(--pastel-mint); color:#155724;">MAY BE CAPITALIZED</span>
+                    <br><small style="color:var(--text-muted);">Treated as part of the cost of the intangible asset during construction under PAS 23.</small>
+                  </td>
+                  <td><span class="step-pill" style="background:var(--soft-pink); color:#d6336c;">EXPENSED IMMEDIATELY</span>
+                    <br><small style="color:var(--text-muted);">Borrowing costs cannot be capitalized into a financial asset under PFRS 9 / PAS 23.</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Subsequent Accounting</strong></td>
+                  <td>Amortized over the concession period during which the infrastructure is available for public use.</td>
+                  <td>Accounted at amortized cost; cash receipts reduce the principal receivable and yield finance interest income.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECTION 14.3: INTERACTIVE FLASHCARDS       -->
+      <!-- ========================================== -->
+      <section id="sec-flashcards-special">
+        <div class="section-header">
+          <div class="section-icon">🧠</div>
+          <h2 class="section-title">Interactive CPALE Flashcard Drill (Insurance &amp; Concessions)</h2>
+        </div>
+
+        <p style="color: var(--text-muted); font-weight: 600;">Click any card to reveal the high-yield answer!</p>
+
+        <div class="quiz-grid">
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ Who is the "Cedant" in a Reinsurance contract?</div>
+            <div class="flashcard-a">✨ The original insurer acting as the policyholder who cedes the risk to the reinsurer!</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ Are catastrophe reserves recognized under PFRS 17?</div>
+            <div class="flashcard-a">✨ NO! Provisions for future claims relating to possible catastrophes (catastrophe accounting) are strictly no longer recognized.</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ When is the Premium Allocation Approach (PAA) allowed?</div>
+            <div class="flashcard-a">✨ EITHER: (1) Coverage period is 1 year or less, OR (2) The liability for remaining coverage will not differ materially from the General Model!</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ Can an operator capitalize borrowing costs under the Financial Asset Model of PFRIC 12?</div>
+            <div class="flashcard-a">✨ NO! Borrowing costs are EXPENSED under the Financial Asset Model (PFRS 9). They may only be capitalized under the Intangible Asset Model (PAS 38).</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ What is the Contractual Service Margin (CSM) in PFRS 17?</div>
+            <div class="flashcard-a">✨ The unearned profit of the group of insurance contracts that the entity will recognize as it provides insurance contract services in the future.</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ What is the 1/24th method of measuring unearned premium reserves?</div>
+            <div class="flashcard-a">✨ A simplification of time apportionment for 1-year policies assuming premiums are paid semi-monthly (24 equal intervals).</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ Under PFRIC 12, who bears demand risk if the grantor guarantees a minimum shortfall?</div>
+            <div class="flashcard-a">✨ The Grantor! The operator has an unconditional right to receive cash, resulting in the Financial Asset Model (PFRS 9).</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+
+          <div class="flashcard" onclick="this.classList.toggle('revealed')">
+            <div class="flashcard-q">❓ Can reinsurance assets be offset against reinsurance liabilities under PFRS 17?</div>
+            <div class="flashcard-a">✨ NEVER! Offsetting of reinsurance assets against reinsurance liabilities is strictly prohibited.</div>
+            <div class="flashcard-hint">Click to flip 🌸</div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- End Tab 2 (tab-special-topics) -->
+
   </main>
 
   <!-- Interactive Scripts -->
   <script>
+    // Master Topic Tab Switcher
+    function switchTopicTab(tabId) {
+      // Toggle Tab Buttons
+      document.querySelectorAll('.topic-tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = tabId === 'tab-npo-gov' ? document.getElementById('tabBtn-npo-gov') : document.getElementById('tabBtn-special-topics');
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Toggle Tab Panes
+      document.querySelectorAll('.tab-content-pane').forEach(pane => pane.classList.remove('active'));
+      const activePane = document.getElementById(tabId);
+      if (activePane) activePane.classList.add('active');
+
+      // Toggle Quick Nav Links
+      const npoLinks = document.getElementById('quickLinks-npo-gov');
+      const specialLinks = document.getElementById('quickLinks-special-topics');
+      if (tabId === 'tab-npo-gov') {
+        npoLinks.style.display = 'flex';
+        specialLinks.style.display = 'none';
+      } else {
+        npoLinks.style.display = 'none';
+        specialLinks.style.display = 'flex';
+      }
+
+      // Smooth scroll back to top of container
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    // Floating / Sticky Navigation Minimize Toggle
+    function toggleStickyNav() {
+      const fullNav = document.getElementById('stickyNavInner');
+      const miniPillBar = document.getElementById('navMinimizedBar');
+
+      const isCurrentlyMinimized = fullNav.classList.contains('is-minimized');
+
+      if (isCurrentlyMinimized) {
+        // Expand
+        fullNav.classList.remove('is-minimized');
+        miniPillBar.classList.remove('is-visible');
+      } else {
+        // Minimize
+        fullNav.classList.add('is-minimized');
+        miniPillBar.classList.add('is-visible');
+      }
+    }
+
     // Accordion Toggle Function
     function toggleAccordion(headerElement) {
       const item = headerElement.parentElement;
@@ -2096,7 +2864,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Real-Time Search Filter Functionality
+    // Real-Time Search Filter Across Both Tabs
     const searchInput = document.getElementById('reviewerSearch');
     searchInput.addEventListener('input', function() {
       const filter = this.value.toLowerCase().trim();
@@ -2107,18 +2875,34 @@
         return;
       }
 
+      let matchFoundInSpecial = false;
+      let matchFoundInNPO = false;
+
       cards.forEach(card => {
         const text = card.textContent.toLowerCase();
         if (text.includes(filter)) {
           card.style.display = '';
-          // If inside accordion, auto-open when matching
           if (card.classList.contains('accordion-item')) {
             card.classList.add('open');
+          }
+          if (card.closest('#tab-special-topics')) {
+            matchFoundInSpecial = true;
+          }
+          if (card.closest('#tab-npo-gov')) {
+            matchFoundInNPO = true;
           }
         } else {
           card.style.display = 'none';
         }
       });
+
+      // Auto-switch to Tab 2 if matches only exist in Tab 2
+      const activeSpecialTab = document.getElementById('tab-special-topics').classList.contains('active');
+      if (matchFoundInSpecial && !matchFoundInNPO && !activeSpecialTab) {
+        switchTopicTab('tab-special-topics');
+      } else if (matchFoundInNPO && !matchFoundInSpecial && activeSpecialTab) {
+        switchTopicTab('tab-npo-gov');
+      }
     });
   </script>
 </body>
