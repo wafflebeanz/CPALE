@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economics - CPALE Master Reviewer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX CSS & JS for Mathematical Clarity -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        title: ['Quicksand', 'sans-serif'],
+                        mono: ['Courier New', 'monospace'],
+                    },
+                    colors: {
+                        pastel: {
+                            blush: '#ff85a2',
+                            blushLight: '#ffe5ec',
+                            lavender: '#e8dff5',
+                            lavenderDark: '#9b72cf',
+                            mint: '#daf5e7',
+                            mintDark: '#2bb673',
+                            peach: '#fde2d1',
+                            peachDark: '#f3825f',
+                            yellow: '#fef5d1',
+                            yellowDark: '#d4a017',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #fcf9f9;
+            background-image: radial-gradient(#ffe5ec 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #4a3b4c;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-title {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 8px 20px rgba(255, 133, 162, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .glass-card:hover {
+            box-shadow: 0 10px 25px rgba(255, 133, 162, 0.15);
+        }
+
+        /* Colored Borders for Cards */
+        .border-blush { border-left: 6px solid #ff85a2; }
+        .border-lavender { border-left: 6px solid #9b72cf; }
+        .border-mint { border-left: 6px solid #2bb673; }
+        .border-peach { border-left: 6px solid #f3825f; }
+        .border-yellow { border-left: 6px solid #d4a017; }
+
+        /* Custom Badges & Ribbons */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .ribbon-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 14px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Search Bar Sticky */
+        .sticky-search {
+            position: sticky;
+            top: 20px;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 999px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid #ffe5ec;
+        }
+
+        /* Tabs */
+        .tab-btn {
+            transition: all 0.3s ease;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+        }
+        .tab-btn.active {
+            background-color: #ff85a2;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 133, 162, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Accordions */
+        .accordion-btn {
+            width: 100%;
+            text-align: left;
+            padding: 16px;
+            background: #fff;
+            border: 2px solid #ffe5ec;
+            border-radius: 16px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            color: #3b283d;
+        }
+        .accordion-btn:hover {
+            background: #ffe5ec;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: #fff;
+            border-radius: 0 0 16px 16px;
+        }
+        .accordion-content.open {
+            max-height: 2000px; /* Arbitrary large number */
+            border: 2px solid #ffe5ec;
+            border-top: none;
+            padding: 16px;
+        }
+
+        /* Flashcards */
+        .flashcard-container {
+            perspective: 1000px;
+            cursor: pointer;
+            height: 200px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid #ffe5ec;
+        }
+        .flashcard-front {
+            background: linear-gradient(135deg, #ffffff, #fff5f7);
+        }
+        .flashcard-back {
+            background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Computation Blocks (Alternative to JE Boxes) */
+        .computation-box {
+            background-color: #ffffff;
+            border: 2px solid #e8dff5;
+            border-radius: 16px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            color: #3b283d;
+        }
+        .computation-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .computation-total {
+            border-top: 2px dashed #ff85a2;
+            padding-top: 8px;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #9b72cf;
+        }
+
+        /* Tables */
+        .custom-table th {
+            background-color: #fde2d1;
+            color: #f3825f;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            padding: 12px;
+            text-align: left;
+        }
+        .custom-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ffe5ec;
+        }
+        .custom-table tr:hover {
+            background-color: #fffafa;
+        }
+
+        /* Highlight Text */
+        .hl {
+            background-color: #fef5d1;
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: #d4a017;
+        }
+
+        /* Floating Back to Top */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #ff85a2;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(255, 133, 162, 0.4);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #backToTop:hover {
+            transform: translateY(-5px);
+            background: #f3825f;
+        }
+    </style>
+</head>
+<body class="pb-24">
+
+    <!-- Header -->
+    <header class="max-w-6xl mx-auto pt-12 pb-6 px-4 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-pastel-blushLight mb-4">
+            <span class="text-xl">✨</span>
+            <span class="font-title font-bold text-pastel-blush">Combined from different sources</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 tracking-tight">
+            Economics <span class="text-pastel-lavenderDark">Master Reviewer</span> 🧸
+        </h1>
+        <p class="text-lg text-gray-500 font-medium max-w-2xl mx-auto">
+            Comprehensive CPALE MS Concept Notes (Topics 3.0 - 3.2). Includes Microeconomics, Macroeconomics, Market Structures, and International Trade.
+        </p>
+    </header>
+
+    <!-- Sticky Search Bar -->
+    <div class="max-w-3xl mx-auto px-4 mb-8">
+        <div class="sticky-search flex items-center p-2">
+            <span class="pl-4 text-2xl">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search concepts, formulas, or keywords..." class="w-full bg-transparent border-none focus:ring-0 px-4 py-2 text-gray-700 font-medium font-sans outline-none">
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="max-w-6xl mx-auto px-4 mb-8">
+        <div class="flex flex-wrap justify-center gap-3 bg-white p-2 rounded-3xl shadow-sm border border-pastel-blushLight">
+            <button class="tab-btn active px-6 py-2.5 rounded-full text-gray-600 bg-gray-50 hover:bg-pastel-blushLight hover:text-pastel-blush" data-target="tab-micro">
+                🌸 Microeconomics
+            </button>
+            <button class="tab-btn px-6 py-2.5 rounded-full text-gray-600 bg-gray-50 hover:bg-pastel-lavender hover:text-pastel-lavenderDark" data-target="tab-macro">
+                🌍 Macroeconomics
+            </button>
+            <button class="tab-btn px-6 py-2.5 rounded-full text-gray-600 bg-gray-50 hover:bg-pastel-peach hover:text-pastel-peachDark" data-target="tab-policy">
+                ✈️ Policy & Global Trade
+            </button>
+            <button class="tab-btn px-6 py-2.5 rounded-full text-gray-600 bg-gray-50 hover:bg-pastel-yellow hover:text-pastel-yellowDark" data-target="tab-flashcards">
+                💡 CPALE Drills
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4" id="content-container">
+
+        <!-- ========================================== -->
+        <!-- TAB 1: MICROECONOMICS                      -->
+        <!-- ========================================== -->
+        <section id="tab-micro" class="tab-content block">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Economics Basics -->
+                <div class="glass-card border-blush p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-blushLight text-pastel-blush">🌸 Fundamentals</div>
+                    <h2 class="text-2xl font-bold mb-3">Economics & Scarcity</h2>
+                    <p class="mb-2"><strong>Economics:</strong> Efficient allocation of scarce resources. Choices are necessary due to scarcity (unlimited wants but only limited available resources).</p>
+                    <p class="mb-2"><strong>Microeconomics:</strong> Deals with economic behavior of individual units or specific segment of the whole economy. Study of how individual choices are influenced by economic force.</p>
+                    <hr class="my-4 border-pastel-blushLight">
+                    <h3 class="font-bold text-lg mb-2">Kinds of Valuable Economic Goods</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Consumer Goods:</strong> Direct satisfaction of consumers. No need for further processing.</li>
+                        <li><strong>Capital Goods:</strong> Indirect satisfaction. Machine and equipment needed to produce consumer goods.</li>
+                        <li><strong>Essential Goods:</strong> Needed for survival (Food, clothing, shelter).</li>
+                        <li><strong>Luxury Goods:</strong> Non-essential items that improve lifestyle.</li>
+                        <li><strong>Economic Goods:</strong> Anything valuable (we're willing to pay for it). Opposite of <em>free (public) goods</em> which are not paid for and provided by the government (e.g., air, sea water).</li>
+                    </ul>
+                </div>
+
+                <!-- Factors of Production -->
+                <div class="glass-card border-peach p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-peach text-pastel-peachDark">🧸 Resources</div>
+                    <h2 class="text-2xl font-bold mb-3">Factors of Production</h2>
+                    <p class="mb-4 text-sm text-gray-600">Scarce resources needed to produce goods and services.</p>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white rounded-xl border border-pastel-peach">
+                            <span class="font-bold text-pastel-peachDark">A. Land:</span> Natural resources (Land, water, mineral). <br><span class="hl bg-orange-100 text-orange-700">Income: Rent</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-pastel-peach">
+                            <span class="font-bold text-pastel-peachDark">B. Labor:</span> Human resources (Skills, knowledge, abilities). <br><span class="hl bg-orange-100 text-orange-700">Income: Salaries</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-pastel-peach">
+                            <span class="font-bold text-pastel-peachDark">C. Capital:</span> Financial (savings) and man-made (equipment) resources. <br><span class="hl bg-orange-100 text-orange-700">Income: Interest</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-pastel-peach">
+                            <span class="font-bold text-pastel-peachDark">D. Entrepreneurship:</span> Human resource that organizes land, labor, and capital. <br><span class="hl bg-orange-100 text-orange-700">Income: Profit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theory of Demand & Supply -->
+            <div class="glass-card border-lavender p-6 mb-8 searchable-item">
+                <div class="ribbon-tag bg-pastel-lavender text-pastel-lavenderDark">📉 Market Mechanics</div>
+                <h2 class="text-2xl font-bold mb-4">Theory of Demand and Supply</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                    <div>
+                        <h3 class="font-bold text-xl text-pastel-lavenderDark mb-2">Demand</h3>
+                        <p class="mb-2 text-sm">Quantity of commodities which buyers are willing and able to purchase at a given price, time, and place.</p>
+                        <div class="bg-pastel-lavenderLight p-3 rounded-xl border border-pastel-lavender mb-3">
+                            <strong>LAW OF DEMAND:</strong> Higher Price = Lower Quantity Demanded (Ceteris Paribus). Inverse relationship. Downward sloping curve.
+                        </div>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li><strong>Substitution Effect:</strong> Buyers look for cheaper alternatives.</li>
+                            <li><strong>Income Effect:</strong> Less buyers will afford such price.</li>
+                            <li><strong>Curve Shift:</strong> Changes due to factors <em>other than</em> product's own price (Right = Increase, Left = Decrease).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl text-pastel-lavenderDark mb-2">Supply</h3>
+                        <p class="mb-2 text-sm">Quantity of commodities which producers are willing and able to produce and offer at a given price, place, and time.</p>
+                        <div class="bg-pastel-lavenderLight p-3 rounded-xl border border-pastel-lavender mb-3">
+                            <strong>LAW OF SUPPLY:</strong> Higher Price = Higher Quantity Supplied. Direct relationship. Upward sloping curve.
+                        </div>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li>Suppliers want to take advantage of higher prices for profit.</li>
+                            <li><strong>Curve Shift:</strong> Changes due to factors <em>other than</em> product's own price (Right = Increase, Left = Decrease).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="font-bold text-lg mb-3">Determining Factors' Effect to Demand and Supply</h3>
+                <div class="overflow-x-auto rounded-xl border border-pastel-lavender">
+                    <table class="w-full text-sm custom-table bg-white">
+                        <thead>
+                            <tr class="bg-pastel-lavender text-pastel-lavenderDark">
+                                <th>Determining Factor</th>
+                                <th>Change</th>
+                                <th>Effect to Demand</th>
+                                <th>Effect to Supply</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold">Own Price</td>
+                                <td>Increase / Decrease</td>
+                                <td><span class="text-red-500">DECREASE</span> / <span class="text-green-500">INCREASE</span> (Inverse)</td>
+                                <td><span class="text-green-500">INCREASE</span> / <span class="text-red-500">DECREASE</span> (Direct)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Substitute Product's Price</td>
+                                <td>Increase / Decrease</td>
+                                <td><span class="text-green-500">INCREASE</span> / <span class="text-red-500">DECREASE</span> (Direct)</td>
+                                <td><span class="text-red-500">DECREASE</span> / <span class="text-green-500">INCREASE</span> (Inverse)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Complementary Product's Price</td>
+                                <td>Increase / Decrease</td>
+                                <td><span class="text-red-500">DECREASE</span> / <span class="text-green-500">INCREASE</span> (Inverse)</td>
+                                <td><span class="text-green-500">INCREASE</span> / <span class="text-red-500">DECREASE</span> (Direct)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Future Price Expectation</td>
+                                <td>Increase / Decrease</td>
+                                <td><span class="text-green-500">INCREASE</span> / <span class="text-red-500">DECREASE</span> (Direct)</td>
+                                <td><span class="text-red-500">DECREASE</span> / <span class="text-green-500">INCREASE</span> (Inverse)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Population / No. of Producers</td>
+                                <td>Increase / Decrease</td>
+                                <td><span class="text-green-500">INCREASE</span> / <span class="text-red-500">DECREASE</span> (Direct)</td>
+                                <td><span class="text-green-500">INCREASE</span> / <span class="text-red-500">DECREASE</span> (Direct)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Income</td>
+                                <td>Increase / Decrease</td>
+                                <td>
+                                    Normal Good: <span class="text-green-500">INC</span> / <span class="text-red-500">DEC</span><br>
+                                    Inferior Good: <span class="text-red-500">DEC</span> / <span class="text-green-500">INC</span>
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Production Costs / Taxes</td>
+                                <td>Increase / Decrease</td>
+                                <td>-</td>
+                                <td><span class="text-red-500">DECREASE</span> / <span class="text-green-500">INCREASE</span> (Inverse)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Govt Subsidies / Tech Adv.</td>
+                                <td>Increase (Modern)</td>
+                                <td>-</td>
+                                <td><span class="text-green-500">INCREASE</span> (Direct)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Market Equilibrium & Elasticity -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                
+                <div class="glass-card border-mint p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-mint text-pastel-mintDark">⚖️️ Equilibrium</div>
+                    <h2 class="text-2xl font-bold mb-3">Market Equilibrium</h2>
+                    <p class="text-sm mb-4">State of supply and demand balance. <strong>Equilibrium Price (Market-clearing price):</strong> Quantity demanded equals quantity supplied.</p>
+                    
+                    <ul class="list-disc pl-5 space-y-2 text-sm mb-4">
+                        <li><strong>Disequilibrium:</strong> S and D do not meet.</li>
+                        <li><strong>Stable Equilibrium:</strong> System returns after small disturbance (e.g., Jeep Fare & Gasoline).</li>
+                        <li><strong>Unstable Equilibrium:</strong> System moves away after disturbance.</li>
+                        <li><strong>Walrasian Equilibrium:</strong> Changes in <em>prices</em> maintain stable equilibrium (e.g., Coke at 1.5L bottles).</li>
+                        <li><strong>Marshallian Equilibrium:</strong> Changes in <em>quantity</em> maintain stable equilibrium (e.g., Pandesal at 2 pesos, but size varies).</li>
+                        <li><strong>Surplus:</strong> Excess supply ($S > D$). Reaches price floor -> price decreases.</li>
+                        <li><strong>Shortage:</strong> Excess demand ($D > S$). Reaches price ceiling -> price increases.</li>
+                    </ul>
+
+                    <div class="bg-white p-3 rounded-xl border border-pastel-mint mt-2">
+                        <h4 class="font-bold text-pastel-mintDark mb-1">Surplus Formulas</h4>
+                        <p><strong>Consumer Surplus:</strong> Willingness to Pay Price - Market Price</p>
+                        <p class="text-center my-2 text-lg">$$ \frac{1}{2} \times Q_{Eq} \times (\text{Max Price} - \text{Eq Price}) $$</p>
+                        <p><strong>Production Surplus:</strong> Market Selling Price - Economic Cost</p>
+                        <p><strong>Total Surplus:</strong> Consumer Surplus + Production Surplus</p>
+                    </div>
+
+                    <button class="accordion-btn mt-3 !border-pastel-mint">
+                        <span>📝 Practice: Consumer Surplus</span>
+                        <span>▼</span>
+                    </button>
+                    <div class="accordion-content border-pastel-mint">
+                        <p class="text-sm italic mb-2">Consumers are willing to pay for a glass of milk tea for 120 pesos but found that it has a market value of only 110 pesos. Total equilibrium quantity is 600,000 units and supply is 700,000 units. How much is consumer surplus?</p>
+                        <div class="computation-box text-sm">
+                            <div class="computation-line"><span>Formula:</span><span>1/2 × Q(eq) × (Max - Eq Price)</span></div>
+                            <div class="computation-line"><span>Plug in:</span><span>1/2 × 600,000 × (120 - 110)</span></div>
+                            <div class="computation-total"><span>Consumer Surplus:</span><span>₱3,000,000</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card border-yellow p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-yellow text-pastel-yellowDark">📈 Elasticity</div>
+                    <h2 class="text-2xl font-bold mb-3">Demand Elasticities</h2>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-bold">Price Elasticity of Demand ($E_D$)</h4>
+                        <p class="text-center my-1">$$ E_D = \frac{\% \Delta \text{ Quantity Demanded}}{\% \Delta \text{ Price}} $$</p>
+                        <ul class="text-sm list-disc pl-5">
+                            <li>$E_D > 1$: <strong>Elastic</strong> (Reacts MORE. TR moves opposite to Price. Luxuries).</li>
+                            <li>$E_D < 1$: <strong>Inelastic</strong> (Reacts LESS. TR moves directly with Price. Necessities).</li>
+                            <li>$E_D = 1$: <strong>Unitary</strong> (Proportionate. No TR effect).</li>
+                            <li>$E_D = 0$: <strong>Perfectly Inelastic</strong> (NO reaction).</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-bold">Income Elasticity</h4>
+                        <p class="text-center my-1">$$ E_I = \frac{\% \Delta \text{ Quantity Demanded}}{\% \Delta \text{ Consumer Income}} $$</p>
+                        <p class="text-sm">Positive = Normal Good, Negative = Inferior Good, $E_I > 1$ = Luxury.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-bold">Cross-Elasticity</h4>
+                        <p class="text-center my-1">$$ E_C = \frac{\% \Delta \text{ Qty Demanded (Product X)}}{\% \Delta \text{ Price (Product Y)}} $$</p>
+                        <p class="text-sm">$E_C > 0$ = Substitute, $E_C < 0$ = Complement, $E_C = 0$ = Unrelated.</p>
+                    </div>
+
+                    <button class="accordion-btn !border-pastel-yellow">
+                        <span>📝 Practice: Income Elasticity</span>
+                        <span>▼</span>
+                    </button>
+                    <div class="accordion-content border-pastel-yellow">
+                        <p class="text-sm italic mb-2">A local car dealership gathered data. Real income falls from 5M to 4M, demand plummets from 10,000 to 5,000 units sold. Compute $E_D$.</p>
+                        <div class="computation-box text-xs">
+                            <div class="computation-line"><span>% Δ Qty:</span><span>(10k - 5k) / 10k = 0.50</span></div>
+                            <div class="computation-line"><span>% Δ Income:</span><span>(5M - 4M) / 5M = 0.20</span></div>
+                            <div class="computation-total"><span>E_D (Income):</span><span>0.50 / 0.20 = 2.50</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Production Costs & Market Structures -->
+            <div class="glass-card border-blush p-6 mb-8 searchable-item">
+                <div class="ribbon-tag bg-pastel-blushLight text-pastel-blush">🏭 Firms & Production</div>
+                <h2 class="text-2xl font-bold mb-4">Production Costs & Market Structures</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-xl border border-pastel-blushLight shadow-sm">
+                        <h4 class="font-bold text-pastel-blush mb-2">Costs & Returns</h4>
+                        <ul class="text-sm list-disc pl-4 space-y-1">
+                            <li><strong>Law of Diminishing Returns:</strong> Adding an additional factor of production results in smaller increases in output (MC decreases then increases).</li>
+                            <li><strong>Short-run Cost:</strong> At least one input FIXED (e.g., Materials).</li>
+                            <li><strong>Long-run Cost:</strong> All are variable (e.g., Fixed Asset acquired).</li>
+                            <li><strong>Economies of Scale:</strong> Decline in ATC as firm expands (specialization).</li>
+                            <li><strong>Diseconomies of Scale:</strong> ATC rises as firm expands (inefficient coordination).</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-pastel-blushLight shadow-sm">
+                        <h4 class="font-bold text-pastel-blush mb-2">Profits</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><strong>Accounting Profit:</strong> Total Revenue - Explicit Costs (actual expenses/sunk).</li>
+                            <li><strong>Economic Profit:</strong> Total Revenue - Explicit - Implicit Costs (opportunity costs).</li>
+                            <li><strong>Normal Profit:</strong> Economic Profit is ZERO (Economic Breakeven). Average industry return.</li>
+                        </ul>
+                        <button class="accordion-btn mt-2 !py-2 !px-3 text-xs !border-pastel-blushLight"><span>Practice ▼</span></button>
+                        <div class="accordion-content border-pastel-blushLight text-xs mt-1">
+                            Implicit: 200k, Explicit: 1M. Sold 4,000 units at 300. <br>
+                            Acctg = (4k * 300) - 1M = <strong>200,000</strong> <br>
+                            Econ = (4k * 300) - 1M - 200k = <strong>0</strong>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-pastel-blushLight shadow-sm">
+                        <h4 class="font-bold text-pastel-blush mb-2">Decision-Making</h4>
+                        <ul class="text-sm space-y-1">
+                            <li><strong>Short-run:</strong> Operate if $TR > TVC$. Shutdown if $TR < TVC$.</li>
+                            <li><strong>Marginal Approach:</strong> Maximize profit where $MR = MC$.</li>
+                            <li>If $MR > MC$, Increase Production.</li>
+                            <li>If $MR < MC$, Decrease Production.</li>
+                            <li><strong>Minimum Profit formula:</strong> $(MR-MC) \times Q - TFC$</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-pastel-blushLight mt-4">
+                    <table class="w-full text-sm custom-table bg-white">
+                        <thead>
+                            <tr class="bg-pastel-blushLight text-pastel-blush">
+                                <th>Structure</th>
+                                <th>Sellers / Buyers</th>
+                                <th>Product</th>
+                                <th>Price Control</th>
+                                <th>Entry Barriers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold">Perfect Competition</td>
+                                <td>Large / Large</td>
+                                <td>Homogenous (Identical)</td>
+                                <td>None (Price Taker)</td>
+                                <td>Negligible</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Monopolistic Competition</td>
+                                <td>Many / Many</td>
+                                <td>Similar, with differentiation</td>
+                                <td>Limited</td>
+                                <td>Low</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Oligopoly</td>
+                                <td>Few / Many</td>
+                                <td>Standardized w/ differentiation</td>
+                                <td>Limited to Wide</td>
+                                <td>Strong</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Monopoly</td>
+                                <td>Single / Many</td>
+                                <td>Unique (No close substitutes)</td>
+                                <td>Wide (Price setter)</td>
+                                <td>Blocked</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-500 mt-2"><strong>Monopsony:</strong> ONE BUYER for all sellers. <strong>Black Market:</strong> Illegal market at high prices.</p>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: MACROECONOMICS                      -->
+        <!-- ========================================== -->
+        <section id="tab-macro" class="tab-content hidden">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- GDP & GNP -->
+                <div class="glass-card border-mint p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-mint text-pastel-mintDark">📊 National Income</div>
+                    <h2 class="text-2xl font-bold mb-3">GDP & GNP</h2>
+                    <p class="text-sm mb-2"><strong>Economic Growth:</strong> Self-sustaining reasonable level. <strong>Development:</strong> Improving quality of life.</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-bold text-pastel-mintDark">Gross Domestic Product (GDP)</h4>
+                        <p class="text-sm mb-1">Total value of goods/services produced WITHIN a country (Gawa Dito Pinas). Excludes OFW income, intermediate goods, illegal activities.</p>
+                        <p class="text-sm"><strong>Expenditure Approach:</strong> $$ GDP = C + I + G + NX $$</p>
+                        <ul class="text-xs list-disc pl-5 mt-1">
+                            <li>C: Household, I: Business, G: Govt, NX: Net Exports.</li>
+                        </ul>
+                        <div class="bg-gray-50 p-2 mt-2 rounded-lg text-sm font-mono border">
+                            Real GDP = Nominal GDP adjusted for inflation (constant prices)<br>
+                            GDP Deflator = (Nominal GDP / Real GDP) * 100
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-bold text-pastel-mintDark">Gross National Product (GNP)</h4>
+                        <p class="text-sm mb-1">Value of goods/services produced by a country's citizens globally (Gawa Ng Pinoy). Includes OFW remittances, excludes foreigners in PH.</p>
+                        <div class="computation-box text-xs mt-2">
+                            <div class="computation-line"><span>Gross National Product</span><span>XX</span></div>
+                            <div class="computation-line text-red-500"><span>Less: Depreciation</span><span>(XX)</span></div>
+                            <div class="computation-total"><span>Net National Product</span><span>XX</span></div>
+                            <div class="computation-line text-red-500"><span>Less: Indirect Business Taxes</span><span>(XX)</span></div>
+                            <div class="computation-total"><span>National Income</span><span>XX</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multiplier & Business Cycle -->
+                <div class="glass-card border-lavender p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-lavender text-pastel-lavenderDark">🔄 Cycles & Multipliers</div>
+                    <h2 class="text-2xl font-bold mb-3">The Multiplier & Business Cycle</h2>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-bold text-pastel-lavenderDark">The Multiplier</h4>
+                        <p class="text-sm mb-1">Magnified expected increase in income per peso of investment.</p>
+                        <p class="text-center my-2">$$ \text{Multiplier} = \frac{1}{1 - \text{MPC}} = \frac{1}{\text{MPS}} $$</p>
+                        <button class="accordion-btn !py-2 !text-sm !border-pastel-lavender">
+                            <span>📝 Practice: Multiplier Computations ▼</span>
+                        </button>
+                        <div class="accordion-content border-pastel-lavender text-sm">
+                            <p class="mb-2 italic">1. Decline in spending 30B. MPC 75%. Expected GDP decline?</p>
+                            <p class="font-mono bg-gray-50 p-2 rounded">Multiplier = 1 / (1 - 0.75) = 4<br>GDP Decline = 30B * 4 = 120 Billion</p>
+                            <p class="mt-3 mb-2 italic">2. 0.5 MPS. Shift AD rightwards by 80B. Govt spending increase needed?</p>
+                            <p class="font-mono bg-gray-50 p-2 rounded">Multiplier = 1 / 0.5 = 2<br>80B = Govt * 2 -> Govt = 40 Billion</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-pastel-lavenderDark">Business Cycle</h4>
+                        <ul class="text-sm space-y-2 list-disc pl-5">
+                            <li><strong>Peak:</strong> Highest point, marks end of expansion.</li>
+                            <li><strong>Recession:</strong> From peak to trough. Falling GDP for 2 successive quarters (6 mos).</li>
+                            <li><strong>Trough:</strong> Lowest point, marks end of recession.</li>
+                            <li><strong>Expansion (Recovery):</strong> Trough to peak. Rising GDP.</li>
+                            <li><strong>Depression:</strong> Prolonged, severe recession.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inflation & Unemployment -->
+            <div class="glass-card border-peach p-6 mb-8 searchable-item">
+                <div class="ribbon-tag bg-pastel-peach text-pastel-peachDark">🔥 Economic Issues</div>
+                <h2 class="text-2xl font-bold mb-4">Inflation & Unemployment</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-lg mb-2 text-pastel-peachDark">Inflation</h4>
+                        <p class="text-sm mb-2">Sustained increase in prices. Weakening of purchasing power.</p>
+                        <ul class="text-sm list-disc pl-5 space-y-1 mb-3">
+                            <li><strong>Demand-Pull:</strong> Excessive AD (Too many people want to buy).</li>
+                            <li><strong>Cost-Push:</strong> Increased production cost (Supply side).</li>
+                            <li><strong>Stagflation:</strong> High inflation + High unemployment + Stagnant growth.</li>
+                            <li><strong>Rule of 70:</strong> $ \text{Doubling Time} = \frac{70 \text{ years}}{\text{Growth Rate (\%)}}$</li>
+                        </ul>
+                        <div class="bg-white p-3 rounded-xl border border-pastel-peach shadow-sm">
+                            <p class="text-xs font-bold mb-1">Measures of Inflation:</p>
+                            <p class="text-xs mb-1"><strong>CPI:</strong> Consumers. <strong>PPI:</strong> Producers. <strong>WPI:</strong> Wholesale.</p>
+                            <p class="text-center text-xs my-2">$$ \text{Inflation (\%)} = \frac{\text{CY CPI} - \text{Base Year CPI}}{\text{Base Year CPI}} \times 100 $$</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-lg mb-2 text-pastel-peachDark">Unemployment</h4>
+                        <p class="text-sm mb-2">Inversely related to inflation (Phillips Curve) and Real GDP.</p>
+                        <ul class="text-sm list-disc pl-5 space-y-1 mb-3">
+                            <li><strong>Frictional:</strong> Entering workforce, between jobs.</li>
+                            <li><strong>Structural:</strong> Skill/demand mismatch, tech replacement (AI).</li>
+                            <li><strong>Seasonal:</strong> Predictable (farmers in winter).</li>
+                            <li><strong>Cyclical:</strong> Economic downturns/recessions.</li>
+                        </ul>
+                        <div class="bg-white p-3 rounded-xl border border-pastel-peach shadow-sm text-xs">
+                            <p class="mb-1"><strong>Natural Unemployment Rate (NUR):</strong></p>
+                            <p class="font-mono mb-2">= Frictional + Structural</p>
+                            <p class="font-mono mb-2">= JSR / (JSR + JFR)</p>
+                            <p><strong>Okun's Law:</strong> 1% drop in employment = 2% drop in potential GDP.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="accordion-btn mt-4 !border-pastel-peach">
+                    <span>📝 Practice: Economic Issues Walkthroughs ▼</span>
+                </button>
+                <div class="accordion-content border-pastel-peach">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <strong>1. Underemployment Rate</strong><br>
+                            Formula: Underemployed / Total Employed<br>
+                            = 7M / (25M Full + 7M Part + 15M Business)<br>
+                            = 7M / 47M = <strong>14.89%</strong>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <strong>2. Job Separation Rate (JSR)</strong><br>
+                            Given NUR = 5%, JFR = 19%<br>
+                            0.05 = JSR / (JSR + 0.19)<br>
+                            0.05 JSR + 0.0095 = JSR<br>
+                            0.95 JSR = 0.0095 -> <strong>JSR = 1%</strong>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <strong>3. Rule of 70</strong><br>
+                            Price doubled between 2005 and 2025 (20 yrs).<br>
+                            20 yrs = 70 yrs / Growth Rate<br>
+                            Growth Rate = 70 / 20 = <strong>3.5%</strong>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <strong>4. Okun's Law Effect</strong><br>
+                            5% increase in unemployment rate.<br>
+                            5 * 2% = <strong>10% drop in Potential GDP</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: POLICY & GLOBAL TRADE               -->
+        <!-- ========================================== -->
+        <section id="tab-policy" class="tab-content hidden">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Fiscal & Monetary Policy -->
+                <div class="glass-card border-yellow p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-yellow text-pastel-yellowDark">🏛️ Macro Policies</div>
+                    <h2 class="text-2xl font-bold mb-3">Fiscal & Monetary Policy</h2>
+                    
+                    <div class="space-y-4 mb-4">
+                        <div class="p-3 bg-white rounded-xl border border-pastel-yellow shadow-sm">
+                            <h4 class="font-bold text-pastel-yellowDark">Fiscal Policy</h4>
+                            <p class="text-sm">Govt adjusts spending levels and tax rates. Goal: Economic Growth. Supervised by President (short-term, political).</p>
+                            <ul class="text-xs list-disc pl-4 mt-2">
+                                <li><strong>Expansion:</strong> Increase deficit (Increase spending, decrease tax).</li>
+                                <li><strong>Contraction:</strong> Decrease deficit (Increase tax, decrease spending).</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="p-3 bg-white rounded-xl border border-pastel-yellow shadow-sm">
+                            <h4 class="font-bold text-pastel-yellowDark">Monetary Policy</h4>
+                            <p class="text-sm">Central bank (BSP) influences money supply and interest rates. Goal: Stability. (Long-term, non-political).</p>
+                            <ul class="text-xs list-disc pl-4 mt-2">
+                                <li><strong>Loose (Expansionary):</strong> Lower interest rates, increase money supply. Fights recession. Floods market with peso.</li>
+                                <li><strong>Tight (Contractionary):</strong> Higher interest rates, decrease money supply. Fights inflation. Reduces production.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold text-sm mb-2">Economic Theories</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1">
+                        <li><strong>Classical:</strong> Market equilibrium fixes itself (no govt intervention).</li>
+                        <li><strong>Keynesian:</strong> Focuses on Fiscal Policy.</li>
+                        <li><strong>Monetary:</strong> Focuses on Monetary Policy.</li>
+                        <li><strong>Neo-Keynesian:</strong> Combined Fiscal and Monetary.</li>
+                        <li><strong>Supply-Side:</strong> Increasing ability to supply goods stimulates growth.</li>
+                    </ul>
+                </div>
+
+                <!-- International Trade & Forex -->
+                <div class="glass-card border-mint p-6 searchable-item">
+                    <div class="ribbon-tag bg-pastel-mint text-pastel-mintDark">🌐 Global Trade</div>
+                    <h2 class="text-2xl font-bold mb-3">Trade & Foreign Exchange</h2>
+                    
+                    <h4 class="font-bold text-pastel-mintDark mb-2">Foreign Currency</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1 mb-4">
+                        <li><strong>Direct Quote:</strong> Domestic per 1 Foreign (e.g., P50 for $1).</li>
+                        <li><strong>Indirect Quote:</strong> Foreign per 1 Domestic (e.g., $0.02 for P1). Lower rate = weak domestic currency.</li>
+                        <li><strong>Spot Rate:</strong> Immediate delivery.</li>
+                        <li><strong>Forward Rate:</strong> Future exchange.</li>
+                        <li><strong>Cross-Currency:</strong> Neither is USD (e.g., CAD/JPY).</li>
+                        <li><strong>Appreciation:</strong> Stronger currency, cheaper imports, bad for domestic producers.</li>
+                        <li><strong>Depreciation:</strong> Weaker currency, cheaper domestic goods, good for exports/employment.</li>
+                    </ul>
+
+                    <h4 class="font-bold text-pastel-mintDark mb-2">International Trade</h4>
+                    <ul class="text-sm list-disc pl-5 space-y-1 mb-4">
+                        <li><strong>Comparative Advantage:</strong> Lower opportunity cost.</li>
+                        <li><strong>Absolute Advantage:</strong> Greater volume/efficiency.</li>
+                        <li><strong>Free Trade vs Protectionism:</strong> Laissez-faire vs Tariffs/Quotas/Subsidies to protect local markets.</li>
+                        <li><strong>Financing Trade:</strong> Banker's Acceptance (guaranteed), Countertrade (Barter, Counter Purchase, Offset), Forfaiting, Factoring.</li>
+                    </ul>
+                    
+                    <div class="bg-gray-50 p-3 rounded border border-gray-200 text-sm">
+                        <strong>Free Rider Problem:</strong> Burden on shared resource by those who don't pay. <br>
+                        <em>Mitigation:</em> Govt tax, privatizing the resource, or imposing a small user fee.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: FLASHCARDS (CPALE DRILLS)           -->
+        <!-- ========================================== -->
+        <section id="tab-flashcards" class="tab-content hidden">
+            <div class="mb-6 text-center">
+                <h2 class="text-3xl font-bold text-pastel-blush mb-2">CPALE High-Yield Drills 💡</h2>
+                <p class="text-gray-600">Click on any card to reveal the answer.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- 18 Flashcards -->
+                <!-- Card 1 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is the formula for Price Elasticity of Demand ($E_D$)?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold">$$ E_D = \frac{\% \Delta \text{Q}}{\% \Delta \text{P}} $$</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What happens to Total Revenue when price increases for an INELASTIC product?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold">Total Revenue INCREASES.</p>
+                            <p class="text-sm mt-2">(TR moves directly with price changes for inelastic goods).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">Difference between Economic Profit and Accounting Profit?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Economic Profit subtracts BOTH explicit and IMPLICIT (opportunity) costs from revenues.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is the formula for the GDP Multiplier?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-lg">$$ \frac{1}{\text{MPS}} \text{ or } \frac{1}{1 - \text{MPC}} $$</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">According to Okun's Law, a 1% drop in employment leads to...</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-lg">A 2% drop in Potential GDP.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">Formula for Natural Unemployment Rate (NUR) using Job Rates?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-lg">$$ \text{NUR} = \frac{\text{JSR}}{\text{JSR} + \text{JFR}} $$</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 7 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What represents the difference between Nominal GDP and Real GDP?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold">Inflation.</p>
+                            <p class="text-sm mt-2">Real GDP is adjusted for inflation (valued at constant prices).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 8 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">In the short run, when should a firm decide to SHUT DOWN?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-lg">If $TR < TVC$</p>
+                            <p class="text-sm mt-2">(Total Revenue is less than Total Variable Cost)</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 9 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is Stagflation?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">A combination of high inflation, high unemployment, and slow to no economic growth.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 10 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is the income for Entrepreneurship?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-xl">Profit.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 11 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">Walrasian vs Marshallian Equilibrium?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Walrasian: Changes in PRICES maintain stability (Coke at 1.5L).<br><br>Marshallian: Changes in QUANTITY maintain stability (Pandesal at 2 pesos).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 12 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is an Indirect Quote in Forex?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Expresses prices of domestic currency in terms of a foreign currency (e.g., $0.02 for P1).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 13 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">Monetary policy tools for a RECESSION (Expansionary)?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Lower interest rates and increase money supply (Loose policy).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 14 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is Frictional Unemployment?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Workers temporarily between jobs or just entering the workforce (e.g., new college graduates).</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 15 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What is the "Rule of 70"?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">70 divided by the inflation growth rate gives the number of years required for prices to double.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 16 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">Cross-Elasticity: What does $E_C < 0$ mean?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-lg">It is a COMPLEMENT good.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 17 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">Comparative vs Absolute Advantage?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Comparative: Lower opportunity cost.<br><br>Absolute: Produce more volume/efficiency.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 18 -->
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="text-3xl mb-2">❓</span>
+                            <p class="font-bold">What happens when the Demand Curve shifts to the Left?</p>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <p class="font-bold text-sm">Accompanied by both a DECREASE in Equilibrium Price and Quantity.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Floating Back to Top Button -->
+    <button id="backToTop" title="Go to top">↑</button>
+
+    <!-- Interactive Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render KaTeX Formulas
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+
+            // Tab Navigation Logic
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active from all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.classList.add('bg-gray-50', 'text-gray-600');
+                        // Reset hover classes to original states based on index if needed, 
+                        // but Tailwind handles hover gracefully when active is removed.
+                    });
+                    
+                    // Add active to clicked
+                    tab.classList.add('active');
+                    tab.classList.remove('bg-gray-50', 'text-gray-600');
+
+                    // Hide all contents
+                    contents.forEach(c => {
+                        c.classList.add('hidden');
+                        c.classList.remove('block');
+                    });
+
+                    // Show target content
+                    const targetId = tab.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    targetContent.classList.remove('hidden');
+                    targetContent.classList.add('block');
+                });
+            });
+
+            // Accordion Logic
+            const accordions = document.querySelectorAll('.accordion-btn');
+            accordions.forEach(acc => {
+                acc.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('span:last-child');
+                    
+                    if (content.classList.contains('open')) {
+                        content.classList.remove('open');
+                        icon.textContent = '▼';
+                    } else {
+                        content.classList.add('open');
+                        icon.textContent = '▲';
+                    }
+                });
+            });
+
+            // Real-Time Search Logic
+            const searchInput = document.getElementById('searchInput');
+            const searchItems = document.querySelectorAll('.searchable-item');
+
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+
+                // If searching in flashcards, we don't hide the cards, but we can search standard text
+                searchItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(term)) {
+                        item.style.display = 'block';
+                        
+                        // Auto-open accordion if matched inside
+                        const accordionsInItem = item.querySelectorAll('.accordion-content');
+                        accordionsInItem.forEach(acc => {
+                            if (acc.textContent.toLowerCase().includes(term) && term.length > 2) {
+                                acc.classList.add('open');
+                                acc.previousElementSibling.querySelector('span:last-child').textContent = '▲';
+                            }
+                        });
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // Back to Top Button Logic
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
