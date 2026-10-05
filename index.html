@@ -31,6 +31,7 @@
             }
         }
     </script>
+    
     <style>
         /* Add a subtle floating animation for decorative elements */
         @keyframes float {
@@ -50,24 +51,25 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* Reusable styles for the quiz links */
+        /* Reusable styles for the quiz links - updated for 2-column grid layout */
         .quiz-link {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            align-items: flex-start;
             width: 100%;
+            height: 100%;
             padding: 12px;
             background-color: white;
             color: #4a5568;
-            font-size: 0.825rem;
+            font-size: 0.875rem;
             font-weight: 600;
             border-radius: 12px;
             border: 1px solid #f3e8ff;
             transition: all 0.2s ease-in-out;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             text-decoration: none;
-            height: 100%;
-            min-height: 90px;
+            gap: 12px;
         }
         .quiz-link:hover {
             background-color: #ffd6e0;
@@ -77,19 +79,39 @@
             transform: translateY(-2px);
         }
         
-        /* Pill Tag Styles */
-        .pill-tag {
-            font-size: 0.65rem;
-            padding: 3px 8px;
+        .quiz-link-title {
+            line-height: 1.25;
+            word-break: break-word;
+        }
+
+        /* Container for tags strictly aligned to the right */
+        .tags-container {
+            display: flex;
+            align-self: flex-end;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        /* Styles for the inner pill tags */
+        .tag-pill {
+            font-size: 0.6rem;
+            padding: 4px 8px;
             border-radius: 9999px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            white-space: nowrap;
         }
-        .tag-quiz { background-color: #ffedd5; color: #ea580c; }
-        .tag-rev { background-color: #cffafe; color: #0891b2; }
-        .tag-resa { background-color: #f3e8ff; color: #9333ea; }
-        .tag-hard { background-color: #fee2e2; color: #dc2626; }
+        
+        /* Subject/Type specific tag colors */
+        .tag-quiz { background-color: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; } /* Pastel Indigo */
+        .tag-reviewer { background-color: #fef08a; color: #a16207; border: 1px solid #fde047; } /* Pastel Yellow */
+        .tag-tax { background-color: #d1fae5; color: #047857; border: 1px solid #a7f3d0; } /* Pastel Emerald */
+        .tag-tax-hard { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; } /* Pastel Red */
+
     </style>
 </head>
 
@@ -99,7 +121,7 @@
     <div class="fixed top-10 left-10 w-32 h-32 bg-pastel-yellow rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float pointer-events-none" style="animation-delay: 0s;"></div>
     <div class="fixed bottom-10 right-10 w-40 h-40 bg-pastel-blue rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float pointer-events-none" style="animation-delay: 2s;"></div>
 
-    <!-- Main Container -->
+    <!-- Main Container Expanded for Grid Layout -->
     <main class="glass-card w-full max-w-5xl rounded-3xl shadow-2xl p-6 sm:p-12 relative z-10">
         
         <!-- Header Section -->
@@ -108,135 +130,156 @@
                 <span class="text-4xl">🌸</span>
             </div>
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Welcome</h1>
-            <p class="text-gray-600 font-medium">Select a document or quiz below</p>
+            <p class="text-gray-600 font-medium">Select a document below to view</p>
         </div>
 
-        <!-- Dynamic Responsive Grid (1 col mobile, 2 col tablet, 3 col desktop) -->
+        <!-- Main Featured Document -->
+        <div class="mb-12 max-w-2xl mx-auto">
+            <a href="pfrs_comparison_guide.html" 
+               class="group relative w-full flex items-center justify-center p-5 bg-white rounded-2xl shadow-sm border border-pink-100 hover:shadow-md hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden text-decoration-none">
+                
+                <div class="absolute inset-0 bg-gradient-to-r from-pastel-pink to-pastel-rose opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                
+                <div class="flex flex-col items-center relative z-10">
+                    <span class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">📊</span>
+                    <span class="text-sm sm:text-base font-semibold text-gray-800 text-center leading-snug">
+                        Comprehensive Comparison: <br/> 
+                        <span class="text-pink-600">Full PFRS vs. PFRS for SMEs vs. PFRS for SEs</span>
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Subject Quizzes Section Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 flex items-center justify-center gap-3">
+                <span>📝</span> Subject Quizzes & Reviewers
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">Select a subject to test your knowledge</p>
+        </div>
+
+        <!-- Dynamic Responsive Grid for Subject Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
             <!-- RFBT Card -->
-            <div class="bg-white/60 p-5 rounded-2xl border border-white shadow-sm flex flex-col h-full">
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
                 <h3 class="text-lg font-bold text-pink-500 mb-4 flex items-center gap-2 border-b border-pink-100 pb-2">
                     ⚖️ RFBT
                 </h3>
                 <div class="grid grid-cols-2 gap-3 flex-grow">
-                    <a href="https://share.gemini.google/BxXCbg4AfSlM" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">Credit Transactions</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/BxXCbg4AfSlM" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Credit Transactions</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://cpar-rfbt-b99.geminilaunch.com/" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">CPAR B99 RFBT</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://cpar-rfbt-b99.geminilaunch.com/" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">CPAR B99 RFBT</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="RESA-RFBT.html" class="quiz-link group">
-                        <span class="mb-2 leading-tight">RESA RFBT</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="RESA-RFBT.html" class="quiz-link">
+                        <span class="quiz-link-title">RESA RFBT</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/aZwyFEAhbLQz" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">ECA and DPA</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/aZwyFEAhbLQz" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">ECA and DPA</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/LkZnG5Kh33o2" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">Philippine Competition Act</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/LkZnG5Kh33o2" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Philippine Competition Act</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/XvVvtuPA9KPG" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">Government Procurement Act</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/XvVvtuPA9KPG" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Government Procurement Act</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/iWI1VlEvgYXO" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">Labor and SSS</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/iWI1VlEvgYXO" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Labor and SSS</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
                 </div>
             </div>
 
             <!-- AUD Card -->
-            <div class="bg-white/60 p-5 rounded-2xl border border-white shadow-sm flex flex-col h-full">
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
                 <h3 class="text-lg font-bold text-purple-500 mb-4 flex items-center gap-2 border-b border-purple-100 pb-2">
                     🔍 AUD
                 </h3>
                 <div class="grid grid-cols-2 gap-3 flex-grow">
-                    <a href="https://at-book-mcq.ai.studio/" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">KDC MCQ</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://at-book-mcq.ai.studio/" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">KDC MCQ</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="AT-Review-Game.html" class="quiz-link group">
-                        <span class="mb-2 leading-tight">AT Review Game</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="AT-Review-Game.html" class="quiz-link">
+                        <span class="quiz-link-title">AT Review Game</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="assurance_principles_reviewer.html" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">Assurance Principles Reviewer</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-rev">Reviewer/Notes</span></div>
+                    <a href="assurance_principles_reviewer.html" class="quiz-link">
+                        <span class="quiz-link-title">Assurance Principles Reviewer</span>
+                        <div class="tags-container"><span class="tag-pill tag-reviewer">Reviewer / Notes</span></div>
                     </a>
                 </div>
             </div>
 
             <!-- FAR Card -->
-            <div class="bg-white/60 p-5 rounded-2xl border border-white shadow-sm flex flex-col h-full">
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
                 <h3 class="text-lg font-bold text-blue-500 mb-4 flex items-center gap-2 border-b border-blue-100 pb-2">
                     📈 FAR
                 </h3>
                 <div class="grid grid-cols-2 gap-3 flex-grow">
-                    <a href="accounting_reference_deposits_in_transit_outstanding_checks.html" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">Accounting Reference for DIT and OC</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-rev">Reviewer/Notes</span></div>
+                    <a href="accounting_reference_deposits_in_transit_outstanding_checks.html" class="quiz-link">
+                        <span class="quiz-link-title">Accounting Reference for DIT and OC</span>
+                        <div class="tags-container"><span class="tag-pill tag-reviewer">Reviewer / Notes</span></div>
                     </a>
-                    <a href="cpale_far_comprehensive_reviewer.html" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">CPALE FAR Comprehensive Reviewer</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-rev">Reviewer/Notes</span></div>
-                    </a>
-                    <a href="pfrs_comparison_guide.html" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">Comprehensive Comparison: Full PFRS vs. PFRS for SMEs vs. PFRS for SEs</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-rev">Reviewer/Notes</span></div>
+                    <a href="cpale_far_comprehensive_reviewer.html" class="quiz-link">
+                        <span class="quiz-link-title">CPALE FAR Comp. Reviewer</span>
+                        <div class="tags-container"><span class="tag-pill tag-reviewer">Reviewer / Notes</span></div>
                     </a>
                 </div>
             </div>
 
             <!-- TAX Card -->
-            <div class="bg-white/60 p-5 rounded-2xl border border-white shadow-sm flex flex-col h-full">
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
                 <h3 class="text-lg font-bold text-green-500 mb-4 flex items-center gap-2 border-b border-green-100 pb-2">
                     💸 TAX
                 </h3>
                 <div class="grid grid-cols-2 gap-3 flex-grow">
-                    <a href="LECPA-Tax-Theory-Drill_2.html" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">LECPA Tax Theory Drill</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="LECPA-Tax-Theory-Drill_2.html" class="quiz-link">
+                        <span class="quiz-link-title">LECPA Tax Theory Drill</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/hAXMeP0U46LX" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">Deadlines and Form Numbers</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/hAXMeP0U46LX" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Deadlines and Form numbers</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/PpQXJZ0Ygsno" target="_blank" class="quiz-link group">
-                        <span class="mb-2 leading-tight">Tax Incentives: CREATE and CREATE MORE Act</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="https://share.gemini.google/PpQXJZ0Ygsno" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Tax incentives: CREATE Act</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
-                    <a href="https://share.gemini.google/LrfFcDxKRXGA" target="_blank" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">Tax Remedies</span>
-                        <div class="flex flex-wrap gap-1 mt-auto self-end">
-                            <span class="pill-tag tag-resa">RESA</span>
-                            <span class="pill-tag tag-quiz">Quiz</span>
+                    <a href="https://share.gemini.google/LrfFcDxKRXGA" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Tax Remedies</span>
+                        <div class="tags-container">
+                            <span class="tag-pill tag-tax">RESA</span>
+                            <span class="tag-pill tag-quiz">Quiz</span>
                         </div>
                     </a>
-                    <a href="https://share.gemini.google/IGzMyZZiRXJ9" target="_blank" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">Tax Remedies</span>
-                        <div class="flex flex-wrap gap-1 mt-auto self-end">
-                            <span class="pill-tag tag-hard">Hard</span>
-                            <span class="pill-tag tag-quiz">Quiz</span>
+                    <a href="https://share.gemini.google/IGzMyZZiRXJ9" target="_blank" class="quiz-link">
+                        <span class="quiz-link-title">Tax Remedies</span>
+                        <div class="tags-container">
+                            <span class="tag-pill tag-tax-hard">Hard</span>
+                            <span class="tag-pill tag-quiz">Quiz</span>
                         </div>
                     </a>
                 </div>
             </div>
 
             <!-- MAS Card -->
-            <div class="bg-white/60 p-5 rounded-2xl border border-white shadow-sm flex flex-col h-full">
+            <div class="bg-white/60 p-6 rounded-2xl border border-white shadow-sm flex flex-col">
                 <h3 class="text-lg font-bold text-yellow-500 mb-4 flex items-center gap-2 border-b border-yellow-100 pb-2">
                     📊 MAS
                 </h3>
                 <div class="grid grid-cols-2 gap-3 flex-grow">
-                    <a href="horngren-cost-accounting-drills.html" class="quiz-link group col-span-2">
-                        <span class="mb-2 leading-tight">Horngren MCQ</span>
-                        <div class="mt-auto self-end"><span class="pill-tag tag-quiz">Quiz</span></div>
+                    <a href="horngren-cost-accounting-drills.html" class="quiz-link">
+                        <span class="quiz-link-title">Horngren MCQ</span>
+                        <div class="tags-container"><span class="tag-pill tag-quiz">Quiz</span></div>
                     </a>
                 </div>
             </div>
@@ -252,5 +295,63 @@
         </div>
     </main>
 
+    <!-- Floating Envelope Button -->
+    <button id="envelopeBtn" class="fixed bottom-6 right-6 w-14 h-14 bg-white text-pink-400 border-2 border-pink-200 rounded-full shadow-lg flex items-center justify-center hover:bg-pink-100 hover:text-pink-600 hover:border-pink-300 transition-all duration-300 z-40 transform hover:-translate-y-1 hover:shadow-xl focus:outline-none group">
+        <!-- SVG Envelope Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+    </button>
+
+    <!-- Popup Modal Overlay -->
+    <div id="reminderModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 cursor-pointer">
+        <!-- Modal Content Container -->
+        <div class="relative transform transition-transform duration-500 scale-95 cursor-auto" id="reminderModalContent">
+            <!-- Image loaded directly from your repository -->
+            <img src="6638b6f9058d60a50294ec6a078774be.gif" alt="Gentle Reminder" class="max-w-[90vw] max-h-[85vh] rounded-3xl shadow-2xl object-contain border-4 border-white/50 cursor-pointer">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.getElementById("reminderModal");
+            const modalContent = document.getElementById("reminderModalContent");
+            const envelopeBtn = document.getElementById("envelopeBtn");
+            let hasShownInitially = false;
+
+            // Function to smoothly open the modal
+            const openModal = () => {
+                modal.classList.remove("opacity-0", "pointer-events-none");
+                modalContent.classList.remove("scale-95");
+                modalContent.classList.add("scale-100");
+            };
+
+            // Function to smoothly close the modal
+            const closeModal = () => {
+                modal.classList.add("opacity-0", "pointer-events-none");
+                modalContent.classList.remove("scale-100");
+                modalContent.classList.add("scale-95");
+            };
+
+            // Trigger the popup exactly 10 seconds (10000 milliseconds) after load
+            setTimeout(() => {
+                if (!hasShownInitially) { // Prevents auto-showing if user already clicked the envelope
+                    openModal();
+                    hasShownInitially = true;
+                }
+            }, 10000);
+
+            // Close the modal when clicking anywhere on the overlay or the image itself
+            modal.addEventListener("click", (e) => {
+                closeModal();
+            });
+
+            // Open the modal when clicking the floating envelope button
+            envelopeBtn.addEventListener("click", () => {
+                openModal();
+                hasShownInitially = true; // Mark as shown so the 10s timer doesn't unexpectedly pop it up again
+            });
+        });
+    </script>
 </body>
 </html>
