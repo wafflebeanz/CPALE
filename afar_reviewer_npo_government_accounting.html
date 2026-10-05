@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFAR Reviewer 🌸 NPO & Government Accounting</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX for crisp LaTeX math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+  <style>
+    :root {
+      --bg-cream: #fff9fb;
+      --bg-card: #ffffff;
+      --primary-pink: #ff85a2;
+      --primary-hover: #ff6b8b;
+      --soft-pink: #ffe5ec;
+      --blush: #fdf2f4;
+      --pastel-purple: #e8dff5;
+      --accent-purple: #9b72cf;
+      --pastel-mint: #daf5e7;
+      --accent-mint: #2bb673;
+      --pastel-peach: #fde2d1;
+      --accent-peach: #f3825f;
+      --pastel-yellow: #fef5d1;
+      --accent-yellow: #d4a017;
+      --pastel-blue: #d9f0fc;
+      --accent-blue: #3a9fd9;
+      --text-dark: #4a3e4d;
+      --text-muted: #85728a;
+      --border-soft: #f7d6e0;
+      --shadow-cute: 0 10px 25px -4px rgba(255, 133, 162, 0.15), 0 6px 12px -3px rgba(155, 114, 207, 0.1);
+      --shadow-hover: 0 16px 30px -4px rgba(255, 133, 162, 0.25), 0 8px 16px -3px rgba(155, 114, 207, 0.15);
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.65;
+      position: relative;
+      background-image: 
+        radial-gradient(var(--border-soft) 1px, transparent 1px),
+        radial-gradient(var(--pastel-purple) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+      padding-bottom: 80px;
+    }
+
+    /* Cute Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-cream);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-pink);
+      border-radius: 10px;
+      border: 2px solid var(--bg-cream);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Container Layout */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header / Hero */
+    header {
+      padding: 40px 0 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--soft-pink);
+      color: var(--primary-pink);
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      border: 1.5px dashed var(--primary-pink);
+    }
+
+    h1.hero-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #3b283d;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    h1.hero-title span.magic-word {
+      background: linear-gradient(135deg, var(--primary-pink), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 20px;
+      font-weight: 600;
+    }
+
+    .source-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    .chip {
+      background: #ffffff;
+      border: 1.5px solid var(--border-soft);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chip-reo { border-color: #ffd1dc; color: #d6336c; }
+    .chip-resa { border-color: #d8b4fe; color: #7e22ce; }
+    .chip-cpar { border-color: #a7f3d0; color: #047857; }
+
+    /* Sticky Search & Quick Navigator */
+    .sticky-nav-wrapper {
+      position: sticky;
+      top: 15px;
+      z-index: 100;
+      margin-bottom: 30px;
+      backdrop-filter: blur(12px);
+    }
+    .sticky-nav-inner {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      box-shadow: var(--shadow-cute);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (min-width: 880px) {
+      .sticky-nav-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 450px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 18px 10px 42px;
+      border: 2px solid var(--border-soft);
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+      background: var(--bg-cream);
+      color: var(--text-dark);
+    }
+    .search-input:focus {
+      border-color: var(--primary-pink);
+      box-shadow: 0 0 0 3px rgba(255, 133, 162, 0.2);
+      background: #ffffff;
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .quick-pill {
+      background: var(--bg-cream);
+      color: var(--text-dark);
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid var(--border-soft);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .quick-pill:hover, .quick-pill.active {
+      background: var(--primary-pink);
+      color: #ffffff;
+      border-color: var(--primary-pink);
+      transform: translateY(-2px);
+    }
+
+    /* Main Sections */
+    section {
+      margin-bottom: 45px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed var(--border-soft);
+    }
+    .section-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--soft-pink);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 10px rgba(255, 133, 162, 0.2);
+    }
+    .section-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #3b283d;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    /* Cute Cards */
+    .cute-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-soft);
+      box-shadow: var(--shadow-cute);
+      padding: 24px;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      overflow: hidden;
+    }
+    .cute-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .card-ribbon {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .ribbon-pink { background: var(--soft-pink); color: var(--primary-pink); }
+    .ribbon-purple { background: var(--pastel-purple); color: var(--accent-purple); }
+    .ribbon-mint { background: var(--pastel-mint); color: var(--accent-mint); }
+    .ribbon-peach { background: var(--pastel-peach); color: var(--accent-peach); }
+    .ribbon-yellow { background: var(--pastel-yellow); color: var(--accent-yellow); }
+    .ribbon-blue { background: var(--pastel-blue); color: var(--accent-blue); }
+
+    .card-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #3b283d;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Content Styling inside Cards */
+    p {
+      margin-bottom: 12px;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul.cute-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul.cute-list li {
+      position: relative;
+      padding-left: 26px;
+      margin-bottom: 10px;
+    }
+    ul.cute-list li::before {
+      content: '🌸';
+      position: absolute;
+      left: 0;
+      top: 1px;
+      font-size: 0.85rem;
+    }
+    ul.cute-list.stars li::before {
+      content: '⭐';
+    }
+    ul.cute-list.hearts li::before {
+      content: '💖';
+    }
+    ul.cute-list.checks li::before {
+      content: '✅';
+      font-size: 0.8rem;
+    }
+
+    /* Cute Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-soft);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    table.cute-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      background: #ffffff;
+      text-align: left;
+    }
+    table.cute-table th {
+      background: var(--soft-pink);
+      color: #4a2835;
+      font-weight: 800;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border-soft);
+      font-family: 'Quicksand', sans-serif;
+    }
+    table.cute-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #fceef2;
+      vertical-align: top;
+    }
+    table.cute-table tr:last-child td {
+      border-bottom: none;
+    }
+    table.cute-table tr:hover td {
+      background-color: #fff6f8;
+    }
+    .table-numeric {
+      text-align: right;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-weight: 700;
+    }
+
+    /* Journal Entry Boxes */
+    .je-box {
+      background: #faf6fc;
+      border: 1.5px solid var(--pastel-purple);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 12px 0;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #382442;
+    }
+    .je-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .je-indent {
+      padding-left: 28px;
+    }
+    .je-amount {
+      font-weight: 700;
+      color: var(--accent-purple);
+    }
+
+    /* Callout & Badges */
+    .callout {
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin: 14px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      border: 1.5px solid;
+    }
+    .callout-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .callout-content {
+      font-size: 0.92rem;
+    }
+    .callout-pink { background: var(--blush); border-color: #ffccd5; color: #721c24; }
+    .callout-yellow { background: var(--pastel-yellow); border-color: #ffeaa7; color: #856404; }
+    .callout-mint { background: var(--pastel-mint); border-color: #c3e6cb; color: #155724; }
+    .callout-blue { background: var(--pastel-blue); border-color: #bee5eb; color: #0c5460; }
+    .callout-purple { background: var(--pastel-purple); border-color: #dcd0ff; color: #432874; }
+
+    /* Interactive Accordions for Solved Problems */
+    .accordion-item {
+      background: #ffffff;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-cute);
+      overflow: hidden;
+    }
+    .accordion-header {
+      padding: 18px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fffbfe;
+      transition: background 0.2s ease;
+      user-select: none;
+    }
+    .accordion-header:hover {
+      background: var(--soft-pink);
+    }
+    .accordion-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .accordion-toggle {
+      font-size: 1.4rem;
+      color: var(--primary-pink);
+      transition: transform 0.3s ease;
+    }
+    .accordion-item.open .accordion-toggle {
+      transform: rotate(180deg);
+    }
+    .accordion-body {
+      display: none;
+      padding: 24px;
+      border-top: 1.5px dashed var(--border-soft);
+      background: #ffffff;
+    }
+    .accordion-item.open .accordion-body {
+      display: block;
+    }
+
+    /* Computation Steps */
+    .step-pill {
+      display: inline-block;
+      background: var(--pastel-peach);
+      color: var(--accent-peach);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-right: 6px;
+    }
+
+    /* Quick CPALE Quizzer / Flashcards */
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .flashcard {
+      background: #ffffff;
+      border: 2px dashed var(--primary-pink);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .flashcard:hover {
+      background: #fffcfd;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-cute);
+    }
+    .flashcard-q {
+      font-weight: 700;
+      color: #3b283d;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .flashcard-a {
+      display: none;
+      padding-top: 8px;
+      border-top: 1px dotted var(--border-soft);
+      color: var(--accent-purple);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+    .flashcard.revealed .flashcard-a {
+      display: block;
+    }
+    .flashcard-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: var(--primary-pink);
+      color: #ffffff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 8px 20px rgba(255, 133, 162, 0.4);
+      transition: all 0.2s ease;
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      background: var(--primary-hover);
+      transform: scale(1.1);
+    }
+
+    /* Subtle highlighting for search */
+    mark.highlight {
+      background-color: #ffeb3b;
+      color: inherit;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Back to Top Button -->
+  <button class="back-to-top" id="backToTop" title="Back to cute top! ✨">🐾</button>
+
+  <header>
+    <div class="container">
+      <div class="hero-pill">🍓 AFAR • CPALE CONCEPT REVIEWER 🍓</div>
+      <h1 class="hero-title">Not-for-Profit & <span class="magic-word">Government Accounting</span></h1>
+      <p class="hero-subtitle">Comprehensive, all-in-one mastery reviewer synthesized from premier review lectures. Every rule, journal entry, fund cluster, and practice calculation included!</p>
+      
+      <div class="source-chips">
+        <span class="chip chip-reo">🎀 REO Live (Sir Albert)</span>
+        <span class="chip chip-resa">💜 ReSA Lecture (Sir Aldrin)</span>
+        <span class="chip chip-cpar">🍃 CPAR Lecture (Sir German)</span>
+        <span class="chip">✨ Complete & No Missing Details</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Cute Search & Nav -->
+  <div class="sticky-nav-wrapper">
+    <div class="container">
+      <div class="sticky-nav-inner">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="reviewerSearch" class="search-input" placeholder="Search any topic, entry, rule, or account (e.g., 'TRA', '50,000', 'Service', 'VHWO')...">
+        </div>
+        <nav class="quick-links">
+          <a href="#sec-npo-basics" class="quick-pill">🎀 NPO Basics</a>
+          <a href="#sec-revenue-recognition" class="quick-pill">💸 Revenue Rules</a>
+          <a href="#sec-fs-hospitals-schools" class="quick-pill">🏥 FS & Institutions</a>
+          <a href="#sec-worked-examples" class="quick-pill">📝 3 Comprehensive Problems</a>
+          <a href="#sec-gov-framework" class="quick-pill">🏛️ Gov Framework</a>
+          <a href="#sec-budget-cycle" class="quick-pill">📅 Budget Cycle</a>
+          <a href="#sec-registries-ppsas" class="quick-pill">📜 PPSAS & Registries</a>
+          <a href="#sec-gov-journal-entries" class="quick-pill">✍️ Master Gov Entries</a>
+          <a href="#sec-fund-clusters" class="quick-pill">🏷️ Fund Clusters</a>
+          <a href="#sec-flashcards" class="quick-pill">🧠 Flashcards</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- ========================================== -->
+    <!-- SECTION 1: NPO BASICS & CHARACTERISTICS    -->
+    <!-- ========================================== -->
+    <section id="sec-npo-basics">
+      <div class="section-header">
+        <div class="section-icon">🌸</div>
+        <h2 class="section-title">Topic 11: Not-for-Profit Organizations (NPO) Basics</h2>
+      </div>
+
+      <div class="grid-3">
+        <!-- Card 1: Core Characteristics -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-pink">Fundamentals</span>
+          <h3 class="card-title">🧸 Basic Characteristics of NPOs</h3>
+          <p>Operated strictly for the benefit of society as a whole (<em>other than for profit</em>):</p>
+          <ul class="cute-list hearts">
+            <li><strong>Cultural</strong> &amp; <strong>Charitable</strong></li>
+            <li><strong>Civic</strong> &amp; <strong>Social</strong></li>
+            <li><strong>Educational</strong> &amp; <strong>Religious</strong></li>
+          </ul>
+          <div class="callout callout-pink" style="margin-top: 14px;">
+            <div class="callout-icon">💡</div>
+            <div class="callout-content">
+              <strong>Key Distinctions:</strong>
+              <ul class="cute-list checks" style="margin-top: 6px;">
+                <li>Receives <em>gratuitous considerations</em> (donations), but <strong>can still receive onerous considerations</strong> (e.g., tuition, hospital bills, cafeteria sales).</li>
+                <li><strong>No ownership interest:</strong> No stock shares, dividends, or residual equity holders.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Sources of Revenue -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-purple">Revenue Types</span>
+          <h3 class="card-title">💎 Major Sources of Revenue</h3>
+          <div style="margin-bottom: 12px;">
+            <span class="step-pill">1</span> <strong>Onerous Considerations</strong> (Exchange)
+            <ul class="cute-list stars" style="margin-top: 4px;">
+              <li><strong>Regular Sale of Goods or Services:</strong> Always classified as <em>Unrestricted</em>.</li>
+              <li><strong>Investment Income:</strong> Usually classified as <em>Unrestricted</em> (unless the donor stipulated that earnings are restricted for a designated purpose).</li>
+            </ul>
+          </div>
+          <div>
+            <span class="step-pill">2</span> <strong>Gratuitous Considerations</strong> (Non-Exchange)
+            <ul class="cute-list hearts" style="margin-top: 4px;">
+              <li><strong>Donations</strong> (termed <em>Contribution Revenue</em>).</li>
+              <li>May be classified as <em>Unrestricted</em>, <em>Temporarily Restricted</em>, or <em>Permanently Restricted</em> depending on donor instructions.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 3: Standards & 4 Categories -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-mint">Scope & Rules</span>
+          <h3 class="card-title">📚 Accounting Framework & Categories</h3>
+          <p><strong>Accounting Standards:</strong> Accrual basis under:</p>
+          <ul class="cute-list checks">
+            <li><strong>PFRS</strong> with the Conceptual Framework</li>
+            <li><strong>US GAAP: SFAS 116</strong> (Contributions Received and Made) and <strong>SFAS 117</strong> (Financial Statements of NPOs)</li>
+          </ul>
+          
+          <p style="margin-top: 12px; font-weight: 700; color: #3b283d;">4 Common Categories of NPOs:</p>
+          <ul class="cute-list">
+            <li><strong>11.1. Voluntary Health and Welfare Organizations (VHWO):</strong> Primary source of revenues is exclusively from gratuitous considerations (donations from public).</li>
+            <li><strong>11.2. Hospitals and Other Health Care Organizations</strong></li>
+            <li><strong>11.3. Colleges and Universities</strong></li>
+            <li><strong>11.4. Other NPOs:</strong> Churches, Museums, Fraternities, Political Parties, etc.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Net Assets Composition Deep Dive -->
+      <div class="cute-card" style="margin-top: 20px;">
+        <span class="card-ribbon ribbon-peach">Net Asset Classes</span>
+        <h3 class="card-title">🍰 Composition of Net Assets or Funds</h3>
+        <p>In NPO accounting, net assets take the place of owner's equity and are strictly grouped by donor restrictions:</p>
+        <div class="grid-3" style="margin-top: 14px;">
+          <div style="background: #fff5f7; border: 1.5px solid var(--border-soft); border-radius: var(--radius-sm); padding: 16px;">
+            <h4 style="color: var(--primary-pink); font-family: 'Quicksand'; font-size: 1.1rem; margin-bottom: 6px;">🍦 Unrestricted Net Assets</h4>
+            <ul class="cute-list checks">
+              <li><strong>No donor-imposed restrictions</strong> at all.</li>
+              <li>Includes resources whose use is within the <strong>Board of Trustees' (BOT) discretion</strong>.</li>
+              <li><em>Board-designated funds</em> (quasi-endowments, internal reserves) are strictly <strong>Unrestricted</strong> because only external donors can impose valid restrictions!</li>
+            </ul>
+          </div>
+
+          <div style="background: #fbf5ff; border: 1.5px solid var(--pastel-purple); border-radius: var(--radius-sm); padding: 16px;">
+            <h4 style="color: var(--accent-purple); font-family: 'Quicksand'; font-size: 1.1rem; margin-bottom: 6px;">⏳ Temporarily Restricted</h4>
+            <ul class="cute-list stars">
+              <li>Subject to <strong>donor-imposed restrictions</strong> as to:
+                <br>• <em>Time:</em> Available only in future periods or term endowment.
+                <br>• <em>Purpose:</em> For a specific project/asset purchase.
+                <br>• <em>Happening of an event:</em> Event occurrence.
+              </li>
+              <li><strong>Release Mechanism:</strong> Once the time elapses, the purpose is accomplished, or the event occurs, the amount is reclassified (transferred) to <em>Unrestricted Net Assets</em>.</li>
+            </ul>
+          </div>
+
+          <div style="background: #f0faf5; border: 1.5px solid var(--pastel-mint); border-radius: var(--radius-sm); padding: 16px;">
+            <h4 style="color: var(--accent-mint); font-family: 'Quicksand'; font-size: 1.1rem; margin-bottom: 6px;">🔒 Permanently Restricted</h4>
+            <ul class="cute-list hearts">
+              <li>Subject to <strong>donor-imposed restrictions that do not expire</strong> and cannot be removed by the NPO.</li>
+              <li>Usually invested (Pure Endowment): The <strong>principal must remain untouchable in perpetuity</strong>, and only the investment interest/dividends are usable.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: RECOGNITION & MEASUREMENT RULES -->
+    <!-- ========================================== -->
+    <section id="sec-revenue-recognition">
+      <div class="section-header">
+        <div class="section-icon">💸</div>
+        <h2 class="section-title">Recognition and Measurement of Revenues & Contributions</h2>
+      </div>
+
+      <div class="grid-2">
+        <!-- A. Cash & B. Non-Cash Assets -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-pink">Cash & Property</span>
+          <h3 class="card-title">💰 A. Cash &amp; B. Non-Cash Donations</h3>
+          
+          <p><strong>A. Cash Contributions:</strong></p>
+          <ul class="cute-list checks">
+            <li>Measured at <strong>Face Value</strong>.</li>
+            <li>If deferred/payable across multiple years, measured at <strong>Present Value</strong>.</li>
+            <li>May be unrestricted, temporarily restricted, or permanently restricted.</li>
+          </ul>
+          <div class="je-box">
+            <div class="je-row"><span>Cash</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Contribution Revenue</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 14px;"><strong>B. Non-Cash Assets:</strong></p>
+          <ul class="cute-list checks">
+            <li>Measured at <strong>Fair Value</strong> on the date of receipt.</li>
+            <li>May be restricted or unrestricted depending on stipulations.</li>
+          </ul>
+          <div class="je-box">
+            <div class="je-row"><span>Non-Cash Asset (Land, Inventory, etc.)</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Contribution Revenue</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <div class="callout callout-yellow" style="margin-top: 14px;">
+            <div class="callout-icon">🎨</div>
+            <div class="callout-content">
+              <strong>Collection Items (Works of Art, Historical Treasures):</strong>
+              <p style="margin-top: 4px;">Collection items are <strong>NOT recognized</strong> on the balance sheet if <strong>ALL THREE</strong> conditions are satisfied:</p>
+              <ol style="margin-left: 20px; margin-top: 4px; font-size: 0.88rem;">
+                <li>Held for public exhibitions, education, or research in furtherance of public service, <em>not for personal gain</em>;</li>
+                <li>Protected, kept unencumbered, cared for, and preserved; and</li>
+                <li>Proceeds from any sales are strictly to be used for acquiring similar collection items.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- C. Services & D. Facilities -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-purple">Services & Facilities</span>
+          <h3 class="card-title">🛠️ C. Donated Services &amp; D. Facilities</h3>
+
+          <p><strong>C. Donated Professional Services:</strong></p>
+          <p>Recognized as <em>Contribution Revenue</em> <strong>ONLY when EITHER</strong> of the following criteria is met (otherwise, <strong>NOT recognized</strong>):</p>
+          <ul class="cute-list stars">
+            <li><strong>1. Specialized Skills Test:</strong> Requires specialized skills <em>AND</em> is performed by professionals possessing those skills (e.g., licensed CPA, lawyer, doctor, architect, engineer); <strong>OR</strong></li>
+            <li><strong>2. Asset Creation Test:</strong> Creates or enhances a non-financial asset (e.g., volunteers building a hospital wing or community library).</li>
+          </ul>
+
+          <div class="callout callout-mint">
+            <div class="callout-icon">⚖️</div>
+            <div class="callout-content">
+              <strong>Crucial Net Asset Impact:</strong> Donated services are <em>generally unrestricted</em> and have <strong>NO NET EFFECT on ending net assets</strong> because the equal increase in revenue is immediately offset by an equal increase in expense!
+            </div>
+          </div>
+          <div class="je-box">
+            <div class="je-row"><span>Expense (e.g., Professional Services)</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Contribution Revenue</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 14px;"><strong>D. Free Facilities or Usage (Rent-Free Spaces):</strong></p>
+          <ul class="cute-list checks">
+            <li>Recognized at the fair rental value of the property.</li>
+            <li>Generally <em>unrestricted</em>; has <strong>NO NET EFFECT on net assets</strong> (simultaneous increase in rent expense and contribution revenue).</li>
+          </ul>
+          <div class="je-box">
+            <div class="je-row"><span>Rent Expense</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Contribution Revenue</span><span class="je-amount">XX</span></div>
+          </div>
+        </div>
+
+        <!-- E. Pledges (Promises to Give) -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-blue">Pledges</span>
+          <h3 class="card-title">💌 E. Pledges (Promises to Give)</h3>
+          <p>Generally classified as <strong>Temporarily Restricted</strong> (due to time restriction). However, if pledged to be received within the current year without any purpose stipulations, it is <strong>Unrestricted</strong>.</p>
+          
+          <div class="table-container">
+            <table class="cute-table">
+              <thead>
+                <tr>
+                  <th>Pledge Type</th>
+                  <th>Accounting Treatment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Unconditional Pledges</strong></td>
+                  <td><strong>Recognized as Contribution Revenue</strong> immediately at the time the pledge was made (when the pledge became receivable).</td>
+                </tr>
+                <tr>
+                  <td><strong>Conditional Pledges</strong></td>
+                  <td><strong>NOT Recognized</strong> as Contribution Revenue until the condition is substantially met.</td>
+                </tr>
+                <tr>
+                  <td><strong>Conditional Gifts Already Received</strong></td>
+                  <td><strong>Recognized as a Liability</strong> (e.g., Refundable Advance / Deferred Revenue). Only reclassified to Contribution Revenue upon the happening of the condition!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- F. Other Specific Funds -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-yellow">Special Funds</span>
+          <h3 class="card-title">🌱 F. Endowments, Agency &amp; Plant Funds</h3>
+          
+          <p><strong>1. Endowment Funds:</strong></p>
+          <p><em>Golden Rule:</em> Regardless of the fund classification of the principal, <strong>earnings from the fund are unrestricted</strong> (unless the donor explicitly restricted their purpose!).</p>
+          
+          <div class="table-container">
+            <table class="cute-table">
+              <thead>
+                <tr>
+                  <th>Endowment Classification</th>
+                  <th>Fund Classification of Principal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Pure or Regular Endowment</strong></td>
+                  <td><strong>Permanently Restricted</strong> (Principal untouchable; only earnings can be used).</td>
+                </tr>
+                <tr>
+                  <td><strong>Term Endowment</strong></td>
+                  <td><strong>Temporarily Restricted</strong> (Can be used after a specific term or elapsed years).</td>
+                </tr>
+                <tr>
+                  <td><strong>Quasi-Endowment</strong></td>
+                  <td><strong>Unrestricted</strong> (Designated by Board of Trustees; Board can undesignate anytime).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>2. Agency Funds:</strong> Pass-through funds where the NPO acts strictly as a custodian, agent, or steward with specific beneficiaries or recipients. <em>Not a revenue!</em> Must be accounted as a <strong>Liability</strong>.</p>
+          <p style="margin-top: 6px;"><strong>3. Plant Funds:</strong> Only disclosed in the notes to financial statements, analogous to appropriated retained earnings in corporate accounting.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: NPO FINANCIAL STATEMENTS & OPS  -->
+    <!-- ========================================== -->
+    <section id="sec-fs-hospitals-schools">
+      <div class="section-header">
+        <div class="section-icon">🏥</div>
+        <h2 class="section-title">NPO Financial Statements &amp; Specific Institutions</h2>
+      </div>
+
+      <div class="grid-2">
+        <!-- 5 Financial Statements -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-peach">Reporting Set</span>
+          <h3 class="card-title">📋 5 General Financial Statements of NPOs</h3>
+          <ul class="cute-list stars">
+            <li><strong>1. Statement of Financial Position (SFP):</strong> Presents assets, liabilities, and net assets specifically categorized into <em>Unrestricted</em>, <em>Temporarily Restricted</em>, and <em>Permanently Restricted</em>.</li>
+            <li><strong>2. Statement of Activities:</strong> Replaces SCI and SCE. (Known as the <em>Statement of Operations</em> for Hospitals).
+              <br>• Revenues and gains are categorized into: <em>Unrestricted</em>, <em>Temporarily Restricted</em>, or <em>Permanently Restricted</em>.
+              <br>• <strong>Expenses are ONLY classified as Unrestricted!</strong> (Never deduct expenses directly from restricted net assets).
+            </li>
+            <li><strong>3. Statement of Functional Expenses:</strong> Required originally for VHWOs (mandated for all NPOs from 2016 onwards). Categorizes expenses by function:
+              <br>• <strong>Program Expenses:</strong> Result in distribution of goods/services to beneficiaries in pursuit of primary mission.
+              <br>• <strong>Support Expenses:</strong> All other non-program overhead (fundraising, general admin, membership development).
+            </li>
+            <li><strong>4. Statement of Cash Flows:</strong> Follows standard cash flow classification with special donor add-ons:
+              <br>• <em>Unrestricted Contribution Revenue:</em> <strong>Operating Cash Flow</strong>
+              <br>• <em>Restricted Contribution Revenue:</em> <strong>Financing Cash Flow</strong>
+            </li>
+            <li><strong>5. Notes to Financial Statements:</strong> Comprehensive explanatory disclosures.</li>
+          </ul>
+        </div>
+
+        <!-- Hospitals & Healthcare -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-pink">Healthcare Format</span>
+          <h3 class="card-title">💉 Hospitals and Healthcare Organizations</h3>
+          <p>Revenue computation structure and classifications:</p>
+
+          <div class="table-container">
+            <table class="cute-table">
+              <tbody>
+                <tr>
+                  <td><strong>Gross Patient Service Rendered</strong></td>
+                  <td class="table-numeric">XX</td>
+                </tr>
+                <tr style="color: var(--text-muted); font-style: italic;">
+                  <td>Less: Charity Care <em>(Disclosed ONLY in notes, NEVER in revenue!)</em></td>
+                  <td class="table-numeric">(XX)</td>
+                </tr>
+                <tr style="background: #fff0f5; font-weight: 700;">
+                  <td>Gross Patient Service Revenue</td>
+                  <td class="table-numeric">XX</td>
+                </tr>
+                <tr>
+                  <td>Less: Courtesy Allowance (Discounts to employees, doctors, board)</td>
+                  <td class="table-numeric">(XX)</td>
+                </tr>
+                <tr>
+                  <td>Less: Contractual Adjustments (Discounts negotiated by PhilHealth, HMOs)</td>
+                  <td class="table-numeric">(XX)</td>
+                </tr>
+                <tr style="background: var(--pastel-mint); font-weight: 800; color: #155724;">
+                  <td>Net Patient Service Revenue</td>
+                  <td class="table-numeric">XX</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="font-size: 0.88rem; margin-top: 10px;">
+            <p><strong>Other Revenue Classifications for Hospitals:</strong></p>
+            <ul class="cute-list checks">
+              <li><strong>Premium Revenues:</strong> Subscriptions and periodic capitation membership fees from HMO agreements.</li>
+              <li><strong>Other Operating Revenues:</strong> Healthcare-adjacent earnings (cafeteria, gift shops, hospital pharmacy sales to visitors, rental of space/equipment).</li>
+              <li><strong>Non-Operating Revenues:</strong> Activities incidental to primary operations (unrestricted donations, dividend/interest earnings, investment gains).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colleges and Universities -->
+      <div class="cute-card" style="margin-top: 20px;">
+        <span class="card-ribbon ribbon-purple">Higher Education</span>
+        <h3 class="card-title">🎓 Colleges and Universities</h3>
+        <p><strong>Sources of Onerous Revenues:</strong> (1) Educational and General (Tuition & Academic Fees), (2) Auxiliary Enterprises (Dormitories, food services, athletic events, bookstores), and (3) Expired Term Endowments.</p>
+
+        <div class="grid-2" style="margin-top: 14px;">
+          <div>
+            <h4 style="font-family: 'Quicksand'; color: var(--accent-purple); margin-bottom: 8px;">Master Tuition Revenue Formula:</h4>
+            <div class="table-container">
+              <table class="cute-table">
+                <tbody>
+                  <tr>
+                    <td><strong>Gross Tuition Fee</strong></td>
+                    <td class="table-numeric">XX</td>
+                  </tr>
+                  <tr>
+                    <td>Less: Non-Service Scholarships (Academic, Dean's List, Financial Aid, Sister-City)</td>
+                    <td class="table-numeric">(XX)</td>
+                  </tr>
+                  <tr>
+                    <td>Less: Direct Refunds of Tuition and Fees</td>
+                    <td class="table-numeric">(XX)</td>
+                  </tr>
+                  <tr style="background: #fdf2f4; font-weight: 800; color: var(--primary-pink);">
+                    <td>Net Revenue from Tuition and Fees</td>
+                    <td class="table-numeric">XX</td>
+                  </tr>
+                  <tr>
+                    <td>Add: Other Revenues (Auxiliary, general)</td>
+                    <td class="table-numeric">XX</td>
+                  </tr>
+                  <tr style="font-weight: 700;">
+                    <td>Total Operating Revenues</td>
+                    <td class="table-numeric">XX</td>
+                  </tr>
+                  <tr>
+                    <td>Less: Service Scholarships (Student Assistants, Teaching Fellows) &rarr; <em>Treated as Operating Expense!</em></td>
+                    <td class="table-numeric">(XX)</td>
+                  </tr>
+                  <tr>
+                    <td>Less: Estimated Uncollectible Amounts (Bad Debts) &rarr; <em>Treated as Operating Expense!</em></td>
+                    <td class="table-numeric">(XX)</td>
+                  </tr>
+                  <tr style="background: var(--pastel-mint); font-weight: 800; color: #155724;">
+                    <td>Increase in Net Assets</td>
+                    <td class="table-numeric">XX</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; justify-content: center;">
+            <div class="callout callout-purple">
+              <div class="callout-icon">💡</div>
+              <div class="callout-content">
+                <strong>High Yield CPALE Distinction: Service vs. Non-Service Scholarships</strong>
+                <ul class="cute-list stars" style="margin-top: 8px;">
+                  <li><strong>Non-Service Scholarships</strong> (e.g., Dean's Lister, Honor students, Sister-city endorsees, athletic grants with no labor): <em>Deducted directly from Gross Tuition to arrive at Net Revenue</em>.</li>
+                  <li><strong>Service Scholarships</strong> (e.g., Student Assistants, Graduate/Teaching Assistants, Research Assistants): <em>Treated as Employee/Compensation Expense!</em> They do NOT reduce Net Tuition Revenue.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 4: 3 COMPREHENSIVE WORKED EXAMPLES -->
+    <!-- ========================================== -->
+    <section id="sec-worked-examples">
+      <div class="section-header">
+        <div class="section-icon">📝</div>
+        <h2 class="section-title">Comprehensive Practice Problems &amp; Step-by-Step Solutions</h2>
+      </div>
+
+      <!-- Problem 1: Unfiltered NPO -->
+      <div class="accordion-item open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-title">
+            <span>🍰</span>
+            <span>Example 1: "Unfiltered" NPO (Full 10-Item Master Computation)</span>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="callout callout-pink">
+            <div class="callout-icon">📖</div>
+            <div class="callout-content">
+              <strong>Given Transactions for Unfiltered NPO:</strong>
+              <ul class="cute-list" style="margin-top: 6px; font-size: 0.88rem;">
+                <li><strong>A:</strong> Received ₱500,000 investment fund from A, stipulating it shall be invested indefinitely and the dividend shall be used for research. During the year, ₱80,000 dividends received, but only ₱50,000 spent on research.</li>
+                <li><strong>B:</strong> Received preference shares valued at ₱650,000 from B, mandated by BOT to be held indefinitely and will not be liquidated. Yielded cash dividends of ₱65,000.</li>
+                <li><strong>C:</strong> Received ₱400,000 from C to acquire land for additional office site. Land acquired for ₱400,000 during the year.</li>
+                <li><strong>D:</strong> Received ₱600,000 fund from D for acquisition of service car. ₱300,000 used to acquire service car at mid-year (useful life 6 years).</li>
+                <li><strong>E:</strong> Received ₱150,000 cash from E at Board's discretion. ₱50,000 used to buy goods sold at a gain of ₱100,000. Remaining cash designated by Board for future fundraising.</li>
+                <li><strong>F:</strong> Received promise from F to donate ₱200,000 on condition that stock price doubles. Unlikely to be reached at report date.</li>
+                <li><strong>G:</strong> Received promise from G to donate ₱30,000 cash next year.</li>
+                <li><strong>H:</strong> Received professional services from H (licensed accountant) valued at ₱100,000 for free.</li>
+                <li><strong>I:</strong> Received professional services from I (working reviewee) valued at ₱20,000 for free.</li>
+                <li><strong>J:</strong> Received relief goods from J worth ₱90,000 for distribution to flood victims. All distributed within the year.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout callout-yellow" style="margin-bottom: 16px;">
+            <div class="callout-icon">⚠️️</div>
+            <div class="callout-content">
+              <strong>Crucial Preliminary Reviewer Notes:</strong>
+              <ul class="cute-list checks" style="margin-top: 4px; font-size: 0.88rem;">
+                <li><strong>Transaction F (Conditional Pledge):</strong> Condition is unlikely to be fulfilled; <strong>not recognized</strong>.</li>
+                <li><strong>Transaction I (Services):</strong> Working reviewee is not yet a licensed professional with specialized skills; <strong>not recognized</strong>.</li>
+                <li><strong>Transaction J (Relief Goods):</strong> Agency/pass-through fund. NPO acts only as custodian with specific beneficiaries; accounted as a <strong>Liability</strong>, not revenue. Since distributed within the year, liability was reversed with <em>zero net effect</em> on ending net assets.</li>
+                <li><strong>Transaction B (Board-mandated):</strong> Donor did not restrict it; Board discretion = <strong>Unrestricted</strong>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <!-- Contributions Computations -->
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--primary-pink); margin-bottom: 6px;">1. Contribution Revenues</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <thead>
+                    <tr><th>Item / Classification</th><th class="table-numeric">Amount</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="2" style="background:#fff0f5; font-weight:800;">Unrestricted Contribution Revenue</td></tr>
+                    <tr><td>B - Preference Shares (Board-mandated)</td><td class="table-numeric">₱650,000</td></tr>
+                    <tr><td>E - Cash (Board's discretion)</td><td class="table-numeric">150,000</td></tr>
+                    <tr><td>H - Professional Services (Licensed CPA)</td><td class="table-numeric">100,000</td></tr>
+                    <tr style="font-weight:800; background:#ffe5ec; color:#d6336c;"><td>Total Unrestricted Contribution Revenue</td><td class="table-numeric">₱900,000</td></tr>
+                    
+                    <tr><td colspan="2" style="background:#fbf5ff; font-weight:800; padding-top:12px;">Temporarily Restricted Contribution Revenue</td></tr>
+                    <tr><td>C - Cash (Restricted for Land)</td><td class="table-numeric">₱400,000</td></tr>
+                    <tr><td>D - Cash (Restricted for Service Car)</td><td class="table-numeric">600,000</td></tr>
+                    <tr><td>G - Promise to Donate Cash Next Year (Time)</td><td class="table-numeric">30,000</td></tr>
+                    <tr style="font-weight:800; background:#e8dff5; color:#7e22ce;"><td>Total Temporarily Restricted Contribution Revenue</td><td class="table-numeric">₱1,030,000</td></tr>
+
+                    <tr><td colspan="2" style="background:#f0faf5; font-weight:800; padding-top:12px;">Permanently Restricted Contribution Revenue</td></tr>
+                    <tr><td>A - Investment Fund (Indefinite Principal)</td><td class="table-numeric">₱500,000</td></tr>
+                    <tr style="font-weight:800; background:#daf5e7; color:#047857;"><td>Total Permanently Restricted Revenue &amp; Net Assets</td><td class="table-numeric">₱500,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Net Asset Balances -->
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--accent-purple); margin-bottom: 6px;">2. Year-End Net Asset Balances</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr style="background:#fff0f5; font-weight:800;"><td colspan="2">Unrestricted Net Assets at Year-End</td></tr>
+                    <tr><td>Unrestricted Contribution Revenue</td><td class="table-numeric">₱900,000</td></tr>
+                    <tr><td>A - Release from Temporarily Restricted (Research)</td><td class="table-numeric">50,000</td></tr>
+                    <tr><td>A - Research Project Expense</td><td class="table-numeric">(50,000)</td></tr>
+                    <tr><td>B - Cash Dividend Received (Unrestricted)</td><td class="table-numeric">65,000</td></tr>
+                    <tr><td>C - Release from Temporarily Restricted (Land)</td><td class="table-numeric">400,000</td></tr>
+                    <tr><td>C - Land Capitalized</td><td class="table-numeric">400,000</td></tr>
+                    <tr><td>C - Cash Outlay for Land</td><td class="table-numeric">(400,000)</td></tr>
+                    <tr><td>D - Release from Temporarily Restricted (Car)</td><td class="table-numeric">300,000</td></tr>
+                    <tr><td>D - Service Car Capitalized</td><td class="table-numeric">300,000</td></tr>
+                    <tr><td>D - Cash Outlay for Service Car</td><td class="table-numeric">(300,000)</td></tr>
+                    <tr><td>D - Depreciation of Car: $\frac{₱300,000}{6 \text{ yrs}} \times \frac{6}{12}$</td><td class="table-numeric">(25,000)</td></tr>
+                    <tr><td>E - Gain from Sale of Goods ($₱150\text{k} - ₱50\text{k}$)</td><td class="table-numeric">100,000</td></tr>
+                    <tr><td>H - Professional Services Expense</td><td class="table-numeric">(100,000)</td></tr>
+                    <tr style="font-weight:800; background:#ffe5ec; color:#d6336c;"><td>Total Unrestricted Net Assets at Year-End</td><td class="table-numeric">₱1,640,000</td></tr>
+
+                    <tr style="background:#fbf5ff; font-weight:800;"><td colspan="2">Temporarily Restricted Net Assets at Year-End</td></tr>
+                    <tr><td>Temporarily Restricted Contribution Revenue</td><td class="table-numeric">₱1,030,000</td></tr>
+                    <tr><td>A - Dividends Restricted for Research</td><td class="table-numeric">80,000</td></tr>
+                    <tr><td>A - Transfer/Released to Unrestricted</td><td class="table-numeric">(50,000)</td></tr>
+                    <tr><td>C - Transfer/Released to Unrestricted</td><td class="table-numeric">(400,000)</td></tr>
+                    <tr><td>D - Transfer/Released to Unrestricted</td><td class="table-numeric">(300,000)</td></tr>
+                    <tr style="font-weight:800; background:#e8dff5; color:#7e22ce;"><td>Total Temporarily Restricted Net Assets</td><td class="table-numeric">₱360,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cash Flows & Transfers -->
+          <div class="grid-2" style="margin-top: 14px;">
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--accent-peach); margin-bottom: 6px;">3. Releases from Restriction</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr><td>A - Research Project Spent</td><td class="table-numeric">₱50,000</td></tr>
+                    <tr><td>C - Land Acquired</td><td class="table-numeric">400,000</td></tr>
+                    <tr><td>D - Service Car Acquired</td><td class="table-numeric">300,000</td></tr>
+                    <tr style="font-weight:800; background:var(--pastel-peach); color:#f3825f;">
+                      <td>Total Net Assets Released from Restriction</td><td class="table-numeric">₱750,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--accent-blue); margin-bottom: 6px;">4. Statement of Cash Flows Breakdown</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr style="background:#eaf6fd; font-weight:800;"><td colspan="2">Operating Cash Flows</td></tr>
+                    <tr><td>A - Research Project Expense Outflow</td><td class="table-numeric">(₱50,000)</td></tr>
+                    <tr><td>E - Unrestricted Cash Contribution Received</td><td class="table-numeric">150,000</td></tr>
+                    <tr><td>E - Acquisition of Goods for Sale</td><td class="table-numeric">(50,000)</td></tr>
+                    <tr><td>E - Proceeds from Sale of Goods ($₱50\text{k} + ₱100\text{k}$)</td><td class="table-numeric">150,000</td></tr>
+                    <tr style="font-weight:800; color:#0284c7;"><td>Cash Inflow from Operating Activities</td><td class="table-numeric">₱200,000</td></tr>
+
+                    <tr style="background:#fff3e6; font-weight:800;"><td colspan="2">Investing Cash Flows</td></tr>
+                    <tr><td>C - Acquisition of Land</td><td class="table-numeric">(₱400,000)</td></tr>
+                    <tr><td>D - Acquisition of Service Car</td><td class="table-numeric">(300,000)</td></tr>
+                    <tr style="font-weight:800; color:#d97706;"><td>Cash Outflow from Investing Activities</td><td class="table-numeric">(₱700,000)</td></tr>
+
+                    <tr style="background:#f3e8ff; font-weight:800;"><td colspan="2">Financing Cash Flows</td></tr>
+                    <tr><td>A - Dividends Received Restricted for Research</td><td class="table-numeric">₱80,000</td></tr>
+                    <tr><td>C - Temporarily Restricted Cash Received (Land)</td><td class="table-numeric">400,000</td></tr>
+                    <tr><td>D - Temporarily Restricted Cash Received (Car)</td><td class="table-numeric">600,000</td></tr>
+                    <tr style="font-weight:800; color:#7c3aed;"><td>Cash Inflow from Financing Activities</td><td class="table-numeric">₱1,080,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 2: Hindi Angat Hospital -->
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-title">
+            <span>🏥</span>
+            <span>Example 2: "Hindi Angat Hospital" (Revenues, Functional Expenses &amp; Net Assets)</span>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="callout callout-pink">
+            <div class="callout-icon">📊</div>
+            <div class="callout-content">
+              <strong>Available Data:</strong>
+              <div class="grid-2" style="margin-top: 6px; font-size: 0.88rem;">
+                <div>
+                  • Gross patient service revenue: ₱840,000<br>
+                  • Charity care for indigent patients: ₱60,000<br>
+                  • Contractual adjustments: ₱85,000<br>
+                  • Employee discounts: ₱25,000
+                </div>
+                <div>
+                  • Salaries expense of nurses: ₱240,000<br>
+                  • Salaries expense of admin: ₱110,000<br>
+                  • Supplies for providing healthcare: ₱170,000<br>
+                  • Fund-raising costs: ₱90,000<br>
+                  • Bad debts expense: ₱40,000
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-top: 14px;">
+            <!-- Rendered & Net Revenue -->
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--primary-pink); margin-bottom: 6px;">Patient Revenue Solutions</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr><td>Gross Patient Service Revenue</td><td class="table-numeric">₱840,000</td></tr>
+                    <tr><td>Add Back: Charity Care</td><td class="table-numeric">60,000</td></tr>
+                    <tr style="font-weight:800; background:#ffe5ec; color:#d6336c;">
+                      <td>Gross Patient Service Rendered</td><td class="table-numeric">₱900,000</td></tr>
+                    <tr><td colspan="2" style="border-top: 2px solid var(--border-soft); padding-top: 10px;"></td></tr>
+                    <tr><td>Gross Patient Service Revenue</td><td class="table-numeric">₱840,000</td></tr>
+                    <tr><td>Less: Contractual Adjustments</td><td class="table-numeric">(85,000)</td></tr>
+                    <tr><td>Less: Employee Discounts</td><td class="table-numeric">(25,000)</td></tr>
+                    <tr style="font-weight:800; background:var(--pastel-mint); color:#155724;">
+                      <td>Net Patient Service Revenue</td><td class="table-numeric">₱730,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Functional Expenses -->
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--accent-purple); margin-bottom: 6px;">Functional Expenses</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr style="background:#fbf5ff; font-weight:800;"><td colspan="2">Program Expenses (Patient Care)</td></tr>
+                    <tr><td>Salaries Expense of Nurses</td><td class="table-numeric">₱240,000</td></tr>
+                    <tr><td>Supplies for Providing Health Care</td><td class="table-numeric">170,000</td></tr>
+                    <tr style="font-weight:800; background:#e8dff5; color:#7e22ce;">
+                      <td>Total Program Expenses</td><td class="table-numeric">₱410,000</td></tr>
+                    
+                    <tr style="background:#fff9eb; font-weight:800;"><td colspan="2">Support Expenses (Overhead)</td></tr>
+                    <tr><td>Salaries Expense of Admin</td><td class="table-numeric">₱110,000</td></tr>
+                    <tr><td>Fund-Raising Costs</td><td class="table-numeric">90,000</td></tr>
+                    <tr><td>Bad Debts Expense</td><td class="table-numeric">40,000</td></tr>
+                    <tr style="font-weight:800; background:#fef5d1; color:#856404;">
+                      <td>Total Support Expenses</td><td class="table-numeric">₱240,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Increase in Net Assets -->
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--accent-mint); margin-bottom: 6px;">Increase in Net Assets</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr><td>Net Patient Service Revenue</td><td class="table-numeric">₱730,000</td></tr>
+                    <tr><td>Less: Program Expenses</td><td class="table-numeric">(410,000)</td></tr>
+                    <tr><td>Less: Support Expenses</td><td class="table-numeric">(240,000)</td></tr>
+                    <tr style="font-weight:800; background:var(--pastel-mint); color:#155724; font-size:1.05rem;">
+                      <td>Increase in Net Assets</td><td class="table-numeric">₱80,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="callout callout-mint" style="margin-top: 10px;">
+                <div class="callout-icon">💡</div>
+                <div class="callout-content">
+                  Remember: Charity Care is never recognized as revenue and is never deducted as an expense!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 3: Realtalks ni G Academy -->
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-title">
+            <span>🎓</span>
+            <span>Example 3: "Realtalks ni G Academy" (Tuition, Non-Service vs Service Scholarships)</span>
+          </div>
+          <span class="accordion-toggle">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="callout callout-purple">
+            <div class="callout-icon">📖</div>
+            <div class="callout-content">
+              <strong>Given School Data:</strong>
+              <div class="grid-2" style="margin-top: 6px; font-size: 0.88rem;">
+                <div>
+                  • Assessed tuition and other fees: ₱900,000<br>
+                  • Refunds made: ₱17,000<br>
+                  • Estimated uncollectible amount: ₱43,000<br>
+                  • Scholarships granted to Dean's Listers: ₱50,000
+                </div>
+                <div>
+                  • Scholarships granted to sister city endorsees: ₱10,000<br>
+                  • Scholarships granted to student assistants: ₱25,000<br>
+                  • Discounts to grad students accepting teaching assistantships: ₱45,000
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 14px;">
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--primary-pink); margin-bottom: 6px;">1. Net Revenue from Tuition &amp; Fees</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr><td>Gross Tuition Fee</td><td class="table-numeric">₱900,000</td></tr>
+                    <tr><td>Less: Dean's Lister Scholarships <em>(Non-Service)</em></td><td class="table-numeric">(50,000)</td></tr>
+                    <tr><td>Less: Sister City Endorsees Scholarships <em>(Non-Service)</em></td><td class="table-numeric">(10,000)</td></tr>
+                    <tr><td>Less: Direct Refunds of Tuition and Fees</td><td class="table-numeric">(17,000)</td></tr>
+                    <tr style="font-weight:800; background:#ffe5ec; color:#d6336c; font-size:1rem;">
+                      <td>Net Revenue from Tuition and Fees</td><td class="table-numeric">₱823,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h4 style="font-family: 'Quicksand'; color: var(--accent-mint); margin-bottom: 6px;">2. Increase in Net Assets</h4>
+              <div class="table-container">
+                <table class="cute-table">
+                  <tbody>
+                    <tr><td>Net Revenue from Tuition and Fees</td><td class="table-numeric">₱823,000</td></tr>
+                    <tr><td>Less: Student Assistant Scholarships <em>(Service Scholarship - Expense)</em></td><td class="table-numeric">(25,000)</td></tr>
+                    <tr><td>Less: Teaching Assistant Scholarships <em>(Service Scholarship - Expense)</em></td><td class="table-numeric">(45,000)</td></tr>
+                    <tr><td>Less: Estimated Uncollectible Amounts <em>(Bad Debts - Operating Expense)</em></td><td class="table-numeric">(43,000)</td></tr>
+                    <tr style="font-weight:800; background:var(--pastel-mint); color:#155724; font-size:1.05rem;">
+                      <td>Increase in Net Assets</td><td class="table-numeric">₱710,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 5: GOVERNMENT ACCOUNTING FRAMEWORK -->
+    <!-- ========================================== -->
+    <section id="sec-gov-framework">
+      <div class="section-header">
+        <div class="section-icon">🏛️</div>
+        <h2 class="section-title">Topic 12: Government Accounting Framework &amp; Key Agencies</h2>
+      </div>
+
+      <div class="cute-card">
+        <span class="card-ribbon ribbon-blue">Definition</span>
+        <h3 class="card-title">📖 Definition of Government Accounting</h3>
+        <p>The process of analyzing, recording, classifying, summarizing, and communicating all transactions involving the receipt and disposition of government funds and property, and interpreting the results thereof.</p>
+        
+        <p style="margin-top: 10px;"><strong>The Government Budget:</strong> The financial plan of the government for a given period, showing what resources are, and how they will be generated and used over the period. It encompasses the income, expenditures, and sources of borrowings of the National Government that are used to achieve national objectives, strategies, and programs.</p>
+      </div>
+
+      <!-- The 4 Responsible Government Agencies -->
+      <div class="grid-2" style="margin-top: 20px;">
+        <!-- COA -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-pink">Constitutional Body</span>
+          <h3 class="card-title">⚖️ 1. Commission on Audit (COA)</h3>
+          <ul class="cute-list checks">
+            <li>Holds <strong>exclusive authority</strong> to promulgate accounting and auditing rules and regulations for the government (<em>Sec. 2(2), Art. IX-D, Philippine Constitution</em>).</li>
+            <li>Keeps the <strong>general accounts</strong> of the government, consolidates financial reports, and submits the <strong>Annual Financial Report</strong> of government agencies to the President and the Congress <strong>not later than September 30</strong>.</li>
+            <li><strong>Mandated the GAM:</strong> Prescribed the <em>Government Accounting Manual (GAM) for National Government Agencies</em>, effective <strong>January 1, 2016</strong>.</li>
+            <li>GAM superseded the <em>New Government Accounting System (NGAS)</em>, which had been effective since June 18, 2002.</li>
+            <li>Prepared in accordance with the <strong>Philippine Public Sector Accounting Standards (PPSAS)</strong> on an <strong>Accrual Basis</strong>, unless not practicable.</li>
+          </ul>
+
+          <div style="background: #fff5f7; border: 1.5px solid var(--border-soft); border-radius: var(--radius-sm); padding: 12px; margin-top: 12px;">
+            <strong>The 3 Volumes of GAM:</strong>
+            <ul class="cute-list stars" style="margin-top: 6px; font-size: 0.88rem;">
+              <li><strong>Volume 1:</strong> Accounting Policies, Standards and Guidelines</li>
+              <li><strong>Volume 2:</strong> Accounting Books, Registries, Records, Forms, and Reports</li>
+              <li><strong>Volume 3:</strong> The Revised Chart of Accounts</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- DBM, BTr, NGAs -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-purple">Executive Agencies</span>
+          <h3 class="card-title">💼 2. DBM, 3. BTr &amp; 4. NGAs</h3>
+          
+          <div style="margin-bottom: 14px;">
+            <strong style="color: var(--accent-purple);">2. Department of Budget and Management (DBM):</strong>
+            <p style="font-size: 0.92rem;">Formulates and implements the National Budget. Exercises control over expenditure programs, releases allotments, and issues Notice of Cash Allocation (NCA).</p>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <strong style="color: var(--accent-peach);">3. Bureau of the Treasury (BTr):</strong>
+            <p style="font-size: 0.92rem;">Functions under the Department of Finance (DOF) as the <strong>Cash Custodian of the Government</strong>. In charge of government fund receipts and disbursements. Maintains the <em>Registry of NCA (RENCA)</em> and monitors bank accounts/releases.</p>
+          </div>
+
+          <div>
+            <strong style="color: var(--accent-mint);">4. National Government Agencies (NGAs):</strong>
+            <p style="font-size: 0.92rem;">Maintains and keeps the agency's current accounts, accounting books, and budget registries. Submits monthly and quarterly <em>Budget Accountability Reports (BARs)</em> to DBM and COA.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 6: THE BUDGET PROCESS (4 PHASES)   -->
+    <!-- ========================================== -->
+    <section id="sec-budget-cycle">
+      <div class="section-header">
+        <div class="section-icon">📅</div>
+        <h2 class="section-title">The Budget Process (Budget Cycle - 4 Phases)</h2>
+      </div>
+
+      <div class="grid-4">
+        <!-- Phase 1 -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-pink">Phase 1</span>
+          <h3 class="card-title" style="font-size: 1.1rem;">📝 1. Budget Preparation</h3>
+          <ul class="cute-list checks" style="font-size: 0.88rem;">
+            <li>DBM issues the <strong>Budget Call</strong>.</li>
+            <li>Agencies hold <strong>Budget Hearings</strong> with DBM.</li>
+            <li>DBM consolidates and crafts the <strong>National Expenditure Plan (NEP)</strong> and presents it to the President.</li>
+            <li>Once approved by the President and Cabinet, the DBM submits the <strong>President's Budget</strong> (Approved NEP) to Congress <strong>within 30 days before the opening of the regular session</strong>.</li>
+          </ul>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-purple">Phase 2</span>
+          <h3 class="card-title" style="font-size: 1.1rem;">⚖️ 2. Budget Legislation</h3>
+          <ul class="cute-list checks" style="font-size: 0.88rem;">
+            <li><strong>House Deliberation:</strong> Must start <em>exclusively</em> in the lower chamber (House of Representatives) through a <strong>General Appropriations Bill (GAB)</strong>.</li>
+            <li><strong>Senate Deliberation:</strong> Senate crafts its own GAB version.</li>
+            <li><strong>Bicameral Conference Committee:</strong> Resolves differences, producing the <em>Harmonized GAB</em>.</li>
+            <li><strong>Ratification &amp; Enrollment:</strong> Passed by both chambers.</li>
+            <li><strong>Presidential Enactment:</strong> Enacted into the <strong>General Appropriations Act (GAA)</strong>.</li>
+            <li><em>Unsigned within 30 days:</em> Automatically deemed a law!</li>
+            <li><em>Presidential Veto:</em> May be overturned by a <strong>2/3 vote</strong> of all members of Congress.</li>
+            <li><em>If no GAA enacted:</em> The prior year's budget is automatically adopted as a <strong>Reenacted Budget</strong>.</li>
+          </ul>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-mint">Phase 3</span>
+          <h3 class="card-title" style="font-size: 1.1rem;">🚀 3. Budget Execution</h3>
+          <ul class="cute-list checks" style="font-size: 0.88rem;">
+            <li>Agencies submit <strong>Budget Execution Documents (BEDs)</strong> to DBM.</li>
+            <li>DBM prepares the <strong>Allotment Release Program (ARP)</strong>, authorizing agencies to incur and enter into obligations.</li>
+            <li>DBM issues the <strong>Notice of Cash Allocation (NCA)</strong>, a disbursement authority to government agencies authorizing cash withdrawals from modified disbursement system (MDS) banks.</li>
+          </ul>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-yellow">Phase 4</span>
+          <h3 class="card-title" style="font-size: 1.1rem;">📊 4. Budget Accountability</h3>
+          <ul class="cute-list checks" style="font-size: 0.88rem;">
+            <li><strong>Occurs simultaneously</strong> (together) with Budget Execution!</li>
+            <li>Agencies submit monthly &amp; quarterly <strong>Budget Accountability Reports (BARs)</strong> reviewed by DBM and COA.</li>
+            <li>Agency heads conduct an <strong>Annual Budget Performance Assessment Review (BPAR)</strong>.</li>
+            <li><strong>COA Audit:</strong> Comprehensive post-audit and financial compliance review.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Core Trio: Appropriation, Allotment, Obligation -->
+      <div class="cute-card" style="margin-top: 20px;">
+        <span class="card-ribbon ribbon-peach">High Yield Distinctions</span>
+        <h3 class="card-title">🔑 Appropriation vs. Allotment vs. Obligation</h3>
+        <div class="callout callout-pink" style="margin-bottom: 12px;">
+          <div class="callout-icon">🚨</div>
+          <div class="callout-content">
+            <strong>CRITICAL RULE:</strong> <em>"No incurring of obligations is allowed before receiving allotment."</em>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="cute-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Term</th>
+                <th>Legal &amp; Accounting Meaning</th>
+                <th>Authorizing Party / Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Appropriation</strong></td>
+                <td>A legislative authorization/law directing the payment of goods and services out of government funds under specified conditions.</td>
+                <td>Passed by <strong>Congress</strong> (Legislative Branch) as the GAA.</td>
+              </tr>
+              <tr>
+                <td><strong>Allotment</strong></td>
+                <td>An authorization issued by DBM to an agency allowing it to incur obligations within a specified amount that is within the legislative appropriation.</td>
+                <td>Issued by <strong>DBM</strong> (Obligational Authority).</td>
+              </tr>
+              <tr>
+                <td><strong>Obligation</strong></td>
+                <td>An act of a duly authorized agency official which binds the government to the immediate or eventual payment of a sum of money.</td>
+                <td>Incurred by the <strong>Government Agency</strong> (via signed contracts/purchase orders).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 7: REGISTRIES & KEY PPSAS RULES    -->
+    <!-- ========================================== -->
+    <section id="sec-registries-ppsas">
+      <div class="section-header">
+        <div class="section-icon">📜</div>
+        <h2 class="section-title">Registries, Financial Statements &amp; PPSAS Provisions</h2>
+      </div>
+
+      <div class="grid-2">
+        <!-- Registries -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-mint">Internal Control</span>
+          <h3 class="card-title">🗂️ Budget Registries</h3>
+          <p>Registries serve as the internal control mechanisms of the government budget to prevent overspending:</p>
+          <ul class="cute-list checks">
+            <li><strong>RAPAL:</strong> <em>Registry of Appropriations and Allotments</em> (Monitors appropriations and allotments received).</li>
+            <li><strong>RAOD:</strong> <em>Registry of Allotments, Obligations, and Disbursements</em> (Tracks allotments, obligations incurred, and actual disbursements). Maintained by class:
+              <br>• <strong>RAOD-PS:</strong> Personnel Services (Salaries, PERA, bonuses)
+              <br>• <strong>RAOD-MOOE:</strong> Maintenance and Other Operating Expenses (Travel, rent, supplies)
+              <br>• <strong>RAOD-FE:</strong> Financial Expenses (Bank charges, interest)
+              <br>• <strong>RAOD-CO:</strong> Capital Outlays (Infrastructure, heavy equipment)
+            </li>
+            <li><strong>RROR:</strong> <em>Registry of Revenue and Other Receipts</em> (Monitors budgeted vs. actual collected revenue and remittances to BTr).</li>
+            <li><strong>RBUD:</strong> <em>Registry of Budget, Utilization, and Disbursement</em></li>
+            <li><strong>RANCA:</strong> <em>Registry of Allotments and Notice of Cash Allocation</em> (Tracks NCA received and checks issued against it).</li>
+          </ul>
+
+          <p style="margin-top: 14px; font-weight: 700; color: #3b283d;">General Purpose Financial Statements (GPFS) under GAM:</p>
+          <ul class="cute-list stars" style="font-size: 0.9rem;">
+            <li>1. Statement of Financial Position</li>
+            <li>2. Statement of Financial Performance</li>
+            <li>3. Statement of Changes in Net Assets/Equity</li>
+            <li>4. Statement of Cash Flows</li>
+            <li>5. <strong>Statement of Comparison of Budget and Actual Amounts</strong> (Unique to government accounting!)</li>
+            <li>6. Notes to Financial Statements</li>
+          </ul>
+        </div>
+
+        <!-- Key PPSAS Provisions -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-yellow">Key PPSAS Rules</span>
+          <h3 class="card-title">📐 Key PPSAS Accounting Policies</h3>
+          
+          <div class="table-container">
+            <table class="cute-table">
+              <thead>
+                <tr><th>Accounting Item</th><th>Mandated PPSAS / GAM Rule</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Bank Reconciliation</strong></td>
+                  <td>Prepared using the <strong>Adjusted Balance Method</strong> in <strong>Four (4) Copies</strong>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Petty Cash Fund (PCF)</strong></td>
+                  <td>Maintained under the <strong>Imprest System</strong>. Maximum of <strong>₱15,000</strong>. (Must be covered by a fidelity bond if greater than ₱15,000).</td>
+                </tr>
+                <tr>
+                  <td><strong>Investment Property</strong></td>
+                  <td><strong>Cost Model ONLY</strong> (Fair value model is strictly prohibited!).</td>
+                </tr>
+                <tr>
+                  <td><strong>Borrowing Costs</strong></td>
+                  <td><strong>Capitalizable</strong> if directly attributable to the acquisition or construction of a <em>Qualifying Asset</em>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Biological Assets</strong></td>
+                  <td>Includes <strong>Bearer Plants</strong> (unlike PFRS where bearer plants are treated as PPE).</td>
+                </tr>
+                <tr>
+                  <td><strong>PPE Capitalization Threshold</strong></td>
+                  <td>Tangible items must have a cost of <strong>at least ₱50,000</strong>.<br>
+                    <span style="font-size: 0.8rem; color: #b45309;">(Effective May 31, 2022, applied retrospectively; previously ₱15,000).</span><br>
+                    • Useful life: <strong>2 to 50 years</strong><br>
+                    • Depreciation: <strong>Straight-line</strong><br>
+                    • Residual Value: <strong>Minimum 5%</strong> of cost.</td>
+                </tr>
+                <tr>
+                  <td><strong>Semi-Expendable Property</strong></td>
+                  <td>Tangible items costing <strong>less than ₱50,000</strong>. Recognized as an expense upon issuance to end-users (classified as Semi-Expendable Inventory while in stock).</td>
+                </tr>
+                <tr>
+                  <td><strong>Intangible Assets</strong></td>
+                  <td>• <strong>Cost Model ONLY</strong><br>
+                    • Useful life: <strong>2 to 10 years</strong><br>
+                    • <strong>Zero residual value</strong> (unless a willing 3rd-party buyer exists).</td>
+                </tr>
+                <tr>
+                  <td><strong>Service Concession Arrangements</strong></td>
+                  <td>Accounted under either:
+                    <br>1. <strong>Financial Liability Model</strong> (Financial Liability)
+                    <br>2. <strong>Right to Operate Model</strong> (Deferred Revenue)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 8: MASTER GOV JOURNAL ENTRIES      -->
+    <!-- ========================================== -->
+    <section id="sec-gov-journal-entries">
+      <div class="section-header">
+        <div class="section-icon">✍️</div>
+        <h2 class="section-title">Master Guide to Government Journal Entries &amp; Registries</h2>
+      </div>
+
+      <!-- Abbreviations Legend -->
+      <div class="cute-card" style="margin-bottom: 20px;">
+        <span class="card-ribbon ribbon-peach">Standard Abbreviations</span>
+        <h3 class="card-title">🏷️ Key Account Title Abbreviations in GAM</h3>
+        <div class="grid-4" style="margin-top: 10px; font-size: 0.88rem;">
+          <div><strong>Cash - CO:</strong> Cash - Collecting Officer (Normal collections)</div>
+          <div><strong>Cash - T/AD, Reg.:</strong> Cash - Treasury/Agency Deposit, Regular (Remittance to BTr)</div>
+          <div><strong>Cash - TRA:</strong> Cash - Tax Remittance Advice (Constructive receipt of WHT)</div>
+          <div><strong>Cash - MDS, Reg.:</strong> Cash - Modified Disbursement System, Regular (NCA / Checks)</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- 1. Revenue & Other Receipts -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-mint">Receipts</span>
+          <h3 class="card-title">💵 1. Revenue and Other Receipts</h3>
+          <div class="table-container">
+            <table class="cute-table">
+              <thead><tr><th>Transaction</th><th>Journal Entry</th><th>Registry</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Billing</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Accounts Receivable</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Income</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td><strong>RROR</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>2. Collection</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Cash - Collecting Officer</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Accounts Receivable</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td><strong>RROR</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>3. Remittance to BTr</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Cash - Treasury/Agency Deposit, Regular</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Cash - Collecting Officer</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td><strong>RROR</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. Expenditures & Disbursement -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-purple">Expenditures</span>
+          <h3 class="card-title">📦 2. Expenditures &amp; Procurements</h3>
+          <div class="table-container">
+            <table class="cute-table">
+              <thead><tr><th>Transaction</th><th>Journal Entry</th><th>Registry</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Appropriations</strong></td>
+                  <td><em>Memo Entry</em></td>
+                  <td><strong>RAPAL</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>2. Allotment</strong></td>
+                  <td><em>Memo Entry</em></td>
+                  <td><strong>RAPAL &amp; RAOD</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>3. Incurrence of Obligation</strong></td>
+                  <td><em>Memo Entry</em></td>
+                  <td><strong>RAOD &amp; ORS</strong><br><small>(Obligation Request Status)</small></td>
+                </tr>
+                <tr>
+                  <td><strong>4. Delivery / Receipt of Order</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Asset or Expense</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Accounts Payable</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td><strong>RAOD &amp; ORS</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>5. Receipt of NCA from DBM</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Subsidy from National Gov't</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td><strong>RANCA</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>6. Payment / Disbursement (MDS Check)</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Accounts Payable</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Due to BIR (WHT)</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td><strong>RAOD &amp; ORS</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>7. Constructive Remittance to BIR (TRA)</strong></td>
+                  <td>
+                    <div class="je-box">
+                      <div class="je-row"><span>Due to BIR</span><span class="je-amount">XX</span></div>
+                      <div class="je-row je-indent"><span>Cash - Tax Remittance Advice (TRA)</span><span class="je-amount">XX</span></div>
+                    </div>
+                  </td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Inter-Agency Project Transfers (Agency Fund - Liability) -->
+      <div class="cute-card" style="margin-top: 20px;">
+        <span class="card-ribbon ribbon-blue">Inter-Agency Transfer</span>
+        <h3 class="card-title">🤝 3. Agency Fund - Liability (Cash Transfer from One Agency to Another)</h3>
+        <p>Accounting when a <em>Source/Transferor Agency</em> transfers funds to an <em>Implementing/Receiver Agency</em> to undertake a specialized project:</p>
+
+        <div class="table-container">
+          <table class="cute-table">
+            <thead>
+              <tr>
+                <th>Transaction Stage</th>
+                <th>Books of Transferor (Source Agency)</th>
+                <th>Books of Receiver (Implementing Agency)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Transfer of Cash</strong></td>
+                <td>
+                  <div class="je-box">
+                    <div class="je-row"><span>Due from Receiver Agency</span><span class="je-amount">XX</span></div>
+                    <div class="je-row je-indent"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="je-box">
+                    <div class="je-row"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+                    <div class="je-row je-indent"><span>Due to Transferor Agency</span><span class="je-amount">XX</span></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>2. Project Completion</strong></td>
+                <td><em>No Entry</em></td>
+                <td>
+                  <div class="je-box">
+                    <div class="je-row"><span>Asset / Project Completed</span><span class="je-amount">XX</span></div>
+                    <div class="je-row je-indent"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>3. Turnover of Asset to Source Agency</strong></td>
+                <td>
+                  <div class="je-box">
+                    <div class="je-row"><span>Asset / Project Received</span><span class="je-amount">XX</span></div>
+                    <div class="je-row je-indent"><span>Due from Receiver Agency</span><span class="je-amount">XX</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="je-box">
+                    <div class="je-row"><span>Due to Transferor Agency</span><span class="je-amount">XX</span></div>
+                    <div class="je-row je-indent"><span>Asset / Project Completed</span><span class="je-amount">XX</span></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. Payroll Entries & 5. Petty Cash, Inventories & Forex -->
+      <div class="grid-2" style="margin-top: 20px;">
+        <!-- Payroll Entries -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-pink">Personnel Services</span>
+          <h3 class="card-title">👥 4. Comprehensive Payroll Entries</h3>
+
+          <p><strong>A. Set up Payroll &amp; Payables to Employees:</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Salaries and Wages</span><span class="je-amount">XX</span></div>
+            <div class="je-row"><span>PERA (Personnel Economic Relief Allowance)</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Due to BIR (Withholding Tax)</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Due to GSIS</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Due to Pag-IBIG</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Due to PhilHealth</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Due to Officers and Employees</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>B. Grant of Cash Advances for Payroll:</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Advances for Payroll</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>C. Liquidation of Payroll Fund (Payout):</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Due to Officers and Employees</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Advances for Payroll</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>D. Remittance of BIR &amp; Premiums:</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Due to BIR</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Cash - TRA</span><span class="je-amount">XX</span></div>
+            <div class="je-row"><span>Due to GSIS</span><span class="je-amount">XX</span></div>
+            <div class="je-row"><span>Due to Pag-IBIG</span><span class="je-amount">XX</span></div>
+            <div class="je-row"><span>Due to PhilHealth</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+          </div>
+        </div>
+
+        <!-- Reversals, Petty Cash & Forex -->
+        <div class="cute-card">
+          <span class="card-ribbon ribbon-yellow">Reversals &amp; Operations</span>
+          <h3 class="card-title">⚙️ 5. Reversals, PCF, Supplies &amp; Forex</h3>
+
+          <p><strong>A. Reversal of Unused NCA at Year-End:</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Subsidy from National Government</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Cash - MDS, Regular</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>B. Year-End Closing Entries:</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Subsidy from National Government</span><span class="je-amount">XX</span></div>
+            <div class="je-row"><span>Other Revenue</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Expenses</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Revenue and Expense Summary</span><span class="je-amount">XX</span></div>
+            <div style="border-top: 1px dotted var(--pastel-purple); margin: 6px 0;"></div>
+            <div class="je-row"><span>Revenue and Expense Summary</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Accumulated Surplus / (Deficit)</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>C. Issuance of Supplies to End Users:</strong></p>
+          <div class="je-box">
+            <div class="je-row"><span>Office Supplies Expense</span><span class="je-amount">XX</span></div>
+            <div class="je-row je-indent"><span>Office Supplies Inventory</span><span class="je-amount">XX</span></div>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>D. Petty Cash Fund Operations:</strong></p>
+          <ul class="cute-list checks" style="font-size: 0.85rem;">
+            <li><strong>Establishment:</strong> Debit <code>Petty Cash Fund</code> / Credit <code>Cash - MDS, Regular</code></li>
+            <li><strong>Replenishment:</strong> Debit <code>Expenses</code> / Credit <code>Cash - MDS, Regular</code></li>
+            <li><strong>Return of Unused Fund:</strong> Debit <code>Cash - Collecting Officer</code> / Credit <code>Petty Cash Fund</code></li>
+            <li><strong>Refund of Unused Advances:</strong> Debit <code>Cash - Collecting Officer</code> / Credit <code>Advances to (Recipient)</code></li>
+          </ul>
+
+          <p style="margin-top: 10px;"><strong>E. Foreign Currency Loan Entries:</strong></p>
+          <ul class="cute-list stars" style="font-size: 0.85rem;">
+            <li><strong>Incurrence:</strong> Dr. <code>Cash in Bank - Foreign Currency</code> / Cr. <code>Loans Payable - Foreign Currency</code></li>
+            <li><strong>Forex Rate Increase (Loss):</strong> Dr. <code>Loss on Forex</code> / Cr. <code>Loans Payable - Foreign Currency</code></li>
+            <li><strong>Forex Rate Decrease (Gain):</strong> Dr. <code>Loans Payable - Foreign Currency</code> / Cr. <code>Gain on Forex</code></li>
+            <li><strong>Settlement with Loss:</strong> Dr. <code>Loans Payable - Foreign Currency</code> &amp; Dr. <code>Loss on Forex</code> / Cr. <code>Cash in Bank - Foreign Currency</code></li>
+            <li><strong>Settlement with Gain:</strong> Dr. <code>Loans Payable - Foreign Currency</code> / Cr. <code>Cash in Bank - Foreign Currency</code> &amp; Cr. <code>Gain on Forex</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 9: FUND CLUSTERS                   -->
+    <!-- ========================================== -->
+    <section id="sec-fund-clusters">
+      <div class="section-header">
+        <div class="section-icon">🏷️</div>
+        <h2 class="section-title">Government Accounting Fund Clusters</h2>
+      </div>
+
+      <div class="cute-card">
+        <span class="card-ribbon ribbon-purple">GAM Code Classification</span>
+        <h3 class="card-title">📑 Master Table of Fund Clusters</h3>
+        <p>In accordance with the GAM, all financial transactions are categorized into <strong>Seven (7) Fund Clusters</strong> for strict fund accounting and internal control:</p>
+        
+        <div class="table-container" style="margin-top: 14px;">
+          <table class="cute-table">
+            <thead>
+              <tr>
+                <th style="width: 15%;">Cluster Code</th>
+                <th style="width: 35%;">Fund Cluster Title</th>
+                <th>Description &amp; Nature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="step-pill" style="background:#ffe5ec; color:#d6336c;">01</span></td>
+                <td><strong>Regular Agency Fund</strong></td>
+                <td>Covers general fund allocations, regular operational subsidies from the National Government (NCA receipts, General Appropriations).</td>
+              </tr>
+              <tr>
+                <td><span class="step-pill" style="background:#e8dff5; color:#7e22ce;">02</span></td>
+                <td><strong>Foreign Assisted Projects Fund</strong></td>
+                <td>Projects supported by international grants and foreign loan facilities.</td>
+              </tr>
+              <tr>
+                <td><span class="step-pill" style="background:#daf5e7; color:#047857;">03</span></td>
+                <td><strong>Special Account - Locally Funded / Domestic Grants</strong></td>
+                <td>Special accounts established for domestic grant programs and local fund partnerships.</td>
+              </tr>
+              <tr>
+                <td><span class="step-pill" style="background:#fde2d1; color:#f3825f;">04</span></td>
+                <td><strong>Special Account - Foreign Assisted / Foreign Grants</strong></td>
+                <td>Special accounts dedicated solely to foreign donations, grants, and foreign-assisted components.</td>
+              </tr>
+              <tr>
+                <td><span class="step-pill" style="background:#fef5d1; color:#b45309;">05</span></td>
+                <td><strong>Internally Generated Funds</strong></td>
+                <td>Revenues earned by the agency through collections allowed by law to be retained (e.g., student fees, hospital retained collections under special laws).</td>
+              </tr>
+              <tr>
+                <td><span class="step-pill" style="background:#d9f0fc; color:#0284c7;">06</span></td>
+                <td><strong>Business Related Funds</strong></td>
+                <td>Income from revolving commercial facilities, agency cafeterias, production units, and dormitories.</td>
+              </tr>
+              <tr>
+                <td><span class="step-pill" style="background:#fce7f3; color:#db2777;">07</span></td>
+                <td><strong>Trust Receipts</strong></td>
+                <td>Funds held by the government agency in fiduciary capacity, stewardship, or custody (guaranty deposits, bidder's bonds, performance deposits).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 10: INTERACTIVE FLASHCARDS         -->
+    <!-- ========================================== -->
+    <section id="sec-flashcards">
+      <div class="section-header">
+        <div class="section-icon">🧠</div>
+        <h2 class="section-title">Interactive CPALE Flashcard Drill</h2>
+      </div>
+
+      <p style="color: var(--text-muted); font-weight: 600;">Click any card to reveal the high-yield answer!</p>
+
+      <div class="quiz-grid">
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ What is the PPE capitalization threshold in the government sector?</div>
+          <div class="flashcard-a">✨ At least ₱50,000 (Effective May 31, 2022, applied retrospectively). Items below this are Semi-Expendable.</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ When are donated volunteer services recognized as contribution revenue?</div>
+          <div class="flashcard-a">✨ ONLY when: (1) Requires specialized skills AND performed by professionals possessing those skills, OR (2) Creates/enhances a non-financial asset!</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ In which net asset category are expenses recognized in the Statement of Activities?</div>
+          <div class="flashcard-a">✨ ONLY in Unrestricted Net Assets! (Never deduct directly from restricted funds).</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ How are Student Assistant scholarships treated in Colleges &amp; Universities?</div>
+          <div class="flashcard-a">✨ As Operating / Compensation Expense (Service Scholarship)! They are NOT deducted from gross tuition revenue.</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ Who has exclusive authority to promulgate government accounting &amp; auditing rules?</div>
+          <div class="flashcard-a">✨ Commission on Audit (COA) pursuant to Sec. 2(2), Art. IX-D of the 1987 Constitution.</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ Can an agency incur an obligation before receiving the allotment from DBM?</div>
+          <div class="flashcard-a">✨ NEVER! "No incurring of obligations is allowed before receiving allotment."</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ What is Fund Cluster 07?</div>
+          <div class="flashcard-a">✨ Trust Receipts (Fiduciary funds, security/performance bonds, deposits held in trust).</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+
+        <div class="flashcard" onclick="this.classList.toggle('revealed')">
+          <div class="flashcard-q">❓ How is Charity Care presented in a Hospital's financial statements?</div>
+          <div class="flashcard-a">✨ Disclosed ONLY in the notes to financial statements. Never recognized in revenue or as expense!</div>
+          <div class="flashcard-hint">Click to flip 🌸</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // Accordion Toggle Function
+    function toggleAccordion(headerElement) {
+      const item = headerElement.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // Back to Top Button Logic
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Real-Time Search Filter Functionality
+    const searchInput = document.getElementById('reviewerSearch');
+    searchInput.addEventListener('input', function() {
+      const filter = this.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.cute-card, .accordion-item');
+
+      if (!filter) {
+        cards.forEach(card => card.style.display = '');
+        return;
+      }
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(filter)) {
+          card.style.display = '';
+          // If inside accordion, auto-open when matching
+          if (card.classList.contains('accordion-item')) {
+            card.classList.add('open');
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
