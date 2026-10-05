@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foreign Currency & Hedging: The Pastel Study Guide ✨</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blush: { 50: '#fff5f7', 100: '#ffe4ea', 200: '#fecdd7', 300: '#fda4b8', 400: '#fb7193', 500: '#f43f6e' },
+                        lavender: { 50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe', 400: '#c084fc', 500: '#a855f7' },
+                        mint: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80' },
+                        honey: { 50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d', 400: '#fbbf24' },
+                        skyPastel: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8' }
+                    },
+                    fontFamily: {
+                        quicksand: ['"Quicksand"', 'sans-serif'],
+                        body: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Cute Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #faf7f5;
+        }
+        h1, h2, h3, h4, .cute-font {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .bubbly-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bubbly-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px -8px rgba(244, 114, 182, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+        .cute-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased leading-relaxed min-h-screen flex flex-col justify-between">
+
+    <!-- Sweet Header Banner -->
+    <header class="bg-gradient-to-r from-pink-100 via-purple-100 to-sky-100 border-b border-pink-200/60 pt-10 pb-8 px-4 text-center relative overflow-hidden">
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-pink-200/40 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-200/40 rounded-full blur-2xl"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-1.5 rounded-full border border-pink-200 text-pink-600 text-xs font-bold tracking-wide uppercase shadow-sm mb-4">
+                <span>🎀 AFAR & PFRS 9 / PAS 39 Companion</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 mb-3">
+                Foreign Currency & <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">Hedging Magic ✨</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-medium">
+                The coziest, crystal-clear guide to derivatives, cash flow vs. fair value hedges, P&L vs. OCI, and dodging tricky CPA exam traps! 🧸✨
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white/90 p-2 rounded-2xl shadow-sm border border-pink-100 flex flex-wrap gap-2 justify-center mb-8 backdrop-blur" id="tabs">
+            <button onclick="switchTab('hedging-types')" id="tab-hedging-types" class="tab-btn active bg-pink-100 text-pink-700 font-bold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5 shadow-sm">
+                <span>🌸</span> 1. Types of Hedges
+            </button>
+            <button onclick="switchTab('pnl-vs-oci')" id="tab-pnl-vs-oci" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
+                <span>🍰</span> 2. Why P&L vs. OCI?
+            </button>
+            <button onclick="switchTab('speculation-trap')" id="tab-speculation-trap" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
+                <span>🚨</span> 3. The AFAR "0" Exam Trap
+            </button>
+            <button onclick="switchTab('translation')" id="tab-translation" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
+                <span>🌍</span> 4. FS Translation
+            </button>
+            <button onclick="switchTab('comparison')" id="tab-comparison" class="tab-btn text-slate-600 hover:text-pink-600 hover:bg-pink-50 font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-1.5">
+                <span>💖</span> 5. Quick Master Matrix
+            </button>
+        </div>
+
+        <!-- TAB 1: TYPES OF HEDGES -->
+        <div id="content-hedging-types" class="tab-content space-y-6 animate-fade-in">
+            <!-- Intro Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm relative overflow-hidden">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-3xl">🛡️</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">What is Hedging in Layman's Terms?</h2>
+                        <p class="text-sm text-slate-500 font-medium">Think of hedging as buying an insurance policy against nasty price swings!</p>
+                    </div>
+                </div>
+                <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                    If your business is exposed to currencies or price shifts, hedging lets you lock in safety so you don't stay awake at night worrying about exchange rates. Under standards like <strong class="text-pink-600">PAS 39</strong> and <strong class="text-pink-600">PFRS 9</strong>, hedging relationships are formally grouped into specific categories:
+                </p>
+            </div>
+
+            <!-- Grid of 4 Hedge Categories -->
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <!-- 1. Fair Value Hedge -->
+                <div class="bubbly-card bg-white rounded-3xl p-6 border-2 border-pink-200/80 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="cute-pill bg-pink-100 text-pink-700">Category A</span>
+                            <span class="text-2xl">🍯</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">1. Fair Value Hedge</h3>
+                        <p class="text-xs uppercase tracking-wider text-pink-500 font-bold mb-3">Protecting an existing asset, liability, or firm commitment</p>
+                        <p class="text-sm text-slate-600 mb-4">
+                            You already own something (or locked in an unbreakable contract), and you are terrified its current market price will plummet or a liability will get way more expensive.
+                        </p>
+                        <div class="bg-pink-50/80 rounded-2xl p-4 border border-pink-100 text-xs sm:text-sm text-slate-700 space-y-1.5">
+                            <p><strong>🧸 Analogy:</strong> You own a shiny gold watch worth $2,000. You don't want to sell it, but you're scared gold drops to $1,400. You buy a contract that pays you if gold drops.</p>
+                            <p><strong>📊 Accounting Home:</strong> Immediate <span class="font-bold text-pink-600">Profit or Loss (P&L)</span> for both the derivative and the item!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Cash Flow Hedge -->
+                <div class="bubbly-card bg-white rounded-3xl p-6 border-2 border-purple-200/80 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="cute-pill bg-purple-100 text-purple-700">Category B</span>
+                            <span class="text-2xl">🌊</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">2. Cash Flow Hedge</h3>
+                        <p class="text-xs uppercase tracking-wider text-purple-500 font-bold mb-3">Protecting future expected cash inflows/outflows</p>
+                        <p class="text-sm text-slate-600 mb-4">
+                            You are hedging a future transaction that hasn't officially occurred yet—such as expected inventory purchases, future sales, or variable interest rate debt.
+                        </p>
+                        <div class="bg-purple-50/80 rounded-2xl p-4 border border-purple-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                            <p><strong>🧸 Analogy:</strong> You have an adjustable-rate mortgage. You fear interest rates will hike next year, making your monthly rent payment explode. You lock in a fixed interest swap.</p>
+                            <p><strong>📊 Split Accounting Home:</strong></p>
+                            <ul class="list-disc list-inside pl-1 space-y-1 text-xs">
+                                <li><strong class="text-purple-700">Effective Portion:</strong> Parked in <span class="font-bold text-purple-700">OCI (Equity)</span>, recycled to P&L later! 🛋️</li>
+                                <li><strong class="text-rose-600">Ineffective Portion:</strong> Banished straight to <span class="font-bold text-rose-600">P&L immediately</span>! ⚡</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Hedge of Net Investment -->
+                <div class="bubbly-card bg-white rounded-3xl p-6 border-2 border-sky-200/80 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="cute-pill bg-sky-100 text-sky-700">Category C</span>
+                            <span class="text-2xl">🌸</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">3. Hedge of Net Investment</h3>
+                        <p class="text-xs uppercase tracking-wider text-sky-600 font-bold mb-3">Protecting foreign subsidiaries from currency drop</p>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Protecting the parent company's equity stake in an offshore foreign branch or subsidiary against exchange rate translation declines.
+                        </p>
+                        <div class="bg-sky-50/80 rounded-2xl p-4 border border-sky-100 text-xs sm:text-sm text-slate-700 space-y-2">
+                            <p><strong>🧸 Analogy:</strong> You live in Manila and own a cute café in Tokyo. The café is thriving, but the Japanese Yen is sinking fast against the Peso. Your overall investment looks smaller on reports!</p>
+                            <div class="p-2.5 bg-white/80 rounded-xl border border-sky-200 space-y-1 text-xs">
+                                <p class="font-bold text-sky-800 flex items-center gap-1">
+                                    <span>👯</span> "Twins" with Cash Flow Hedge (PAS 39 / PFRS 9 Rule):
+                                </p>
+                                <p class="text-slate-600">The standard literally states it is accounted for <em>similarly to cash flow hedges</em>:</p>
+                                <ul class="list-disc list-inside space-y-0.5 text-[11px] text-slate-700 pl-1">
+                                    <li><strong class="text-sky-700">Effective Portion:</strong> Recognized in <span class="font-bold text-sky-700">OCI</span> (Foreign Currency Translation Reserve) 🛋️</li>
+                                    <li><strong class="text-rose-600">Ineffective Portion:</strong> Banished straight to <span class="font-bold text-rose-600">P&L immediately</span>! ⚡</li>
+                                    <li><strong class="text-slate-800">Recycled to P&L?</strong> Only upon disposal or liquidation of the foreign operation! 🚪</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Undesignated Hedge -->
+                <div class="bubbly-card bg-white rounded-3xl p-6 border-2 border-amber-200/80 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="cute-pill bg-amber-100 text-amber-800">The Outsider (Not a Formal Hedge!)</span>
+                            <span class="text-2xl">🏷️</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">4. Undesignated Hedge</h3>
+                        <p class="text-xs uppercase tracking-wider text-amber-600 font-bold mb-3">Real economic protection without the official paperwork</p>
+                        <p class="text-sm text-slate-600 mb-4">
+                            You bought a forward contract to protect real Accounts Payable or Receivable, but you did <em>not</em> prepare formal hedge accounting paperwork.
+                        </p>
+                        <div class="bg-amber-50/80 rounded-2xl p-4 border border-amber-100 text-xs sm:text-sm text-slate-700 space-y-1.5">
+                            <p><strong>🧸 Real Truth:</strong> Economically it is a hedge, but legally standard setters treat it as an ordinary <span class="font-bold text-amber-800">FVPL derivative</span>. Both the AP/AR and contract hit P&L, naturally balancing out!</p>
+                            <p><strong>💡 Board Exam Note:</strong> This is why in Question 1, (D) is the correct answer to "Which is EXCEPT"—it is NOT a designated hedge relationship under PAS 39!</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: WHY P&L VS OCI? (MATCHING PRINCIPLE) -->
+        <div id="content-pnl-vs-oci" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-purple-100 shadow-sm">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">⚖️️</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">The Golden Rule: The Matching Principle</h2>
+                        <p class="text-sm text-purple-600 font-semibold">Why does Fair Value hedge hit P&L while Cash Flow hedge sleeps in OCI?</p>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    Accountants hate artificial volatility! Accounting standards want the hedge gains/losses to show up on your income statement at the <strong>exact same moment</strong> as the item being hedged.
+                </p>
+            </div>
+
+            <!-- Quick Expand/Minimize Controls -->
+            <div class="flex items-center justify-between bg-white/70 backdrop-blur px-5 py-3 rounded-2xl border border-pink-100 shadow-xs">
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                    <span>🗂️</span>
+                    <span>Card Views: Click any card header to expand or collapse</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="setBothCards(true)" class="cute-pill bg-pink-100 hover:bg-pink-200 text-pink-700 transition cursor-pointer text-[11px] shadow-2xs">
+                        🌸 Expand Both
+                    </button>
+                    <button type="button" onclick="setBothCards(false)" class="cute-pill bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer text-[11px] shadow-2xs">
+                        🧸 Minimize Both
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visual Comparison: FV Hedge vs CF Hedge -->
+            <div class="grid md:grid-cols-2 gap-6 items-start">
+
+                <!-- Fair Value Hedge Column (Expandable) -->
+                <div class="bg-gradient-to-b from-pink-50/90 to-white rounded-3xl p-6 sm:p-7 border border-pink-200 shadow-sm transition-all duration-300">
+                    <button type="button" onclick="toggleCard('fv-content', 'fv-icon', 'fv-status')" class="w-full flex items-center justify-between text-left focus:outline-none group cursor-pointer" aria-expanded="true">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl p-2 rounded-2xl bg-white shadow-xs group-hover:scale-105 transition-transform">🎯</span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-pink-700 group-hover:text-pink-800 transition-colors">Fair Value Hedge ➡️ Direct to P&L</h3>
+                                <p class="text-xs text-slate-500 font-medium">Offsets balance sheet revaluations today</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 ml-2">
+                            <span id="fv-status" class="cute-pill bg-pink-100 text-pink-700 text-[10px] hidden sm:inline-flex">Expanded</span>
+                            <span id="fv-icon" class="w-8 h-8 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center text-sm font-bold transition-transform duration-300 transform rotate-180 group-hover:bg-pink-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </div>
+                    </button>
+
+                    <div id="fv-content" class="mt-5 space-y-4 text-sm text-slate-700 transition-all duration-300">
+                        <div class="bg-white p-4 rounded-2xl border border-pink-100 shadow-xs">
+                            <span class="cute-pill bg-pink-100 text-pink-700 mb-1">When does the risk happen?</span>
+                            <p class="font-semibold text-slate-800 mt-1">Right now, today!</p>
+                            <p class="text-xs text-slate-500 mt-1">The hedged asset or liability is already sitting on your balance sheet right now.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-pink-100 shadow-xs">
+                            <span class="cute-pill bg-pink-100 text-pink-700 mb-1">How it cancels out:</span>
+                            <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm mt-1">
+                                <li>Asset loses value: <span class="text-red-500 font-bold">-₱100 in P&L</span></li>
+                                <li>Derivative gains value: <span class="text-emerald-600 font-bold">+₱100 in P&L</span></li>
+                                <li><strong>Net P&L Volatility:</strong> <span class="text-pink-600 font-bold">₱0 Net Impact! 🎉</span></li>
+                            </ul>
+                        </div>
+                        <p class="text-xs text-slate-500 italic">
+                            Both parties meet in the P&L ring simultaneously, neutralizing each other instantly.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Cash Flow Hedge Column (Expandable) -->
+                <div class="bg-gradient-to-b from-purple-50/90 to-white rounded-3xl p-6 sm:p-7 border border-purple-200 shadow-sm transition-all duration-300">
+                    <button type="button" onclick="toggleCard('cf-content', 'cf-icon', 'cf-status')" class="w-full flex items-center justify-between text-left focus:outline-none group cursor-pointer" aria-expanded="true">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl p-2 rounded-2xl bg-white shadow-xs group-hover:scale-105 transition-transform">⏳</span>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-purple-700 group-hover:text-purple-800 transition-colors">Cash Flow Hedge ➡️ Parked in OCI</h3>
+                                <p class="text-xs text-slate-500 font-medium">Buffers future forecasted transactions</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 ml-2">
+                            <span id="cf-status" class="cute-pill bg-purple-100 text-purple-700 text-[10px] hidden sm:inline-flex">Expanded</span>
+                            <span id="cf-icon" class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-sm font-bold transition-transform duration-300 transform rotate-180 group-hover:bg-purple-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </div>
+                    </button>
+
+                    <div id="cf-content" class="mt-5 space-y-4 text-sm text-slate-700 transition-all duration-300">
+                        <div class="bg-white p-4 rounded-2xl border border-purple-100 shadow-xs">
+                            <span class="cute-pill bg-purple-100 text-purple-700 mb-1">When does the risk happen?</span>
+                            <p class="font-semibold text-slate-800 mt-1">In the future!</p>
+                            <p class="text-xs text-slate-500 mt-1">The transaction (e.g. buying goods in 6 months) hasn't happened yet and has zero P&L impact today.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-purple-100 shadow-xs space-y-3">
+                            <span class="cute-pill bg-purple-100 text-purple-700">The Split: Effective vs. Ineffective</span>
+                            
+                            <!-- Effective Portion -->
+                            <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-200">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-bold text-purple-800 text-xs sm:text-sm">🌸 1. Effective Portion</span>
+                                    <span class="cute-pill bg-purple-200 text-purple-800 text-[10px]">Goes to OCI</span>
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    The portion that <em>perfectly matches</em> the change in expected cash flows of the hedged item.
+                                </p>
+                                <p class="text-xs text-purple-900 font-semibold mt-1">
+                                    🛋️ Treatment: Parked in <strong>OCI (Cash Flow Hedge Reserve)</strong>. When the hedged transaction finally hits P&L (e.g., inventory sold as COGS), it is recycled to P&L.
+                                </p>
+                            </div>
+
+                            <!-- Ineffective Portion -->
+                            <div class="p-3 bg-rose-50/80 rounded-xl border border-rose-200">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-bold text-rose-800 text-xs sm:text-sm">⚡ 2. Ineffective Portion</span>
+                                    <span class="cute-pill bg-rose-200 text-rose-800 text-[10px]">Goes to P&L</span>
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Any "overshoot" or slippage where the derivative moved more than the actual risk being hedged.
+                                </p>
+                                <p class="text-xs text-rose-900 font-semibold mt-1">
+                                    🚨 Treatment: Recognized <strong>immediately in Profit or Loss (P&L)</strong>! It never waits in OCI.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- The "Lower of" Rule -->
+                        <div class="bg-amber-50/80 p-3.5 rounded-2xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                            <span class="font-bold flex items-center gap-1.5 text-amber-800">
+                                <span>📐</span> CPA Board Formula: The "Lower Of" Rule
+                            </span>
+                            <p class="text-slate-700">
+                                Cumulative OCI is limited to the <strong>LOWER OF</strong>:
+                            </p>
+                            <ol class="list-decimal list-inside pl-1 text-[11px] sm:text-xs text-slate-600 space-y-0.5">
+                                <li>Cumulative gain/loss on the derivative from inception</li>
+                                <li>Cumulative change in present value of expected cash flows of the hedged item</li>
+                            </ol>
+                            <p class="text-[11px] font-semibold text-amber-900 pt-1">
+                                Any excess gain on the derivative over the hedged risk = Ineffectiveness ➡️ P&L!
+                            </p>
+                        </div>
+
+                        <!-- Cash Flow Hedge Cumulative Rollforward & Basis Adjustment -->
+                        <div class="bg-purple-50/90 p-4 rounded-2xl border border-purple-200 text-xs text-purple-950 space-y-2">
+                            <span class="font-bold flex items-center gap-1.5 text-purple-900 text-sm">
+                                <span>🔄</span> How the Cumulative Adjustment to OCI Works Each Period
+                            </span>
+                            <p class="text-slate-700">
+                                In multi-year problems, you do <strong>not</strong> just dump the current year's derivative change into OCI. You must compute the <em>cumulative target</em> and adjust the difference:
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-purple-100 font-mono text-[11px] text-purple-900 space-y-1">
+                                <p><strong>Target Ending OCI:</strong> Cumulative Effective Amount (Lower Of rule)</p>
+                                <p><strong>Less:</strong> Beginning balance of OCI (Cash Flow Hedge Reserve)</p>
+                                <p class="text-pink-600 font-bold border-t border-purple-200 pt-1"><strong>= Current Year OCI Adjustment (Plug Figure)</strong></p>
+                            </div>
+                            <div class="pt-1">
+                                <span class="font-bold text-purple-900">📦 What happens when the transaction happens?</span>
+                                <ul class="list-disc list-inside pl-1 text-[11px] text-slate-600 space-y-1 mt-1">
+                                    <li><strong>Forecasted Sale / Expense:</strong> Accumulated OCI is recycled into <strong>P&L</strong> as a reclassification adjustment matching sales or interest.</li>
+                                    <li><strong>Non-Financial Asset (Inventory / PPE):</strong> <em>Basis Adjustment!</em> The accumulated OCI is removed directly and deducted/added to the initial purchase cost of the asset (bypassing OCI recycling through P&L).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Summary Table for PnL vs OCI -->
+            <div class="bg-white rounded-3xl p-6 border border-pink-100 shadow-sm overflow-x-auto">
+                <h4 class="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
+                    <span>🍰</span> At a Glance: Where Does the Gain or Loss Go?
+                </h4>
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="bg-pink-50/60 text-slate-700 text-xs font-bold uppercase">
+                            <th class="p-3 rounded-l-xl">Hedge Type</th>
+                            <th class="p-3">What are you hedging?</th>
+                            <th class="p-3">Derivative Gain / Loss Destination</th>
+                            <th class="p-3 rounded-r-xl">Why that destination?</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-pink-50 text-slate-600">
+                        <tr>
+                            <td class="p-3 font-bold text-pink-700">Fair Value Hedge</td>
+                            <td class="p-3">Existing asset/liability or firm commitment</td>
+                            <td class="p-3"><span class="cute-pill bg-pink-100 text-pink-800">Direct to P&L</span></td>
+                            <td class="p-3 text-xs">Offsets the balance sheet item's immediate P&L revaluation right now!</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold text-purple-700">Cash Flow Hedge</td>
+                            <td class="p-3">Forecasted future cash flows/purchases</td>
+                            <td class="p-3">
+                                <div class="space-y-1">
+                                    <div><span class="cute-pill bg-purple-100 text-purple-800 text-xs">Effective: OCI</span></div>
+                                    <div><span class="cute-pill bg-rose-100 text-rose-800 text-xs">Ineffective: P&L</span></div>
+                                </div>
+                            </td>
+                            <td class="p-3 text-xs">Effective portion waits in equity until forecasted event hits P&L; ineffectiveness hits P&L immediately.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold text-sky-700">Net Investment Hedge</td>
+                            <td class="p-3">Foreign subsidiary net assets</td>
+                            <td class="p-3"><span class="cute-pill bg-sky-100 text-sky-800">Effective in OCI</span></td>
+                            <td class="p-3 text-xs">Directly matches the foreign currency translation reserve in OCI.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold text-amber-700">Undesignated / Speculation</td>
+                            <td class="p-3">Unregistered hedge OR pure market bet</td>
+                            <td class="p-3"><span class="cute-pill bg-amber-100 text-amber-800">Direct to P&L (FVPL)</span></td>
+                            <td class="p-3 text-xs">Default rule: All standalone derivatives go straight to P&L.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 3: SPECULATION VS HEDGE & THE CPA BOARD TRICK -->
+        <div id="content-speculation-trap" class="tab-content hidden space-y-6 animate-fade-in">
+            <!-- Warning Box -->
+            <div class="bg-gradient-to-r from-rose-50 to-pink-50 border-2 border-rose-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+                <div class="flex items-start gap-4">
+                    <span class="text-4xl">🚨</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-rose-800 mb-1">The Infamous AFAR Exam Trap: Why was the answer 0?</h2>
+                        <p class="text-sm text-rose-600 font-medium">Watch out! Examiners love setting up word traps in Advanced Accounting!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Anatomy of the Trick Question -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Card 1: What the examiner gave you -->
+                <div class="bg-white rounded-3xl p-6 border border-pink-100 shadow-sm space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="cute-pill bg-rose-100 text-rose-700 font-bold">The Set-Up</span>
+                        <h3 class="font-bold text-slate-800 text-lg">The Problem Statement</h3>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-2">
+                        <p><em>"Entity A entered into a forward contract <strong>for speculative purposes</strong>..."</em></p>
+                        <p class="text-slate-500">Forward rates, spot rates, and dates are provided. You calculate the exact loss: <code>(60.98 - 61.01) × $5,500 = ₱165 loss</code>.</p>
+                        <p><strong>The Distractor Choice:</strong> <em>Choice B: ₱165 loss</em></p>
+                        <p><strong>The Correct Key:</strong> <span class="font-bold text-pink-600">Choice D: 0</span></p>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Students rush to choose 165 and walk right into the trap! Why did the board key it as 0?
+                    </p>
+                </div>
+
+                <!-- Card 2: The Vocabulary Sleight of Hand -->
+                <div class="bg-white rounded-3xl p-6 border border-pink-100 shadow-sm space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="cute-pill bg-purple-100 text-purple-700 font-bold">The Secret</span>
+                        <h3 class="font-bold text-slate-800 text-lg">Read the EXACT Wording!</h3>
+                    </div>
+                    <div class="space-y-3 text-xs sm:text-sm text-slate-700">
+                        <div class="p-3 bg-red-50 rounded-xl border border-red-200">
+                            <span class="font-bold text-red-700 block mb-1">❌ What the question asked:</span>
+                            <p class="italic">"What is the forex gain or loss on the <strong>hedging instrument</strong>?"</p>
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <span class="font-bold text-emerald-800 block mb-1">✨ The Legal Reality:</span>
+                            <p>Because the contract was entered into purely for speculation, there is <strong>no hedge relationship</strong>. Without a hedge relationship, an entity legally possesses <strong>NO hedging instrument</strong>!</p>
+                        </div>
+                        <p class="font-semibold text-slate-800">
+                            Therefore: Gain/Loss on "Hedging Instrument" = <span class="text-pink-600 text-base font-extrabold">₱0</span>!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deep Dive: Speculation vs. Hedging -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm space-y-6">
+                <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <span>🧸</span> Speculation vs. Undesignated Hedge vs. Designated Hedge
+                </h3>
+
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <!-- Column 1 -->
+                    <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-100 space-y-2">
+                        <span class="cute-pill bg-rose-200 text-rose-800">Speculation</span>
+                        <h4 class="font-bold text-slate-800 text-sm">Pure Casino Bet 🎲</h4>
+                        <p class="text-xs text-slate-600">No underlying item to protect! You hold zero AP, AR, or assets. You just want to profit from rate swings.</p>
+                        <p class="text-xs font-semibold text-rose-700">Hedging Instrument? ❌ NO (None exists!). Gain/loss on derivative goes to P&L.</p>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-100 space-y-2">
+                        <span class="cute-pill bg-amber-200 text-amber-800">Undesignated Hedge</span>
+                        <h4 class="font-bold text-slate-800 text-sm">Real Risk, No Forms 📝</h4>
+                        <p class="text-xs text-slate-600">You DO have real Accounts Payable/Receivable! You bought a forward to protect it, but skipped formal paperwork.</p>
+                        <p class="text-xs font-semibold text-amber-800">Hedging Instrument? ❌ Not formally. Measured at FVPL. Naturally offsets AP in P&L.</p>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100 space-y-2">
+                        <span class="cute-pill bg-emerald-200 text-emerald-800">Designated Hedge</span>
+                        <h4 class="font-bold text-slate-800 text-sm">Full Formal Hedge 📜</h4>
+                        <p class="text-xs text-slate-600">Real exposure + complete documentation and hedge effectiveness testing on day one.</p>
+                        <p class="text-xs font-semibold text-emerald-800">Hedging Instrument? ✅ YES! Qualifies for Fair Value or Cash Flow hedge accounting.</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Quick Checker -->
+                <div class="bg-pink-50/70 rounded-2xl p-5 border border-pink-200">
+                    <h4 class="font-bold text-pink-800 text-sm mb-2">🎀 Quick Self-Check Tip for CPA Board Exams:</h4>
+                    <p class="text-xs sm:text-sm text-slate-700">
+                        When answering an AFAR derivative problem, ask yourself: 
+                        <em>Did the problem ask for the gain/loss on the <strong>forward contract</strong> (the financial instrument) or on the <strong>hedging instrument</strong>?</em> 
+                        If the derivative is for speculation, forward contract gain/loss is calculated, but hedging instrument gain/loss is <strong>ALWAYS ZERO</strong>!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: FS TRANSLATION (IAS 21) -->
+        <div id="content-translation" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">🌏</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Financial Statement Translation (IAS 21)</h2>
+                        <p class="text-sm text-sky-600 font-semibold">Converting an entire foreign subsidiary's books into presentation currency</p>
+                    </div>
+                </div>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    This is NOT a day-to-day cash transaction. It is the year-end conversion of a foreign subsidiary's financial statements so the parent company can combine everything into consolidated statements.
+                </p>
+            </div>
+
+            <!-- Closing Rate Method Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-sky-200 shadow-xs">
+                    <span class="text-xl">🏢</span>
+                    <h4 class="font-bold text-slate-800 mt-2 text-sm">Assets & Liabilities</h4>
+                    <p class="text-xs text-sky-700 font-bold uppercase mt-1">Closing Spot Rate</p>
+                    <p class="text-xs text-slate-500 mt-2">Use the exchange rate on the balance sheet date (December 31).</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-purple-200 shadow-xs">
+                    <span class="text-xl">📈</span>
+                    <h4 class="font-bold text-slate-800 mt-2 text-sm">Income & Expenses</h4>
+                    <p class="text-xs text-purple-700 font-bold uppercase mt-1">Average Rate</p>
+                    <p class="text-xs text-slate-500 mt-2">Transaction date rate or average rate throughout the period.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-pink-200 shadow-xs">
+                    <span class="text-xl">🏛️</span>
+                    <h4 class="font-bold text-slate-800 mt-2 text-sm">Share Capital</h4>
+                    <p class="text-xs text-pink-700 font-bold uppercase mt-1">Historical Rate</p>
+                    <p class="text-xs text-slate-500 mt-2">The original rate when shares were issued or company was acquired.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-emerald-200 shadow-xs">
+                    <span class="text-xl">💰</span>
+                    <h4 class="font-bold text-slate-800 mt-2 text-sm">Retained Earnings</h4>
+                    <p class="text-xs text-emerald-700 font-bold uppercase mt-1">Rolled Forward</p>
+                    <p class="text-xs text-slate-500 mt-2">Beg. RE + Translated Net Income - Translated Dividends.</p>
+                </div>
+            </div>
+
+            <!-- CTA Explanation -->
+            <div class="bg-gradient-to-r from-sky-50 to-indigo-50 rounded-3xl p-6 sm:p-7 border border-sky-200 shadow-sm flex flex-col md:flex-row items-center gap-6">
+                <div class="text-5xl">🧸</div>
+                <div class="space-y-2">
+                    <h4 class="font-bold text-slate-800 text-lg">Where does the unbalance go? The Cumulative Translation Adjustment (CTA)</h4>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Because assets/liabilities are translated at current rates while equity is at historical rates, the balance sheet will naturally fall out of balance! The plug figure goes directly to <strong>Other Comprehensive Income (OCI)</strong> in equity. It is only recycled to P&L if the foreign subsidiary is liquidated or sold.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Detailed CTA Proof and Computation Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📝</span>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">The AFAR Board Exam "Proof of CTA" Formula</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 font-medium">How examiners test the exact movement in the Cumulative Translation Adjustment</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                    <div class="bg-sky-50/70 p-4 rounded-2xl border border-sky-200 space-y-1.5">
+                        <span class="cute-pill bg-sky-100 text-sky-800 text-xs">1. Beginning Net Assets</span>
+                        <p class="font-bold text-slate-800">Beg. Net Assets × (Current Closing Rate - Prior Closing Rate)</p>
+                        <p class="text-slate-500 text-xs">Measures the currency movement impact on assets and liabilities carried over from the prior period.</p>
+                    </div>
+
+                    <div class="bg-purple-50/70 p-4 rounded-2xl border border-purple-200 space-y-1.5">
+                        <span class="cute-pill bg-purple-100 text-purple-800 text-xs">2. Current Net Income</span>
+                        <p class="font-bold text-slate-800">Net Income × (Current Closing Rate - Average Rate)</p>
+                        <p class="text-slate-500 text-xs">Income was translated at average rate during the year, but now its equity balance sits at closing rate.</p>
+                    </div>
+
+                    <div class="bg-pink-50/70 p-4 rounded-2xl border border-pink-200 space-y-1.5">
+                        <span class="cute-pill bg-pink-100 text-pink-800 text-xs">3. Dividends Declared</span>
+                        <p class="font-bold text-slate-800">Dividends × (Current Closing Rate - Rate on Declaration Date)</p>
+                        <p class="text-slate-500 text-xs">Dividends were recorded at transaction date rate; the delta adjusts equity to closing date terms.</p>
+                    </div>
+                </div>
+
+                <!-- CTA Direction Tip -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs sm:text-sm">
+                    <div class="space-y-0.5">
+                        <span class="font-bold text-slate-800">📊 Debit vs. Credit CTA (Equity Impact):</span>
+                        <p class="text-slate-600">
+                            <strong>Credit CTA (Positive/Gain):</strong> Foreign currency strengthened ➡️ Increases consolidated equity.
+                            <br>
+                            <strong>Debit CTA (Negative/Loss):</strong> Foreign currency weakened ➡️ Decreases consolidated equity.
+                        </p>
+                    </div>
+                    <div class="bg-white px-3 py-2 rounded-xl border border-slate-200 text-center text-xs font-semibold text-sky-700 whitespace-nowrap">
+                        Recycled to P&L? <br><span class="text-pink-600 font-bold">Only on Disposal! 🚪</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: QUICK COMPARISON MASTER MATRIX -->
+        <div id="content-comparison" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100 shadow-sm">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span>🎀</span> The Ultimate AFAR Cheat Sheet
+                </h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">Everything at a glance for rapid board exam review!</p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-pink-100/70 text-slate-800 font-bold uppercase text-xs">
+                                <th class="p-3.5 rounded-l-2xl border-b border-pink-200">Topic</th>
+                                <th class="p-3.5 border-b border-pink-200">Core Nature</th>
+                                <th class="p-3.5 border-b border-pink-200">Underlying Exposure?</th>
+                                <th class="p-3.5 border-b border-pink-200">Gain/Loss Location</th>
+                                <th class="p-3.5 rounded-r-2xl border-b border-pink-200">Exam Catch</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-pink-100 text-slate-700">
+                            <tr class="hover:bg-pink-50/40">
+                                <td class="p-3.5 font-bold text-pink-700">Fair Value Hedge</td>
+                                <td class="p-3.5">Hedge of existing asset/liability or firm commitment</td>
+                                <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes (Present)</span></td>
+                                <td class="p-3.5 font-semibold text-pink-600">Immediate P&L</td>
+                                <td class="p-3.5 text-xs">Carrying amount of hedged item must be adjusted!</td>
+                            </tr>
+                            <tr class="hover:bg-purple-50/40">
+                                <td class="p-3.5 font-bold text-purple-700">Cash Flow Hedge</td>
+                                <td class="p-3.5">Hedge of future forecasted transaction / cash flows</td>
+                                <td class="p-3.5"><span class="text-purple-600 font-bold">Yes (Future)</span></td>
+                                <td class="p-3.5 font-semibold text-purple-600">Effective: OCI | Ineffective: P&L</td>
+                                <td class="p-3.5 text-xs">Ineffective portion goes to P&L; OCI recycled as transactions hit P&L.</td>
+                            </tr>
+                            <tr class="hover:bg-sky-50/40">
+                                <td class="p-3.5 font-bold text-sky-700">Net Investment Hedge</td>
+                                <td class="p-3.5">Hedge of foreign subsidiary's equity/net assets</td>
+                                <td class="p-3.5"><span class="text-sky-600 font-bold">Yes (Subsidiary)</span></td>
+                                <td class="p-3.5 font-semibold text-sky-600">Effective: OCI | Ineffective: P&L</td>
+                                <td class="p-3.5 text-xs font-semibold text-sky-800">Accounted for just like CFH! Recycled to P&L only on disposal.</td>
+                            </tr>
+                            <tr class="hover:bg-amber-50/40">
+                                <td class="p-3.5 font-bold text-amber-800">Undesignated Hedge</td>
+                                <td class="p-3.5">Real AP/AR risk without formal documentation</td>
+                                <td class="p-3.5"><span class="text-emerald-600 font-bold">Yes (AP/AR)</span></td>
+                                <td class="p-3.5 font-semibold text-amber-700">Immediate P&L</td>
+                                <td class="p-3.5 text-xs">Not a formal hedge relationship under PAS 39!</td>
+                            </tr>
+                            <tr class="hover:bg-rose-50/40">
+                                <td class="p-3.5 font-bold text-rose-700">Pure Speculation</td>
+                                <td class="p-3.5">Betting on currency rates for standalone profit</td>
+                                <td class="p-3.5"><span class="text-rose-600 font-bold">No (Zero)</span></td>
+                                <td class="p-3.5 font-semibold text-rose-600">Immediate P&L (FVPL)</td>
+                                <td class="p-3.5 text-xs font-bold text-rose-600">Hedging instrument gain/loss is ZERO!</td>
+                            </tr>
+                            <tr class="hover:bg-indigo-50/40">
+                                <td class="p-3.5 font-bold text-indigo-700">FS Translation (IAS 21)</td>
+                                <td class="p-3.5">Translating books to presentation currency</td>
+                                <td class="p-3.5"><span class="text-indigo-600 font-bold">Whole Entity</span></td>
+                                <td class="p-3.5 font-semibold text-indigo-600">OCI (CTA in Equity)</td>
+                                <td class="p-3.5 text-xs">Only recycled to P&L upon disposal of foreign operation.</td>
+                            </tr>
+                            <tr class="hover:bg-purple-50/40 bg-purple-50/20">
+                                <td class="p-3.5 font-bold text-purple-900">Cumulative Adjustments</td>
+                                <td class="p-3.5">Rollforward of cumulative OCI reserves (CTA & CF Hedge)</td>
+                                <td class="p-3.5"><span class="text-purple-600 font-bold">Both Areas</span></td>
+                                <td class="p-3.5 font-semibold text-purple-700">Cumulative in OCI</td>
+                                <td class="p-3.5 text-xs">CF Hedge: Base adjust or recycle with item. Translation: Recycle only upon sale/disposal.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Sweet Footer -->
+    <footer class="bg-white/80 border-t border-pink-100 py-6 text-center text-xs text-slate-500 font-medium">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>🌸 Made for CPA Board Exam Reviewers & Students</p>
+            <p>PAS 39 • PFRS 9 • IAS 21 Made Easy ✨</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            // Hide all tabs
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(el => el.classList.add('hidden'));
+
+            // Reset buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(el => {
+                el.classList.remove('active', 'bg-pink-100', 'text-pink-700', 'shadow-sm');
+                el.classList.add('text-slate-600');
+            });
+
+            // Show current tab
+            const targetContent = document.getElementById(`content-${tabId}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+
+            // Highlight button
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'bg-pink-100', 'text-pink-700', 'shadow-sm');
+                activeBtn.classList.remove('text-slate-600');
+            }
+        }
+
+        function toggleCard(contentId, iconId, statusId) {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            const status = document.getElementById(statusId);
+            if (!content) return;
+
+            const isHidden = content.classList.contains('hidden');
+            if (isHidden) {
+                content.classList.remove('hidden');
+                if (icon) icon.classList.add('rotate-180');
+                if (status) status.textContent = 'Expanded';
+            } else {
+                content.classList.add('hidden');
+                if (icon) icon.classList.remove('rotate-180');
+                if (status) status.textContent = 'Minimized';
+            }
+        }
+
+        function setBothCards(shouldExpand) {
+            const fvContent = document.getElementById('fv-content');
+            const fvIcon = document.getElementById('fv-icon');
+            const fvStatus = document.getElementById('fv-status');
+
+            const cfContent = document.getElementById('cf-content');
+            const cfIcon = document.getElementById('cf-icon');
+            const cfStatus = document.getElementById('cf-status');
+
+            [
+                { content: fvContent, icon: fvIcon, status: fvStatus },
+                { content: cfContent, icon: cfIcon, status: cfStatus }
+            ].forEach(card => {
+                if (!card.content) return;
+                if (shouldExpand) {
+                    card.content.classList.remove('hidden');
+                    if (card.icon) card.icon.classList.add('rotate-180');
+                    if (card.status) card.status.textContent = 'Expanded';
+                } else {
+                    card.content.classList.add('hidden');
+                    if (card.icon) card.icon.classList.remove('rotate-180');
+                    if (card.status) card.status.textContent = 'Minimized';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
