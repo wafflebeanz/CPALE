@@ -107,6 +107,7 @@ details.cover summary{cursor:pointer;font-family:var(--display);font-weight:600}
 details.ctx summary{cursor:pointer;font-weight:800;font-size:.9rem}
 details.key,.outro{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:14px 18px;margin:8px 0 14px}
 details.key summary{cursor:pointer;font-family:var(--display);font-weight:600}
+.qfoot{display:flex;justify-content:flex-end;margin-top:10px}
 .empty{text-align:center;color:var(--muted);padding:40px 10px}
 .grouphead{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:22px 0 10px}
 
@@ -268,6 +269,7 @@ function qCard(q,showCtxFull){
     else h+='<p class="verdict no">Not quite. The answer is '+q.ans.map(l=>(q.opts.find(o=>o.l===l)||{raw:l}).raw.replace(/[.)]$/,'')).join(', ')+'.</p>';
     if(q.src==='key')h+='<p class="pg" style="margin:2px 0 0">Answer taken from the source answer key.</p>';
     if(q.expl&&q.expl.length)h+='<div class="expl"><h4>From the source</h4>'+blocks(q.expl)+'</div>';
+    h+='<div class="qfoot"><button class="btn redo" data-redo="'+q.id+'">Reset item</button></div>';
   }
   return h+'</article>';
 }
@@ -281,7 +283,7 @@ function render(){
     const by={};ids.forEach(id=>{(by[Q[id].ch.id]=by[Q[id].ch.id]||[]).push(Q[id]);});
     let h='<div class="panel"><h2 class="chtitle">Flagged items</h2><p class="chmeta">'+ids.length+' saved for review. Answers here count toward their chapter.</p></div>';
     Object.keys(CH).forEach(cid=>{if(!by[cid])return;by[cid].sort((x,y)=>CH[cid].items.indexOf(x)-CH[cid].items.indexOf(y));
-      h+='<h3 class="grouphead">'+LABELS[CH[cid].doc.id]+': '+CHL[cid]+'</h3>'+by[cid].map(q=>qCard(q,true)).join('');});
+      h+='<h3 class="grouphead" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">'+LABELS[CH[cid].doc.id]+': '+CHL[cid]+'<button class="btn" style="margin-left:auto" data-resetch="'+cid+'">Reset chapter</button></h3>'+by[cid].map(q=>qCard(q,true)).join('');});
     m.innerHTML=h;updatePet();return;
   }
   const c=CH[S.chap],d=c.doc,st=stats(c),md=mood(st.pct);
@@ -412,7 +414,7 @@ let tT=null;function toast(t){const el=$('#toast');el.textContent=t;el.classList
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-doc],[data-chap],[data-opt],[data-flag],[data-filter],#reset,#petbtn,#swap,[data-pet]');
+  const t=e.target.closest('[data-doc],[data-chap],[data-opt],[data-flag],[data-filter],[data-redo],[data-resetch],#reset,#petbtn,#swap,[data-pet]');
   if(!t)return;
   if(t.dataset.doc){S.doc=t.dataset.doc;if(S.doc!=='flagged'){const d=DATA.find(x=>x.id===S.doc);if(!d.chapters.some(c=>c.id===S.chap))S.chap=d.chapters[0].id;}S.filter='all';save();render();window.scrollTo({top:0});return;}
   if(t.dataset.chap){S.chap=t.dataset.chap;S.filter='all';save();render();window.scrollTo({top:0});return;}
@@ -428,7 +430,15 @@ document.addEventListener('click',e=>{
     if(q.ans.includes(t.dataset.opt)){anim('jump');floatText('+1 '+(S.pet==='cat'?'🐟':'🦴'),'',0);}
     else if(q.ans.length){anim('sad');}
     updatePet();return;}
-  if(t.id==='reset'){const c=CH[S.chap];if(!confirm('Clear your answers for '+CHL[c.id]+'? Flags stay.'))return;c.items.forEach(q=>delete S.ans[q.id]);save();lastMood=null;render();return;}
+  if(t.dataset.redo){const q=Q[t.dataset.redo];delete S.ans[q.id];save();
+    const card=document.getElementById(q.id);
+    if(S.filter==='miss'&&S.doc!=='flagged'){if(card)card.remove();}
+    else if(card)card.outerHTML=qCard(q,S.doc==='flagged'||S.filter!=='all');
+    if(S.doc!=='flagged')refreshPanel();renderTabs();updatePet();
+    const nc=document.getElementById(q.id);if(nc){const b=nc.querySelector('.opt');if(b)b.focus({preventScroll:true});}
+    toast('Item '+q.n+' reset');return;}
+  if(t.dataset.resetch){const c=CH[t.dataset.resetch];if(!confirm('Clear your answers for '+CHL[c.id]+'? Flags stay.'))return;c.items.forEach(q=>delete S.ans[q.id]);save();lastMood=null;render();toast(CHL[c.id]+' reset');return;}
+  if(t.id==='reset'){const c=CH[S.chap];if(!confirm('Clear your answers for '+CHL[c.id]+'? Flags stay.'))return;c.items.forEach(q=>delete S.ans[q.id]);save();lastMood=null;render();toast(CHL[c.id]+' reset');return;}
   if(t.id==='petbtn'){S.pets=(S.pets||0)+1;save();anim('pat');floatText('♥','heart',-18);setTimeout(()=>floatText('♥','heart',16),140);
     const lines=S.pet==='cat'?['Purr...','Mrrp!','Prrr.','*slow blink*']:['Woof!','Arf!','*tail wags*','Hehe!'];say(lines[S.pets%lines.length]);return;}
   if(t.id==='swap'){openChooser();return;}
