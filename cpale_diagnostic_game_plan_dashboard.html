@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPALE Final Pre-Board Diagnostic & Strategic Game Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-btn.active { border-bottom: 2px solid #2563eb; color: #1d4ed8; font-weight: 600; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header Section -->
+        <header class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-100">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">CPALE Final Pre-Board Diagnostic</h1>
+                    <p class="text-gray-500 mt-1">Status: <span class="font-semibold text-green-600">Highly Competitive (Do Not Defer)</span> | Days Remaining: 17</p>
+                </div>
+                <div class="mt-4 md:mt-0 text-right">
+                    <div class="text-sm text-gray-500">General Average</div>
+                    <div class="text-2xl font-bold text-gray-900">83.25% <span class="text-sm font-normal text-gray-400">(Adjusted)</span> / 66.50% <span class="text-sm font-normal text-gray-400">(Raw)</span></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-t-xl border-b border-gray-200 px-2 sm:px-6 pt-4 flex space-x-4 overflow-x-auto scrollbar-hide">
+            <button onclick="openTab('summary')" class="tab-btn active px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-summary">Game Plan</button>
+            <button onclick="openTab('afar')" class="tab-btn px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-afar">AFAR (48.6%)</button>
+            <button onclick="openTab('tax')" class="tab-btn px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-tax">TAX (55.7%)</button>
+            <button onclick="openTab('far')" class="tab-btn px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-far">FAR (60.0%)</button>
+            <button onclick="openTab('aud')" class="tab-btn px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-aud">AUD (68.6%)</button>
+            <button onclick="openTab('rfbt')" class="tab-btn px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-rfbt">RFBT (78.0%)</button>
+            <button onclick="openTab('ms')" class="tab-btn px-4 py-3 text-sm focus:outline-none text-gray-500 hover:text-gray-700 whitespace-nowrap transition-colors" id="btn-ms">MS (88.6%)</button>
+        </div>
+
+        <div class="bg-white rounded-b-xl shadow-sm p-6 border border-t-0 border-gray-100 min-h-[600px]">
+            
+            <!-- TAB: SUMMARY & GAME PLAN -->
+            <div id="summary" class="tab-content active">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Executive Summary</h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Your overall performance across the CPAR final pre-boards proves that you possess the necessary foundation to pass the actual CPALE. Scoring a 66.50% raw average in a notoriously difficult CPAR final pre-board puts you squarely in passing territory. You have two massive "carry" subjects (MS and RFBT) that will buffer your overall average. Your vulnerabilities (AFAR and TAX) are not conceptual black holes; they are specific procedural and mechanical gaps that can be easily fixed. The next 17 days are about targeted tactical drills.
+                </p>
+
+                <h3 class="text-lg font-bold text-gray-800 mb-3 border-b pb-2">The 17-Day Tactical Game Plan</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Phase 1 -->
+                    <div class="bg-red-50 p-5 rounded-lg border border-red-100">
+                        <h4 class="font-bold text-red-800 mb-2">Phase 1: Triage & Mechanics (Days 1 to 5)</h4>
+                        <p class="text-sm text-red-700 mb-3 italic">Focus strictly on AFAR and TAX to build a safety buffer.</p>
+                        <ul class="text-sm text-gray-700 space-y-2 list-disc pl-4 marker:text-red-400">
+                            <li><strong>Day 1 (AFAR):</strong> Consolidation Mechanics. Drill upstream vs. downstream inventory sales and CNI/NCI computations.</li>
+                            <li><strong>Day 2 (TAX):</strong> Tax Remedies. Memorize NIRC Title VIII prescription periods, CIR powers, and Distraint/Levy rules.</li>
+                            <li><strong>Day 3 (AFAR):</strong> Forex & Derivatives. Map speculative forwards vs. hedging entries. Translate subsidiary trial balances.</li>
+                            <li><strong>Day 4 (TAX):</strong> EOPT Updates & Transfer Taxes. 8% OPT transition rules; ACP vs. CPG classification; 5-step Vanishing Deduction.</li>
+                            <li><strong>Day 5 (AFAR/TAX):</strong> Mixed Drill. 50 items AFAR Special Topics (Franchise/Consignment) and 50 items TAX.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div class="bg-yellow-50 p-5 rounded-lg border border-yellow-100">
+                        <h4 class="font-bold text-yellow-800 mb-2">Phase 2: Fortification (Days 6 to 10)</h4>
+                        <p class="text-sm text-yellow-700 mb-3 italic">Pivoting to FAR and AUD to secure your stable subjects.</p>
+                        <ul class="text-sm text-gray-700 space-y-2 list-disc pl-4 marker:text-yellow-400">
+                            <li><strong>Day 6 (FAR):</strong> Frameworks & Leases. Compare Full PFRS vs. SMEs vs. Small Entities. Drill ROU asset calculations.</li>
+                            <li><strong>Day 7 (AUD):</strong> Audit Reports & Theory. Review reporting matrix (PSA vs. PSRE vs. PSRS). Understand legal letters objective.</li>
+                            <li><strong>Day 8 (FAR):</strong> Financial Instruments. Drill effective interest amortization (with origination fees) and Diluted EPS weighting.</li>
+                            <li><strong>Day 9 (AFAR/FAR):</strong> Theory Traps. 100 theoretical True/False questions. Force yourself to find the single "false" trigger word.</li>
+                            <li><strong>Day 10 (AUD/TAX):</strong> 50 items Audit Theory and 50 items mixed Taxation.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div class="bg-blue-50 p-5 rounded-lg border border-blue-100">
+                        <h4 class="font-bold text-blue-800 mb-2">Phase 3: Maintenance (Days 11 to 14)</h4>
+                        <p class="text-sm text-blue-700 mb-3 italic">Securing the buffer subjects (RFBT & MS).</p>
+                        <ul class="text-sm text-gray-700 space-y-2 list-disc pl-4 marker:text-blue-400">
+                            <li><strong>Day 11 (RFBT):</strong> Special Laws. Memorize the 1-page cheat sheet for SEC days, AMLA thresholds, and E-Commerce definitions.</li>
+                            <li><strong>Day 12 (Mixed):</strong> 100-item Mixed Drill (AFAR, TAX, FAR). Identify remaining mechanical weak points.</li>
+                            <li><strong>Day 13 (Mixed):</strong> 100-item Mixed Drill (AUD, RFBT, MS). Keep MS formulas fresh.</li>
+                            <li><strong>Day 14 (Review):</strong> Review all mistakes from the CPAR pre-boards one last time. Trace your calculation slips.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase 4 -->
+                    <div class="bg-green-50 p-5 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-800 mb-2">Phase 4: Tapering (Days 15 to 17)</h4>
+                        <p class="text-sm text-green-700 mb-3 italic">Protecting your mindset and energy.</p>
+                        <ul class="text-sm text-gray-700 space-y-2 list-disc pl-4 marker:text-green-400">
+                            <li><strong>Day 15:</strong> Pre-week summaries only. No complex, multi-step problems that drain confidence.</li>
+                            <li><strong>Day 16:</strong> Light reading only (tax rates, thresholds). Fix sleep schedule. Organize testing materials.</li>
+                            <li><strong>Day 17:</strong> Rest completely. Trust your preparation. You have the numbers to pass.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: AFAR -->
+            <div id="afar" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Advanced FAR (AFAR)</h2>
+                    <span class="px-3 py-1 bg-red-100 text-red-800 text-sm font-semibold rounded-full">Primary Target</span>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-red-500 h-3 rounded-full" style="width: 48.6%"></div>
+                    </div>
+                    <span class="ml-4 text-sm font-bold text-gray-700">34/70 (48.6% Raw)</span>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Performance Split</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50 text-gray-700">
+                            <tr>
+                                <th class="py-2 px-4 text-left font-medium">Topic Area</th>
+                                <th class="py-2 px-4 text-center font-medium">Score</th>
+                                <th class="py-2 px-4 text-center font-medium">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr><td class="py-2 px-4">Partnership Accounting</td><td class="py-2 px-4 text-center font-medium text-green-600">4 / 6</td><td class="py-2 px-4 text-center text-gray-600">66.7%</td></tr>
+                            <tr><td class="py-2 px-4">Cost Accounting</td><td class="py-2 px-4 text-center font-medium text-red-600">3 / 7</td><td class="py-2 px-4 text-center text-gray-600">42.9%</td></tr>
+                            <tr><td class="py-2 px-4">Business Combinations & Consolidation</td><td class="py-2 px-4 text-center font-medium text-red-600">9 / 19</td><td class="py-2 px-4 text-center text-gray-600">47.4%</td></tr>
+                            <tr><td class="py-2 px-4">Forex, Derivatives & Translation</td><td class="py-2 px-4 text-center font-medium text-red-600">5 / 12</td><td class="py-2 px-4 text-center text-gray-600">41.7%</td></tr>
+                            <tr><td class="py-2 px-4">Joint Ventures & SME</td><td class="py-2 px-4 text-center font-medium text-yellow-600">3 / 6</td><td class="py-2 px-4 text-center text-gray-600">50.0%</td></tr>
+                            <tr><td class="py-2 px-4">Government & NPO Accounting</td><td class="py-2 px-4 text-center font-medium text-yellow-600">5 / 9</td><td class="py-2 px-4 text-center text-gray-600">55.6%</td></tr>
+                            <tr><td class="py-2 px-4">Home Office/Branch, Consignment, PFRS 15</td><td class="py-2 px-4 text-center font-medium text-red-600">5 / 11</td><td class="py-2 px-4 text-center text-gray-600">45.5%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Core Weaknesses & Fixes</h3>
+                <ul class="space-y-3 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <li><strong class="text-red-700">Consolidation Mechanics:</strong> Struggling with upstream vs. downstream sales effects. <i>Fix: Remember upstream unrealized profit reduces BOTH CNI and NCI; downstream reduces ONLY CNI attributable to Parent.</i></li>
+                    <li><strong class="text-red-700">Forex & Derivatives:</strong> Confusing speculative forwards with hedging. <i>Fix: Speculative forward contracts generate P&L gains/losses directly, never through OCI. Compare original forward rate with remaining forward rate for valuation.</i></li>
+                    <li><strong class="text-red-700">True/False Theory Traps:</strong> Defaulting to "Both are true" in 2-statement questions (especially in Govt/NPO/Consolidation). <i>Fix: Scrutinize single qualifier words (e.g., NCA is cash authority, not expenditure authority).</i></li>
+                    <li><strong class="text-red-700">Branch & Consignment:</strong> Back-calculating units and markups. <i>Fix: Write out the consignment remittance equation systematically. Differentiate markup *on cost* vs markup *on billed price*.</i></li>
+                </ul>
+            </div>
+
+            <!-- TAB: TAX -->
+            <div id="tax" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Taxation (TAX)</h2>
+                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">Quick Fix Priority</span>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-yellow-500 h-3 rounded-full" style="width: 55.7%"></div>
+                    </div>
+                    <span class="ml-4 text-sm font-bold text-gray-700">39/70 (55.7% Raw)</span>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Performance Split</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50 text-gray-700">
+                            <tr>
+                                <th class="py-2 px-4 text-left font-medium">Topic Area</th>
+                                <th class="py-2 px-4 text-center font-medium">Score</th>
+                                <th class="py-2 px-4 text-center font-medium">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr><td class="py-2 px-4">Tax Remedies & General Principles</td><td class="py-2 px-4 text-center font-medium text-red-600">17 / 33</td><td class="py-2 px-4 text-center text-gray-600">51.5%</td></tr>
+                            <tr><td class="py-2 px-4">Income, Transfer, Business & Local Taxes</td><td class="py-2 px-4 text-center font-medium text-yellow-600">22 / 37</td><td class="py-2 px-4 text-center text-gray-600">59.5%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Core Weaknesses & Fixes</h3>
+                <ul class="space-y-3 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <li><strong class="text-yellow-700">Tax Remedies (NIRC Title VIII):</strong> Missed half the questions here. <i>Fix: Memorize Section 7 (non-delegable powers), prescription rules (3-year vs 10-year vs 5-year for refunds), and Distraint/Levy prerequisites.</i></li>
+                    <li><strong class="text-yellow-700">EOPT Updates:</strong> Applying pre-EOPT penalty rules. <i>Fix: Review EOPT summary (RA 11976). Remember the 25% wrong-venue surcharge is removed, and memorize the Micro/Small taxpayer thresholds.</i></li>
+                    <li><strong class="text-yellow-700">8% OPT Transition:</strong> Calculating shifts when breaching P3M. <i>Fix: When sales exceed P3M, recalculate using graduated rates from the start of the year, deducting business expenses and previously paid 8% taxes.</i></li>
+                    <li><strong class="text-yellow-700">Transfer Taxes & Property Regimes:</strong> ACP vs. CPG fruits and Vanishing Deductions. <i>Fix: In ACP, pre-marriage property is common unless excluded; in CPG, pre-marriage property is exclusive but its fruits are conjugal. Standardize the 5-step VD computation.</i></li>
+                </ul>
+            </div>
+
+            <!-- TAB: FAR -->
+            <div id="far" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Financial Accounting & Reporting (FAR)</h2>
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">Solid Benchmark</span>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-blue-500 h-3 rounded-full" style="width: 60%"></div>
+                    </div>
+                    <span class="ml-4 text-sm font-bold text-gray-700">42/70 (60.0% Raw)</span>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Performance Split</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50 text-gray-700">
+                            <tr>
+                                <th class="py-2 px-4 text-left font-medium">Topic Area</th>
+                                <th class="py-2 px-4 text-center font-medium">Score</th>
+                                <th class="py-2 px-4 text-center font-medium">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr><td class="py-2 px-4">Conceptual Framework, PFRS for SMEs/Small</td><td class="py-2 px-4 text-center font-medium text-yellow-600">11 / 18</td><td class="py-2 px-4 text-center text-gray-600">61.1%</td></tr>
+                            <tr><td class="py-2 px-4">Problems & Applied Financial Reporting</td><td class="py-2 px-4 text-center font-medium text-yellow-600">31 / 52</td><td class="py-2 px-4 text-center text-gray-600">59.6%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Core Weaknesses & Fixes</h3>
+                <ul class="space-y-3 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <li><strong class="text-blue-700">PFRS for SMEs & Small Entities:</strong> Applying Full PFRS rules erroneously. <i>Fix: Review 1-page summary matrix. Small Entities measure deferred taxes at current rate and active equity at cost. SMEs consider all intangibles as having finite lives.</i></li>
+                    <li><strong class="text-blue-700">Financial Instruments (Effective Interest):</strong> Origination fees and reclassifications. <i>Fix: Net origination costs increase loan carrying amount; fees decrease it. FVTPL instruments do not amortize discounts/premiums.</i></li>
+                    <li><strong class="text-blue-700">Leases (PFRS 16):</strong> Lease incentives and sales-type leases. <i>Fix: Incentives received from lessor MUST be deducted from the initial ROU asset cost.</i></li>
+                    <li><strong class="text-blue-700">Diluted EPS & Cash Flows:</strong> Weighted average timing. <i>Fix: For diluted EPS, weighted incremental shares start from the date of issue. In cash flows, verify non-cash adjustments carefully.</i></li>
+                </ul>
+            </div>
+
+            <!-- TAB: AUD -->
+            <div id="aud" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Auditing (AUD)</h2>
+                    <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-semibold rounded-full">Stable Core</span>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-green-500 h-3 rounded-full" style="width: 68.6%"></div>
+                    </div>
+                    <span class="ml-4 text-sm font-bold text-gray-700">48/70 (68.6% Raw)</span>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Performance Split</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50 text-gray-700">
+                            <tr>
+                                <th class="py-2 px-4 text-left font-medium">Topic Area</th>
+                                <th class="py-2 px-4 text-center font-medium">Score</th>
+                                <th class="py-2 px-4 text-center font-medium">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr><td class="py-2 px-4">Auditing Theory</td><td class="py-2 px-4 text-center font-medium text-green-600">34 / 50</td><td class="py-2 px-4 text-center text-gray-600">68.0%</td></tr>
+                            <tr><td class="py-2 px-4">Auditing Practice / Problems</td><td class="py-2 px-4 text-center font-medium text-green-600">14 / 20</td><td class="py-2 px-4 text-center text-gray-600">70.0%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Core Weaknesses & Fixes</h3>
+                <ul class="space-y-3 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <li><strong class="text-green-700">Framework Distinctions:</strong> Blending Audits (PSA) with Reviews (PSRE) and Compilations (PSRS). <i>Fix: Reviews rely on inquiry/analytics; Compilations require no control testing; Projections cannot be used for general IPO prospectuses.</i></li>
+                    <li><strong class="text-green-700">Evidence Objectives:</strong> Confusing management assertion with independent corroboration. <i>Fix: External legal letters serve to corroborate management's list of claims, not to replace management's initial identification.</i></li>
+                    <li><strong class="text-green-700">Multi-Column Cutoffs:</strong> Minor calculation slips in Proof of Cash and PPE. <i>Fix: Isolate clearing windows for prior-month reconciling items. Draw physical horizontal timelines for partial-year asset disposals.</i></li>
+                </ul>
+            </div>
+
+            <!-- TAB: RFBT -->
+            <div id="rfbt" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Regulatory Framework (RFBT)</h2>
+                    <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-semibold rounded-full">The Shield</span>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-purple-500 h-3 rounded-full" style="width: 78%"></div>
+                    </div>
+                    <span class="ml-4 text-sm font-bold text-gray-700">78/100 (78.0% Raw)</span>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Performance Split</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm rounded-lg overflow-hidden">
+                        <thead class="bg-gray-50 text-gray-700">
+                            <tr>
+                                <th class="py-2 px-4 text-left font-medium">Topic Area</th>
+                                <th class="py-2 px-4 text-center font-medium">Score</th>
+                                <th class="py-2 px-4 text-center font-medium">Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr><td class="py-2 px-4">Partnership Law</td><td class="py-2 px-4 text-center font-medium text-purple-600">5 / 5</td><td class="py-2 px-4 text-center text-gray-600">100.0%</td></tr>
+                            <tr><td class="py-2 px-4">Obligations, Contracts & Sales</td><td class="py-2 px-4 text-center font-medium text-green-600">16 / 19</td><td class="py-2 px-4 text-center text-gray-600">84.2%</td></tr>
+                            <tr><td class="py-2 px-4">Corporations & Securities</td><td class="py-2 px-4 text-center font-medium text-green-600">24 / 30</td><td class="py-2 px-4 text-center text-gray-600">80.0%</td></tr>
+                            <tr><td class="py-2 px-4">Special Laws & Regulatory Frameworks</td><td class="py-2 px-4 text-center font-medium text-yellow-600">33 / 46</td><td class="py-2 px-4 text-center text-gray-600">71.7%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="font-semibold text-gray-800 mb-2">Core Weaknesses & Fixes</h3>
+                <ul class="space-y-3 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <li><strong class="text-purple-700">Special Laws Focus:</strong> Most points dropped here (E-Commerce Act, Lemon Law exclusions, EODB Zero-Contact Policy). <i>Fix: Skim pre-week special laws summary specifically for statutory definitions and exclusions.</i></li>
+                    <li><strong class="text-purple-700">Regulatory Thresholds & Days:</strong> Mixing up SEC vs AMLA metrics. <i>Fix: Create a 1-page cheat sheet for numbers: SEC periods (e.g., 45 calendar days for registration), AMLA covered limits (P5M Casinos, P7.5M Real Estate).</i></li>
+                    <li><strong class="text-purple-700">FRIA:</strong> Missing excluded debtors and suspension of payments rules. <i>Fix: Remember Banks/Pre-need companies are excluded from FRIA. Suspension of payments is strictly for Individual Debtors.</i></li>
+                </ul>
+            </div>
+
+            <!-- TAB: MS -->
+            <div id="ms" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Management Services (MS)</h2>
+                    <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm font-semibold rounded-full">The Anchor (Mastered)</span>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-indigo-500 h-3 rounded-full" style="width: 88.6%"></div>
+                    </div>
+                    <span class="ml-4 text-sm font-bold text-gray-700">62/70 (88.6% Raw)</span>
+                </div>
+
+                <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-100 text-center">
+                    <h3 class="text-lg font-bold text-indigo-900 mb-2">Outstanding Performance</h3>
+                    <p class="text-indigo-800">
+                        You have mastered cost accounting, financial management, and economics. You do not need to spend precious study days re-reading MS concepts.
+                    </p>
+                    <div class="mt-4 inline-block bg-white px-4 py-2 rounded shadow-sm border border-indigo-200">
+                        <p class="text-sm font-semibold text-gray-700">Action Plan: Maintenance Only</p>
+                        <p class="text-xs text-gray-500 mt-1">Dedicate a maximum of 1-2 hours a week simply answering random mixed MCQs to keep formulas (variances, WACC, EOQ) fresh in your short-term memory.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab and set button to active
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
