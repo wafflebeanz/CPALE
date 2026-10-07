@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Study Wheel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #ffb3ba;
+            --pastel-orange: #ffdfba;
+            --pastel-yellow: #ffffba;
+            --pastel-green: #baffc9;
+            --pastel-blue: #bae1ff;
+            --pastel-purple: #e8baff;
+            --bg-color: #fff0f5;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: #4a4a4a;
+            overflow-x: hidden;
+        }
+
+        /* Cutesy UI elements */
+        .bubble-shadow {
+            box-shadow: 0 8px 0 rgba(255, 179, 186, 0.4), 0 15px 20px rgba(0,0,0,0.05);
+            border: 4px solid white;
+        }
+        
+        .bubble-btn {
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+            transition: all 0.1s;
+        }
+        
+        .bubble-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 rgba(0,0,0,0.1);
+        }
+
+        .tab-btn.active {
+            background-color: var(--pastel-pink);
+            color: white;
+            box-shadow: 0 4px 0 #ff8da1;
+            transform: translateY(-2px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--pastel-pink); 
+            border-radius: 10px;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Modal Overlays */
+        .modal-overlay {
+            background: rgba(255, 240, 245, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .label-badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-weight: bold;
+        }
+        .label-critical { background: #ffe4e6; color: #e11d48; }
+        .label-comfortable { background: #e0f2fe; color: #0284c7; }
+        
+        /* Wheel Container */
+        #wheel-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 8px solid white;
+            box-shadow: 0 10px 25px rgba(255, 179, 186, 0.5);
+            background: white;
+        }
+        
+        #wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ff6b81;
+            z-index: 10;
+            filter: drop-shadow(0 3px 2px rgba(0,0,0,0.2));
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15%;
+            height: 15%;
+            background: white;
+            border-radius: 50%;
+            border: 4px solid #ff6b81;
+            z-index: 5;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="bg-white p-4 flex flex-wrap justify-between items-center z-10 relative bubble-shadow rounded-b-3xl mb-4 mx-2 md:mx-6 mt-2">
+        <h1 class="text-2xl font-extrabold text-[#ff6b81] flex items-center gap-2">
+            🎡 Study Wheel
+        </h1>
+        <div class="flex items-center gap-3 mt-2 md:mt-0 text-sm font-bold">
+            <label class="flex items-center gap-2 cursor-pointer bg-slate-100 px-3 py-2 rounded-xl bubble-btn">
+                <input type="checkbox" id="skip-animations" class="w-4 h-4 text-pink-500 rounded focus:ring-pink-400">
+                Skip Animations & Sounds
+            </label>
+            <button id="export-btn" class="bg-[#bae1ff] text-[#0284c7] px-4 py-2 rounded-xl bubble-btn">Export</button>
+            <button id="import-btn-proxy" class="bg-[#baffc9] text-[#166534] px-4 py-2 rounded-xl bubble-btn">Import</button>
+            <input type="file" id="import-file" accept=".json" class="hidden">
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col lg:flex-row gap-6 px-4 md:px-6 pb-6 overflow-hidden">
+        
+        <!-- Left Panel: Wheel Area -->
+        <div class="flex-1 flex flex-col bg-white rounded-3xl bubble-shadow p-4 md:p-6 overflow-y-auto">
+            <!-- Tabs -->
+            <div id="tabs-container" class="flex overflow-x-auto gap-2 pb-2 mb-6">
+                <!-- Tabs generated via JS -->
+            </div>
+
+            <div class="flex-1 flex flex-col items-center justify-center">
+                <!-- Wheel -->
+                <div id="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheel-canvas" width="800" height="800"></canvas>
+                    <div class="wheel-center"></div>
+                </div>
+
+                <!-- Spin Button -->
+                <button id="spin-btn" class="mt-8 bg-[#ff6b81] text-white text-2xl font-extrabold px-12 py-4 rounded-full bubble-btn hover:bg-[#ff4757]">
+                    SPIN!
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Collapsible Menu -->
+        <div class="w-full lg:w-96 flex flex-col bg-white rounded-3xl bubble-shadow overflow-hidden">
+            <!-- Header/Toggle for Mobile -->
+            <div id="menu-toggle" class="bg-[#e8baff] p-4 flex justify-between items-center cursor-pointer lg:cursor-default">
+                <h2 class="text-xl font-bold text-[#6b21a8]">Topics Checklist</h2>
+                <span id="menu-arrow" class="lg:hidden transform transition-transform">▼</span>
+            </div>
+            
+            <!-- List Content -->
+            <div id="menu-content" class="flex-1 flex flex-col overflow-hidden transition-all duration-300">
+                <!-- Add New Item -->
+                <div class="p-4 bg-slate-50 border-b-2 border-slate-100 flex gap-2">
+                    <input type="text" id="new-item-input" placeholder="Add new topic..." class="flex-1 rounded-xl border-2 border-[#e8baff] px-3 py-2 outline-none focus:border-[#d8b4e2] font-semibold text-slate-600">
+                    <button id="add-item-btn" class="bg-[#e8baff] text-[#6b21a8] px-4 rounded-xl bubble-btn font-bold">+</button>
+                </div>
+
+                <!-- Checklist -->
+                <div id="checklist-container" class="flex-1 overflow-y-auto p-4 space-y-3">
+                    <!-- Items generated via JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Win Modal -->
+    <div id="win-modal" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full bubble-shadow text-center transform scale-95 transition-transform duration-300" id="win-modal-content">
+            <div class="text-5xl mb-4">🎉</div>
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Your Topic Is</p>
+            <h2 id="win-topic-name" class="text-2xl font-extrabold text-[#ff6b81] mb-6">Topic Name</h2>
+            
+            <div class="space-y-3 flex flex-col">
+                <button id="btn-mastered" class="bg-green-400 text-white font-bold py-3 rounded-xl bubble-btn flex justify-center items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Mastered (Remove)
+                </button>
+                <button id="btn-critical" class="bg-red-100 text-red-600 font-bold py-3 rounded-xl bubble-btn">
+                    🚨 Mark as Critical
+                </button>
+                <button id="btn-comfortable" class="bg-blue-100 text-blue-600 font-bold py-3 rounded-xl bubble-btn">
+                    😌 Mark as Comfortable
+                </button>
+                <button id="btn-keep" class="text-slate-400 font-bold py-2 mt-2 hover:text-slate-600">
+                    Keep on wheel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal (replaces window.alert) -->
+    <div id="alert-modal" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-xs w-full bubble-shadow text-center">
+            <p id="alert-message" class="text-lg font-bold text-slate-700 mb-6"></p>
+            <button id="alert-close" class="bg-[#bae1ff] text-[#0284c7] font-bold py-2 px-6 rounded-xl bubble-btn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // --- CONSTANTS & INITIAL DATA ---
+        const INITIAL_DATA = {
+            "FAR": [
+                "Cash", "Notes Receivable", "Loans Receivable", "Inventories", "PPE", 
+                "Intangibles", "Agriculture", "Liabilities", "Leases", "Shareholders Equity", 
+                "Employee Benefits", "Financial Statements", "EPS", "Share-based Payments", "SMEs"
+            ],
+            "AFAR": [
+                "Partnership", "Corporate Liquidation", "Long-Term Construction", "Franchise", 
+                "Consignment", "Business Combination", "Consolidated FS", "Foreign Currency", 
+                "Home Office and Branch", "Job Order Costing", "Process Costing", 
+                "Joint and By-Product", "NPO", "Government Accounting", "Insurance", 
+                "Service Concession", "Installment Sales"
+            ],
+            "RFBT": [
+                "Consumer Protection", "Lemon Law", "Data Privacy", "E-Commerce", 
+                "Ease of Doing Business", "Philippine Competition", "Gov Procurement", 
+                "Labor Law", "Social Security", "FRIA", "Intellectual Property", "Insurance", 
+                "Banking Laws", "AMLA", "Truth in Lending", "PDIC", "BP 22", 
+                "Corporation Law", "Cooperatives", "Partnerships", "Oblicon", "Sales", "Credit Transactions"
+            ],
+            "TAX": [
+                "Preferential Tax", "Fiscal Incentives", "Taxpayer Remedies", "Excise Tax", 
+                "DST", "VAT", "Estate Tax", "Donor's Tax", "Dealings in Properties", 
+                "Income Tax", "Real Property & Local Taxes", "EOPT Act", "CMEPA Act"
+            ],
+            "AT": [
+                "Fundamental Principles", "FS Audit", "Preliminary Engagement", "Planning", 
+                "Internal Control", "Substantive Testing", "Completing the Audit", 
+                "Communication", "Reporting", "Special Purpose", "Other Related Services", 
+                "Accountancy Profession", "Fraud & NOCLAR", "Transaction Cycles", 
+                "Audit Sampling", "CIS Environment", "Quality Management", "Code of Ethics"
+            ],
+            "MS": [
+                "Basic Concepts", "Cost Behavior", "CVP Analysis", "Relevant Costing", 
+                "Budgeting", "Gross Profit Variance", "Standard Costing", "Responsibility Accounting", 
+                "Transfer Pricing", "Balanced Scorecard", "Economics", "Capital Budgeting", 
+                "Cost of Capital", "FS Analysis", "Working Capital Management"
+            ]
+        };
+
+        const COLORS = ['#ffb3ba', '#ffdfba', '#ffffba', '#baffc9', '#bae1ff', '#e8baff'];
+
+        // --- STATE MANAGEMENT ---
+        let appState = {};
+        let activeTab = "FAR";
+        let isSpinning = false;
+        let selectedTopicId = null;
+        let currentRotation = 0;
+
+        function initApp() {
+            loadState();
+            renderTabs();
+            renderChecklist();
+            drawWheel();
+            setupEventListeners();
+            initAudio(); // Initialize audio context on first interaction
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('studyWheelData');
+            if (saved) {
+                try {
+                    appState = JSON.parse(saved);
+                    // Ensure all keys exist
+                    Object.keys(INITIAL_DATA).forEach(key => {
+                        if (!appState[key]) appState[key] = formatInitialData(INITIAL_DATA[key], key);
+                    });
+                } catch (e) {
+                    appState = formatAllInitialData();
+                }
+            } else {
+                appState = formatAllInitialData();
+            }
+        }
+
+        function formatAllInitialData() {
+            const state = {};
+            for (const [subject, items] of Object.entries(INITIAL_DATA)) {
+                state[subject] = formatInitialData(items, subject);
+            }
+            return state;
+        }
+
+        function formatInitialData(items, prefix) {
+            return items.map((name, index) => ({
+                id: `${prefix}-${index}-${Date.now()}`,
+                name: name,
+                mastered: false,
+                label: 'none' // 'none', 'critical', 'comfortable'
+            }));
+        }
+
+        function saveState() {
+            localStorage.setItem('studyWheelData', JSON.stringify(appState));
+        }
+
+        // --- AUDIO HELPERS ---
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playTick() {
+            if (document.getElementById('skip-animations').checked || !audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.05);
+        }
+
+        function playWinSound() {
+            if (document.getElementById('skip-animations').checked || !audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const chords = [523.25, 659.25, 783.99, 1046.50]; // C Major Chord
+            chords.forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.1 + (i * 0.05));
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + (i * 0.05));
+                osc.stop(audioCtx.currentTime + 1.5);
+            });
+        }
+
+        // --- RENDERING ---
+        function renderTabs() {
+            const container = document.getElementById('tabs-container');
+            container.innerHTML = '';
+            Object.keys(appState).forEach(tab => {
+                const btn = document.createElement('button');
+                btn.className = `tab-btn px-6 py-3 rounded-2xl font-extrabold text-sm transition-all whitespace-nowrap bubble-btn ${tab === activeTab ? 'active' : 'bg-white text-slate-400 hover:bg-pink-50'}`;
+                btn.textContent = tab;
+                btn.onclick = () => {
+                    activeTab = tab;
+                    renderTabs();
+                    renderChecklist();
+                    drawWheel();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function renderChecklist() {
+            const container = document.getElementById('checklist-container');
+            container.innerHTML = '';
+            const items = appState[activeTab] || [];
+            
+            if (items.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 italic mt-10 font-bold">No topics added yet.</p>`;
+                return;
+            }
+
+            items.forEach(item => {
+                const div = document.createElement('div');
+                const isMastered = item.mastered;
+                div.className = `p-3 rounded-2xl border-2 flex items-start gap-3 transition-colors ${isMastered ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-[#e8baff] hover:border-[#d8b4e2]'}`;
+                
+                // Checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'mt-1 w-5 h-5 accent-pink-500 cursor-pointer flex-shrink-0';
+                checkbox.checked = isMastered;
+                checkbox.onchange = () => toggleMastery(item.id, checkbox.checked);
+
+                // Content
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'flex-1 min-w-0';
+                
+                const title = document.createElement('p');
+                title.className = `font-bold text-sm ${isMastered ? 'line-through text-slate-400' : 'text-slate-700'}`;
+                title.textContent = item.name;
+                contentDiv.appendChild(title);
+
+                // Badges
+                if (!isMastered && item.label !== 'none') {
+                    const badge = document.createElement('span');
+                    badge.className = `label-badge mt-2 inline-block ${item.label === 'critical' ? 'label-critical' : 'label-comfortable'}`;
+                    badge.textContent = item.label === 'critical' ? '🚨 Critical' : '😌 Comfortable';
+                    contentDiv.appendChild(badge);
+                }
+
+                // Delete Button
+                const delBtn = document.createElement('button');
+                delBtn.innerHTML = '✖';
+                delBtn.className = 'text-slate-300 hover:text-red-400 font-bold text-xs p-1';
+                delBtn.onclick = () => deleteItem(item.id);
+
+                div.appendChild(checkbox);
+                div.appendChild(contentDiv);
+                div.appendChild(delBtn);
+                container.appendChild(div);
+            });
+        }
+
+        // --- ACTIONS ---
+        function toggleMastery(id, isMastered) {
+            const item = appState[activeTab].find(i => i.id === id);
+            if (item) {
+                item.mastered = isMastered;
+                saveState();
+                renderChecklist();
+                drawWheel(); // update wheel slices
+            }
+        }
+
+        function setLabel(id, label) {
+            const item = appState[activeTab].find(i => i.id === id);
+            if (item) {
+                item.label = label;
+                saveState();
+                renderChecklist();
+            }
+        }
+
+        function deleteItem(id) {
+            appState[activeTab] = appState[activeTab].filter(i => i.id !== id);
+            saveState();
+            renderChecklist();
+            drawWheel();
+        }
+
+        function addItem() {
+            const input = document.getElementById('new-item-input');
+            const name = input.value.trim();
+            if (!name) return;
+            
+            appState[activeTab].push({
+                id: `${activeTab}-${Date.now()}`,
+                name: name,
+                mastered: false,
+                label: 'none'
+            });
+            input.value = '';
+            saveState();
+            renderChecklist();
+            drawWheel();
+        }
+
+        function showAlert(msg) {
+            document.getElementById('alert-message').textContent = msg;
+            document.getElementById('alert-modal').classList.remove('hidden');
+        }
+
+        // --- WHEEL LOGIC (CANVAS) ---
+        function getUnmasteredItems() {
+            return (appState[activeTab] || []).filter(i => !i.mastered);
+        }
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            const ctx = canvas.getContext('2d');
+            const items = getUnmasteredItems();
+            const width = canvas.width;
+            const height = canvas.height;
+            const radius = width / 2;
+            const cx = width / 2;
+            const cy = height / 2;
+
+            ctx.clearRect(0, 0, width, height);
+
+            if (items.length === 0) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#f1f5f9';
+                ctx.fill();
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = 'bold 30px Nunito';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('All Mastered! 🎉', cx, cy);
+                document.getElementById('spin-btn').classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            document.getElementById('spin-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            const arc = (2 * Math.PI) / items.length;
+
+            ctx.save();
+            ctx.translate(cx, cy);
+            // We rotate context so that angle 0 starts at the top (-90 degrees)
+            ctx.rotate(-Math.PI / 2 + (currentRotation * Math.PI / 180));
+
+            for (let i = 0; i < items.length; i++) {
+                const angle = i * arc;
+                
+                // Draw slice
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius, angle, angle + arc);
+                ctx.lineTo(0, 0);
+                ctx.fillStyle = COLORS[i % COLORS.length];
+                ctx.fill();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                // Draw text
+                ctx.save();
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#4a4a4a';
+                ctx.font = 'bold 24px Nunito';
+                
+                let text = items[i].name;
+                // Truncate if too long
+                if (text.length > 20) text = text.substring(0, 18) + '...';
+                
+                ctx.fillText(text, radius - 30, 0);
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            const items = getUnmasteredItems();
+            if (items.length === 0) return;
+
+            initAudio();
+            isSpinning = true;
+            
+            const skipAnimations = document.getElementById('skip-animations').checked;
+            
+            const winningIndex = Math.floor(Math.random() * items.length);
+            const winningItem = items[winningIndex];
+            
+            if (skipAnimations) {
+                isSpinning = false;
+                showWinModal(winningItem);
+                return;
+            }
+
+            // Calculate rotation needed to land on winning index
+            // Slices go clockwise starting from top. 
+            // So if index is 1, it occupies angle arc to 2*arc.
+            // To bring slice i to the top (which is angle 0 in our translated context),
+            // the wheel needs to rotate backwards by (i + 0.5) * arc.
+            const arcDeg = 360 / items.length;
+            const targetSliceCenter = (winningIndex * arcDeg) + (arcDeg / 2);
+            // Randomize within the slice to not always hit dead center
+            const randomOffset = (Math.random() - 0.5) * (arcDeg * 0.8);
+            const targetPos = targetSliceCenter + randomOffset;
+            
+            // Current modulo
+            const currentMod = currentRotation % 360;
+            const spins = 5; // number of extra full spins
+            
+            // Formula: nextRotation = currentRotation + (spins * 360) + (360 - currentMod) - targetPos
+            const targetRotation = currentRotation + (spins * 360) + (360 - currentMod) - targetPos;
+
+            animateSpin(currentRotation, targetRotation, 3000, winningItem);
+        }
+
+        function animateSpin(start, end, duration, winningItem) {
+            const startTime = performance.now();
+            let lastTickRotation = start;
+
+            function easeOutQuart(t) {
+                return 1 - (--t) * t * t * t;
+            }
+
+            function tick(now) {
+                const elapsed = now - startTime;
+                let progress = Math.min(elapsed / duration, 1);
+                const easedProgress = easeOutQuart(progress);
+                
+                currentRotation = start + (end - start) * easedProgress;
+                drawWheel();
+
+                // Play tick sound based on slices passing
+                const itemsCount = getUnmasteredItems().length;
+                const arcDeg = 360 / itemsCount;
+                if (Math.floor(currentRotation / arcDeg) > Math.floor(lastTickRotation / arcDeg)) {
+                    playTick();
+                    lastTickRotation = currentRotation;
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    isSpinning = false;
+                    currentRotation = end; // Ensure exact end
+                    drawWheel();
+                    playWinSound();
+                    fireConfetti();
+                    setTimeout(() => showWinModal(winningItem), 500);
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+
+        // --- CONFETTI ---
+        const confettiCanvas = document.getElementById('confetti-canvas');
+        const cCtx = confettiCanvas.getContext('2d');
+        let confettiParticles = [];
+        let confettiAnimationId = null;
+
+        function resizeConfetti() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeConfetti);
+        resizeConfetti();
+
+        function fireConfetti() {
+            if (document.getElementById('skip-animations').checked) return;
+            
+            confettiParticles = [];
+            for (let i = 0; i < 150; i++) {
+                confettiParticles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 10 + 5,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    vy: Math.random() * 5 + 3,
+                    vx: Math.random() * 4 - 2,
+                    rot: Math.random() * 360,
+                    rotSpeed: Math.random() * 10 - 5
+                });
+            }
+
+            if (!confettiAnimationId) {
+                renderConfetti();
+            }
+        }
+
+        function renderConfetti() {
+            cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            let active = false;
+
+            confettiParticles.forEach(p => {
+                p.y += p.vy;
+                p.x += p.vx;
+                p.rot += p.rotSpeed;
+                if (p.y < confettiCanvas.height) active = true;
+
+                cCtx.save();
+                cCtx.translate(p.x, p.y);
+                cCtx.rotate(p.rot * Math.PI / 180);
+                cCtx.fillStyle = p.color;
+                cCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                cCtx.restore();
+            });
+
+            if (active) {
+                confettiAnimationId = requestAnimationFrame(renderConfetti);
+            } else {
+                cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                confettiAnimationId = null;
+            }
+        }
+
+        // --- WIN MODAL ---
+        const winModal = document.getElementById('win-modal');
+        const winModalContent = document.getElementById('win-modal-content');
+
+        function showWinModal(item) {
+            selectedTopicId = item.id;
+            document.getElementById('win-topic-name').textContent = item.name;
+            winModal.classList.remove('hidden');
+            // Small delay to allow display block to apply before animating opacity
+            setTimeout(() => {
+                winModal.classList.remove('opacity-0');
+                winModalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeWinModal() {
+            winModal.classList.add('opacity-0');
+            winModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                winModal.classList.add('hidden');
+                selectedTopicId = null;
+            }, 300); // match duration
+        }
+
+        // --- IMPORT / EXPORT ---
+        function exportData() {
+            const dataStr = JSON.stringify(appState);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "study_wheel_backup.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    // Basic validation
+                    if (typeof imported === 'object' && imported !== null) {
+                        appState = imported;
+                        saveState();
+                        renderTabs();
+                        renderChecklist();
+                        drawWheel();
+                        showAlert("Data imported successfully! ✨");
+                    }
+                } catch (err) {
+                    showAlert("Invalid JSON file. Please try again.");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // reset
+        }
+
+        // --- EVENT LISTENERS ---
+        function setupEventListeners() {
+            // Spin
+            document.getElementById('spin-btn').addEventListener('click', spinWheel);
+
+            // Add Item
+            document.getElementById('add-item-btn').addEventListener('click', addItem);
+            document.getElementById('new-item-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addItem();
+            });
+
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuContent = document.getElementById('menu-content');
+            const menuArrow = document.getElementById('menu-arrow');
+            
+            menuToggle.addEventListener('click', () => {
+                if (window.innerWidth < 1024) { // lg breakpoint
+                    const isClosed = menuContent.style.maxHeight === '0px' || menuContent.style.maxHeight === '';
+                    if (isClosed) {
+                        menuContent.style.maxHeight = '500px';
+                        menuArrow.style.transform = 'rotate(180deg)';
+                    } else {
+                        menuContent.style.maxHeight = '0px';
+                        menuArrow.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+
+            // Ensure menu visible on resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1024) {
+                    menuContent.style.maxHeight = 'none';
+                } else {
+                    menuContent.style.maxHeight = '0px';
+                    menuArrow.style.transform = 'rotate(0deg)';
+                }
+                drawWheel(); // redraw to fix aspect ratio
+            });
+
+            // Init mobile menu state
+            if (window.innerWidth < 1024) {
+                menuContent.style.maxHeight = '0px';
+            }
+
+            // Modal Buttons
+            document.getElementById('btn-mastered').addEventListener('click', () => {
+                if (selectedTopicId) toggleMastery(selectedTopicId, true);
+                closeWinModal();
+            });
+            document.getElementById('btn-critical').addEventListener('click', () => {
+                if (selectedTopicId) setLabel(selectedTopicId, 'critical');
+                closeWinModal();
+            });
+            document.getElementById('btn-comfortable').addEventListener('click', () => {
+                if (selectedTopicId) setLabel(selectedTopicId, 'comfortable');
+                closeWinModal();
+            });
+            document.getElementById('btn-keep').addEventListener('click', closeWinModal);
+
+            // Alert close
+            document.getElementById('alert-close').addEventListener('click', () => {
+                document.getElementById('alert-modal').classList.add('hidden');
+            });
+
+            // Import/Export
+            document.getElementById('export-btn').addEventListener('click', exportData);
+            document.getElementById('import-btn-proxy').addEventListener('click', () => {
+                document.getElementById('import-file').click();
+            });
+            document.getElementById('import-file').addEventListener('change', importData);
+            
+            // Audio init trick for mobile browsers requiring interaction
+            document.body.addEventListener('click', initAudio, { once: true });
+        }
+
+        // --- BOOTSTRAP ---
+        window.addEventListener('DOMContentLoaded', initApp);
+
+    </script>
+</body>
+</html>
