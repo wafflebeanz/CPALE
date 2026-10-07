@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Custom Tailwind Configuration for Pastel Colors -->
+    <!-- Custom Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
@@ -28,7 +28,7 @@
                             purple: '#E6E6FA',
                             mint: '#D5ECC2',
                             yellow: '#FFFACD',
-                            text: '#5D4037', // soft brown for text instead of harsh black
+                            text: '#5D4037',
                             highlight: '#FF69B4'
                         }
                     }
@@ -46,41 +46,35 @@
         }
 
         /* Cute Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #FFE4E1; 
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FFB6C1; 
-            border-radius: 10px;
-            border: 3px solid #FFE4E1;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #FF69B4; 
-        }
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #FFE4E1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #FFB6C1; border-radius: 10px; border: 3px solid #FFE4E1; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF69B4; }
 
         /* Floating Animation */
-        .float-anim {
-            animation: float 3s ease-in-out infinite;
-        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
             100% { transform: translateY(0px); }
         }
 
-        /* Math Operator Badges */
-        .op-add { @apply inline-flex items-center justify-center w-6 h-6 bg-cute-mint text-green-700 font-bold rounded-full mr-3 shadow-sm; }
-        .op-sub { @apply inline-flex items-center justify-center w-6 h-6 bg-red-100 text-red-600 font-bold rounded-full mr-3 shadow-sm; }
-        .op-eq { @apply inline-flex items-center justify-center w-8 h-8 bg-cute-highlight text-white font-bold rounded-full mr-3 shadow-md; }
+        /* Accounting Underlines */
+        .acct-val { min-width: 3.5rem; text-align: right; display: inline-block; }
+        .acct-total { 
+            min-width: 4rem; 
+            text-align: right; 
+            display: inline-block; 
+            border-top: 1px solid currentColor; 
+            border-bottom: 3px double currentColor; 
+            padding-top: 2px; 
+            padding-bottom: 2px;
+        }
     </style>
 </head>
 <body class="flex flex-col md:flex-row min-h-screen">
 
-    <!-- Mobile Navigation (Top) -->
+    <!-- Mobile Navigation -->
     <nav class="md:hidden bg-white/90 backdrop-blur-md sticky top-0 z-50 p-4 border-b-4 border-cute-pink shadow-sm flex overflow-x-auto whitespace-nowrap gap-3">
         <a href="#assets-liab" class="px-4 py-2 bg-cute-pink rounded-full font-bold text-sm hover:bg-pink-200 transition">🌸 Assets & Liab</a>
         <a href="#equity" class="px-4 py-2 bg-cute-blue rounded-full font-bold text-sm hover:bg-blue-200 transition">🎀 Equity & RE</a>
@@ -89,7 +83,7 @@
         <a href="#goodwill" class="px-4 py-2 bg-cute-yellow rounded-full font-bold text-sm hover:bg-yellow-200 transition">🐻 Goodwill & NCI</a>
     </nav>
 
-    <!-- Desktop Navigation (Left Sidebar) -->
+    <!-- Desktop Sidebar -->
     <aside class="hidden md:flex w-72 bg-white/80 backdrop-blur-md shadow-[5px_0_15px_rgba(255,182,193,0.3)] sticky top-0 h-screen flex-col pt-8 pb-4 px-6 border-r-4 border-cute-pink">
         <div class="text-center mb-8">
             <div class="text-5xl mb-2 float-anim">📝</div>
@@ -98,31 +92,11 @@
         </div>
 
         <ul class="space-y-4 flex-1">
-            <li>
-                <a href="#assets-liab" class="flex items-center p-3 rounded-2xl hover:bg-cute-pink transition-colors font-semibold group">
-                    <span class="text-xl mr-3 group-hover:scale-125 transition-transform">🌸</span> Assets & Liabilities
-                </a>
-            </li>
-            <li>
-                <a href="#equity" class="flex items-center p-3 rounded-2xl hover:bg-cute-blue transition-colors font-semibold group">
-                    <span class="text-xl mr-3 group-hover:scale-125 transition-transform">🎀</span> Equity (SHE)
-                </a>
-            </li>
-            <li>
-                <a href="#inventory-ppe" class="flex items-center p-3 rounded-2xl hover:bg-cute-mint transition-colors font-semibold group">
-                    <span class="text-xl mr-3 group-hover:scale-125 transition-transform">☁️</span> Assets (Invty & PPE)
-                </a>
-            </li>
-            <li>
-                <a href="#income-exp" class="flex items-center p-3 rounded-2xl hover:bg-cute-purple transition-colors font-semibold group">
-                    <span class="text-xl mr-3 group-hover:scale-125 transition-transform">✨</span> Net Income & OPEX
-                </a>
-            </li>
-            <li>
-                <a href="#goodwill" class="flex items-center p-3 rounded-2xl hover:bg-cute-yellow transition-colors font-semibold group">
-                    <span class="text-xl mr-3 group-hover:scale-125 transition-transform">🐻</span> Goodwill & NCI
-                </a>
-            </li>
+            <li><a href="#assets-liab" class="flex items-center p-3 rounded-2xl hover:bg-cute-pink transition-colors font-semibold group"><span class="text-xl mr-3 group-hover:scale-125 transition-transform">🌸</span> Assets & Liabilities</a></li>
+            <li><a href="#equity" class="flex items-center p-3 rounded-2xl hover:bg-cute-blue transition-colors font-semibold group"><span class="text-xl mr-3 group-hover:scale-125 transition-transform">🎀</span> Equity (SHE)</a></li>
+            <li><a href="#inventory-ppe" class="flex items-center p-3 rounded-2xl hover:bg-cute-mint transition-colors font-semibold group"><span class="text-xl mr-3 group-hover:scale-125 transition-transform">☁️</span> Assets (Invty & PPE)</a></li>
+            <li><a href="#income-exp" class="flex items-center p-3 rounded-2xl hover:bg-cute-purple transition-colors font-semibold group"><span class="text-xl mr-3 group-hover:scale-125 transition-transform">✨</span> Net Income & OPEX</a></li>
+            <li><a href="#goodwill" class="flex items-center p-3 rounded-2xl hover:bg-cute-yellow transition-colors font-semibold group"><span class="text-xl mr-3 group-hover:scale-125 transition-transform">🐻</span> Goodwill & NCI</a></li>
         </ul>
         
         <div class="text-center text-xs mt-auto bg-white p-4 rounded-2xl shadow-sm border-2 border-dashed border-cute-pink">
@@ -132,7 +106,6 @@
 
     <main class="flex-1 p-6 md:p-12 overflow-x-hidden">
         
-        <!-- Header -->
         <header class="mb-12 text-center md:text-left bg-white p-8 rounded-3xl shadow-sm border-4 border-white outline outline-4 outline-cute-pink relative overflow-hidden">
             <div class="absolute -right-10 -top-10 text-8xl opacity-10">🎀</div>
             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-pink-600">
@@ -156,37 +129,67 @@
                 <!-- Assets Card -->
                 <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 border-cute-pink hover:-translate-y-1 transition-transform relative">
                     <div class="absolute top-4 right-4 text-3xl float-anim">💰</div>
-                    <h4 class="text-xl font-bold text-pink-500 mb-4 bg-pink-50 inline-block px-4 py-1 rounded-full">Consolidated Total Assets</h4>
-                    <ul class="space-y-3 font-medium">
-                        <li class="flex items-center"><span class="op-add">+</span> Assets - Parent BV</li>
-                        <li class="flex items-center"><span class="op-add">+</span> Assets - Subsidiary FV</li>
-                        <li class="flex items-center"><span class="op-add">+</span> Purchase Price (in form of assets)</li>
-                        <li class="flex items-center"><span class="op-add">+</span> Goodwill</li>
-                        <li class="flex items-center"><span class="op-sub">-</span> Direct / Indirect Cost <span class="text-xs text-gray-400 ml-2">(deduct if paid)</span></li>
-                        <li class="flex items-center"><span class="op-sub">-</span> CTIR - stocks</li>
-                        <li class="flex items-center"><span class="op-sub">-</span> CTIR - debt</li>
-                        <li class="flex items-center mt-4 pt-4 border-t-2 border-dashed border-gray-200 text-lg font-bold text-pink-600">
-                            <span class="op-eq">=</span> Conso Total Assets
-                        </li>
-                    </ul>
+                    <h4 class="text-xl font-bold text-pink-600 mb-5 bg-pink-50 inline-block px-4 py-1 rounded-full">Consolidated Total Assets</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-pink-900 w-full text-sm md:text-base">
+                        <div class="flex justify-between items-end">
+                            <span>Assets - Parent @BV</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>Assets - Subsidiary @FV</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>Purchase Price <span class="text-xs text-pink-600/70 ml-1">(in form of assets)</span></span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>Goodwill</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end text-pink-800/80">
+                            <span>Direct / Indirect Cost <span class="text-xs ml-1">(deduct if paid)</span></span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end text-pink-800/80">
+                            <span>CTIR - stocks</span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end text-pink-800/80">
+                            <span>CTIR - debt</span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end font-bold text-pink-700 pt-3 mt-3">
+                            <span>Conso Total Assets</span><span class="acct-total text-pink-600">XX</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Liabilities Card -->
                 <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-2 border-cute-blue hover:-translate-y-1 transition-transform relative">
                     <div class="absolute top-4 right-4 text-3xl float-anim" style="animation-delay: 0.5s;">🧾</div>
-                    <h4 class="text-xl font-bold text-blue-500 mb-4 bg-blue-50 inline-block px-4 py-1 rounded-full">Consolidated Total Liabilities</h4>
-                    <ul class="space-y-3 font-medium">
-                        <li class="flex items-center"><span class="op-add">+</span> Liab - Parent BV</li>
-                        <li class="flex items-center"><span class="op-add">+</span> Liab - Subsidiary FV</li>
-                        <li class="flex items-center"><span class="op-add">+</span> Purchase Price (in form of debt)</li>
-                        <li class="flex items-center"><span class="op-add">+</span> Contingent Liab</li>
-                        <li class="flex items-center"><span class="op-add">+</span> DCAC</li>
-                        <li class="flex items-center"><span class="op-sub">-</span> CTIR - stocks <span class="text-xs text-gray-400 ml-2">(deduct if paid)</span></li>
-                        <li class="flex items-center"><span class="op-sub">-</span> CTIR - debt <span class="text-xs text-gray-400 ml-2">(deduct if paid)</span></li>
-                        <li class="flex items-center mt-4 pt-4 border-t-2 border-dashed border-gray-200 text-lg font-bold text-blue-600">
-                            <span class="inline-flex items-center justify-center w-8 h-8 bg-blue-400 text-white font-bold rounded-full mr-3 shadow-md">=</span> Conso Total Liability
-                        </li>
-                    </ul>
+                    <h4 class="text-xl font-bold text-blue-600 mb-5 bg-blue-50 inline-block px-4 py-1 rounded-full">Consolidated Total Liabilities</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-blue-900 w-full text-sm md:text-base">
+                        <div class="flex justify-between items-end">
+                            <span>Liab - Parent @BV</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>Liab - Subsidiary @FV</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>Purchase Price <span class="text-xs text-blue-600/70 ml-1">(in form of debt)</span></span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>Contingent Liab</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <span>DC/AC</span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end text-blue-800/80">
+                            <span>CTIR - stocks <span class="text-xs ml-1">(add if paid)</span></span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end text-blue-800/80">
+                            <span>CTIR - debt <span class="text-xs ml-1">(deduct if paid)</span></span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end font-bold text-blue-700 pt-3 mt-3">
+                            <span>Conso Total Liability</span><span class="acct-total text-blue-600">XX</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -197,73 +200,95 @@
             </h3>
 
             <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
-                <!-- Total SHE -->
+                <!-- Total SHE Methods -->
                 <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-cute-purple lg:col-span-3">
-                    <h4 class="text-xl font-bold text-purple-600 mb-4 bg-purple-50 inline-block px-4 py-1 rounded-full">Consolidated Total SHE</h4>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <ul class="space-y-2 font-medium bg-purple-50/50 p-4 rounded-2xl">
-                            <div class="text-xs font-bold text-purple-400 mb-2 uppercase tracking-wide">Method 1 (Components)</div>
-                            <li class="flex items-center"><span class="op-add">+</span> SHE - Parent</li>
-                            <li class="flex items-center"><span class="op-add">+</span> NCI</li>
-                            <li class="flex items-center"><span class="op-add">+</span> PP (form of shares)</li>
-                            <li class="flex items-center"><span class="op-add">+</span> Gain/Loss (G/L on Remeas, Provision, etc.)</li>
-                            <li class="flex items-center"><span class="op-sub">-</span> DC <span class="text-xs ml-1">(Direct Costs)</span></li>
-                            <li class="flex items-center"><span class="op-sub">-</span> IC <span class="text-xs ml-1">(Indirect Costs)</span></li>
-                            <li class="flex items-center"><span class="op-sub">-</span> CTIR - stocks</li>
-                            <li class="flex items-center pt-2 font-bold text-purple-700"><span class="inline-flex items-center justify-center w-6 h-6 bg-purple-400 text-white font-bold rounded-full mr-3 shadow-sm">=</span> Conso Total SHE</li>
-                        </ul>
-                        <ul class="space-y-2 font-medium bg-pink-50/50 p-4 rounded-2xl border border-pink-100">
-                             <div class="text-xs font-bold text-pink-400 mb-2 uppercase tracking-wide">Method 2 (Combined)</div>
-                            <li class="flex items-center"><span class="op-add">+</span> SHE - parent, beg</li>
-                            <li class="flex items-center"><span class="op-add">+</span> NCI, beg</li>
-                            <li class="flex items-center"><span class="op-add">+</span> Conso Net Income</li>
-                            <li class="flex items-center"><span class="op-add">+</span> PP (form of shares) @FV</li>
-                            <li class="flex items-center"><span class="op-sub">-</span> CTIR - stocks</li>
-                            <li class="flex items-center"><span class="op-sub">-</span> Dividend Declared - Parent</li>
-                            <li class="flex items-center"><span class="op-sub">-</span> Dividend Received by NCI fr Sub</li>
-                            <li class="flex items-center pt-2 font-bold text-pink-700"><span class="inline-flex items-center justify-center w-6 h-6 bg-pink-400 text-white font-bold rounded-full mr-3 shadow-sm">=</span> Conso Total SHE</li>
-                        </ul>
+                    <h4 class="text-xl font-bold text-purple-600 mb-6 bg-purple-50 inline-block px-4 py-1 rounded-full">Consolidated Total SHE</h4>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        
+                        <!-- Method 1 -->
+                        <div class="bg-purple-50/50 p-5 rounded-2xl border border-purple-100">
+                            <div class="text-xs font-bold text-purple-400 mb-4 uppercase tracking-wide border-b border-purple-200 pb-1">Method 1 (Components)</div>
+                            <div class="space-y-1.5 font-medium text-purple-900 w-full text-sm">
+                                <div class="flex justify-between items-end"><span>SHE - Parent</span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end"><span>NCI</span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end"><span>PP <span class="text-xs text-purple-600/70 ml-1">(form of shares)</span></span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end"><span>G/L <span class="text-xs text-purple-600/70 ml-1">(Remeasurement, etc)</span></span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end text-purple-800/80"><span>DC <span class="text-[10px] ml-1">(deduct pd/unpd)</span></span><span class="acct-val">(XX)</span></div>
+                                <div class="flex justify-between items-end text-purple-800/80"><span>IC</span><span class="acct-val">(XX)</span></div>
+                                <div class="flex justify-between items-end text-purple-800/80"><span>CTIR - stocks</span><span class="acct-val">(XX)</span></div>
+                                <div class="flex justify-between items-end font-bold text-purple-800 pt-3 mt-2">
+                                    <span>Conso Total SHE</span><span class="acct-total text-purple-600">XX</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Method 2 -->
+                        <div class="bg-pink-50/50 p-5 rounded-2xl border border-pink-100">
+                             <div class="text-xs font-bold text-pink-400 mb-4 uppercase tracking-wide border-b border-pink-200 pb-1">Method 2 (Combined E, F, G, H)</div>
+                             <div class="space-y-1.5 font-medium text-pink-900 w-full text-sm">
+                                <div class="flex justify-between items-end"><span>SHE - parent, beg</span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end"><span>NCI, beg</span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end"><span>Conso Net Income</span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end"><span>PP <span class="text-xs text-pink-600/70 ml-1">(form of shares) @FV</span></span><span class="acct-val">XX</span></div>
+                                <div class="flex justify-between items-end text-pink-800/80"><span>CTIR - stocks</span><span class="acct-val">(XX)</span></div>
+                                <div class="flex justify-between items-end text-pink-800/80"><span>Dividend Declared - Parent</span><span class="acct-val">(XX)</span></div>
+                                <div class="flex justify-between items-end text-pink-800/80"><span>Div Received by NCI fr Sub</span><span class="acct-val">(XX)</span></div>
+                                <div class="flex justify-between items-end font-bold text-pink-800 pt-3 mt-2">
+                                    <span>Conso Total SHE</span><span class="acct-total text-pink-600">XX</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Share Capital & Premium -->
-                <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-gray-100">
-                    <h4 class="font-bold text-gray-700 mb-3 border-b pb-2">Share Capital & Premium</h4>
-                    <ul class="space-y-2 text-sm font-medium mb-4">
-                        <li class="flex items-center text-blue-700"><span class="mr-2">🔹</span> Share Capital - Parent</li>
-                        <li class="flex items-center text-blue-700"><span class="mr-2">🔹</span> + PP (shares @ par)</li>
-                        <li class="flex items-center font-bold text-blue-900 border-t pt-1"><span class="mr-2">✨</span> = Conso Share Capital</li>
-                    </ul>
-                    <ul class="space-y-2 text-sm font-medium">
-                        <li class="flex items-center text-pink-700"><span class="mr-2">🔸</span> Share Premium - Parent</li>
-                        <li class="flex items-center text-pink-700"><span class="mr-2">🔸</span> + PP (excess of FV over par)</li>
-                        <li class="flex items-center text-pink-700"><span class="mr-2">🔸</span> - CTIR - stocks</li>
-                        <li class="flex items-center font-bold text-pink-900 border-t pt-1"><span class="mr-2">✨</span> = Conso Share Premium</li>
-                    </ul>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-gray-100">
+                    <h4 class="font-bold text-gray-700 mb-4 border-b pb-2">Share Capital & Premium</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-blue-900 w-full text-sm mb-6">
+                        <div class="flex justify-between items-end"><span>Share Capital - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>PP <span class="text-[10px] text-blue-600/70 ml-1">(shares @ par)</span></span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end font-bold text-blue-800 pt-2 mt-2">
+                            <span>Conso Share Capital</span><span class="acct-total text-blue-600">XX</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5 font-medium text-pink-900 w-full text-sm">
+                        <div class="flex justify-between items-end"><span>Share Premium - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>PP <span class="text-[10px] text-pink-600/70 ml-1">(excess of FV over par)</span></span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-pink-800/80"><span>CTIR - stocks</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end font-bold text-pink-800 pt-2 mt-2">
+                            <span>Conso Share Premium</span><span class="acct-total text-pink-600">XX</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Retained Earnings -->
-                <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-gray-100">
-                    <h4 class="font-bold text-gray-700 mb-3 border-b pb-2">Retained Earnings (RE)</h4>
-                    <ul class="space-y-2 text-sm font-medium">
-                        <li class="flex items-center"><span class="op-add w-5 h-5 text-xs">+</span> Conso RE, beg <span class="text-[10px] text-gray-400 ml-1">(or RE-parent on acq date)</span></li>
-                        <li class="flex items-center"><span class="op-add w-5 h-5 text-xs">+</span> Conso NI - parent</li>
-                        <li class="flex items-center"><span class="op-sub w-5 h-5 text-xs">-</span> Dividends Declared - parent</li>
-                        <li class="flex items-center pt-2 font-bold text-orange-600"><span class="inline-flex items-center justify-center w-6 h-6 bg-orange-400 text-white font-bold rounded-full mr-3 shadow-sm">=</span> Conso RE, End</li>
-                    </ul>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-orange-100 flex flex-col justify-center">
+                    <h4 class="font-bold text-orange-700 mb-4 border-b border-orange-100 pb-2">Consolidated RE</h4>
+                    <div class="space-y-1.5 font-medium text-orange-900 w-full text-sm">
+                        <div class="flex justify-between items-end">
+                            <span>Conso RE, beg <br><span class="text-[10px] text-orange-600/70 font-normal">*RE-parent on date of acq</span></span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end"><span>Conso NI - parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-orange-800/80"><span>Dividends Declared - parent</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end font-bold text-orange-800 pt-3 mt-2">
+                            <span>Conso RE, End</span><span class="acct-total text-orange-600">XX</span>
+                        </div>
+                    </div>
                 </div>
                 
                  <!-- Composition summary -->
                 <div class="bg-cute-mint/30 p-5 rounded-3xl shadow-sm border-2 border-cute-mint flex flex-col justify-center items-center text-center">
                     <div class="text-4xl mb-2">🍰</div>
                     <h4 class="font-bold text-green-800 mb-2">Conso Total SHE Includes:</h4>
-                    <p class="text-sm font-medium text-green-700">Consolidated Share Capital</p>
-                    <p class="text-sm font-medium text-green-700">+</p>
-                    <p class="text-sm font-medium text-green-700">Consolidated Share Premium</p>
-                    <p class="text-sm font-medium text-green-700">+</p>
-                    <p class="text-sm font-medium text-green-700">Consolidated RE end</p>
-                    <p class="text-sm font-medium text-green-700">+</p>
-                    <p class="text-sm font-medium text-green-700">NCI end</p>
+                    <p class="text-sm font-medium text-green-700">Conso Share Capital</p>
+                    <p class="text-[10px] text-green-600 my-0.5">➕</p>
+                    <p class="text-sm font-medium text-green-700">Conso Share Premium</p>
+                    <p class="text-[10px] text-green-600 my-0.5">➕</p>
+                    <p class="text-sm font-medium text-green-700">Conso RE End</p>
+                    <p class="text-[10px] text-green-600 my-0.5">➕</p>
+                    <p class="text-sm font-medium text-green-700">NCI End</p>
                 </div>
             </div>
         </section>
@@ -274,52 +299,64 @@
             </h3>
 
             <div class="grid md:grid-cols-3 gap-6">
-                
                 <!-- PPE -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-green-100 hover:shadow-md transition">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-green-200 hover:shadow-md transition">
                     <div class="text-center mb-4"><span class="text-3xl bg-green-50 p-3 rounded-full inline-block">🏭</span></div>
-                    <h4 class="text-lg font-bold text-center text-green-700 mb-4">Consolidated PPE</h4>
-                    <ul class="space-y-2 text-sm font-medium">
-                        <li class="flex justify-between"><span>PPE - Parent BV</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>PPE - Subsidiary BV</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>UVA of PPE</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>Amort of PPE (UVA)</span> <span class="text-red-500">-</span></li>
-                        <li class="flex justify-between"><span>OVA of PPE</span> <span class="text-red-500">-</span></li>
-                        <li class="flex justify-between border-b pb-2"><span>Amort of OVA</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between font-bold text-green-800 pt-2"><span>= Conso PPE</span></li>
-                    </ul>
+                    <h4 class="text-lg font-bold text-green-700 mb-5 border-b border-green-100 pb-2">Consolidated PPE</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-green-900 w-full text-sm">
+                        <div class="flex justify-between items-end"><span>PPE - Parent BV</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>PPE - Subsidiary BV</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>UVA of PPE</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-green-800/80"><span>Amort of PPE</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end text-green-800/80"><span>OVA of PPE</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end"><span>Amort of OVA</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end font-bold text-green-800 pt-3 mt-2">
+                            <span>Conso PPE</span><span class="acct-total text-green-600">XX</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Inventory -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-yellow-100 hover:shadow-md transition relative overflow-hidden">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-yellow-200 hover:shadow-md transition relative overflow-hidden">
                     <div class="absolute -right-4 -bottom-4 text-6xl opacity-20">📦</div>
                     <div class="text-center mb-4"><span class="text-3xl bg-yellow-50 p-3 rounded-full inline-block">📦</span></div>
-                    <h4 class="text-lg font-bold text-center text-yellow-700 mb-4">Consolidated Inventory</h4>
-                    <ul class="space-y-2 text-sm font-medium relative z-10">
-                        <li class="flex justify-between"><span>Inventory - Parent</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>Inventory - Sub BV</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>UVA of Invty</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>Amort of UVA</span> <span class="text-red-500">-</span></li>
-                        <li class="flex justify-between"><span>OVA of Invty</span> <span class="text-red-500">-</span></li>
-                        <li class="flex justify-between"><span>Amort of OVA</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between border-b pb-2"><span>Unrealized Intercompany Profit <span class="text-xs text-yellow-600">(End Invty)</span></span> <span class="text-red-500">-</span></li>
-                        <li class="flex justify-between font-bold text-yellow-800 pt-2"><span>= Conso Inventory</span></li>
-                    </ul>
-                    <div class="mt-4 text-xs font-bold text-center text-yellow-600 bg-yellow-50 p-2 rounded-lg">
+                    <h4 class="text-lg font-bold text-yellow-700 mb-5 border-b border-yellow-100 pb-2">Consolidated Inventory</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-yellow-900 w-full text-sm relative z-10">
+                        <div class="flex justify-between items-end"><span>Inventory - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>Inventory - Subsidiary BV</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>UVA of Invty</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-yellow-800/80"><span>Amort of UVA</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end text-yellow-800/80"><span>OVA of Invty</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end"><span>Amort of OVA</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-yellow-800/80">
+                            <span>Unrealized Intercompany <br>Profit <span class="text-[10px]">(End Invty)</span></span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end font-bold text-yellow-800 pt-3 mt-2">
+                            <span>Conso Inventory</span><span class="acct-total text-yellow-600">XX</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-[10px] font-bold text-center text-yellow-600 bg-yellow-50 p-2 rounded-lg">
                         ⚠️ Note: Amortization of inventory is through sale
                     </div>
                 </div>
 
                 <!-- Cost of Sales -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-red-100 hover:shadow-md transition">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-red-200 hover:shadow-md transition">
                     <div class="text-center mb-4"><span class="text-3xl bg-red-50 p-3 rounded-full inline-block">🛒</span></div>
-                    <h4 class="text-lg font-bold text-center text-red-700 mb-4">Consolidated Cost of Sales</h4>
-                    <ul class="space-y-2 text-sm font-medium">
-                        <li class="flex justify-between"><span>COS - Parent</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between"><span>COS - Subsidiary</span> <span class="text-green-600">+</span></li>
-                        <li class="flex justify-between border-b pb-2"><span>Invty Amortization (UVA/OVA)</span> <span class="text-blue-500">+/-</span></li>
-                        <li class="flex justify-between font-bold text-red-800 pt-2"><span>= Conso Cost of Sales</span></li>
-                    </ul>
+                    <h4 class="text-lg font-bold text-red-700 mb-5 border-b border-red-100 pb-2">Consolidated Cost of Sales</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-red-900 w-full text-sm">
+                        <div class="flex justify-between items-end"><span>COS - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>COS - Subsidiary</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end">
+                            <span>Invty Amortization <br><span class="text-[10px] text-red-700/70 font-normal">(UVA / OVA)</span></span><span class="acct-val">XX / (XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end font-bold text-red-800 pt-3 mt-2">
+                            <span>Conso Cost of Sales</span><span class="acct-total text-red-600">XX</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -329,7 +366,7 @@
                 <span class="text-3xl mr-3">✨</span> 4. Net Income & Expenses
             </h3>
 
-            <!-- Net Income Table Wrapper -->
+            <!-- Net Income Table -->
             <div class="bg-white rounded-3xl shadow-sm border-2 border-cute-purple overflow-hidden mb-8">
                 <div class="bg-purple-100 p-4 font-bold text-purple-800 flex items-center justify-between">
                     <span>Consolidated Net Income Allocation</span>
@@ -340,74 +377,75 @@
                         <thead class="bg-purple-50 text-purple-700">
                             <tr>
                                 <th class="p-4 rounded-tl-2xl">Item</th>
-                                <th class="p-4">Parent</th>
-                                <th class="p-4">NCI</th>
-                                <th class="p-4 rounded-tr-2xl">Total</th>
+                                <th class="p-4 text-right">Parent</th>
+                                <th class="p-4 text-right">NCI</th>
+                                <th class="p-4 text-right rounded-tr-2xl">Total</th>
                             </tr>
                         </thead>
                         <tbody class="font-medium text-gray-700">
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4">NI - Parent from own op (NIFOO)</td>
-                                <td class="p-4 text-green-600">XX</td>
-                                <td class="p-4 text-gray-300">-</td>
-                                <td class="p-4 font-bold text-green-700">XX</td>
+                                <td class="p-4 text-right">XX</td>
+                                <td class="p-4 text-right text-gray-300">-</td>
+                                <td class="p-4 text-right font-bold text-gray-800">XX</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4">Div Receivable</td>
-                                <td class="p-4 text-red-500">(XX)</td>
-                                <td class="p-4 text-gray-300">-</td>
-                                <td class="p-4 font-bold text-red-600">(XX)</td>
+                                <td class="p-4 text-right text-red-500">(XX)</td>
+                                <td class="p-4 text-right text-gray-300">-</td>
+                                <td class="p-4 text-right font-bold text-red-600">(XX)</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4">NI - Subsidiary</td>
-                                <td class="p-4 text-green-600">XX</td>
-                                <td class="p-4 text-green-600">XX</td>
-                                <td class="p-4 font-bold text-green-700">XX</td>
+                                <td class="p-4 text-right">XX</td>
+                                <td class="p-4 text-right">XX</td>
+                                <td class="p-4 text-right font-bold text-gray-800">XX</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4 bg-gray-50/50 text-xs text-gray-500 italic" colspan="4">Amortization Adjustments:</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4 pl-8">UVA Assets</td>
-                                <td class="p-4 text-red-500">(XX)</td>
-                                <td class="p-4 text-red-500">(XX)</td>
-                                <td class="p-4 font-bold text-red-600">(XX)</td>
+                                <td class="p-4 text-right text-red-500">(XX)</td>
+                                <td class="p-4 text-right text-red-500">(XX)</td>
+                                <td class="p-4 text-right font-bold text-red-600">(XX)</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4 pl-8">UVA Liab</td>
-                                <td class="p-4 text-green-600">XX</td>
-                                <td class="p-4 text-gray-300">-</td>
-                                <td class="p-4 font-bold text-green-700">XX</td>
+                                <td class="p-4 text-right">XX</td>
+                                <td class="p-4 text-right text-gray-300">-</td>
+                                <td class="p-4 text-right font-bold text-gray-800">XX</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4 pl-8">OVA Assets</td>
-                                <td class="p-4 text-green-600">XX</td>
-                                <td class="p-4 text-gray-300">-</td>
-                                <td class="p-4 font-bold text-green-700">XX</td>
+                                <td class="p-4 text-right">XX</td>
+                                <td class="p-4 text-right text-gray-300">-</td>
+                                <td class="p-4 text-right font-bold text-gray-800">XX</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4 pl-8">OVA Liab</td>
-                                <td class="p-4 text-red-500">(XX)</td>
-                                <td class="p-4 text-gray-300">-</td>
-                                <td class="p-4 font-bold text-red-600">(XX)</td>
+                                <td class="p-4 text-right text-red-500">(XX)</td>
+                                <td class="p-4 text-right text-gray-300">-</td>
+                                <td class="p-4 text-right font-bold text-red-600">(XX)</td>
                             </tr>
                             <tr class="border-b border-purple-50 hover:bg-purple-50/50">
                                 <td class="p-4">Gain (Losses)</td>
-                                <td class="p-4 text-blue-500">+/- XX</td>
-                                <td class="p-4 text-blue-500">+/- XX</td>
-                                <td class="p-4 font-bold text-blue-600">+/- XX</td>
+                                <td class="p-4 text-right">XX / (XX)</td>
+                                <td class="p-4 text-right">XX / (XX)</td>
+                                <td class="p-4 text-right font-bold text-gray-800">XX / (XX)</td>
                             </tr>
                             <tr class="border-b-2 border-purple-200 hover:bg-purple-50/50">
                                 <td class="p-4">Impairment Loss GW</td>
-                                <td class="p-4 text-red-500">(XX)</td>
-                                <td class="p-4 text-red-500">(XX)</td>
-                                <td class="p-4 font-bold text-red-600">(XX)</td>
+                                <td class="p-4 text-right text-red-500">(XX)</td>
+                                <td class="p-4 text-right text-red-500">(XX)</td>
+                                <td class="p-4 text-right font-bold text-red-600">(XX)</td>
                             </tr>
+                            <!-- Double underline applied to the final row -->
                             <tr class="bg-purple-100 font-bold text-purple-900 text-base">
-                                <td class="p-4">Conso Net Income</td>
-                                <td class="p-4">XX</td>
-                                <td class="p-4">XX</td>
-                                <td class="p-4">XX</td>
+                                <td class="p-4 rounded-bl-2xl">Conso Net Income</td>
+                                <td class="p-4 text-right"><span class="acct-total border-purple-500">XX</span></td>
+                                <td class="p-4 text-right"><span class="acct-total border-purple-500">XX</span></td>
+                                <td class="p-4 text-right rounded-br-2xl"><span class="acct-total border-purple-600">XX</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -420,63 +458,60 @@
             <!-- OPEX and Gains/Losses grid -->
             <div class="grid md:grid-cols-3 gap-6">
                 <!-- OPEX -->
-                <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-gray-100 flex flex-col h-full">
-                    <h4 class="font-bold text-gray-700 mb-3 border-b pb-2 flex items-center justify-between">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-gray-200 flex flex-col h-full">
+                    <h4 class="font-bold text-gray-700 mb-5 border-b border-gray-100 pb-2 flex items-center justify-between">
                         Consolidated OPEX <span>📉</span>
                     </h4>
-                    <ul class="space-y-2 text-sm font-medium flex-grow">
-                        <li class="flex justify-between items-center"><span>OPEX - Parent</span> <span class="bg-gray-100 px-2 py-0.5 rounded text-xs">+</span></li>
-                        <li class="flex justify-between items-center"><span>OPEX - Subsidiary</span> <span class="bg-gray-100 px-2 py-0.5 rounded text-xs">+</span></li>
-                        <li class="flex flex-col text-xs mt-2 bg-gray-50 p-2 rounded">
-                            <span class="flex justify-between"><span>Amortization UVA-PPE</span> <span class="text-green-600 font-bold">+</span></span>
-                            <span class="text-gray-400 pl-2">through depreciation</span>
-                        </li>
-                        <li class="flex justify-between items-center bg-gray-50 p-2 rounded"><span>Amortization OVA-PPE</span> <span class="text-red-500 font-bold">-</span></li>
-                        <li class="flex justify-between items-center"><span>Impairment Loss - Goodwill</span> <span class="bg-gray-100 px-2 py-0.5 rounded text-xs">+</span></li>
-                    </ul>
-                    <div class="border-t pt-2 mt-2 font-bold text-gray-800 flex justify-between">
-                        <span>= Conso OPEX</span>
+                    <div class="space-y-1.5 font-medium text-gray-800 w-full text-sm flex-grow">
+                        <div class="flex justify-between items-end"><span>OPEX - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>OPEX - Subsidiary</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end">
+                            <span>Amortization of UVA-PPE <br><span class="text-[10px] text-gray-500 font-normal">through depreciation</span></span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end text-gray-600"><span>Amortization of OVA-PPE</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end"><span>Impairment Loss - Goodwill</span><span class="acct-val">XX</span></div>
                     </div>
-                    <div class="mt-3 text-[10px] text-gray-500 leading-tight">
+                    <div class="flex justify-between items-end font-bold text-gray-900 pt-3 mt-3">
+                        <span>Conso OPEX</span><span class="acct-total text-gray-700">XX</span>
+                    </div>
+                    <div class="mt-4 text-[10px] text-gray-500 leading-tight">
                         *GIRP: Gain on rem of phi, gain on rem of provision/contingent beyond mp
                     </div>
                 </div>
 
                 <!-- Gain on Sale -->
-                <div class="bg-green-50 p-5 rounded-3xl shadow-sm border-2 border-green-200 flex flex-col h-full">
-                    <h4 class="font-bold text-green-800 mb-3 border-b border-green-200 pb-2 flex items-center justify-between">
+                <div class="bg-green-50/50 p-6 rounded-3xl shadow-sm border-2 border-green-200 flex flex-col h-full">
+                    <h4 class="font-bold text-green-800 mb-5 border-b border-green-200 pb-2 flex items-center justify-between">
                         Consolidated Gain on Sale <span>🎉</span>
                     </h4>
-                    <ul class="space-y-2 text-sm font-medium flex-grow text-green-900">
-                        <li class="flex justify-between items-center"><span>Gain on Sale - Parent</span> <span>+</span></li>
-                        <li class="flex justify-between items-center"><span>Gain on Sale - Subsidiary</span> <span>+</span></li>
-                        <li class="flex flex-col text-xs mt-2 bg-white/50 p-2 rounded">
-                            <span class="flex justify-between"><span>Amort of UVA-PPE</span> <span class="text-red-500 font-bold">-</span></span>
-                            <span class="text-green-700/70 pl-2">through sale</span>
-                        </li>
-                        <li class="flex justify-between items-center bg-white/50 p-2 rounded"><span>Amort of OVA-PPE</span> <span class="font-bold">+</span></li>
-                    </ul>
-                    <div class="border-t border-green-300 pt-2 mt-2 font-bold flex justify-between text-green-900">
-                        <span>= Conso Gain on Sale</span>
+                    <div class="space-y-1.5 font-medium text-green-900 w-full text-sm flex-grow">
+                        <div class="flex justify-between items-end"><span>Gain on Sale - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>Gain on Sale - Subsidiary</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-green-800/80">
+                            <span>Amort of UVA-PPE <br><span class="text-[10px] font-normal">through sale</span></span><span class="acct-val">(XX)</span>
+                        </div>
+                        <div class="flex justify-between items-end"><span>Amort of OVA-PPE</span><span class="acct-val">XX</span></div>
+                    </div>
+                    <div class="flex justify-between items-end font-bold text-green-900 pt-3 mt-3">
+                        <span>Conso Gain on Sale</span><span class="acct-total text-green-600">XX</span>
                     </div>
                 </div>
 
                 <!-- Loss on Sale -->
-                <div class="bg-red-50 p-5 rounded-3xl shadow-sm border-2 border-red-200 flex flex-col h-full">
-                    <h4 class="font-bold text-red-800 mb-3 border-b border-red-200 pb-2 flex items-center justify-between">
+                <div class="bg-red-50/50 p-6 rounded-3xl shadow-sm border-2 border-red-200 flex flex-col h-full">
+                    <h4 class="font-bold text-red-800 mb-5 border-b border-red-200 pb-2 flex items-center justify-between">
                         Consolidated Loss on Sale <span>😢</span>
                     </h4>
-                    <ul class="space-y-2 text-sm font-medium flex-grow text-red-900">
-                        <li class="flex justify-between items-center"><span>Loss on Sale - Parent</span> <span>+</span></li>
-                        <li class="flex justify-between items-center"><span>Loss on Sale - Subsidiary</span> <span>+</span></li>
-                        <li class="flex flex-col text-xs mt-2 bg-white/50 p-2 rounded">
-                            <span class="flex justify-between"><span>Amort of UVA-PPE</span> <span class="font-bold">+</span></span>
-                            <span class="text-red-700/70 pl-2">through sale</span>
-                        </li>
-                        <li class="flex justify-between items-center bg-white/50 p-2 rounded"><span>Amort of OVA-PPE</span> <span class="text-green-600 font-bold">-</span></li>
-                    </ul>
-                    <div class="border-t border-red-300 pt-2 mt-2 font-bold flex justify-between text-red-900">
-                        <span>= Conso Loss On Sale</span>
+                    <div class="space-y-1.5 font-medium text-red-900 w-full text-sm flex-grow">
+                        <div class="flex justify-between items-end"><span>Loss on Sale - Parent</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end"><span>Loss on Sale - Subsidiary</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end">
+                            <span>Amort of UVA-PPE <br><span class="text-[10px] text-red-700/70 font-normal">through sale</span></span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end text-red-800/80"><span>Amort of OVA-PPE</span><span class="acct-val">(XX)</span></div>
+                    </div>
+                    <div class="flex justify-between items-end font-bold text-red-900 pt-3 mt-3">
+                        <span>Conso Loss On Sale</span><span class="acct-total text-red-600">XX</span>
                     </div>
                 </div>
             </div>
@@ -491,24 +526,23 @@
                 <!-- NCI Rollforward -->
                 <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-yellow-200 relative">
                     <div class="absolute top-4 right-4 text-4xl float-anim">📊</div>
-                    <h4 class="text-xl font-bold text-yellow-700 mb-4 bg-yellow-50 inline-block px-4 py-1 rounded-full">Non-Controlling Interest (NCI)</h4>
-                    <ul class="space-y-3 font-medium">
-                        <li class="flex justify-between"><span>NCI, beg</span> <span class="font-bold">+</span></li>
-                        <li class="flex justify-between"><span>Conso NI - NCI</span> <span class="font-bold">+</span></li>
-                        <li class="flex justify-between"><span>Div Received by NCI from Sub</span> <span class="text-red-500 font-bold">-</span></li>
-                        <li class="flex justify-between border-t-2 border-dashed border-yellow-300 pt-2 font-bold text-lg text-yellow-800">
-                            <span>= NCI, end</span>
-                        </li>
-                    </ul>
-                    <div class="mt-4 bg-yellow-50/50 p-3 rounded-xl border border-yellow-100 text-sm">
-                        <p class="font-bold text-yellow-800 mb-1">📝 NCI Note:</p>
-                        <p class="text-gray-600 italic">If 1st year: use IM of NCI.<br>If subsequent years: use NCI end of last yr.</p>
+                    <h4 class="text-xl font-bold text-yellow-700 mb-5 bg-yellow-50 inline-block px-4 py-1 rounded-full">Non-Controlling Interest, End</h4>
+                    
+                    <div class="space-y-1.5 font-medium text-yellow-900 w-full text-sm md:text-base">
+                        <div class="flex justify-between items-end">
+                            <span>NCI, beg <span class="text-[10px] text-yellow-600/70 ml-1 font-normal">*1st yr: IM of NCI</span></span><span class="acct-val">XX</span>
+                        </div>
+                        <div class="flex justify-between items-end"><span>Conso NI - NCI</span><span class="acct-val">XX</span></div>
+                        <div class="flex justify-between items-end text-yellow-800/80"><span>Div Received by NCI from Sub</span><span class="acct-val">(XX)</span></div>
+                        <div class="flex justify-between items-end font-bold text-yellow-800 pt-3 mt-3">
+                            <span>NCI, end</span><span class="acct-total text-yellow-600">XX</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Intercompany Sales Note -->
                 <div class="bg-cute-pink/30 p-6 rounded-3xl shadow-sm border-2 border-pink-200 flex flex-col justify-center">
-                    <h4 class="text-xl font-bold text-pink-700 mb-4 text-center">Intercompany Sales (Eliminate) 🚫</h4>
+                    <h4 class="text-xl font-bold text-pink-700 mb-4 text-center">Intercompany Sale = Eliminate 🚫</h4>
                     
                     <div class="space-y-4">
                         <div class="bg-white p-4 rounded-2xl shadow-sm border border-pink-100 flex items-center">
@@ -525,7 +559,7 @@
                             <div>
                                 <h5 class="font-bold text-blue-600 text-lg">Upstream</h5>
                                 <p class="text-sm font-medium text-gray-600">Subsidiary to Parent</p>
-                                <p class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block mt-1 font-bold">Allocate to parent & subsidiary</p>
+                                <p class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block mt-1 font-bold">Allocate to parent and subsidiary</p>
                             </div>
                         </div>
                     </div>
@@ -541,31 +575,31 @@
                     
                     <!-- Full Goodwill -->
                     <div class="p-6">
-                        <h5 class="font-bold text-center text-orange-600 bg-orange-100 rounded-full py-1 mb-4">Full Goodwill Approach (FV)</h5>
-                        <table class="w-full text-sm text-center">
+                        <h5 class="font-bold text-center text-orange-600 bg-orange-100 rounded-full py-1 mb-4 text-sm">FULL GOODWILL APPROACH (FV)</h5>
+                        <table class="w-full text-sm text-right">
                             <thead>
                                 <tr class="text-gray-500 border-b border-orange-50">
-                                    <th class="pb-2 text-left">Item</th>
-                                    <th class="pb-2">Parent</th>
-                                    <th class="pb-2">NCI</th>
-                                    <th class="pb-2 text-orange-600">TOTAL</th>
+                                    <th class="pb-2 text-left font-normal">Item</th>
+                                    <th class="pb-2 font-normal">Parent</th>
+                                    <th class="pb-2 font-normal">NCI</th>
+                                    <th class="pb-2 text-orange-600 font-bold">TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody class="font-medium">
                                 <tr>
-                                    <td class="py-3 text-left">GW</td>
-                                    <td class="py-3">XX</td>
-                                    <td class="py-3">XX</td>
-                                    <td class="py-3 font-bold text-orange-700">XX</td>
+                                    <td class="py-2 text-left">GW</td>
+                                    <td class="py-2">XX</td>
+                                    <td class="py-2">XX</td>
+                                    <td class="py-2 font-bold text-orange-700">XX</td>
                                 </tr>
                                 <tr class="text-red-500">
-                                    <td class="py-3 text-left">Imp Loss</td>
-                                    <td class="py-3">(XX)</td>
-                                    <td class="py-3">(XX)</td>
-                                    <td class="py-3 font-bold text-red-600">(XX)</td>
+                                    <td class="py-2 text-left">Imp Loss</td>
+                                    <td class="py-2">(XX)</td>
+                                    <td class="py-2">(XX)</td>
+                                    <td class="py-2 font-bold text-red-600 border-t border-b-[3px] border-double border-red-300">(XX)</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" class="py-2 text-xs text-gray-400 italic">
+                                    <td colspan="4" class="pt-3 text-xs text-gray-400 italic text-left">
                                         *Allocate based on %
                                     </td>
                                 </tr>
@@ -575,28 +609,28 @@
 
                     <!-- Proportionate Share -->
                     <div class="p-6">
-                        <h5 class="font-bold text-center text-orange-600 bg-orange-100 rounded-full py-1 mb-4">Proportionate Share</h5>
-                        <table class="w-full text-sm text-center">
+                        <h5 class="font-bold text-center text-orange-600 bg-orange-100 rounded-full py-1 mb-4 text-sm">PROPORTIONATE SHARE</h5>
+                        <table class="w-full text-sm text-right">
                             <thead>
                                 <tr class="text-gray-500 border-b border-orange-50">
-                                    <th class="pb-2 text-left">Item</th>
-                                    <th class="pb-2">Parent</th>
-                                    <th class="pb-2">NCI</th>
-                                    <th class="pb-2 text-orange-600">TOTAL</th>
+                                    <th class="pb-2 text-left font-normal">Item</th>
+                                    <th class="pb-2 font-normal">Parent</th>
+                                    <th class="pb-2 font-normal">NCI</th>
+                                    <th class="pb-2 text-orange-600 font-bold">TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody class="font-medium">
                                 <tr>
-                                    <td class="py-3 text-left">GW</td>
-                                    <td class="py-3">XX</td>
-                                    <td class="py-3 text-gray-300">n/a</td>
-                                    <td class="py-3 font-bold text-orange-700">XX</td>
+                                    <td class="py-2 text-left">GW</td>
+                                    <td class="py-2">XX</td>
+                                    <td class="py-2 text-gray-300">n/a</td>
+                                    <td class="py-2 font-bold text-orange-700">XX</td>
                                 </tr>
                                 <tr class="text-red-500">
-                                    <td class="py-3 text-left">Imp Loss</td>
-                                    <td class="py-3">(XX)</td>
-                                    <td class="py-3 text-gray-300">n/a</td>
-                                    <td class="py-3 font-bold text-red-600">(XX)</td>
+                                    <td class="py-2 text-left">Imp Loss</td>
+                                    <td class="py-2">(XX)</td>
+                                    <td class="py-2 text-gray-300">n/a</td>
+                                    <td class="py-2 font-bold text-red-600 border-t border-b-[3px] border-double border-red-300">(XX)</td>
                                 </tr>
                             </tbody>
                         </table>
