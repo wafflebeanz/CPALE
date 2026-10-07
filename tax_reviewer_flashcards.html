@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Pink Tax Reviewer Flashcards</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        pink: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                        }
+                    },
+                    boxShadow: {
+                        'cute': '0 10px 25px -5px rgba(236, 72, 153, 0.3), 0 8px 10px -6px rgba(236, 72, 153, 0.1)',
+                        'cute-inner': 'inset 0 2px 4px 0 rgba(236, 72, 153, 0.06)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fdf2f8;
+            background-image: radial-gradient(#fbcfe8 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 3D Card Flipping Essentials */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        
+        .card-inner {
+            transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Status Badge Colors */
+        .status-unmarked { border-color: #e5e7eb; background: white; color: #9ca3af; }
+        .status-critical { border-color: #fca5a5; background: #fee2e2; color: #ef4444; }
+        .status-comfortable { border-color: #fcd34d; background: #fef3c7; color: #d97706; }
+        .status-mastered { border-color: #6ee7b7; background: #d1fae5; color: #10b981; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fce7f3; }
+        ::-webkit-scrollbar-thumb { background: #f9a8d4; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f472b6; }
+
+        .checkbox-cute {
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.15em;
+            height: 1.15em;
+            border: 2px solid #f9a8d4;
+            border-radius: 0.25em;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+        }
+        .checkbox-cute::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #db2777;
+            background-color: transform;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        .checkbox-cute:checked::before { transform: scale(1); }
+        .checkbox-cute:checked { border-color: #db2777; }
+
+        .card-inner b { color: #db2777; font-weight: 800; }
+        .hl-time { color: #7e22ce; font-weight: 800; background: #f3e8ff; padding: 0 4px; border-radius: 4px; }
+        .hl-cond { color: #047857; font-weight: 800; }
+        .hl-sub { color: #ec4899; font-weight: 800; }
+    </style>
+</head>
+<body class="text-gray-800 min-h-screen p-4 md:p-8 flex flex-col items-center">
+
+    <div class="max-w-6xl w-full">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-pink-500 mb-2 drop-shadow-sm">
+                🌸 BIR Tax Reviewer 🌸
+            </h1>
+            <p class="text-pink-600 font-semibold bg-white/70 inline-block px-4 py-1 rounded-full text-sm">
+                Based on "UPDATED TAX REVIEWER - Ivy altered - Google Sheets.pdf"
+            </p>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="bg-white rounded-3xl shadow-cute p-6 mb-8 border-4 border-pink-100">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Front Setup -->
+                <div class="bg-pink-50 p-4 rounded-2xl border-2 border-pink-100">
+                    <h3 class="font-bold text-pink-600 mb-3 border-b-2 border-pink-200 pb-1">👀 Front Shows:</h3>
+                    <label class="flex items-center space-x-2 mb-2 cursor-pointer text-sm font-semibold">
+                        <input type="checkbox" id="front-form" class="checkbox-cute" checked>
+                        <span>Form Number</span>
+                    </label>
+                    <label class="flex items-center space-x-2 mb-2 cursor-pointer text-sm font-semibold">
+                        <input type="checkbox" id="front-name" class="checkbox-cute">
+                        <span>Form Name</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm font-semibold">
+                        <input type="checkbox" id="front-deadline" class="checkbox-cute">
+                        <span>Deadline</span>
+                    </label>
+                </div>
+
+                <!-- Back Setup -->
+                <div class="bg-pink-50 p-4 rounded-2xl border-2 border-pink-100">
+                    <h3 class="font-bold text-pink-600 mb-3 border-b-2 border-pink-200 pb-1">✨ Back Shows:</h3>
+                    <label class="flex items-center space-x-2 mb-2 cursor-pointer text-sm font-semibold">
+                        <input type="checkbox" id="back-form" class="checkbox-cute">
+                        <span>Form Number</span>
+                    </label>
+                    <label class="flex items-center space-x-2 mb-2 cursor-pointer text-sm font-semibold">
+                        <input type="checkbox" id="back-name" class="checkbox-cute" checked>
+                        <span>Form Name</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm font-semibold">
+                        <input type="checkbox" id="back-deadline" class="checkbox-cute" checked>
+                        <span>Deadline</span>
+                    </label>
+                </div>
+
+                <!-- Filters & Actions -->
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <label class="block text-sm font-bold text-pink-600 mb-1">Filter by Status:</label>
+                        <select id="status-filter" class="w-full p-2 rounded-xl border-2 border-pink-200 focus:outline-none focus:border-pink-500 bg-white text-gray-700 font-semibold mb-3 transition-colors cursor-pointer">
+                            <option value="all">🌟 Show All</option>
+                            <option value="unmarked">⚪ Unmarked</option>
+                            <option value="critical">🔴 Critical</option>
+                            <option value="comfortable">🟡 Comfortable</option>
+                            <option value="mastered">🟢 Mastered</option>
+                        </select>
+                        
+                        <label class="block text-sm font-bold text-pink-600 mb-1 mt-2">Number of Cards:</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="number" id="card-limit" min="1" class="w-20 p-2 rounded-xl border-2 border-pink-200 focus:outline-none focus:border-pink-500 text-center font-bold">
+                            <span class="text-sm text-gray-500 font-semibold">/ <span id="total-count">0</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 mt-4">
+                        <button id="btn-apply" class="flex-1 bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded-xl shadow-md transform transition hover:-translate-y-0.5 active:scale-95 active:translate-y-0">
+                            Apply
+                        </button>
+                        <button id="btn-shuffle" class="flex-1 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-2 px-4 rounded-xl shadow-md transform transition hover:-translate-y-0.5 active:scale-95 active:translate-y-0 flex justify-center items-center gap-2">
+                            <i class="fas fa-random"></i> Shuffle
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mt-6">
+                <div class="flex justify-between text-xs font-bold text-pink-600 mb-1">
+                    <span>Mastery Progress</span>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="w-full bg-pink-100 rounded-full h-3 border border-pink-200 overflow-hidden">
+                    <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-green-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcards Grid -->
+        <div id="flashcards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+            <!-- Cards will be injected here by JS -->
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <div class="text-6xl mb-4">🤷‍♀️</div>
+            <h2 class="text-2xl font-bold text-pink-500">No cards match your filter!</h2>
+            <p class="text-gray-500 mt-2">Try changing your settings above.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Data derived verbatim from the prompt, correcting obvious OCR errors (like 25500 -> 2550Q, 620 -> 1620)
+        const rawData = [
+            // Registration Forms
+            { form: "1900", name: "Application to authority to use Computerized Accounting System or Components thereof/Loose-Leaf Books of Accounts", deadline: "<span class='text-green-600 font-bold'>Before actual use</span> of Loose-Leaf/Computerized Books of Accounts and/or Accounting Records", category: "Registration" },
+            { form: "1901", name: "Application for Registration for <b class='text-pink-600'>Self-Employed</b> (Single Proprietor/Professional), <b class='text-pink-600'>Mixed Income</b> Individuals, Non-Resident Alien Engaged in Trade/Business, Estate and Trust", deadline: "<span class='text-green-600 font-bold'>On or before commencement</span> of new business or <span class='text-green-600 font-bold'>before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> a return", category: "Registration" },
+            { form: "1902", name: "Application for Registration for Individuals earning <b class='text-pink-600'>Purely Compensation Income</b> (Local and Alien Employee)", deadline: "<span class='text-purple-600 font-bold'>10 days</span> from the date of employment, or <span class='text-green-600 font-bold'>before the payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> of a return, or declaration is required", category: "Registration" },
+            { form: "1903", name: "Application for Registration for <b class='text-pink-600'>Corporations, Partnerships</b> (Taxable/Non-Taxable), including Government Agencies and Instrumentalities (GAIs), Local Government Units (LGUS), Cooperatives and Associations", deadline: "<span class='text-green-600 font-bold'>On or before commencement</span> of new business or <span class='text-green-600 font-bold'>before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> a return", category: "Registration" },
+            { form: "1904", name: "Application for Registration for <b class='text-pink-600'>One-Time Taxpayer</b> and Person Registering under E.O. 98", deadline: "<span class='text-green-600 font-bold'>Before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> of return or <span class='text-green-600 font-bold'>before the issuance</span> of TIN under E.O. 98", category: "Registration" },
+            { form: "1905", name: "Application for Registration for <b class='text-pink-600'>Information Update/Correction/Cancellation</b>", deadline: "Each time taxpayer needs to register the change in registration.", category: "Registration" },
+            
+            // Transfer Taxes
+            { form: "1800", name: "<b class='text-pink-600'>Donor's</b> Tax Return", deadline: "<span class='text-purple-600 font-bold'>30 days</span> after the gift (donation) is made", category: "Transfer Taxes" },
+            { form: "1801", name: "<b class='text-pink-600'>Estate</b> Tax Return", deadline: "<span class='text-purple-600 font-bold'>1 year</span> from decedent's death", category: "Transfer Taxes" },
+            { form: "2322", name: "Certificate of Donation (and Notice of Donation)", deadline: "Certificate: <span class='text-purple-600 font-bold'>30 days</span> after the receipt of the donation\nNotice: <span class='text-purple-600 font-bold'>30 days</span> after the receipt of the donee's duly issued Certificate of Donation", category: "Transfer Taxes" },
+            
+            // Value-Added Tax (VAT)
+            { form: "2550M", name: "<b class='text-pink-600'>Monthly</b> Value-Added Tax Declaration (No longer required beginning Jan. 01, 2023) optional", deadline: "<span class='text-purple-600 font-bold'>20 days</span> after the end of the month\neFPS Filers: <span class='text-purple-600 font-bold'>21st to 25th day</span> of the following month", category: "VAT" },
+            { form: "2550Q", name: "<b class='text-pink-600'>Quarterly</b> Value-Added Tax Declaration", deadline: "<span class='text-purple-600 font-bold'>25 days</span> after the end of each quarter\nCancellation of Registration: <span class='text-purple-600 font-bold'>25 days</span> from the date of cancellation", category: "VAT" },
+            
+            // Other Percentage Taxes (OPT)
+            { form: "2551Q", name: "<b class='text-pink-600'>Quarterly</b> Percentage Tax Return", deadline: "<span class='text-purple-600 font-bold'>25 days</span> after the end of each quarter\nOverseas Communications Tax: <span class='text-purple-600 font-bold'>20 days</span> after the end of the quarter\nTax on Winnings: <span class='text-purple-600 font-bold'>20 days</span> from the date of withholding or deduction (1600WP will be used for winnings)", category: "OPT" },
+            { form: "2552", name: "Percentage Tax Return for Transactions involving Shares of Stock <b class='text-pink-600'>Listed and Traded through the Local Stock Exchange</b> or through Initial and/or Secondary Public Offering", deadline: "Through LSE: <span class='text-purple-600 font-bold'>5 banking days</span> from date of collection\nThrough Primary Public Offering: <span class='text-purple-600 font-bold'>30 days</span> from date of listing\nThrough Secondary Public Offering: <span class='text-purple-600 font-bold'>5 banking days</span> from date of collection", category: "OPT" },
+            { form: "2553", name: "Return of Percentage Tax Payable under <b class='text-pink-600'>Special Laws</b>", deadline: "<span class='text-green-600 font-bold'>On or before the due date</span> for payments of tax as stated in the Special Law", category: "OPT" },
+            
+            // Excise Tax
+            { form: "2200-A", name: "Excise Tax Return for <b class='text-pink-600'>Alcohol</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-AN", name: "Excise Tax Return for <b class='text-pink-600'>Automobiles and Non-Essential Goods</b>", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-C", name: "Excise Tax Return for <b class='text-pink-600'>Cosmetic</b> Products", deadline: "<span class='text-purple-600 font-bold'>10 days</span> after the end of the month.", category: "Excise Tax" },
+            { form: "2200-M", name: "Excise Tax Return for <b class='text-pink-600'>Mineral</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production\nLocally produced or extracted metallic mineral: <span class='text-purple-600 font-bold'>15 days after the end of the calendar quarter</span> when removed", category: "Excise Tax" },
+            { form: "2200-P", name: "Excise Tax Return for <b class='text-pink-600'>Petroleum</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-T", name: "Excise Tax Return for <b class='text-pink-600'>Tobacco, Heated Tobacco, Vapor and Novel Tobacco</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-S", name: "Excise Tax Return for <b class='text-pink-600'>Sweetened Beverages</b>", deadline: "<i class='text-gray-400'>[Not specified in source text]</i>", category: "Excise Tax" },
+            
+            // Documentary Stamp Tax (DST)
+            { form: "2000", name: "<b class='text-pink-600'>Monthly</b> Documentary Stamp Tax Declaration/Return", deadline: "<span class='text-purple-600 font-bold'>5th Day</span> of the next month", category: "DST" },
+            { form: "2000-OT", name: "Documentary Stamp Tax Declaration/Return (<b class='text-pink-600'>One-Time Transaction</b>)", deadline: "<i class='text-gray-400'>[Implied/Blank in source, typically 5th day of next month]</i>", category: "DST" },
+            
+            // Individual Income Tax, Estates and Trusts
+            { form: "1700", name: "Annual Income Tax Return for Individuals Earning <b class='text-pink-600'>PURELY Compensation Income</b> (Including Non-Business/Non-Profession Related Income)", deadline: "<span class='text-purple-600 font-bold'>April 15</span>", category: "Income Tax (Individual)" },
+            { form: "1701", name: "Annual Income Tax Return for Individuals (including <b class='text-pink-600'>MIXED Income Earner</b>), Estates and Trusts", deadline: "<span class='text-purple-600 font-bold'>April 15</span>", category: "Income Tax (Individual)" },
+            { form: "1701-A", name: "Annual Income Tax Return for Individuals Earning Income <b class='text-pink-600'>PURELY from Business/Profession</b>", deadline: "<span class='text-purple-600 font-bold'>May 15, August 15, November 15 (MAN)</span>", category: "Income Tax (Individual)" },
+            { form: "1701Q", name: "Quarterly Income Tax Rate Return for <b class='text-pink-600'>Individuals (Business/Profession only)</b>, Estates and Trusts", deadline: "<span class='text-purple-600 font-bold'>May 15, August 15, November 15 (MAN)</span>", category: "Income Tax (Individual)" },
+            
+            // Corporation, Partnership, Joint Ventures, & Co-Ownership Income Tax
+            { form: "1702Q", name: "<b class='text-pink-600'>Quarterly</b> Income Tax Return for Corporations, Partnerships, and Other Non-Individual Taxpayers", deadline: "<span class='text-purple-600 font-bold'>60 days</span> after the end of the taxable quarter", category: "Income Tax (Corp)" },
+            { form: "1702-RT", name: "Annual Income Tax Returns for Corporation, Partnership and Other Non-Individual Taxpayer subject only to <b class='text-pink-600'>REGULAR Income Tax Rate</b>", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Income Tax (Corp)" },
+            { form: "1702-EX", name: "Annual Income Tax Return for Corporation, Partnership and Other Non-Individual Taxpayer <b class='text-pink-600'>EXEMPT</b> under the Tax Code, as amended, and other special laws, with NO OTHER Taxable Income", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Income Tax (Corp)" },
+            { form: "1702-MX", name: "Annual Income Tax Return for Corporation, Partnership, and Other Non-Individual with <b class='text-pink-600'>MIXED Income</b> subject to Multiple Income Tax Rates or with Income Subject to SPECIAL/PREFERENTIAL RATE", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Income Tax (Corp)" },
+            
+            // Fringe Benefits Tax
+            { form: "1603Q", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Final Income Taxes Withheld on <b class='text-pink-600'>Fringe Benefits</b> Paid to Employees Other Than Rank and File", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Fringe Benefits" },
+            
+            // Capital Gains Tax Returns
+            { form: "1706", name: "Capital Gains Tax Return for Onerous Transfer of <b class='text-pink-600'>Real Property</b> classified as CAPITAL ASSET (Both Taxable and Exempt)", deadline: "<span class='text-purple-600 font-bold'>30 days</span> from date of sale", category: "Capital Gains" },
+            { form: "1707", name: "Capital Gains Tax Return for Onerous Transfer of <b class='text-pink-600'>Shares of Stocks Not Traded Through the Local Stock Exchange</b>", deadline: "<span class='text-purple-600 font-bold'>30 days</span> from date of sale", category: "Capital Gains" },
+            { form: "1707-A", name: "<b class='text-pink-600'>Annual</b> Capital Gains Tax Return for Onerous Transfer of Shares of Stock Not Traded Through the Local Stock Exchange", deadline: "Individual: <span class='text-purple-600 font-bold'>April 15</span>\nCorporations: <span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Capital Gains" },
+            
+            // Withholding Taxes (Page 2)
+            { form: "0619-E", name: "<b class='text-pink-600'>Monthly</b> Remittance Form of Creditable Income Taxes Withheld <b class='text-pink-600'>(Expanded)</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
+            { form: "0619-F", name: "<b class='text-pink-600'>Monthly</b> Remittance Form for <b class='text-pink-600'>Final</b> Income Taxes Withheld", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
+            { form: "1620", name: "<b class='text-pink-600'>Monthly</b> Remittance Form of Tax Withheld on the Amount Withdrawn from <b class='text-pink-600'>Decedent's Deposit Account</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
+            { form: "1600-PT", name: "<b class='text-pink-600'>Monthly</b> Remittance Return of <b class='text-pink-600'>Other Percentage Taxes</b> Withheld", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
+            { form: "1600-VT", name: "<b class='text-pink-600'>Monthly</b> Remittance Return for <b class='text-pink-600'>Value-added Taxes</b> Withheld", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
+            { form: "1601-C", name: "<b class='text-pink-600'>Monthly</b> Remittance Return on Income Taxes Withheld on <b class='text-pink-600'>Compensation</b>", deadline: "Taxes Withheld from December: <span class='text-purple-600 font-bold'>January 15</span> of the succeeding year", category: "Withholding" },
+            { form: "1601-EQ", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Creditable Income Taxes Withheld <b class='text-pink-600'>(Expanded)</b>", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1601-FQ", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of <b class='text-pink-600'>Final</b> Income Taxes Withheld", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1602Q", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Final Taxes Withheld on <b class='text-pink-600'>Interest Paid on Deposits and Yield</b> on Deposit Substitutes/Trusts/Etc.", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1604-C", name: "<b class='text-pink-600'>Annual</b> Information Return of income Taxes Withheld on <b class='text-pink-600'>Compensation</b>", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
+            { form: "1604-E", name: "<b class='text-pink-600'>Annual</b> Information Return of Creditable Income Taxes Withheld <b class='text-pink-600'>(Expanded)</b>/Income Payments Exempt from Withholding Tax", deadline: "<span class='text-purple-600 font-bold'>March 1</span> of the succeeding year", category: "Withholding" },
+            { form: "1604-F", name: "<b class='text-pink-600'>Annual</b> Information Return of Income Payments Subjected to <b class='text-pink-600'>Final</b> Withholding Taxes", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
+            { form: "1606", name: "Withholding Tax Remittance Return For Onerous Transfer of <b class='text-pink-600'>Real Property Other Than Capital Asset</b> (Including Taxable and Exempt)", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the end of the month in which the transaction occurred", category: "Withholding" },
+            { form: "1621", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Tax Withheld on the Amount Withdrawn from <b class='text-pink-600'>Decedent's Deposit Account</b>", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "2304", name: "Certificate of Income Payment <b class='text-pink-600'>Not Subject to Withholding Tax</b> (Excluding Compensation Income)", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
+            { form: "2306", name: "Certificate of <b class='text-pink-600'>Final Tax Withheld at Source</b>", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
+            { form: "2307", name: "Certificate of <b class='text-pink-600'>Creditable Tax Withheld at Source</b>", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> after the end of the taxable year", category: "Withholding" },
+            { form: "2316", name: "Certificate of <b class='text-pink-600'>Compensation Payment/Tax Withheld</b> for Compensation Payment With or Without Tax Withheld", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year\nCases by substituted filing: <span class='text-purple-600 font-bold'>February 28</span> after the end of the calendar year\nTermination of Employment: <span class='text-purple-600 font-bold'>The day the last payment of wages is made</span>", category: "Withholding" },
+            
+            // Preferential Tax & Notes
+            { form: "0901-D", name: "Application for Treaty Purposes (Relief from Philippine Income Tax on <b class='text-pink-600'>Dividends</b>)", deadline: "If preferential taxes are applied: Not later than the <span class='text-purple-600 font-bold'>last day of the 4th month</span> following the close of each taxable year.\nIf regular rates are applied: No deadline", category: "Preferential Tax" },
+            { form: "N/A (Note)", name: "VAT on DSP", deadline: "Sold to B2B: follow w/in <span class='text-purple-600 font-bold'>10 days</span> ff EOM\nSold to B2C: follow w/in <span class='text-purple-600 font-bold'>25 days</span> ff EOQ", category: "Notes" }
+        ];
+
+        let appState = {
+            cards: [],
+            config: {
+                front: { form: true, name: false, deadline: false },
+                back: { form: false, name: true, deadline: true }
+            },
+            filter: 'all',
+            limit: rawData.length,
+            audioEnabled: true
+        };
+
+        // Synthesize cute pop sound
+        let audioCtx;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playFlipSound() {
+            if (!appState.audioEnabled) return;
+            initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            // Quick cute swish/pop sound
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('taxReviewerState');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                // Merge statuses into rawData
+                appState.cards = rawData.map(card => {
+                    const savedCard = parsed.cards.find(c => c.form === card.form);
+                    return { ...card, status: savedCard ? savedCard.status : 'unmarked' };
+                });
+            } else {
+                appState.cards = rawData.map(card => ({ ...card, status: 'unmarked' }));
+            }
+            
+            document.getElementById('card-limit').value = appState.cards.length;
+            document.getElementById('card-limit').max = appState.cards.length;
+            document.getElementById('total-count').textContent = appState.cards.length;
+            
+            updateProgress();
+        }
+
+        function saveState() {
+            localStorage.setItem('taxReviewerState', JSON.stringify({
+                cards: appState.cards.map(c => ({ form: c.form, status: c.status }))
+            }));
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const mastered = appState.cards.filter(c => c.status === 'mastered').length;
+            const total = appState.cards.length;
+            const pct = Math.round((mastered / total) * 100);
+            
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+            document.getElementById('progress-text').textContent = `${pct}%`;
+            
+            // Optional: change color based on progress
+            const bar = document.getElementById('progress-bar');
+            if(pct < 30) bar.className = "bg-gradient-to-r from-red-400 to-pink-500 h-3 rounded-full transition-all duration-500";
+            else if(pct < 70) bar.className = "bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-500";
+            else bar.className = "bg-gradient-to-r from-green-400 to-teal-500 h-3 rounded-full transition-all duration-500";
+        }
+
+        function formatContent(card, faceConfig) {
+            let html = '';
+            
+            if (faceConfig.form) {
+                html += `<div class="mb-4">
+                            <span class="block text-xs uppercase tracking-wider text-pink-400 font-bold mb-1">Form Number</span>
+                            <span class="text-3xl font-extrabold text-pink-600 leading-tight">${card.form.replace('\n', '<br>')}</span>
+                         </div>`;
+            }
+            if (faceConfig.name) {
+                html += `<div class="mb-4 flex-grow flex flex-col justify-center">
+                            <span class="block text-xs uppercase tracking-wider text-pink-400 font-bold mb-1">Name</span>
+                            <span class="text-lg font-bold text-gray-800 leading-snug">${card.name.replace(/\n/g, '<br><br>')}</span>
+                         </div>`;
+            }
+            if (faceConfig.deadline) {
+                html += `<div class="mt-auto bg-pink-50 border-t-2 border-pink-100 p-3 rounded-xl w-full">
+                            <span class="block text-xs uppercase tracking-wider text-pink-400 font-bold mb-1"><i class="far fa-calendar-alt"></i> Deadline</span>
+                            <span class="text-sm font-semibold text-gray-700 block">${card.deadline.replace(/\n/g, '<br><hr class="border-pink-200 my-1">')}</span>
+                         </div>`;
+            }
+            
+            // Fallback if nothing selected
+            if (!html) html = `<span class="text-gray-400 italic">Select content to display in settings above.</span>`;
+            
+            return html;
+        }
+
+        function getStatusIcon(status) {
+            switch(status) {
+                case 'critical': return '<i class="fas fa-exclamation-circle"></i>';
+                case 'comfortable': return '<i class="fas fa-check"></i>';
+                case 'mastered': return '<i class="fas fa-star"></i>';
+                default: return '<i class="far fa-circle"></i>';
+            }
+        }
+
+        function getStatusClasses(status) {
+            switch(status) {
+                case 'critical': return 'status-critical';
+                case 'comfortable': return 'status-comfortable';
+                case 'mastered': return 'status-mastered';
+                default: return 'status-unmarked';
+            }
+        }
+
+        function renderCards(cardsToRender) {
+            const container = document.getElementById('flashcards-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            container.innerHTML = '';
+            
+            if (cardsToRender.length === 0) {
+                container.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            container.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            cardsToRender.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card-container perspective-1000 w-full h-[400px] select-none';
+                
+                // Read configurations
+                const frontContent = formatContent(card, appState.config.front);
+                const backContent = formatContent(card, appState.config.back);
+                const statusClass = getStatusClasses(card.status);
+
+                cardEl.innerHTML = `
+                    <div class="card-inner w-full h-full transform-style-3d relative rounded-3xl shadow-cute cursor-pointer bg-white">
+                        
+                        <!-- Front of Card -->
+                        <div class="card-front backface-hidden absolute inset-0 w-full h-full p-6 flex flex-col justify-center items-center text-center bg-white rounded-3xl border-4 ${statusClass} overflow-y-auto custom-scrollbar">
+                            
+                            <!-- Category Badge -->
+                            <div class="absolute top-3 left-3 right-3 flex justify-between items-center px-1">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-pink-400 bg-pink-50 px-2 py-1 rounded-full border border-pink-100">${card.category}</span>
+                                <div class="status-indicator text-lg opacity-70" title="Status: ${card.status}">${getStatusIcon(card.status)}</div>
+                            </div>
+
+                            <div class="mt-8 w-full h-full flex flex-col items-center justify-center pointer-events-none">
+                                ${frontContent}
+                            </div>
+                            
+                            <div class="absolute bottom-4 right-4 text-pink-300 text-sm animate-pulse pointer-events-none">
+                                <i class="fas fa-hand-pointer"></i> Tap
+                            </div>
+                        </div>
+
+                        <!-- Back of Card -->
+                        <div class="card-back backface-hidden rotate-y-180 absolute inset-0 w-full h-full p-6 flex flex-col bg-gradient-to-br from-pink-50 to-white rounded-3xl border-4 ${statusClass} overflow-y-auto custom-scrollbar">
+                            
+                            <div class="flex-grow flex flex-col items-center justify-center text-center w-full pointer-events-none mt-4">
+                                ${backContent}
+                            </div>
+
+                            <!-- Interactive Status Buttons (Clicking these stops propagation so it doesn't flip) -->
+                            <div class="mt-4 pt-3 border-t-2 border-pink-100 flex justify-center gap-2 relative z-10 control-buttons w-full">
+                                <button data-action="status" data-status="critical" data-index="${index}" class="flex-1 py-2 px-1 rounded-xl text-xs font-bold transition ${card.status === 'critical' ? 'bg-red-500 text-white shadow-inner' : 'bg-red-100 text-red-600 hover:bg-red-200'}">
+                                    <i class="fas fa-fire mb-1 block"></i> Critical
+                                </button>
+                                <button data-action="status" data-status="comfortable" data-index="${index}" class="flex-1 py-2 px-1 rounded-xl text-xs font-bold transition ${card.status === 'comfortable' ? 'bg-yellow-500 text-white shadow-inner' : 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200'}">
+                                    <i class="fas fa-smile mb-1 block"></i> Okay
+                                </button>
+                                <button data-action="status" data-status="mastered" data-index="${index}" class="flex-1 py-2 px-1 rounded-xl text-xs font-bold transition ${card.status === 'mastered' ? 'bg-green-500 text-white shadow-inner' : 'bg-green-100 text-green-600 hover:bg-green-200'}">
+                                    <i class="fas fa-star mb-1 block"></i> Mastered
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Handle Flipping logic
+                cardEl.addEventListener('click', function(e) {
+                    // Don't flip if clicking a status button
+                    if(e.target.closest('button[data-action="status"]')) return;
+                    
+                    initAudio(); // Required for iOS
+                    playFlipSound();
+                    this.classList.toggle('flipped');
+                });
+
+                container.appendChild(cardEl);
+            });
+
+            // Attach event listeners to newly created status buttons
+            document.querySelectorAll('button[data-action="status"]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent card flip
+                    const idx = this.getAttribute('data-index');
+                    const newStatus = this.getAttribute('data-status');
+                    
+                    // Toggle off if clicking the same status
+                    if(cardsToRender[idx].status === newStatus) {
+                        cardsToRender[idx].status = 'unmarked';
+                    } else {
+                        cardsToRender[idx].status = newStatus;
+                    }
+                    
+                    saveState();
+                    applyLogic(); // Re-render to update UI colors immediately
+                });
+            });
+        }
+
+        function readConfig() {
+            appState.config.front.form = document.getElementById('front-form').checked;
+            appState.config.front.name = document.getElementById('front-name').checked;
+            appState.config.front.deadline = document.getElementById('front-deadline').checked;
+            
+            appState.config.back.form = document.getElementById('back-form').checked;
+            appState.config.back.name = document.getElementById('back-name').checked;
+            appState.config.back.deadline = document.getElementById('back-deadline').checked;
+            
+            appState.filter = document.getElementById('status-filter').value;
+            appState.limit = parseInt(document.getElementById('card-limit').value) || appState.cards.length;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function applyLogic(shuffle = false) {
+            readConfig();
+            
+            let filteredCards = [...appState.cards];
+            
+            // Apply Status Filter
+            if (appState.filter !== 'all') {
+                filteredCards = filteredCards.filter(c => c.status === appState.filter);
+            }
+            
+            // Apply Shuffle
+            if (shuffle) {
+                filteredCards = shuffleArray(filteredCards);
+            }
+            
+            // Apply Limit
+            let maxLimit = parseInt(document.getElementById('card-limit').value);
+            if(maxLimit < 1) maxLimit = 1;
+            if(maxLimit > filteredCards.length) maxLimit = filteredCards.length;
+            
+            const cardsToDisplay = filteredCards.slice(0, maxLimit);
+            
+            renderCards(cardsToDisplay);
+        }
+
+        // Event Listeners for UI
+        document.getElementById('btn-apply').addEventListener('click', () => {
+            playFlipSound(); // UI feedback
+            applyLogic(false);
+        });
+
+        document.getElementById('btn-shuffle').addEventListener('click', () => {
+            playFlipSound(); // UI feedback
+            applyLogic(true);
+        });
+
+        // Initialize on Load
+        window.onload = () => {
+            loadState();
+            applyLogic(false);
+            
+            // Enable audio context on first user interaction anywhere on page (browser policy)
+            document.body.addEventListener('click', initAudio, { once: true });
+            document.body.addEventListener('touchstart', initAudio, { once: true });
+        };
+    </script>
+</body>
+</html>
