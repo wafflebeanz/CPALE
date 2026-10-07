@@ -200,6 +200,7 @@ details.ctx summary{cursor:pointer;font-weight:800;font-size:.9rem;color:var(--p
 
 /* Notes Modal / Sidebar Drawer */
 .notes-backdrop{position:fixed;inset:0;background:rgba(25,18,38,0.55);z-index:60;backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s ease}
+.notes-backdrop.open{opacity:1;pointer-events:auto}
 .notes-drawer{position:fixed;top:0;bottom:0;left:0;width:min(660px,100vw);background:var(--card);z-index:61;box-shadow:8px 0 28px rgba(0,0,0,0.25);transform:translateX(-100%);transition:transform .3s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;border-right:2px solid var(--line)}
 .notes-backdrop.open .notes-drawer{transform:translateX(0)}
 .notes-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:2px solid var(--line);background:var(--bg2)}
