@@ -192,9 +192,9 @@
             <!-- List Content -->
             <div id="menu-content" class="flex-1 flex flex-col overflow-hidden transition-all duration-300">
                 <!-- Add New Item -->
-                <div class="p-4 bg-slate-50 border-b-2 border-slate-100 flex gap-2">
-                    <input type="text" id="new-item-input" placeholder="Add new topic..." class="flex-1 rounded-xl border-2 border-[#e8baff] px-3 py-2 outline-none focus:border-[#d8b4e2] font-semibold text-slate-600">
-                    <button id="add-item-btn" class="bg-[#e8baff] text-[#6b21a8] px-4 rounded-xl bubble-btn font-bold">+</button>
+                <div class="p-4 bg-slate-50 border-b-2 border-slate-100 flex flex-col gap-2">
+                    <textarea id="new-item-input" rows="3" placeholder="Add topic(s)...&#10;Local tax&#10;Tax remedies" class="w-full rounded-xl border-2 border-[#e8baff] px-3 py-2 outline-none focus:border-[#d8b4e2] font-semibold text-slate-600 resize-none text-sm"></textarea>
+                    <button id="add-item-btn" class="bg-[#e8baff] text-[#6b21a8] py-2 px-4 rounded-xl bubble-btn font-bold text-sm">Add Topic(s)</button>
                 </div>
 
                 <!-- Checklist -->
@@ -481,19 +481,34 @@
 
         function addItem() {
             const input = document.getElementById('new-item-input');
-            const name = input.value.trim();
-            if (!name) return;
+            const text = input.value;
+            if (!text.trim()) return;
             
-            appState[activeTab].push({
-                id: `${activeTab}-${Date.now()}`,
-                name: name,
-                mastered: false,
-                label: 'none'
+            // Split the input by new lines
+            const lines = text.split('\n');
+            let added = false;
+            
+            lines.forEach((line, index) => {
+                const name = line.trim();
+                // Only add if the line is not empty
+                if (name) {
+                    appState[activeTab].push({
+                        // Append index to ensure unique IDs even if added in the same millisecond
+                        id: `${activeTab}-${Date.now()}-${index}`,
+                        name: name,
+                        mastered: false,
+                        label: 'none'
+                    });
+                    added = true;
+                }
             });
-            input.value = '';
-            saveState();
-            renderChecklist();
-            drawWheel();
+            
+            if (added) {
+                input.value = '';
+                saveState();
+                renderChecklist();
+                drawWheel();
+            }
         }
 
         function showAlert(msg) {
@@ -782,8 +797,11 @@
 
             // Add Item
             document.getElementById('add-item-btn').addEventListener('click', addItem);
-            document.getElementById('new-item-input').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addItem();
+            // Standard Enter creates a new line. Use Ctrl+Enter or Cmd+Enter to submit quickly via keyboard.
+            document.getElementById('new-item-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    addItem();
+                }
             });
 
             // Mobile Menu Toggle
