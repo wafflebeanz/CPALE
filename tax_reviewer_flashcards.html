@@ -158,14 +158,25 @@
                 <!-- Filters & Actions -->
                 <div class="flex flex-col justify-between">
                     <div>
-                        <label class="block text-sm font-bold text-pink-600 mb-1">Filter by Status:</label>
-                        <select id="status-filter" class="w-full p-2 rounded-xl border-2 border-pink-200 focus:outline-none focus:border-pink-500 bg-white text-gray-700 font-semibold mb-3 transition-colors cursor-pointer">
-                            <option value="all">🌟 Show All</option>
-                            <option value="unmarked">⚪ Unmarked</option>
-                            <option value="critical">🔴 Critical</option>
-                            <option value="comfortable">🟡 Comfortable</option>
-                            <option value="mastered">🟢 Mastered</option>
-                        </select>
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <div>
+                                <label class="block text-xs font-bold text-pink-600 mb-1">Tax Type:</label>
+                                <select id="category-filter" class="w-full p-2 text-sm rounded-xl border-2 border-pink-200 focus:outline-none focus:border-pink-500 bg-white text-gray-700 font-semibold transition-colors cursor-pointer">
+                                    <option value="all">📁 All Types</option>
+                                    <!-- Dynamic options injected via JS -->
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-pink-600 mb-1">Status:</label>
+                                <select id="status-filter" class="w-full p-2 text-sm rounded-xl border-2 border-pink-200 focus:outline-none focus:border-pink-500 bg-white text-gray-700 font-semibold transition-colors cursor-pointer">
+                                    <option value="all">🌟 All</option>
+                                    <option value="unmarked">⚪ Unmarked</option>
+                                    <option value="critical">🔴 Critical</option>
+                                    <option value="comfortable">🟡 Comfy</option>
+                                    <option value="mastered">🟢 Mastered</option>
+                                </select>
+                            </div>
+                        </div>
                         
                         <label class="block text-sm font-bold text-pink-600 mb-1 mt-2">Number of Cards:</label>
                         <div class="flex items-center space-x-2">
@@ -213,85 +224,86 @@
 
     <script>
         // Data derived verbatim from the prompt, correcting obvious OCR errors (like 25500 -> 2550Q, 620 -> 1620)
+        // Formatting applied: Pink for emphasis, Purple for numbers/days, Green for conditions ("Before", "On or before")
         const rawData = [
             // Registration Forms
-            { form: "1900", name: "Application to authority to use Computerized Accounting System or Components thereof/Loose-Leaf Books of Accounts", deadline: "<span class='text-green-600 font-bold'>Before actual use</span> of Loose-Leaf/Computerized Books of Accounts and/or Accounting Records", category: "Registration" },
-            { form: "1901", name: "Application for Registration for <b class='text-pink-600'>Self-Employed</b> (Single Proprietor/Professional), <b class='text-pink-600'>Mixed Income</b> Individuals, Non-Resident Alien Engaged in Trade/Business, Estate and Trust", deadline: "<span class='text-green-600 font-bold'>On or before commencement</span> of new business or <span class='text-green-600 font-bold'>before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> a return", category: "Registration" },
+            { form: "1900", name: "Application to authority to use <b class='text-pink-600'>Computerized Accounting System</b> or Components thereof/Loose-Leaf Books of Accounts", deadline: "<span class='text-green-600 font-bold'>Before actual use</span> of Loose-Leaf/Computerized Books of Accounts and/or Accounting Records", category: "Registration" },
+            { form: "1901", name: "Application for Registration for <b class='text-pink-600'>Self-Employed</b> (Single Proprietor/Professional), <b class='text-pink-600'>Mixed Income Individuals</b>, Non-Resident Alien Engaged in Trade/Business, Estate and Trust", deadline: "<span class='text-green-600 font-bold'>On or before commencement</span> of new business or <span class='text-green-600 font-bold'>before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> a return", category: "Registration" },
             { form: "1902", name: "Application for Registration for Individuals earning <b class='text-pink-600'>Purely Compensation Income</b> (Local and Alien Employee)", deadline: "<span class='text-purple-600 font-bold'>10 days</span> from the date of employment, or <span class='text-green-600 font-bold'>before the payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> of a return, or declaration is required", category: "Registration" },
             { form: "1903", name: "Application for Registration for <b class='text-pink-600'>Corporations, Partnerships</b> (Taxable/Non-Taxable), including Government Agencies and Instrumentalities (GAIs), Local Government Units (LGUS), Cooperatives and Associations", deadline: "<span class='text-green-600 font-bold'>On or before commencement</span> of new business or <span class='text-green-600 font-bold'>before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> a return", category: "Registration" },
             { form: "1904", name: "Application for Registration for <b class='text-pink-600'>One-Time Taxpayer</b> and Person Registering under E.O. 98", deadline: "<span class='text-green-600 font-bold'>Before payment</span> of any tax due or <span class='text-green-600 font-bold'>before filing</span> of return or <span class='text-green-600 font-bold'>before the issuance</span> of TIN under E.O. 98", category: "Registration" },
             { form: "1905", name: "Application for Registration for <b class='text-pink-600'>Information Update/Correction/Cancellation</b>", deadline: "Each time taxpayer needs to register the change in registration.", category: "Registration" },
             
             // Transfer Taxes
-            { form: "1800", name: "<b class='text-pink-600'>Donor's</b> Tax Return", deadline: "<span class='text-purple-600 font-bold'>30 days</span> after the gift (donation) is made", category: "Transfer Taxes" },
-            { form: "1801", name: "<b class='text-pink-600'>Estate</b> Tax Return", deadline: "<span class='text-purple-600 font-bold'>1 year</span> from decedent's death", category: "Transfer Taxes" },
-            { form: "2322", name: "Certificate of Donation (and Notice of Donation)", deadline: "Certificate: <span class='text-purple-600 font-bold'>30 days</span> after the receipt of the donation\nNotice: <span class='text-purple-600 font-bold'>30 days</span> after the receipt of the donee's duly issued Certificate of Donation", category: "Transfer Taxes" },
+            { form: "1800", name: "<b class='text-pink-600'>Donor's Tax Return</b>", deadline: "<span class='text-purple-600 font-bold'>30 days</span> after the gift (donation) is made", category: "Transfer Taxes" },
+            { form: "1801", name: "<b class='text-pink-600'>Estate Tax Return</b>", deadline: "<span class='text-purple-600 font-bold'>1 year</span> from decedent's death", category: "Transfer Taxes" },
+            { form: "2322", name: "<b class='text-pink-600'>Certificate of Donation</b> (and Notice of Donation)", deadline: "Certificate: <span class='text-purple-600 font-bold'>30 days</span> after the receipt of the donation\n<hr class='border-pink-200 my-1'>Notice: <span class='text-purple-600 font-bold'>30 days</span> after the receipt of the donee's duly issued Certificate of Donation", category: "Transfer Taxes" },
             
             // Value-Added Tax (VAT)
-            { form: "2550M", name: "<b class='text-pink-600'>Monthly</b> Value-Added Tax Declaration (No longer required beginning Jan. 01, 2023) optional", deadline: "<span class='text-purple-600 font-bold'>20 days</span> after the end of the month\neFPS Filers: <span class='text-purple-600 font-bold'>21st to 25th day</span> of the following month", category: "VAT" },
-            { form: "2550Q", name: "<b class='text-pink-600'>Quarterly</b> Value-Added Tax Declaration", deadline: "<span class='text-purple-600 font-bold'>25 days</span> after the end of each quarter\nCancellation of Registration: <span class='text-purple-600 font-bold'>25 days</span> from the date of cancellation", category: "VAT" },
+            { form: "2550M", name: "<b class='text-pink-600'>Monthly Value-Added Tax</b> Declaration <span class='text-sm text-gray-500'>(No longer required beginning Jan. 01, 2023 - optional)</span>", deadline: "<span class='text-purple-600 font-bold'>20 days</span> after the end of the month\n<hr class='border-pink-200 my-1'>eFPS Filers: <span class='text-purple-600 font-bold'>21st to 25th day</span> of the following month", category: "VAT" },
+            { form: "2550Q", name: "<b class='text-pink-600'>Quarterly Value-Added Tax</b> Declaration", deadline: "<span class='text-purple-600 font-bold'>25 days</span> after the end of each quarter\n<hr class='border-pink-200 my-1'>Cancellation of Registration: <span class='text-purple-600 font-bold'>25 days</span> from the date of cancellation", category: "VAT" },
             
             // Other Percentage Taxes (OPT)
-            { form: "2551Q", name: "<b class='text-pink-600'>Quarterly</b> Percentage Tax Return", deadline: "<span class='text-purple-600 font-bold'>25 days</span> after the end of each quarter\nOverseas Communications Tax: <span class='text-purple-600 font-bold'>20 days</span> after the end of the quarter\nTax on Winnings: <span class='text-purple-600 font-bold'>20 days</span> from the date of withholding or deduction (1600WP will be used for winnings)", category: "OPT" },
-            { form: "2552", name: "Percentage Tax Return for Transactions involving Shares of Stock <b class='text-pink-600'>Listed and Traded through the Local Stock Exchange</b> or through Initial and/or Secondary Public Offering", deadline: "Through LSE: <span class='text-purple-600 font-bold'>5 banking days</span> from date of collection\nThrough Primary Public Offering: <span class='text-purple-600 font-bold'>30 days</span> from date of listing\nThrough Secondary Public Offering: <span class='text-purple-600 font-bold'>5 banking days</span> from date of collection", category: "OPT" },
+            { form: "2551Q", name: "<b class='text-pink-600'>Quarterly Percentage Tax Return</b>", deadline: "<span class='text-purple-600 font-bold'>25 days</span> after the end of each quarter\n<hr class='border-pink-200 my-1'>Overseas Communications Tax: <span class='text-purple-600 font-bold'>20 days</span> after the end of the quarter\n<hr class='border-pink-200 my-1'>Tax on Winnings: <span class='text-purple-600 font-bold'>20 days</span> from the date of withholding or deduction <span class='text-xs text-gray-500'>(1600WP will be used for winnings)</span>", category: "OPT" },
+            { form: "2552", name: "Percentage Tax Return for Transactions involving <b class='text-pink-600'>Shares of Stock Listed and Traded</b> through the Local Stock Exchange or through Initial and/or Secondary Public Offering", deadline: "Through LSE: <span class='text-purple-600 font-bold'>5 banking days</span> from date of collection\n<hr class='border-pink-200 my-1'>Through Primary Public Offering: <span class='text-purple-600 font-bold'>30 days</span> from date of listing\n<hr class='border-pink-200 my-1'>Through Secondary Public Offering: <span class='text-purple-600 font-bold'>5 banking days</span> from date of collection", category: "OPT" },
             { form: "2553", name: "Return of Percentage Tax Payable under <b class='text-pink-600'>Special Laws</b>", deadline: "<span class='text-green-600 font-bold'>On or before the due date</span> for payments of tax as stated in the Special Law", category: "OPT" },
             
             // Excise Tax
-            { form: "2200-A", name: "Excise Tax Return for <b class='text-pink-600'>Alcohol</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-A", name: "Excise Tax Return for <b class='text-pink-600'>Alcohol Products</b>", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
             { form: "2200-AN", name: "Excise Tax Return for <b class='text-pink-600'>Automobiles and Non-Essential Goods</b>", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
-            { form: "2200-C", name: "Excise Tax Return for <b class='text-pink-600'>Cosmetic</b> Products", deadline: "<span class='text-purple-600 font-bold'>10 days</span> after the end of the month.", category: "Excise Tax" },
-            { form: "2200-M", name: "Excise Tax Return for <b class='text-pink-600'>Mineral</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production\nLocally produced or extracted metallic mineral: <span class='text-purple-600 font-bold'>15 days after the end of the calendar quarter</span> when removed", category: "Excise Tax" },
-            { form: "2200-P", name: "Excise Tax Return for <b class='text-pink-600'>Petroleum</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
-            { form: "2200-T", name: "Excise Tax Return for <b class='text-pink-600'>Tobacco, Heated Tobacco, Vapor and Novel Tobacco</b> Products", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
-            { form: "2200-S", name: "Excise Tax Return for <b class='text-pink-600'>Sweetened Beverages</b>", deadline: "<i class='text-gray-400'>[Not specified in source text]</i>", category: "Excise Tax" },
+            { form: "2200-C", name: "Excise Tax Return for <b class='text-pink-600'>Cosmetic Products</b>", deadline: "<span class='text-purple-600 font-bold'>10 days</span> after the end of the month.", category: "Excise Tax" },
+            { form: "2200-M", name: "Excise Tax Return for <b class='text-pink-600'>Mineral Products</b>", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production\n<hr class='border-pink-200 my-1'>Locally produced or extracted metallic mineral: <span class='text-purple-600 font-bold'>15 days</span> after the end of the calendar quarter when removed", category: "Excise Tax" },
+            { form: "2200-P", name: "Excise Tax Return for <b class='text-pink-600'>Petroleum Products</b>", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-T", name: "Excise Tax Return for <b class='text-pink-600'>Tobacco, Heated Tobacco, Vapor and Novel Tobacco Products</b>", deadline: "<span class='text-green-600 font-bold'>Before removal</span> of the products from the place of production", category: "Excise Tax" },
+            { form: "2200-S", name: "Excise Tax Return for <b class='text-pink-600'>Sweetened Beverages</b>", deadline: "<span class='text-gray-400 italic'>[Not specified in source text]</span>", category: "Excise Tax" },
             
             // Documentary Stamp Tax (DST)
-            { form: "2000", name: "<b class='text-pink-600'>Monthly</b> Documentary Stamp Tax Declaration/Return", deadline: "<span class='text-purple-600 font-bold'>5th Day</span> of the next month", category: "DST" },
-            { form: "2000-OT", name: "Documentary Stamp Tax Declaration/Return (<b class='text-pink-600'>One-Time Transaction</b>)", deadline: "<i class='text-gray-400'>[Implied/Blank in source, typically 5th day of next month]</i>", category: "DST" },
+            { form: "2000", name: "<b class='text-pink-600'>Monthly Documentary Stamp Tax</b> Declaration/Return", deadline: "<span class='text-purple-600 font-bold'>5th Day</span> of the next month", category: "DST" },
+            { form: "2000-OT", name: "<b class='text-pink-600'>Documentary Stamp Tax</b> Declaration/Return <b class='text-pink-600'>(One-Time Transaction)</b>", deadline: "<span class='text-gray-400 italic'>[Implied/Blank in source, typically 5th day of next month]</span>", category: "DST" },
             
             // Individual Income Tax, Estates and Trusts
             { form: "1700", name: "Annual Income Tax Return for Individuals Earning <b class='text-pink-600'>PURELY Compensation Income</b> (Including Non-Business/Non-Profession Related Income)", deadline: "<span class='text-purple-600 font-bold'>April 15</span>", category: "Income Tax (Individual)" },
             { form: "1701", name: "Annual Income Tax Return for Individuals (including <b class='text-pink-600'>MIXED Income Earner</b>), Estates and Trusts", deadline: "<span class='text-purple-600 font-bold'>April 15</span>", category: "Income Tax (Individual)" },
-            { form: "1701-A", name: "Annual Income Tax Return for Individuals Earning Income <b class='text-pink-600'>PURELY from Business/Profession</b>", deadline: "<span class='text-purple-600 font-bold'>May 15, August 15, November 15 (MAN)</span>", category: "Income Tax (Individual)" },
-            { form: "1701Q", name: "Quarterly Income Tax Rate Return for <b class='text-pink-600'>Individuals (Business/Profession only)</b>, Estates and Trusts", deadline: "<span class='text-purple-600 font-bold'>May 15, August 15, November 15 (MAN)</span>", category: "Income Tax (Individual)" },
+            { form: "1701-A", name: "Annual Income Tax Return for Individuals Earning Income <b class='text-pink-600'>PURELY from Business/Profession</b>", deadline: "<span class='text-purple-600 font-bold'>May 15, August 15, November 15</span> (MAN)", category: "Income Tax (Individual)" },
+            { form: "1701Q", name: "Quarterly Income Tax Rate Return for Individuals <b class='text-pink-600'>(Business/Profession only)</b>, Estates and Trusts", deadline: "<span class='text-purple-600 font-bold'>May 15, August 15, November 15</span> (MAN)", category: "Income Tax (Individual)" },
             
             // Corporation, Partnership, Joint Ventures, & Co-Ownership Income Tax
-            { form: "1702Q", name: "<b class='text-pink-600'>Quarterly</b> Income Tax Return for Corporations, Partnerships, and Other Non-Individual Taxpayers", deadline: "<span class='text-purple-600 font-bold'>60 days</span> after the end of the taxable quarter", category: "Income Tax (Corp)" },
-            { form: "1702-RT", name: "Annual Income Tax Returns for Corporation, Partnership and Other Non-Individual Taxpayer subject only to <b class='text-pink-600'>REGULAR Income Tax Rate</b>", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Income Tax (Corp)" },
-            { form: "1702-EX", name: "Annual Income Tax Return for Corporation, Partnership and Other Non-Individual Taxpayer <b class='text-pink-600'>EXEMPT</b> under the Tax Code, as amended, and other special laws, with NO OTHER Taxable Income", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Income Tax (Corp)" },
-            { form: "1702-MX", name: "Annual Income Tax Return for Corporation, Partnership, and Other Non-Individual with <b class='text-pink-600'>MIXED Income</b> subject to Multiple Income Tax Rates or with Income Subject to SPECIAL/PREFERENTIAL RATE", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Income Tax (Corp)" },
+            { form: "1702Q", name: "<b class='text-pink-600'>Quarterly Income Tax Return</b> for Corporations, Partnerships, and Other Non-Individual Taxpayers", deadline: "<span class='text-purple-600 font-bold'>60 days</span> after the end of the taxable quarter", category: "Income Tax (Corp)" },
+            { form: "1702-RT", name: "Annual Income Tax Returns for Corporation, Partnership and Other Non-Individual Taxpayer subject only to <b class='text-pink-600'>REGULAR Income Tax Rate</b>", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year <span class='text-xs text-gray-500'>(Depends if Fiscal or Calendar)</span>", category: "Income Tax (Corp)" },
+            { form: "1702-EX", name: "Annual Income Tax Return for Corporation, Partnership and Other Non-Individual Taxpayer <b class='text-pink-600'>EXEMPT</b> under the Tax Code, as amended, and other special laws, with NO OTHER Taxable Income", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year <span class='text-xs text-gray-500'>(Depends if Fiscal or Calendar)</span>", category: "Income Tax (Corp)" },
+            { form: "1702-MX", name: "Annual Income Tax Return for Corporation, Partnership, and Other Non-Individual with <b class='text-pink-600'>MIXED Income</b> subject to Multiple Income Tax Rates or with Income Subject to <b class='text-pink-600'>SPECIAL/PREFERENTIAL RATE</b>", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year <span class='text-xs text-gray-500'>(Depends if Fiscal or Calendar)</span>", category: "Income Tax (Corp)" },
             
             // Fringe Benefits Tax
-            { form: "1603Q", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Final Income Taxes Withheld on <b class='text-pink-600'>Fringe Benefits</b> Paid to Employees Other Than Rank and File", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Fringe Benefits" },
+            { form: "1603Q", name: "Quarterly Remittance Return of Final Income Taxes Withheld on <b class='text-pink-600'>Fringe Benefits</b> Paid to Employees Other Than Rank and File", deadline: "<span class='text-green-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Fringe Benefits" },
             
             // Capital Gains Tax Returns
             { form: "1706", name: "Capital Gains Tax Return for Onerous Transfer of <b class='text-pink-600'>Real Property</b> classified as CAPITAL ASSET (Both Taxable and Exempt)", deadline: "<span class='text-purple-600 font-bold'>30 days</span> from date of sale", category: "Capital Gains" },
-            { form: "1707", name: "Capital Gains Tax Return for Onerous Transfer of <b class='text-pink-600'>Shares of Stocks Not Traded Through the Local Stock Exchange</b>", deadline: "<span class='text-purple-600 font-bold'>30 days</span> from date of sale", category: "Capital Gains" },
-            { form: "1707-A", name: "<b class='text-pink-600'>Annual</b> Capital Gains Tax Return for Onerous Transfer of Shares of Stock Not Traded Through the Local Stock Exchange", deadline: "Individual: <span class='text-purple-600 font-bold'>April 15</span>\nCorporations: <span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year (Depends if Fiscal or Calendar)", category: "Capital Gains" },
+            { form: "1707", name: "Capital Gains Tax Return for Onerous Transfer of <b class='text-pink-600'>Shares of Stocks Not Traded</b> Through the Local Stock Exchange", deadline: "<span class='text-purple-600 font-bold'>30 days</span> from date of sale", category: "Capital Gains" },
+            { form: "1707-A", name: "<b class='text-pink-600'>Annual Capital Gains Tax Return</b> for Onerous Transfer of Shares of Stock Not Traded Through the Local Stock Exchange", deadline: "Individual: <span class='text-purple-600 font-bold'>April 15</span>\n<hr class='border-pink-200 my-1'>Corporations: <span class='text-purple-600 font-bold'>15th day of the 4th month</span> following the close of the taxable year <span class='text-xs text-gray-500'>(Depends if Fiscal or Calendar)</span>", category: "Capital Gains" },
             
             // Withholding Taxes (Page 2)
-            { form: "0619-E", name: "<b class='text-pink-600'>Monthly</b> Remittance Form of Creditable Income Taxes Withheld <b class='text-pink-600'>(Expanded)</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
-            { form: "0619-F", name: "<b class='text-pink-600'>Monthly</b> Remittance Form for <b class='text-pink-600'>Final</b> Income Taxes Withheld", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
-            { form: "1620", name: "<b class='text-pink-600'>Monthly</b> Remittance Form of Tax Withheld on the Amount Withdrawn from <b class='text-pink-600'>Decedent's Deposit Account</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
-            { form: "1600-PT", name: "<b class='text-pink-600'>Monthly</b> Remittance Return of <b class='text-pink-600'>Other Percentage Taxes</b> Withheld", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
-            { form: "1600-VT", name: "<b class='text-pink-600'>Monthly</b> Remittance Return for <b class='text-pink-600'>Value-added Taxes</b> Withheld", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month (This shall be filed for the first 2 months of each calendar quarter)", category: "Withholding" },
-            { form: "1601-C", name: "<b class='text-pink-600'>Monthly</b> Remittance Return on Income Taxes Withheld on <b class='text-pink-600'>Compensation</b>", deadline: "Taxes Withheld from December: <span class='text-purple-600 font-bold'>January 15</span> of the succeeding year", category: "Withholding" },
-            { form: "1601-EQ", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Creditable Income Taxes Withheld <b class='text-pink-600'>(Expanded)</b>", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
-            { form: "1601-FQ", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of <b class='text-pink-600'>Final</b> Income Taxes Withheld", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
-            { form: "1602Q", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Final Taxes Withheld on <b class='text-pink-600'>Interest Paid on Deposits and Yield</b> on Deposit Substitutes/Trusts/Etc.", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
-            { form: "1604-C", name: "<b class='text-pink-600'>Annual</b> Information Return of income Taxes Withheld on <b class='text-pink-600'>Compensation</b>", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
-            { form: "1604-E", name: "<b class='text-pink-600'>Annual</b> Information Return of Creditable Income Taxes Withheld <b class='text-pink-600'>(Expanded)</b>/Income Payments Exempt from Withholding Tax", deadline: "<span class='text-purple-600 font-bold'>March 1</span> of the succeeding year", category: "Withholding" },
-            { form: "1604-F", name: "<b class='text-pink-600'>Annual</b> Information Return of Income Payments Subjected to <b class='text-pink-600'>Final</b> Withholding Taxes", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
+            { form: "0619-E", name: "Monthly Remittance Form of <b class='text-pink-600'>Creditable Income Taxes Withheld (Expanded)</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month <span class='text-xs text-gray-500'>(This shall be filed for the first 2 months of each calendar quarter)</span>", category: "Withholding" },
+            { form: "0619-F", name: "Monthly Remittance Form for <b class='text-pink-600'>Final Income Taxes Withheld</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month <span class='text-xs text-gray-500'>(This shall be filed for the first 2 months of each calendar quarter)</span>", category: "Withholding" },
+            { form: "1620", name: "Monthly Remittance Form of <b class='text-pink-600'>Tax Withheld on the Amount Withdrawn from Decedent's Deposit Account</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month <span class='text-xs text-gray-500'>(This shall be filed for the first 2 months of each calendar quarter)</span>", category: "Withholding" },
+            { form: "1600-PT", name: "Monthly Remittance Return of <b class='text-pink-600'>Other Percentage Taxes Withheld</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month <span class='text-xs text-gray-500'>(This shall be filed for the first 2 months of each calendar quarter)</span>", category: "Withholding" },
+            { form: "1600-VT", name: "Monthly Remittance Return for <b class='text-pink-600'>Value-added Taxes Withheld</b>", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the month <span class='text-xs text-gray-500'>(This shall be filed for the first 2 months of each calendar quarter)</span>", category: "Withholding" },
+            { form: "1601-C", name: "Monthly Remittance Return on <b class='text-pink-600'>Income Taxes Withheld on Compensation</b>", deadline: "Taxes Withheld from December: <span class='text-purple-600 font-bold'>January 15</span> of the succeeding year", category: "Withholding" },
+            { form: "1601-EQ", name: "Quarterly Remittance Return of <b class='text-pink-600'>Creditable Income Taxes Withheld (Expanded)</b>", deadline: "<span class='text-green-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1601-FQ", name: "Quarterly Remittance Return of <b class='text-pink-600'>Final Income Taxes Withheld</b>", deadline: "<span class='text-green-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1602Q", name: "Quarterly Remittance Return of Final Taxes Withheld on <b class='text-pink-600'>Interest Paid on Deposits and Yield</b> on Deposit Substitutes/Trusts/Etc.", deadline: "<span class='text-green-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1604-C", name: "Annual Information Return of <b class='text-pink-600'>Income Taxes Withheld on Compensation</b>", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
+            { form: "1604-E", name: "Annual Information Return of <b class='text-pink-600'>Creditable Income Taxes Withheld (Expanded)</b> / Income Payments Exempt from Withholding Tax", deadline: "<span class='text-purple-600 font-bold'>March 1</span> of the succeeding year", category: "Withholding" },
+            { form: "1604-F", name: "Annual Information Return of <b class='text-pink-600'>Income Payments Subjected to Final Withholding Taxes</b>", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
             { form: "1606", name: "Withholding Tax Remittance Return For Onerous Transfer of <b class='text-pink-600'>Real Property Other Than Capital Asset</b> (Including Taxable and Exempt)", deadline: "<span class='text-purple-600 font-bold'>10th day</span> following the end of the month in which the transaction occurred", category: "Withholding" },
-            { form: "1621", name: "<b class='text-pink-600'>Quarterly</b> Remittance Return of Tax Withheld on the Amount Withdrawn from <b class='text-pink-600'>Decedent's Deposit Account</b>", deadline: "<span class='text-purple-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
+            { form: "1621", name: "Quarterly Remittance Return of <b class='text-pink-600'>Tax Withheld on the Amount Withdrawn from Decedent's Deposit Account</b>", deadline: "<span class='text-green-600 font-bold'>Last day of the month</span> after the end of the quarter", category: "Withholding" },
             { form: "2304", name: "Certificate of Income Payment <b class='text-pink-600'>Not Subject to Withholding Tax</b> (Excluding Compensation Income)", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
             { form: "2306", name: "Certificate of <b class='text-pink-600'>Final Tax Withheld at Source</b>", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year", category: "Withholding" },
             { form: "2307", name: "Certificate of <b class='text-pink-600'>Creditable Tax Withheld at Source</b>", deadline: "<span class='text-purple-600 font-bold'>15th day of the 4th month</span> after the end of the taxable year", category: "Withholding" },
-            { form: "2316", name: "Certificate of <b class='text-pink-600'>Compensation Payment/Tax Withheld</b> for Compensation Payment With or Without Tax Withheld", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year\nCases by substituted filing: <span class='text-purple-600 font-bold'>February 28</span> after the end of the calendar year\nTermination of Employment: <span class='text-purple-600 font-bold'>The day the last payment of wages is made</span>", category: "Withholding" },
+            { form: "2316", name: "Certificate of <b class='text-pink-600'>Compensation Payment/Tax Withheld</b> for Compensation Payment With or Without Tax Withheld", deadline: "<span class='text-purple-600 font-bold'>January 31</span> of the succeeding year\n<hr class='border-pink-200 my-1'>Cases by substituted filing: <span class='text-purple-600 font-bold'>February 28</span> after the end of the calendar year\n<hr class='border-pink-200 my-1'>Termination of Employment: <span class='text-green-600 font-bold'>The day the last payment of wages is made</span>", category: "Withholding" },
             
             // Preferential Tax & Notes
-            { form: "0901-D", name: "Application for Treaty Purposes (Relief from Philippine Income Tax on <b class='text-pink-600'>Dividends</b>)", deadline: "If preferential taxes are applied: Not later than the <span class='text-purple-600 font-bold'>last day of the 4th month</span> following the close of each taxable year.\nIf regular rates are applied: No deadline", category: "Preferential Tax" },
-            { form: "N/A (Note)", name: "VAT on DSP", deadline: "Sold to B2B: follow w/in <span class='text-purple-600 font-bold'>10 days</span> ff EOM\nSold to B2C: follow w/in <span class='text-purple-600 font-bold'>25 days</span> ff EOQ", category: "Notes" }
+            { form: "0901-D", name: "Application for Treaty Purposes (<b class='text-pink-600'>Relief from Philippine Income Tax on Dividends</b>)", deadline: "If preferential taxes are applied: Not later than the <span class='text-green-600 font-bold'>last day of the 4th month</span> following the close of each taxable year.\n<hr class='border-pink-200 my-1'>If regular rates are applied: <span class='text-gray-500 font-bold'>No deadline</span>", category: "Preferential Tax" },
+            { form: "N/A (Note)", name: "<b class='text-pink-600'>VAT on DSP</b>", deadline: "Sold to B2B: follow w/in <span class='text-purple-600 font-bold'>10 days</span> ff EOM\n<hr class='border-pink-200 my-1'>Sold to B2C: follow w/in <span class='text-purple-600 font-bold'>25 days</span> ff EOQ", category: "Notes" }
         ];
 
         let appState = {
@@ -301,6 +313,7 @@
                 back: { form: false, name: true, deadline: true }
             },
             filter: 'all',
+            categoryFilter: 'all',
             limit: rawData.length,
             audioEnabled: true
         };
@@ -389,15 +402,16 @@
                          </div>`;
             }
             if (faceConfig.name) {
+                // Formatting is already baked into card.name now, but replacing \n is safe
                 html += `<div class="mb-4 flex-grow flex flex-col justify-center">
                             <span class="block text-xs uppercase tracking-wider text-pink-400 font-bold mb-1">Name</span>
-                            <span class="text-lg font-bold text-gray-800 leading-snug">${card.name.replace(/\n/g, '<br><br>')}</span>
+                            <span class="text-lg font-bold text-gray-800 leading-snug">${card.name.replace(/\n/g, '<br>')}</span>
                          </div>`;
             }
             if (faceConfig.deadline) {
                 html += `<div class="mt-auto bg-pink-50 border-t-2 border-pink-100 p-3 rounded-xl w-full">
                             <span class="block text-xs uppercase tracking-wider text-pink-400 font-bold mb-1"><i class="far fa-calendar-alt"></i> Deadline</span>
-                            <span class="text-sm font-semibold text-gray-700 block">${card.deadline.replace(/\n/g, '<br><hr class="border-pink-200 my-1">')}</span>
+                            <span class="text-sm font-medium text-gray-700 block">${card.deadline.replace(/\n/g, '<br>')}</span>
                          </div>`;
             }
             
@@ -536,6 +550,7 @@
             appState.config.back.deadline = document.getElementById('back-deadline').checked;
             
             appState.filter = document.getElementById('status-filter').value;
+            appState.categoryFilter = document.getElementById('category-filter').value;
             appState.limit = parseInt(document.getElementById('card-limit').value) || appState.cards.length;
         }
 
@@ -552,6 +567,11 @@
             
             let filteredCards = [...appState.cards];
             
+            // Apply Tax Type (Category) Filter
+            if (appState.categoryFilter !== 'all') {
+                filteredCards = filteredCards.filter(c => c.category === appState.categoryFilter);
+            }
+
             // Apply Status Filter
             if (appState.filter !== 'all') {
                 filteredCards = filteredCards.filter(c => c.status === appState.filter);
@@ -566,6 +586,9 @@
             let maxLimit = parseInt(document.getElementById('card-limit').value);
             if(maxLimit < 1) maxLimit = 1;
             if(maxLimit > filteredCards.length) maxLimit = filteredCards.length;
+            
+            // Update total count indicator
+            document.getElementById('total-count').textContent = filteredCards.length;
             
             const cardsToDisplay = filteredCards.slice(0, maxLimit);
             
@@ -585,6 +608,16 @@
 
         // Initialize on Load
         window.onload = () => {
+            // Populate category dropdown
+            const categorySelect = document.getElementById('category-filter');
+            const uniqueCategories = [...new Set(rawData.map(item => item.category))];
+            uniqueCategories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = `📁 ${cat}`;
+                categorySelect.appendChild(opt);
+            });
+
             loadState();
             applyLogic(false);
             
