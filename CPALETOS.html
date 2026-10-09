@@ -106,7 +106,7 @@
       font-weight: 700;
     }
 
-    button, select, input {
+    button, select, input, textarea {
       font-family: inherit;
     }
 
@@ -196,13 +196,14 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .btn-cute {
       background: white;
       border: var(--border-soft);
       color: var(--text-main);
-      padding: 0.45rem 0.9rem;
+      padding: 0.45rem 0.85rem;
       border-radius: var(--radius-sm);
       font-size: 0.82rem;
       font-weight: 700;
@@ -212,6 +213,7 @@
       gap: 0.4rem;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: var(--shadow-sm);
+      user-select: none;
     }
     .btn-cute:hover {
       background: var(--blush-100);
@@ -221,6 +223,11 @@
     }
     .btn-cute:active {
       transform: translateY(0);
+    }
+    .btn-cute.active {
+      background: var(--lilac-100);
+      border-color: var(--lilac-300);
+      color: var(--lilac-500);
     }
 
     /* Overall Progress Bar */
@@ -483,7 +490,7 @@
       border: var(--border-soft);
       border-radius: var(--radius-lg);
       padding: 1.25rem 1.6rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       box-shadow: var(--shadow-sm);
       display: flex;
       justify-content: space-between;
@@ -520,7 +527,8 @@
     .subject-header-right {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
     }
     .subject-progress-pill {
       background: white;
@@ -536,6 +544,52 @@
       font-weight: 900;
       font-size: 1.1rem;
       color: var(--lilac-500);
+    }
+
+    /* Subject-Level Notes Drawer */
+    .subject-notes-drawer {
+      display: none;
+      background: #FFFDF9;
+      border: 1px dashed #FFD480;
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow-sm);
+      animation: slideDown 0.2s ease-out forwards;
+    }
+    .subject-notes-drawer.open {
+      display: block;
+    }
+    .subject-notes-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
+    }
+    .subject-notes-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #946000;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .subject-notes-textarea {
+      width: 100%;
+      min-height: 85px;
+      padding: 0.75rem;
+      border: 1px solid #FFE4A0;
+      border-radius: var(--radius-sm);
+      background: #FFFFFF;
+      font-size: 0.85rem;
+      color: #4D3812;
+      resize: vertical;
+      outline: none;
+      line-height: 1.5;
+    }
+    .subject-notes-textarea:focus {
+      border-color: #F5A623;
+      box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
     }
 
     /* Accordion Topic Cards */
@@ -566,13 +620,13 @@
     .topic-summary-row {
       padding: 1rem 1.25rem;
       display: grid;
-      grid-template-columns: auto 1fr auto auto auto;
-      gap: 1rem;
+      grid-template-columns: auto 1fr auto auto auto auto;
+      gap: 0.85rem;
       align-items: center;
       cursor: pointer;
       user-select: none;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 950px) {
       .topic-summary-row {
         grid-template-columns: 1fr;
         gap: 0.75rem;
@@ -645,6 +699,33 @@
       align-items: center;
       gap: 0.5rem;
       flex-wrap: wrap;
+    }
+
+    /* Topic Quick Note Button */
+    .btn-topic-note-trigger {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 800;
+      border: 1px solid #EADDEC;
+      background: #FAF5F9;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .btn-topic-note-trigger:hover {
+      background: var(--butter-100);
+      border-color: #FFE180;
+      color: #926400;
+    }
+    .btn-topic-note-trigger.has-note {
+      background: #FFF8E6;
+      border-color: #FFDE85;
+      color: #946200;
+      box-shadow: 0 1px 4px rgba(245, 166, 35, 0.15);
     }
 
     /* Sources Checklist (CPAR, ReSA, REO) */
@@ -791,8 +872,13 @@
     .subtopics-list {
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
+      gap: 0.65rem;
       margin-top: 0.5rem;
+    }
+    .subtopic-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
     }
     .subtopic-item {
       display: flex;
@@ -828,41 +914,108 @@
       color: #5D7962;
       text-decoration: line-through;
     }
-    .subtopic-items-count {
+
+    /* Outcome / Subtopic Note Trigger & Box */
+    .btn-outcome-note {
+      padding: 0.2rem 0.5rem;
       font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--text-light);
+      font-weight: 800;
+      border-radius: 6px;
+      border: 1px dashed rgba(200, 180, 195, 0.8);
+      background: #FFFDF9;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.2s;
       white-space: nowrap;
+    }
+    .btn-outcome-note:hover {
+      background: #FFEFC7;
+      border-color: #F5A623;
+      color: #946000;
+    }
+    .btn-outcome-note.has-note {
+      background: #FFF4D6;
+      border-color: #FFC04D;
+      color: #925E00;
+      border-style: solid;
+      box-shadow: 0 1px 4px rgba(245, 166, 35, 0.15);
+    }
+
+    .outcome-note-drawer {
+      display: none;
+      padding: 0.65rem 0.85rem;
+      margin-left: 2rem;
+      background: #FFFDF5;
+      border: 1px dashed #FFE08F;
+      border-radius: var(--radius-sm);
+      animation: slideDown 0.18s ease-out forwards;
+    }
+    .outcome-note-drawer.open {
+      display: block;
+    }
+    .outcome-note-label {
+      font-size: 0.73rem;
+      font-weight: 800;
+      color: #926400;
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .outcome-note-textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid #FFE4A0;
+      border-radius: 6px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.79rem;
+      background: white;
+      color: #4D3812;
+      resize: vertical;
+      outline: none;
+      line-height: 1.4;
+    }
+    .outcome-note-textarea:focus {
+      border-color: #F5A623;
     }
 
     /* Personal Topic Notes Box */
     .topic-notes-wrap {
-      margin-top: 1rem;
+      margin-top: 1.15rem;
       background: #FFF9E6;
       border: 1px dashed #FFE180;
       border-radius: var(--radius-sm);
-      padding: 0.75rem;
+      padding: 0.85rem;
     }
     .notes-label {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 800;
       color: #926400;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: space-between;
     }
     .notes-textarea {
       width: 100%;
-      border: none;
-      background: transparent;
+      border: 1px solid rgba(255, 225, 128, 0.6);
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
       resize: vertical;
-      min-height: 48px;
+      min-height: 58px;
       font-family: inherit;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: #4D3B10;
       outline: none;
-      line-height: 1.4;
+      line-height: 1.45;
+    }
+    .notes-textarea:focus {
+      border-color: #F5A623;
+      box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.12);
     }
     .notes-textarea::placeholder {
       color: #BBA062;
@@ -953,12 +1106,17 @@
       margin-bottom: 0.5rem;
     }
 
+    /* Hidden file input */
+    #importFileInput {
+      display: none;
+    }
+
     /* Print friendliness */
     @media print {
-      .sticky-header, .controls-panel, .btn-cute {
+      .sticky-header, .controls-panel, .btn-cute, .btn-topic-note-trigger, .btn-outcome-note {
         display: none !important;
       }
-      .topic-details-body {
+      .topic-details-body, .subject-notes-drawer, .outcome-note-drawer {
         display: block !important;
       }
     }
@@ -981,6 +1139,9 @@
         </div>
 
         <div class="header-actions">
+          <button class="btn-cute" id="btnToggleSound" title="Toggle audio feedback">
+            <span id="soundIcon">🔊</span> <span id="soundText">Sound: ON</span>
+          </button>
           <button class="btn-cute" id="btnExpandAll" title="Expand all topic specifications">
             <span>✨</span> Expand All
           </button>
@@ -990,6 +1151,10 @@
           <button class="btn-cute" id="btnExportData" title="Export study data backup">
             <span>💾</span> Backup
           </button>
+          <button class="btn-cute" id="btnImportData" title="Restore previous study backup">
+            <span>📂</span> Import
+          </button>
+          <input type="file" id="importFileInput" accept=".json" />
           <button class="btn-cute" id="btnResetModal" title="Reset tracking data" style="color: #D63353;">
             <span>🔄</span> Reset
           </button>
@@ -1027,7 +1192,7 @@
       <!-- Search Input -->
       <div class="search-box-wrap">
         <span class="search-icon-inside">🔍</span>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search topic, law, PFRS (e.g. BMBE, CVP, FRIA)..." />
+        <input type="text" id="searchInput" class="search-input" placeholder="Search topic, note, law, PFRS (e.g. BMBE, CVP, FRIA)..." />
       </div>
 
       <!-- High-Yield Dynamic Sort -->
@@ -1042,7 +1207,7 @@
         </select>
       </div>
 
-      <!-- Mastery Level Filter -->
+      <!-- Mastery Level Filter (Fixed < character for HTML parser compatibility) -->
       <div class="filter-group">
         <label class="filter-label" for="masteryFilterSelect">Status:</label>
         <select id="masteryFilterSelect" class="select-cute">
@@ -1050,7 +1215,7 @@
           <option value="not_started">0% - Not Started</option>
           <option value="in_progress">25% - 75% In Progress</option>
           <option value="mastered">100% - Mastered</option>
-          <option value="unmastered">Incomplete (< 100%)</option>
+          <option value="unmastered">Incomplete (&lt; 100%)</option>
         </select>
       </div>
 
@@ -1080,7 +1245,7 @@
     <div class="modal-box">
       <div class="modal-title">Reset Pre-Week Tracker? 🌸</div>
       <div class="modal-body">
-        This will clear all saved mastery levels, source tags, sub-topic checks, and personal notes stored in your browser's localStorage. This action cannot be undone!
+        This will clear all saved mastery levels, source tags, sub-topic checks, and all personal notes (subjects, topics, and outcomes) stored in your browser's localStorage. This action cannot be undone!
       </div>
       <div class="modal-actions">
         <button class="btn-cute" id="btnCancelReset">Cancel</button>
@@ -1099,6 +1264,94 @@
 
   <!-- INLINE DATA STRUCTURE & FULL APPLICATION LOGIC -->
   <script>
+    /* ==========================================================================
+       SYNTHESIZED SOUND EFFECTS ENGINE (Web Audio API - 100% Native & Offline)
+       ========================================================================== */
+    const SOUND = {
+      enabled: true,
+      ctx: null,
+      init() {
+        if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+      },
+      play(fn) {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+          }
+          if (this.ctx) fn(this.ctx);
+        } catch(e) {
+          // Ignore audio errors gracefully
+        }
+      },
+      pop() {
+        this.play(ctx => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(540, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.07);
+          gain.gain.setValueAtTime(0.18, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.07);
+        });
+      },
+      chime() {
+        this.play(ctx => {
+          const freqs = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+          freqs.forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.06);
+            gain.gain.setValueAtTime(0, ctx.currentTime);
+            gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.06 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + i * 0.06);
+            osc.stop(ctx.currentTime + i * 0.06 + 0.36);
+          });
+        });
+      },
+      tap() {
+        this.play(ctx => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(320, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.05);
+          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.05);
+        });
+      },
+      ding() {
+        this.play(ctx => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, ctx.currentTime); // A5 bell
+          gain.gain.setValueAtTime(0.14, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.28);
+        });
+      }
+    };
+
     /* ==========================================================================
        OFFICIAL LECPA TABLE OF SPECIFICATIONS (PRC BOA OCT 2022) DATA STRUCTURE
        Six Board Exam Subjects: FAR, AFAR, MS, AUD, RFBT, TAX
@@ -2477,25 +2730,31 @@
        ========================================================================== */
     const STORAGE_PREFIX = "cpa_tracker_";
     const APP_STATE = {
-      activeSubjectId: "ALL", // "ALL" or subject id like "FAR", "AFAR", etc.
+      activeSubjectId: "ALL", // "ALL" or subject id
       sortBy: "yield_desc",  // "yield_desc", "yield_asc", "tos_order", "mastery_asc", "mastery_desc"
       masteryFilter: "all",
       sourceFilter: "all",
       searchQuery: "",
       openAccordions: new Set(),
-      // User data stored per topic id:
-      // mastery[topicId] = 0 | 25 | 50 | 75 | 100
-      // sources[topicId] = ['CPAR', 'ReSA', 'REO']
-      // subtopics[topicId] = ['sub_0', 'sub_1']
-      // notes[topicId] = string
-      mastery: {},
-      sources: {},
-      subtopics: {},
-      notes: {}
+      openSubjectNotes: new Set(),
+      openOutcomeNotes: new Set(),
+      
+      // Data dictionaries
+      mastery: {},        // topicId -> 0 | 25 | 50 | 75 | 100
+      sources: {},        // topicId -> ['CPAR', 'ReSA', 'REO']
+      subtopics: {},      // topicId -> ['sub_0', ...]
+      subjectNotes: {},   // subjectId -> string
+      notes: {},          // topicId -> string (topic-level note)
+      outcomeNotes: {}    // outcomeKey -> string (outcome-level note)
     };
 
     function loadStateFromStorage() {
       try {
+        const savedSound = localStorage.getItem(STORAGE_PREFIX + "sound_enabled");
+        if (savedSound !== null) {
+          SOUND.enabled = savedSound === "true";
+        }
+
         const savedMastery = localStorage.getItem(STORAGE_PREFIX + "mastery");
         if (savedMastery) APP_STATE.mastery = JSON.parse(savedMastery);
 
@@ -2505,13 +2764,23 @@
         const savedSubtopics = localStorage.getItem(STORAGE_PREFIX + "subtopics");
         if (savedSubtopics) APP_STATE.subtopics = JSON.parse(savedSubtopics);
 
+        const savedSubjectNotes = localStorage.getItem(STORAGE_PREFIX + "notes_subject");
+        if (savedSubjectNotes) APP_STATE.subjectNotes = JSON.parse(savedSubjectNotes);
+
         const savedNotes = localStorage.getItem(STORAGE_PREFIX + "notes");
         if (savedNotes) APP_STATE.notes = JSON.parse(savedNotes);
 
+        const savedOutcomeNotes = localStorage.getItem(STORAGE_PREFIX + "notes_outcome");
+        if (savedOutcomeNotes) APP_STATE.outcomeNotes = JSON.parse(savedOutcomeNotes);
+
         const savedAccordions = localStorage.getItem(STORAGE_PREFIX + "open_accordions");
         if (savedAccordions) {
-          const arr = JSON.parse(savedAccordions);
-          APP_STATE.openAccordions = new Set(arr);
+          APP_STATE.openAccordions = new Set(JSON.parse(savedAccordions));
+        }
+
+        const savedSubjNotesOpen = localStorage.getItem(STORAGE_PREFIX + "open_subject_notes");
+        if (savedSubjNotesOpen) {
+          APP_STATE.openSubjectNotes = new Set(JSON.parse(savedSubjNotesOpen));
         }
       } catch (e) {
         console.error("Error reading localStorage:", e);
@@ -2520,11 +2789,15 @@
 
     function saveStateToStorage(key) {
       try {
+        if (!key || key === "sound") localStorage.setItem(STORAGE_PREFIX + "sound_enabled", String(SOUND.enabled));
         if (!key || key === "mastery") localStorage.setItem(STORAGE_PREFIX + "mastery", JSON.stringify(APP_STATE.mastery));
         if (!key || key === "sources") localStorage.setItem(STORAGE_PREFIX + "sources", JSON.stringify(APP_STATE.sources));
         if (!key || key === "subtopics") localStorage.setItem(STORAGE_PREFIX + "subtopics", JSON.stringify(APP_STATE.subtopics));
+        if (!key || key === "notes_subject") localStorage.setItem(STORAGE_PREFIX + "notes_subject", JSON.stringify(APP_STATE.subjectNotes));
         if (!key || key === "notes") localStorage.setItem(STORAGE_PREFIX + "notes", JSON.stringify(APP_STATE.notes));
+        if (!key || key === "notes_outcome") localStorage.setItem(STORAGE_PREFIX + "notes_outcome", JSON.stringify(APP_STATE.outcomeNotes));
         if (!key || key === "open_accordions") localStorage.setItem(STORAGE_PREFIX + "open_accordions", JSON.stringify(Array.from(APP_STATE.openAccordions)));
+        if (!key || key === "open_subject_notes") localStorage.setItem(STORAGE_PREFIX + "open_subject_notes", JSON.stringify(Array.from(APP_STATE.openSubjectNotes)));
       } catch (e) {
         console.error("Error writing localStorage:", e);
       }
@@ -2574,7 +2847,6 @@
 
       CPA_SUBJECTS.forEach(subject => {
         const subjProgress = calculateSubjectProgress(subject);
-        // Each subject is 1/6 (16.67%) of the CPA board examination
         totalSubjectScore += subjProgress * (1 / 6);
 
         subject.topics.forEach(t => {
@@ -2600,7 +2872,6 @@
       document.getElementById("masterPercentText").textContent = pctFormatted;
       document.getElementById("masterProgressBar").style.width = pctFormatted;
 
-      // Motivational Quotes based on readiness tier
       let quote = "Every single problem solved builds your CPA license! ☕✨";
       let status = "Getting Started 🌱";
       if (overallPercent >= 90) {
@@ -2621,7 +2892,6 @@
       document.getElementById("masterStatusBadge").textContent = `(${status})`;
       document.getElementById("summaryStatsText").textContent = `${masteredTopics} / ${totalTopics} Topics Mastered · ~${masteredItems} Board Items Covered`;
 
-      // Update subject selector cards progress
       renderSubjectGridCards();
     }
 
@@ -2632,7 +2902,7 @@
       const container = document.getElementById("subjectGridCards");
       let html = "";
 
-      // "All Subjects" summary card
+      // "All Subjects" card
       const isAllActive = APP_STATE.activeSubjectId === "ALL";
       const { overallPercent } = calculateOverallExamProgress();
 
@@ -2653,7 +2923,7 @@
         </div>
       `;
 
-      // 6 Individual Board Subjects
+      // 6 Board Subjects
       CPA_SUBJECTS.forEach(subject => {
         const isActive = APP_STATE.activeSubjectId === subject.id;
         const progress = calculateSubjectProgress(subject);
@@ -2663,11 +2933,13 @@
           if (getTopicMastery(t.id) === 100) masteredInSubj++;
         });
 
+        const hasSubjectNote = Boolean((APP_STATE.subjectNotes[subject.id] || "").trim());
+
         html += `
           <div class="subject-pill-card ${isActive ? 'active' : ''}" onclick="selectSubject('${subject.id}')">
             <div class="subject-pill-top">
               <span class="subject-code">${subject.icon} ${subject.code}</span>
-              <span class="subject-weight-badge">${subject.totalItems} Items</span>
+              <span class="subject-weight-badge">${subject.totalItems} Items ${hasSubjectNote ? '📝' : ''}</span>
             </div>
             <div class="subject-full-title">${subject.name}</div>
             <div class="mini-progress-track">
@@ -2685,31 +2957,36 @@
     }
 
     function selectSubject(subjectId) {
+      SOUND.tap();
       APP_STATE.activeSubjectId = subjectId;
       renderSubjectGridCards();
       renderTopicsView();
-      // Smooth scroll down to topics view on mobile
-      const main = document.getElementById("topicsMainContainer");
       if (window.innerWidth < 768) {
+        const main = document.getElementById("topicsMainContainer");
         main.scrollIntoView({ behavior: "smooth" });
       }
     }
 
     /* ==========================================================================
-       RENDERING: TOPICS ACCORDIONS & INTERACTION
+       RENDERING: TOPICS ACCORDIONS, OUTCOMES, NOTES & CONTROLS
        ========================================================================== */
     function getSortedAndFilteredTopics(subject) {
       let topics = [...subject.topics];
 
-      // 1. Text Search Filter
+      // 1. Text Search Filter (matches name, code, outcomes, topic notes, and outcome notes)
       const query = APP_STATE.searchQuery.trim().toLowerCase();
       if (query) {
         topics = topics.filter(topic => {
           const matchTitle = topic.name.toLowerCase().includes(query);
           const matchCode = topic.code.toLowerCase().includes(query);
           const matchSub = topic.subtopics.some(s => s.text.toLowerCase().includes(query) || s.code.toLowerCase().includes(query));
-          const matchNotes = (APP_STATE.notes[topic.id] || "").toLowerCase().includes(query);
-          return matchTitle || matchCode || matchSub || matchNotes;
+          const matchTopicNotes = (APP_STATE.notes[topic.id] || "").toLowerCase().includes(query);
+          const matchOutcomeNotes = topic.subtopics.some((_, sIdx) => {
+            const key = `${topic.id}_s${sIdx}`;
+            return (APP_STATE.outcomeNotes[key] || "").toLowerCase().includes(query);
+          });
+          const matchSubjectNotes = (APP_STATE.subjectNotes[subject.id] || "").toLowerCase().includes(query);
+          return matchTitle || matchCode || matchSub || matchTopicNotes || matchOutcomeNotes || matchSubjectNotes;
         });
       }
 
@@ -2736,7 +3013,7 @@
       // 4. Dynamic Sorting
       topics.sort((a, b) => {
         if (APP_STATE.sortBy === "yield_desc") {
-          return b.weight - a.weight; // Highest Yield first exactly as requested
+          return b.weight - a.weight;
         } else if (APP_STATE.sortBy === "yield_asc") {
           return a.weight - b.weight;
         } else if (APP_STATE.sortBy === "tos_order") {
@@ -2768,11 +3045,13 @@
         totalRenderedTopics += filteredTopics.length;
 
         if (filteredTopics.length === 0 && (APP_STATE.searchQuery || APP_STATE.masteryFilter !== "all" || APP_STATE.sourceFilter !== "all")) {
-          // If filtering and no topics match in this subject, skip header or show quiet empty message
           return;
         }
 
         const subjProgress = calculateSubjectProgress(subject);
+        const hasSubjNotes = Boolean((APP_STATE.subjectNotes[subject.id] || "").trim());
+        const isSubjNotesOpen = APP_STATE.openSubjectNotes.has(subject.id);
+        const subjNotesContent = APP_STATE.subjectNotes[subject.id] || "";
 
         html += `
           <section class="subject-section" id="section_${subject.id}">
@@ -2787,11 +3066,27 @@
               </div>
 
               <div class="subject-header-right">
+                <button class="btn-cute ${hasSubjNotes ? 'active' : ''}" onclick="toggleSubjectNotes('${subject.id}')" title="Add overall study notes for ${subject.code}">
+                  <span>📝</span> ${subject.code} Notes ${hasSubjNotes ? '✨' : ''}
+                </button>
                 <div class="subject-progress-pill">
                   <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted);">Subject Mastery:</span>
                   <div class="subject-pct-num">${subjProgress.toFixed(1)}%</div>
                 </div>
               </div>
+            </div>
+
+            <!-- Subject-Level Study Notes Drawer -->
+            <div class="subject-notes-drawer ${isSubjNotesOpen ? 'open' : ''}" id="subj_notes_${subject.id}">
+              <div class="subject-notes-topbar">
+                <span class="subject-notes-title">
+                  <span>📖</span> ${subject.name} — Overall Strategy & Cram Notes:
+                </span>
+                <button class="btn-cute" style="padding: 0.2rem 0.55rem; font-size: 0.72rem;" onclick="toggleSubjectNotes('${subject.id}')">
+                  ✕ Close
+                </button>
+              </div>
+              <textarea class="subject-notes-textarea" placeholder="Jot down overall passing tactics, standard cheat-sheets, high-yield pointers, or review center advice for ${subject.code}..." oninput="saveSubjectNote('${subject.id}', this.value)">${subjNotesContent}</textarea>
             </div>
 
             <!-- List of Topic Accordion Cards -->
@@ -2802,10 +3097,10 @@
           const mastery = getTopicMastery(topic.id);
           const sources = getTopicSources(topic.id);
           const isOpen = APP_STATE.openAccordions.has(topic.id);
-          const notesText = APP_STATE.notes[topic.id] || "";
+          const topicNotesText = APP_STATE.notes[topic.id] || "";
+          const hasTopicNote = Boolean(topicNotesText.trim());
           const isMastered = mastery === 100;
 
-          // High Yield badge
           let yieldClass = "standard";
           let yieldIcon = "📑";
           if (topic.weight >= 14.0) {
@@ -2843,6 +3138,13 @@
                     <span>·</span>
                     <span>Difficult: ${topic.difficult || 0}</span>
                   </div>
+                </div>
+
+                <!-- Topic Notes Trigger Button -->
+                <div onclick="event.stopPropagation();">
+                  <button class="btn-topic-note-trigger ${hasTopicNote ? 'has-note' : ''}" onclick="focusTopicNote('${topic.id}', event)" title="Open topic study notes">
+                    <span>${hasTopicNote ? '📝' : '💬'}</span> ${hasTopicNote ? 'Notes (Saved)' : 'Add Note'}
+                  </button>
                 </div>
 
                 <!-- Review Center Tagging Checkboxes (CPAR, ReSA, REO) -->
@@ -2883,7 +3185,7 @@
               <div class="topic-details-body">
                 <div class="specs-header">
                   <div class="specs-title">
-                    <span>📋 Table of Specifications Competencies</span>
+                    <span>📋 Specific Competency Outcomes</span>
                   </div>
                   <div class="bloom-breakdown-strip">
                     <span class="bloom-tag" style="background: #EBF8EC; color: #2E6B3B;">Easy: ${topic.easy || 0} items</span>
@@ -2895,28 +3197,51 @@
                   </div>
                 </div>
 
-                <!-- Sub-topics Checklist -->
+                <!-- Sub-topics Checklist with Individual Outcome Notes -->
                 <div class="subtopics-list">
                   ${topic.subtopics.map((sub, sIdx) => {
                     const subKey = `${topic.id}_s${sIdx}`;
                     const isChecked = (APP_STATE.subtopics[topic.id] || []).includes(subKey);
+                    const outcomeNoteText = APP_STATE.outcomeNotes[subKey] || "";
+                    const hasOutcomeNote = Boolean(outcomeNoteText.trim());
+                    const isOutcomeNoteOpen = APP_STATE.openOutcomeNotes.has(subKey);
+
                     return `
-                      <div class="subtopic-item ${isChecked ? 'completed' : ''}" onclick="toggleSubtopicCheck('${topic.id}', '${subKey}', event)">
-                        <input type="checkbox" class="subtopic-checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleSubtopicCheck('${topic.id}', '${subKey}', event);">
-                        <div class="subtopic-text">
-                          <strong>${sub.code}</strong> ${sub.text}
+                      <div class="subtopic-container">
+                        <div class="subtopic-item ${isChecked ? 'completed' : ''}" onclick="toggleSubtopicCheck('${topic.id}', '${subKey}', event)">
+                          <input type="checkbox" class="subtopic-checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleSubtopicCheck('${topic.id}', '${subKey}', event);">
+                          <div class="subtopic-text">
+                            <strong>${sub.code}</strong> ${sub.text}
+                          </div>
+                          
+                          <!-- Outcome Note Toggle Button -->
+                          <div onclick="event.stopPropagation();">
+                            <button class="btn-outcome-note ${hasOutcomeNote ? 'has-note' : ''}" onclick="toggleOutcomeNote('${subKey}', event)" title="Add note/comment for ${sub.code}">
+                              <span>${hasOutcomeNote ? '📝' : '💬'}</span> ${hasOutcomeNote ? 'Note (1)' : 'Note'}
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Expandable Outcome Note Drawer -->
+                        <div class="outcome-note-drawer ${isOutcomeNoteOpen ? 'open' : ''}" id="outcome_drawer_${subKey}">
+                          <div class="outcome-note-label">
+                            <span>💡 Specific Comment for Outcome ${sub.code}:</span>
+                            <span style="font-size: 0.7rem; color: #A498AB;">Auto-saves on typing</span>
+                          </div>
+                          <textarea class="outcome-note-textarea" placeholder="Add specific tricky rules, textbook page references, journal entries, or mnemonics for this outcome..." oninput="saveOutcomeNote('${subKey}', this.value)">${outcomeNoteText}</textarea>
                         </div>
                       </div>
                     `;
                   }).join('')}
                 </div>
 
-                <!-- Pre-Week Quick Notes & Formula Trap -->
-                <div class="topic-notes-wrap">
+                <!-- Pre-Week Quick Notes & Formula Trap for Topic -->
+                <div class="topic-notes-wrap" id="topic_notes_wrap_${topic.id}">
                   <div class="notes-label">
-                    <span>💡 Pre-Week Quick Notes / Tricky Traps:</span>
+                    <span>💡 Topic Pre-Week Quick Notes & Mnemonics:</span>
+                    <span style="font-size: 0.72rem; color: #9A7730;">Auto-saved ✨</span>
                   </div>
-                  <textarea class="notes-textarea" placeholder="Write key formulas, journal entries, or mnemonics here (auto-saved)..." oninput="saveTopicNote('${topic.id}', this.value)">${notesText}</textarea>
+                  <textarea class="notes-textarea" id="topic_textarea_${topic.id}" placeholder="Write key formulas, journal entries, or tricky traps for ${topic.name} here..." oninput="saveTopicNote('${topic.id}', this.value)">${topicNotesText}</textarea>
                 </div>
 
               </div>
@@ -2949,6 +3274,7 @@
        USER EVENT HANDLERS & MUTATIONS
        ========================================================================== */
     function toggleAccordion(topicId, event) {
+      SOUND.tap();
       if (APP_STATE.openAccordions.has(topicId)) {
         APP_STATE.openAccordions.delete(topicId);
       } else {
@@ -2962,12 +3288,68 @@
       }
     }
 
+    function toggleSubjectNotes(subjectId) {
+      SOUND.tap();
+      if (APP_STATE.openSubjectNotes.has(subjectId)) {
+        APP_STATE.openSubjectNotes.delete(subjectId);
+      } else {
+        APP_STATE.openSubjectNotes.add(subjectId);
+      }
+      saveStateToStorage("open_subject_notes");
+      
+      const drawer = document.getElementById("subj_notes_" + subjectId);
+      if (drawer) {
+        drawer.classList.toggle("open");
+      }
+    }
+
+    function toggleOutcomeNote(subKey, event) {
+      SOUND.tap();
+      if (APP_STATE.openOutcomeNotes.has(subKey)) {
+        APP_STATE.openOutcomeNotes.delete(subKey);
+      } else {
+        APP_STATE.openOutcomeNotes.add(subKey);
+      }
+      
+      const drawer = document.getElementById("outcome_drawer_" + subKey);
+      if (drawer) {
+        drawer.classList.toggle("open");
+        if (drawer.classList.contains("open")) {
+          const area = drawer.querySelector("textarea");
+          if (area) area.focus();
+        }
+      }
+    }
+
+    function focusTopicNote(topicId, event) {
+      SOUND.tap();
+      if (!APP_STATE.openAccordions.has(topicId)) {
+        APP_STATE.openAccordions.add(topicId);
+        saveStateToStorage("open_accordions");
+        const card = document.getElementById("card_" + topicId);
+        if (card) card.classList.add("open");
+      }
+      
+      setTimeout(() => {
+        const textarea = document.getElementById("topic_textarea_" + topicId);
+        if (textarea) {
+          textarea.focus();
+          textarea.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 100);
+    }
+
     function changeTopicMastery(topicId, value) {
       const valNum = Number(value);
       APP_STATE.mastery[topicId] = valNum;
       saveStateToStorage("mastery");
 
-      // Update UI color on select element
+      if (valNum === 100) {
+        SOUND.chime();
+      } else if (valNum > 0) {
+        SOUND.pop();
+      }
+
       const card = document.getElementById("card_" + topicId);
       if (card) {
         const sel = card.querySelector(".mastery-select");
@@ -2984,6 +3366,7 @@
     }
 
     function toggleTopicSource(topicId, sourceName, isChecked) {
+      SOUND.pop();
       if (!APP_STATE.sources[topicId]) {
         APP_STATE.sources[topicId] = [];
       }
@@ -3002,6 +3385,7 @@
     }
 
     function toggleSubtopicCheck(topicId, subKey, event) {
+      SOUND.pop();
       if (!APP_STATE.subtopics[topicId]) {
         APP_STATE.subtopics[topicId] = [];
       }
@@ -3019,6 +3403,7 @@
     }
 
     function checkAllSubtopics(topicId) {
+      SOUND.chime();
       const subject = CPA_SUBJECTS.find(s => s.topics.some(t => t.id === topicId));
       if (!subject) return;
       const topic = subject.topics.find(t => t.id === topicId);
@@ -3030,17 +3415,43 @@
       showToast("All competencies marked complete! 🌸");
     }
 
-    let noteDebounceTimer = null;
+    // Debounced Note Savers
+    let topicNoteTimer = null;
     function saveTopicNote(topicId, text) {
       APP_STATE.notes[topicId] = text;
-      clearTimeout(noteDebounceTimer);
-      noteDebounceTimer = setTimeout(() => {
+      clearTimeout(topicNoteTimer);
+      topicNoteTimer = setTimeout(() => {
         saveStateToStorage("notes");
-        showToast("Notes saved! 📝");
+        SOUND.ding();
+        showToast("Topic notes saved! 📝");
+      }, 500);
+    }
+
+    let subjNoteTimer = null;
+    function saveSubjectNote(subjectId, text) {
+      APP_STATE.subjectNotes[subjectId] = text;
+      clearTimeout(subjNoteTimer);
+      subjNoteTimer = setTimeout(() => {
+        saveStateToStorage("notes_subject");
+        SOUND.ding();
+        renderSubjectGridCards();
+        showToast("Subject notes saved! 📖");
+      }, 500);
+    }
+
+    let outcomeNoteTimer = null;
+    function saveOutcomeNote(subKey, text) {
+      APP_STATE.outcomeNotes[subKey] = text;
+      clearTimeout(outcomeNoteTimer);
+      outcomeNoteTimer = setTimeout(() => {
+        saveStateToStorage("notes_outcome");
+        SOUND.ding();
+        showToast("Outcome note saved! 💡");
       }, 500);
     }
 
     function resetFilters() {
+      SOUND.pop();
       APP_STATE.searchQuery = "";
       APP_STATE.masteryFilter = "all";
       APP_STATE.sourceFilter = "all";
@@ -3062,6 +3473,25 @@
       renderSubjectGridCards();
       renderTopicsView();
 
+      // Sound Toggle Button
+      const soundBtn = document.getElementById("btnToggleSound");
+      const soundIcon = document.getElementById("soundIcon");
+      const soundText = document.getElementById("soundText");
+      
+      function updateSoundUI() {
+        soundIcon.textContent = SOUND.enabled ? "🔊" : "🔇";
+        soundText.textContent = SOUND.enabled ? "Sound: ON" : "Sound: OFF";
+      }
+      updateSoundUI();
+
+      soundBtn.addEventListener("click", () => {
+        SOUND.enabled = !SOUND.enabled;
+        saveStateToStorage("sound");
+        updateSoundUI();
+        if (SOUND.enabled) SOUND.chime();
+        showToast(SOUND.enabled ? "Sound enabled 🔊" : "Sound muted 🔇");
+      });
+
       // Search Handler
       const searchInput = document.getElementById("searchInput");
       let searchTimeout = null;
@@ -3076,6 +3506,7 @@
       // Sort Handler
       const sortSelect = document.getElementById("sortSelect");
       sortSelect.addEventListener("change", (e) => {
+        SOUND.tap();
         APP_STATE.sortBy = e.target.value;
         renderTopicsView();
       });
@@ -3083,6 +3514,7 @@
       // Mastery Filter Handler
       const masteryFilterSelect = document.getElementById("masteryFilterSelect");
       masteryFilterSelect.addEventListener("change", (e) => {
+        SOUND.tap();
         APP_STATE.masteryFilter = e.target.value;
         renderTopicsView();
       });
@@ -3090,6 +3522,7 @@
       // Source Filter Chips
       document.querySelectorAll(".chip-btn").forEach(btn => {
         btn.addEventListener("click", () => {
+          SOUND.pop();
           const filter = btn.getAttribute("data-source-filter");
           APP_STATE.sourceFilter = filter;
 
@@ -3105,6 +3538,7 @@
 
       // Expand All Button
       document.getElementById("btnExpandAll").addEventListener("click", () => {
+        SOUND.chime();
         CPA_SUBJECTS.forEach(s => {
           s.topics.forEach(t => APP_STATE.openAccordions.add(t.id));
         });
@@ -3115,21 +3549,25 @@
 
       // Collapse All Button
       document.getElementById("btnCollapseAll").addEventListener("click", () => {
+        SOUND.tap();
         APP_STATE.openAccordions.clear();
         saveStateToStorage("open_accordions");
         renderTopicsView();
         showToast("Collapsed all specifications! 📦");
       });
 
-      // Export JSON Backup
+      // Export JSON Backup (Comprehensive: includes subject, topic, and outcome notes)
       document.getElementById("btnExportData").addEventListener("click", () => {
+        SOUND.chime();
         const backupData = {
           exportDate: new Date().toISOString(),
-          version: "PRC-BOA-OCT-2022",
+          version: "PRC-BOA-OCT-2022-COMPREHENSIVE",
           mastery: APP_STATE.mastery,
           sources: APP_STATE.sources,
           subtopics: APP_STATE.subtopics,
-          notes: APP_STATE.notes
+          subjectNotes: APP_STATE.subjectNotes,
+          notes: APP_STATE.notes,
+          outcomeNotes: APP_STATE.outcomeNotes
         };
         const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
@@ -3138,29 +3576,73 @@
         a.download = `CPA_PreWeek_Review_Backup_${new Date().toISOString().slice(0, 10)}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        showToast("Backup exported successfully! 💾");
+        showToast("Complete backup exported! 💾");
       });
 
-      // Reset Modal
+      // Import Backup Button & File Input
+      const importFileInput = document.getElementById("importFileInput");
+      document.getElementById("btnImportData").addEventListener("click", () => {
+        SOUND.tap();
+        importFileInput.click();
+      });
+
+      importFileInput.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const data = JSON.parse(event.target.result);
+            if (data.mastery) APP_STATE.mastery = data.mastery;
+            if (data.sources) APP_STATE.sources = data.sources;
+            if (data.subtopics) APP_STATE.subtopics = data.subtopics;
+            if (data.subjectNotes) APP_STATE.subjectNotes = data.subjectNotes;
+            if (data.notes) APP_STATE.notes = data.notes;
+            if (data.outcomeNotes) APP_STATE.outcomeNotes = data.outcomeNotes;
+
+            saveStateToStorage();
+            updateProgressUI();
+            renderTopicsView();
+            SOUND.chime();
+            showToast("Backup restored successfully! 🌸");
+          } catch (err) {
+            alert("Error parsing backup file: " + err.message);
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      // Reset Modal Handlers
       const resetModal = document.getElementById("resetModal");
       document.getElementById("btnResetModal").addEventListener("click", () => {
+        SOUND.tap();
         resetModal.classList.add("open");
       });
       document.getElementById("btnCancelReset").addEventListener("click", () => {
+        SOUND.tap();
         resetModal.classList.remove("open");
       });
       document.getElementById("btnConfirmReset").addEventListener("click", () => {
+        SOUND.tap();
         APP_STATE.mastery = {};
         APP_STATE.sources = {};
         APP_STATE.subtopics = {};
+        APP_STATE.subjectNotes = {};
         APP_STATE.notes = {};
+        APP_STATE.outcomeNotes = {};
         APP_STATE.openAccordions.clear();
+        APP_STATE.openSubjectNotes.clear();
+        APP_STATE.openOutcomeNotes.clear();
         
         localStorage.removeItem(STORAGE_PREFIX + "mastery");
         localStorage.removeItem(STORAGE_PREFIX + "sources");
         localStorage.removeItem(STORAGE_PREFIX + "subtopics");
+        localStorage.removeItem(STORAGE_PREFIX + "notes_subject");
         localStorage.removeItem(STORAGE_PREFIX + "notes");
+        localStorage.removeItem(STORAGE_PREFIX + "notes_outcome");
         localStorage.removeItem(STORAGE_PREFIX + "open_accordions");
+        localStorage.removeItem(STORAGE_PREFIX + "open_subject_notes");
 
         resetModal.classList.remove("open");
         updateProgressUI();
