@@ -1,0 +1,3175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPA Pre-Week Review Tracker</title>
+  <meta name="description" content="A cutesy pre-week review tracker for the Philippine CPA Licensure Examination (LECPA) based on the official PRC BOA Table of Specifications (TOS)." />
+  <meta property="og:title" content="CPA Pre-Week Review Tracker" />
+  <meta property="og:description" content="A cutesy pre-week review tracker for the Philippine CPA Licensure Examination (LECPA) based on the official PRC BOA Table of Specifications (TOS)." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <!-- Google Fonts: Quicksand & Nunito for playful, clean aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       PASTEL CUTESY THEME DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-canvas: #FFF9FA;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: #FFF4F6;
+      --text-main: #3D3540;
+      --text-muted: #7E7285;
+      --text-light: #A498AB;
+      
+      /* Pastel Palette */
+      --blush-100: #FFEAEF;
+      --blush-200: #FFD4DD;
+      --blush-300: #FFA8B9;
+      --blush-500: #FF6B8B;
+      
+      --lilac-100: #F4ECFD;
+      --lilac-200: #E6D5FB;
+      --lilac-300: #CBB0F7;
+      --lilac-500: #9360E8;
+      
+      --matcha-100: #EBF8EC;
+      --matcha-200: #D2F2D5;
+      --matcha-300: #A2E2A8;
+      --matcha-500: #48A752;
+      
+      --peach-100: #FFF3EB;
+      --peach-200: #FFE2D1;
+      --peach-300: #FFC09F;
+      --peach-500: #F37D45;
+      
+      --sky-100: #EDF6FF;
+      --sky-200: #D8ECFF;
+      --sky-300: #A8D3FF;
+      --sky-500: #438EEC;
+      
+      --butter-100: #FFF9E6;
+      --butter-200: #FFF1C2;
+      --butter-300: #FFE180;
+      --butter-500: #F5A623;
+
+      /* Mastery Color Tokens */
+      --m-0: #ECE6ED;
+      --m-0-text: #695E6D;
+      --m-25: #FFE1E6;
+      --m-25-text: #D63353;
+      --m-50: #FFF0CE;
+      --m-50-text: #B46B00;
+      --m-75: #E8DDFA;
+      --m-75-text: #6F3BBE;
+      --m-100: #D8F5DB;
+      --m-100-text: #237A2C;
+      
+      --shadow-sm: 0 2px 8px rgba(197, 169, 182, 0.12);
+      --shadow-md: 0 8px 24px -4px rgba(197, 169, 182, 0.2);
+      --shadow-lg: 0 16px 36px -6px rgba(197, 169, 182, 0.25);
+      --border-soft: 1px solid rgba(230, 212, 222, 0.8);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-canvas);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 212, 221, 0.35) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(230, 213, 251, 0.35) 0%, transparent 35%),
+        radial-gradient(circle at 50% 85%, rgba(210, 242, 213, 0.3) 0%, transparent 45%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      font-weight: 700;
+    }
+
+    button, select, input {
+      font-family: inherit;
+    }
+
+    /* Floating Sparkles & Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(3deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .float-icon {
+      display: inline-block;
+      animation: float 4s ease-in-out infinite;
+    }
+    .float-icon-alt {
+      display: inline-block;
+      animation: float 5s ease-in-out infinite reverse;
+    }
+
+    /* Container */
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem;
+    }
+
+    /* Top Sticky Progress Header */
+    .sticky-header {
+      position: sticky;
+      top: 0.75rem;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--radius-lg);
+      border: var(--border-soft);
+      box-shadow: var(--shadow-md);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      transition: all 0.25s ease;
+    }
+
+    .header-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .brand-title h1 {
+      font-size: 1.45rem;
+      color: #372A3C;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .badge-cpa {
+      background: linear-gradient(135deg, #FFD4DD 0%, #E6D5FB 100%);
+      color: #5D2E7C;
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 6px rgba(147, 96, 232, 0.18);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-cute {
+      background: white;
+      border: var(--border-soft);
+      color: var(--text-main);
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-cute:hover {
+      background: var(--blush-100);
+      transform: translateY(-1.5px);
+      box-shadow: var(--shadow-md);
+      color: var(--blush-500);
+    }
+    .btn-cute:active {
+      transform: translateY(0);
+    }
+
+    /* Overall Progress Bar */
+    .master-progress-wrap {
+      margin-top: 1rem;
+    }
+    .master-progress-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.45rem;
+    }
+    .master-progress-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #4A3A52;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .master-progress-percent {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #9360E8;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .progress-track {
+      height: 14px;
+      background: #F1E8EE;
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FFA8B9 0%, #CBB0F7 50%, #A2E2A8 100%);
+      border-radius: 9999px;
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+    .progress-fill::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+    }
+
+    .progress-quote {
+      margin-top: 0.55rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Subject Quick Grid */
+    .subject-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .subject-pill-card {
+      background: var(--bg-card);
+      border: var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .subject-pill-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .subject-pill-card.active {
+      border: 2px solid var(--lilac-500);
+      background: #FCFAFF;
+      box-shadow: 0 8px 24px rgba(147, 96, 232, 0.22);
+    }
+    .subject-pill-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+    .subject-code {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #3C2E42;
+    }
+    .subject-weight-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 9999px;
+      background: var(--blush-100);
+      color: #D63353;
+    }
+    .subject-full-title {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+      height: 2rem;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .mini-progress-track {
+      height: 7px;
+      background: #F0E8ED;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .mini-progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      transition: width 0.5s ease;
+    }
+    .subject-stats-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.45rem;
+      font-size: 0.73rem;
+      color: var(--text-light);
+      font-weight: 700;
+    }
+
+    /* Controls Bar: Filters, Sort, Search */
+    .controls-panel {
+      background: var(--bg-card);
+      border: var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 1.15rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box-wrap {
+      flex: 1 1 240px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      background: #FAF5F8;
+      border: 1px solid rgba(220, 200, 215, 0.7);
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.85rem 0.55rem 2.2rem;
+      font-size: 0.86rem;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      background: white;
+      border-color: var(--lilac-500);
+      box-shadow: 0 0 0 3px rgba(147, 96, 232, 0.15);
+    }
+    .search-icon-inside {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .select-cute {
+      background: #FAF5F8;
+      border: 1px solid rgba(220, 200, 215, 0.7);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .select-cute:focus {
+      background: white;
+      border-color: var(--lilac-500);
+    }
+
+    /* Quick Filter Chips (CPAR, ReSA, REO) */
+    .source-filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .chip-btn {
+      padding: 0.35rem 0.7rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #F5EEF3;
+      color: var(--text-muted);
+    }
+    .chip-btn.active-all {
+      background: #4A3A52;
+      color: white;
+    }
+    .chip-btn.chip-cpar.active {
+      background: var(--blush-200);
+      color: #BF1638;
+      border-color: var(--blush-300);
+    }
+    .chip-btn.chip-resa.active {
+      background: var(--butter-200);
+      color: #9A5A00;
+      border-color: var(--butter-300);
+    }
+    .chip-btn.chip-reo.active {
+      background: var(--sky-200);
+      color: #175CB8;
+      border-color: var(--sky-300);
+    }
+
+    /* Subject Section Header */
+    .subject-section {
+      margin-bottom: 2.25rem;
+    }
+    .subject-header-banner {
+      background: linear-gradient(135deg, rgba(255, 234, 239, 0.8) 0%, rgba(244, 236, 253, 0.8) 50%, rgba(235, 248, 236, 0.8) 100%);
+      border: var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.6rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .subject-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .subject-badge-pill {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      background: white;
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      color: #372A3C;
+    }
+    .subject-title-h2 {
+      font-size: 1.2rem;
+      color: #2F2135;
+      margin: 0;
+    }
+    .subject-title-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .subject-header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .subject-progress-pill {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.9rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .subject-pct-num {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--lilac-500);
+    }
+
+    /* Accordion Topic Cards */
+    .topics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .topic-card {
+      background: var(--bg-card);
+      border: var(--border-soft);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+    .topic-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(203, 176, 247, 0.7);
+    }
+    .topic-card.mastered {
+      border-color: rgba(162, 226, 168, 0.8);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FAFEFA 100%);
+    }
+
+    /* Topic Summary Row */
+    .topic-summary-row {
+      padding: 1rem 1.25rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto auto;
+      gap: 1rem;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    @media (max-width: 900px) {
+      .topic-summary-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+    }
+
+    .topic-rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      background: #F7EFF5;
+      color: #6C5568;
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+    .topic-rank-badge.high-yield {
+      background: linear-gradient(135deg, #FFE1E6 0%, #FFCAD4 100%);
+      color: #C71B42;
+      box-shadow: 0 2px 6px rgba(255, 107, 139, 0.2);
+    }
+
+    .topic-info-col {
+      min-width: 0;
+    }
+    .topic-title-flex {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.25rem;
+    }
+    .topic-title-text {
+      font-weight: 800;
+      font-size: 0.96rem;
+      color: #332338;
+      line-height: 1.35;
+    }
+    .yield-tag {
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 0.15rem 0.55rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .yield-tag.high {
+      background: var(--blush-100);
+      color: #D63353;
+      border: 1px solid var(--blush-200);
+    }
+    .yield-tag.medium {
+      background: var(--lilac-100);
+      color: #7A42D1;
+      border: 1px solid var(--lilac-200);
+    }
+    .yield-tag.standard {
+      background: #F3EDF5;
+      color: #6A5B70;
+      border: 1px solid #E6DDE9;
+    }
+
+    .topic-meta-line {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Sources Checklist (CPAR, ReSA, REO) */
+    .source-tags-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .source-checkbox-label {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.55rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      transition: all 0.18s;
+      user-select: none;
+      border: 1px dashed rgba(200, 180, 195, 0.6);
+      color: var(--text-light);
+      background: transparent;
+    }
+    .source-checkbox-label:hover {
+      background: #FFF5F7;
+      border-color: var(--blush-300);
+      color: var(--text-main);
+    }
+    .source-checkbox-label input {
+      display: none;
+    }
+    .source-checkbox-label.checked-cpar {
+      background: #FFE6EB;
+      color: #C71B42;
+      border: 1px solid #FFBAC7;
+      box-shadow: 0 1px 4px rgba(255, 107, 139, 0.15);
+    }
+    .source-checkbox-label.checked-resa {
+      background: #FFF3CE;
+      color: #9E5D00;
+      border: 1px solid #FFE494;
+      box-shadow: 0 1px 4px rgba(245, 166, 35, 0.15);
+    }
+    .source-checkbox-label.checked-reo {
+      background: #E0EFFF;
+      color: #125DBE;
+      border: 1px solid #B4D7FE;
+      box-shadow: 0 1px 4px rgba(67, 142, 236, 0.15);
+    }
+
+    /* Mastery Select Dropdown */
+    .mastery-select-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .mastery-select {
+      appearance: none;
+      -webkit-appearance: none;
+      padding: 0.45rem 1.9rem 0.45rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      outline: none;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+      background-size: 10px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236A5B70' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    }
+    .mastery-select[data-val="0"] { background-color: var(--m-0); color: var(--m-0-text); }
+    .mastery-select[data-val="25"] { background-color: var(--m-25); color: var(--m-25-text); }
+    .mastery-select[data-val="50"] { background-color: var(--m-50); color: var(--m-50-text); }
+    .mastery-select[data-val="75"] { background-color: var(--m-75); color: var(--m-75-text); }
+    .mastery-select[data-val="100"] { background-color: var(--m-100); color: var(--m-100-text); }
+
+    /* Expand / Collapse Chevron */
+    .expand-chevron-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      background: #FAF2F6;
+      color: var(--text-muted);
+      transition: transform 0.25s ease, background 0.2s;
+    }
+    .topic-card.open .expand-chevron-cell {
+      transform: rotate(180deg);
+      background: var(--lilac-100);
+      color: var(--lilac-500);
+    }
+
+    /* Accordion Details Body */
+    .topic-details-body {
+      display: none;
+      padding: 0 1.25rem 1.25rem 1.25rem;
+      border-top: 1px dashed rgba(230, 212, 222, 0.8);
+      background: #FFFBFC;
+      animation: slideDown 0.2s ease-out forwards;
+    }
+    .topic-card.open .topic-details-body {
+      display: block;
+    }
+
+    .specs-header {
+      padding: 0.85rem 0 0.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .specs-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #6E497A;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .bloom-breakdown-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .bloom-tag {
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      background: white;
+      border: 1px solid rgba(220, 205, 215, 0.8);
+      color: var(--text-muted);
+    }
+
+    /* Sub-topics Competency List */
+    .subtopics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-top: 0.5rem;
+    }
+    .subtopic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.6rem 0.75rem;
+      background: white;
+      border: 1px solid rgba(235, 220, 228, 0.7);
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+    }
+    .subtopic-item:hover {
+      background: #FFF7F9;
+    }
+    .subtopic-item.completed {
+      background: #F4FAF5;
+      border-color: #D2EED6;
+    }
+    .subtopic-checkbox {
+      margin-top: 0.2rem;
+      cursor: pointer;
+      accent-color: var(--matcha-500);
+      width: 16px;
+      height: 16px;
+    }
+    .subtopic-text {
+      font-size: 0.82rem;
+      color: #3C3042;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .subtopic-item.completed .subtopic-text {
+      color: #5D7962;
+      text-decoration: line-through;
+    }
+    .subtopic-items-count {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    /* Personal Topic Notes Box */
+    .topic-notes-wrap {
+      margin-top: 1rem;
+      background: #FFF9E6;
+      border: 1px dashed #FFE180;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+    }
+    .notes-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #926400;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .notes-textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      resize: vertical;
+      min-height: 48px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      color: #4D3B10;
+      outline: none;
+      line-height: 1.4;
+    }
+    .notes-textarea::placeholder {
+      color: #BBA062;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(60, 45, 65, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-box {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: var(--border-soft);
+      box-shadow: var(--shadow-lg);
+      max-width: 500px;
+      width: 100%;
+      padding: 1.5rem;
+      animation: slideDown 0.25s ease-out;
+    }
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #372A3C;
+      margin-bottom: 0.5rem;
+    }
+    .modal-body {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    /* Floating Toast Notification */
+    .toast-pill {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #372A3C;
+      color: white;
+      padding: 0.7rem 1.2rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+    }
+    .toast-pill.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: white;
+      border-radius: var(--radius-lg);
+      border: var(--border-soft);
+      color: var(--text-muted);
+    }
+    .empty-state-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Print friendliness */
+    @media print {
+      .sticky-header, .controls-panel, .btn-cute {
+        display: none !important;
+      }
+      .topic-details-body {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- STICKY TOP PRE-WEEK MASTER PROGRESS BAR -->
+    <header class="sticky-header">
+      <div class="header-top-row">
+        <div class="brand-title">
+          <span class="float-icon" style="font-size: 1.6rem;">🌸</span>
+          <div>
+            <h1>LECPA Pre-Week Tracker</h1>
+            <div class="brand-sub">PRC Board of Accountancy TOS · High-Yield Pre-Week Review</div>
+          </div>
+          <span class="badge-cpa">OCT 2022 TOS</span>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn-cute" id="btnExpandAll" title="Expand all topic specifications">
+            <span>✨</span> Expand All
+          </button>
+          <button class="btn-cute" id="btnCollapseAll" title="Collapse all specifications">
+            <span>📦</span> Collapse
+          </button>
+          <button class="btn-cute" id="btnExportData" title="Export study data backup">
+            <span>💾</span> Backup
+          </button>
+          <button class="btn-cute" id="btnResetModal" title="Reset tracking data" style="color: #D63353;">
+            <span>🔄</span> Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Master Overall Progress Bar -->
+      <div class="master-progress-wrap">
+        <div class="master-progress-labels">
+          <div class="master-progress-title">
+            <span>🎓 Overall Exam Readiness:</span>
+            <span id="masterStatusBadge" style="font-size: 0.8rem; font-weight: 700; color: #7E7285;">(Calculating...)</span>
+          </div>
+          <div class="master-progress-percent" id="masterPercentText">0.0%</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="masterProgressBar" style="width: 0%;"></div>
+        </div>
+        <div class="progress-quote">
+          <span id="motivationalQuote">"Believe in your preparation, future CPA! ☕✨"</span>
+          <span id="summaryStatsText">0 / 80 Topics Mastered · 0 Items Ready</span>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- SIX BOARD SUBJECTS SELECTOR CARDS -->
+    <section class="subject-cards-grid" id="subjectGridCards">
+      <!-- Injected by JavaScript -->
+    </section>
+
+
+    <!-- FILTER, SEARCH & SORT CONTROLS -->
+    <section class="controls-panel">
+      <!-- Search Input -->
+      <div class="search-box-wrap">
+        <span class="search-icon-inside">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search topic, law, PFRS (e.g. BMBE, CVP, FRIA)..." />
+      </div>
+
+      <!-- High-Yield Dynamic Sort -->
+      <div class="filter-group">
+        <label class="filter-label" for="sortSelect">Order By:</label>
+        <select id="sortSelect" class="select-cute">
+          <option value="yield_desc">🔥 High-Yield First (Weight % ↓)</option>
+          <option value="yield_asc">🌱 Low-Yield First (Weight % ↑)</option>
+          <option value="tos_order">📑 Original Syllabus Order</option>
+          <option value="mastery_asc">🎯 Needs Review First (Mastery ↑)</option>
+          <option value="mastery_desc">🏆 Mastered First (Mastery ↓)</option>
+        </select>
+      </div>
+
+      <!-- Mastery Level Filter -->
+      <div class="filter-group">
+        <label class="filter-label" for="masteryFilterSelect">Status:</label>
+        <select id="masteryFilterSelect" class="select-cute">
+          <option value="all">All Mastery Levels</option>
+          <option value="not_started">0% - Not Started</option>
+          <option value="in_progress">25% - 75% In Progress</option>
+          <option value="mastered">100% - Mastered</option>
+          <option value="unmastered">Incomplete (< 100%)</option>
+        </select>
+      </div>
+
+      <!-- Source Chips Filter (CPAR, ReSA, REO) -->
+      <div class="filter-group">
+        <span class="filter-label">Source:</span>
+        <div class="source-filter-chips">
+          <button class="chip-btn active-all" data-source-filter="all">All</button>
+          <button class="chip-btn chip-cpar" data-source-filter="CPAR">CPAR</button>
+          <button class="chip-btn chip-resa" data-source-filter="ReSA">ReSA</button>
+          <button class="chip-btn chip-reo" data-source-filter="REO">REO</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- MAIN TOPICS VIEW CONTAINER -->
+    <main id="topicsMainContainer">
+      <!-- Rendered dynamically per subject with accordions, mastery dropdowns, and source tags -->
+    </main>
+
+  </div>
+
+
+  <!-- RESET CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="resetModal">
+    <div class="modal-box">
+      <div class="modal-title">Reset Pre-Week Tracker? 🌸</div>
+      <div class="modal-body">
+        This will clear all saved mastery levels, source tags, sub-topic checks, and personal notes stored in your browser's localStorage. This action cannot be undone!
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cute" id="btnCancelReset">Cancel</button>
+        <button class="btn-cute" id="btnConfirmReset" style="background: #FFE1E6; color: #C71B42; border-color: #FFCAD4;">Yes, Reset All</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-pill" id="toastPill">
+    <span>✨</span>
+    <span id="toastMessage">Changes saved!</span>
+  </div>
+
+
+  <!-- INLINE DATA STRUCTURE & FULL APPLICATION LOGIC -->
+  <script>
+    /* ==========================================================================
+       OFFICIAL LECPA TABLE OF SPECIFICATIONS (PRC BOA OCT 2022) DATA STRUCTURE
+       Six Board Exam Subjects: FAR, AFAR, MS, AUD, RFBT, TAX
+       ========================================================================== */
+    const CPA_SUBJECTS = [
+      {
+        id: "FAR",
+        code: "FAR",
+        name: "Financial Accounting and Reporting",
+        totalItems: 70,
+        examWeight: "16.67%",
+        color: "#FF8E9E",
+        bgLight: "#FFF0F2",
+        icon: "📊",
+        description: "Conceptual Framework, PFRS/PAS assets, liabilities, equity, leases, taxes, interim, and SME frameworks.",
+        topics: [
+          {
+            id: "FAR_D",
+            tosIndex: 4,
+            code: "D",
+            name: "Non-financial Assets",
+            weight: 20.00,
+            items: 14,
+            easy: 2,
+            moderate: 6,
+            difficult: 6,
+            subtopics: [
+              { code: "1.1", text: "Inventories: Initial cost recognition, cost flow assumptions (FIFO, Weighted Avg), and subsequent measurement at Lower of Cost or Net Realizable Value (LCNRV)." },
+              { code: "1.2", text: "Inventory Estimation: Gross profit method and retail inventory method under FIFO and average approaches." },
+              { code: "2.1", text: "Property, Plant and Equipment (PPE): Capitalizable cost at initial recognition and borrowing costs (PAS 23)." },
+              { code: "2.2", text: "PPE Subsequent Expenditures & Measurement: Cost model, depreciation methods, changes in useful life/residual value, revaluation model, and impairment of assets (PAS 16 / PAS 36)." },
+              { code: "2.3", text: "PPE Derecognition: Revaluation surplus, impairment loss, and accounting for retirements and disposals." },
+              { code: "3.1", text: "Investment Property (PAS 40): Initial capitalizable cost, cost model vs. fair value model, derecognition, and transfers/reclassification." },
+              { code: "4.1", text: "Intangible Assets (PAS 38): Initial cost, R&D costs, finite useful lives (amortization) vs indefinite lives, impairment testing, and derecognition." },
+              { code: "5.1", text: "Biological Assets (PAS 41): Distinction from bearer plants and agricultural produce, initial recognition, and measurement at fair value less cost to sell." },
+              { code: "6.1", text: "Non-current Assets Held for Sale & Discontinued Operations (PFRS 5): Classification criteria, measurement at lower of carrying amount and FV less cost to sell, reclassification and derecognition." },
+              { code: "7.1", text: "Prepaid Expenses and Other Non-financial Assets: Nature, recognition, and measurement." }
+            ]
+          },
+          {
+            id: "FAR_C",
+            tosIndex: 3,
+            code: "C",
+            name: "Cash and other Financial Assets",
+            weight: 14.29,
+            items: 10,
+            easy: 2,
+            moderate: 5,
+            difficult: 3,
+            subtopics: [
+              { code: "1.1", text: "Cash & Cash Equivalents: Nature, composition, compensating balances, bank overdrafts, and restrictions." },
+              { code: "1.2", text: "Bank Reconciliation: Book to bank, bank to book, adjusted balance method, and two-date proof of cash." },
+              { code: "1.3", text: "Petty Cash Fund: Imprest fund system vs fluctuating system, replenishment, and shortages/overages." },
+              { code: "2.1", text: "Other Financial Assets (PFRS 9): Recognition principles for FVPL, FVOCI (with and without recycling), and Amortized Cost." },
+              { code: "2.2", text: "Trade & Other Receivables: Initial measurement, allowance for doubtful accounts, factoring, pledging, assignment, and discounting of promissory notes." },
+              { code: "2.3", text: "Financial Assets at Amortized Cost: Investment in bonds, effective interest method, premium and discount amortization." },
+              { code: "2.4", text: "Investment in Associates & Joint Ventures (PAS 28): Significant influence, equity method of accounting, and impairment." }
+            ]
+          },
+          {
+            id: "FAR_G",
+            tosIndex: 7,
+            code: "G",
+            name: "Shareholders' Equity",
+            weight: 14.29,
+            items: 10,
+            easy: 2,
+            moderate: 5,
+            difficult: 3,
+            subtopics: [
+              { code: "1.1", text: "Share Capital Transactions: Initial issuance, par vs no-par, share issue costs, and subscription contracts." },
+              { code: "1.2", text: "Treasury Share Transactions: Cost method of accounting, reissuance, and legal restrictions on retained earnings." },
+              { code: "1.3", text: "Retirement and Conversion of Share Capital." },
+              { code: "2.1", text: "Retained Earnings: Correction of prior period errors, retrospective restatement, and changes in accounting policies (PAS 8)." },
+              { code: "2.2", text: "Dividends: Declaration and payment of cash dividends, property dividends, scrip dividends, and share dividends." },
+              { code: "2.3", text: "Quasi-reorganization and recapitalization principles." },
+              { code: "3.1", text: "Cumulative Other Comprehensive Income (OCI): Components, reclassification adjustments, and reserves." },
+              { code: "4.1", text: "Book Value per Share: Computation for ordinary shares and preference shares with dividend arrears and liquidation premium." }
+            ]
+          },
+          {
+            id: "FAR_H",
+            tosIndex: 8,
+            code: "H",
+            name: "Other Comprehensive Topics (Leases, Taxes, SBP, Benefits)",
+            weight: 14.29,
+            items: 10,
+            easy: 2,
+            moderate: 3,
+            difficult: 5,
+            subtopics: [
+              { code: "1.1", text: "Share-based Payment (PFRS 2): Equity-settled transactions, cash-settled (SARs), and transactions with cash alternatives." },
+              { code: "2.1", text: "Leases (PFRS 16) - Lessee: Initial recognition of right-of-use (ROU) asset and lease liability, subsequent measurement, and modifications." },
+              { code: "2.2", text: "Leases - Lessee Presentation & Exemptions: Short-term leases and low-value asset practical expedients." },
+              { code: "2.3", text: "Leases - Lessor: Direct finance lease, manufacturer/dealer lease, and operating lease." },
+              { code: "2.4", text: "Sale and Leaseback Transactions: Determining transfer of asset as a sale under PFRS 15." },
+              { code: "3.1", text: "Income Tax (PAS 12): Accounting profit vs taxable profit, taxable vs deductible temporary differences, book vs tax basis." },
+              { code: "3.2", text: "Deferred Tax: Current tax computation, deferred tax liability (DTL), deferred tax asset (DTA), and FS presentation." },
+              { code: "4.1", text: "Employee Benefits (PAS 19): Short-term benefits, defined contribution plans, and defined benefit plans (projected unit credit, remeasurements in OCI)." },
+              { code: "5.1", text: "Interim Financial Reporting (PAS 34): Components of interim reports, integral vs discrete approach, and recognition principles." },
+              { code: "6.1", text: "Operating Segments (PFRS 8): Identifying reportable segments, 10% quantitative thresholds, and 75% entity revenue benchmark." }
+            ]
+          },
+          {
+            id: "FAR_B",
+            tosIndex: 2,
+            code: "B",
+            name: "Conceptual Framework, Accounting Process & Presentation of FS",
+            weight: 12.86,
+            items: 9,
+            easy: 3,
+            moderate: 5,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "Conceptual Framework: Objective of financial reporting, qualitative characteristics of useful financial information (relevance, faithful representation, enhancing characteristics)." },
+              { code: "1.2", text: "Elements, Recognition & Measurement: Recognition criteria, derecognition, historical cost vs current value, and capital maintenance concepts." },
+              { code: "2.1", text: "Accounting Process: Accounting cycle, journals, ledgers, worksheet, adjusting entries, closing entries, and reversing entries." },
+              { code: "3.1", text: "Statement of Financial Position (PAS 1): Classified balance sheet, current vs non-current distinction." },
+              { code: "3.2", text: "Statement of Comprehensive Income: Nature vs function of expense, continuing operations, discontinued operations, and Statement of Changes in Equity." },
+              { code: "3.3", text: "Statement of Cash Flows (PAS 7): Operating activities (direct & indirect methods), investing activities, and financing activities." },
+              { code: "3.4", text: "Notes to the Financial Statements: Structure, accounting policies, and note disclosures." },
+              { code: "3.5", text: "Earnings Per Share (PAS 33): Basic EPS and diluted EPS computation and disclosure." }
+            ]
+          },
+          {
+            id: "FAR_I",
+            tosIndex: 9,
+            code: "I",
+            name: "Other Reporting Frameworks (SMEs & Microenterprises)",
+            weight: 7.14,
+            items: 5,
+            easy: 2,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "PFRS for SMEs: Applicability, qualifying thresholds, and salient differences from full PFRS (goodwill amortization, borrowing costs expense, simplified financial instruments)." },
+              { code: "1.2", text: "PFRS for Small Entities & Microenterprises: Applicability, criteria, and simplified accounting treatments." }
+            ]
+          },
+          {
+            id: "FAR_A",
+            tosIndex: 1,
+            code: "A",
+            name: "Standard-Setting Bodies & Regulation of Accountancy Profession",
+            weight: 5.71,
+            items: 4,
+            easy: 4,
+            moderate: 0,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Standard-Setting Bodies: History, development, and functions of IASB, IFRIC, SIC, FRSC, and PIC." },
+              { code: "2.1", text: "Regulation of Accountancy (RA 9298): Professional Regulatory Board of Accountancy (BOA), Accredited Professional Organization (PICPA), and sectors of accountancy practice." }
+            ]
+          },
+          {
+            id: "FAR_E",
+            tosIndex: 5,
+            code: "E",
+            name: "Financial Liabilities",
+            weight: 5.71,
+            items: 4,
+            easy: 2,
+            moderate: 2,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Classification & Measurement: Initial recognition of financial liabilities at amortized cost vs FVPL." },
+              { code: "1.2", text: "Debt Issue Costs: Accounting and transaction costs reduction." },
+              { code: "1.3", text: "Effective Interest Method: Premium/discount amortization on bonds payable." },
+              { code: "1.4", text: "Troubled Debt Restructuring: Asset swap, equity swap, and substantial modification of debt terms." }
+            ]
+          },
+          {
+            id: "FAR_F",
+            tosIndex: 6,
+            code: "F",
+            name: "Non-financial Liabilities, Provisions and Contingencies",
+            weight: 5.71,
+            items: 4,
+            easy: 2,
+            moderate: 2,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Customer Loyalty Programs: Accounting for customer award credits and unearned revenue." },
+              { code: "1.2", text: "Warranties and Product Guarantees: Expense approach vs sales warranty approach." },
+              { code: "1.3", text: "Unearned Revenues: Contracts, gift certificates, and subscriptions." },
+              { code: "1.4", text: "Provisions & Contingencies (PAS 37): Recognition criteria, best estimate measurement, contingent liabilities, and contingent assets." }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "AFAR",
+        code: "AFAR",
+        name: "Advanced Financial Accounting and Reporting",
+        totalItems: 70,
+        examWeight: "16.67%",
+        color: "#9360E8",
+        bgLight: "#F5EFFE",
+        icon: "🏢",
+        description: "Partnerships, PFRS 15, Cost Accounting, Business Combinations, Consolidations, Government, and NPO.",
+        topics: [
+          {
+            id: "AFAR_1",
+            tosIndex: 1,
+            code: "1.0",
+            name: "Partnership Accounting",
+            weight: 14.29,
+            items: 10,
+            easy: 3,
+            moderate: 4,
+            difficult: 3,
+            subtopics: [
+              { code: "1.1", text: "Nature, Scope, and Objectives of Partnership Accounting (5.71%, 3 items)." },
+              { code: "1.2", text: "Formation of Partnership: Capital contribution valuation and bonus method (2.86%, 2 items)." },
+              { code: "1.3", text: "Operations, Dissolutions & Changes in Ownership: Division of profit/loss, admission of partner by purchase or investment, retirement/withdrawal/death, and incorporation (2.86%, 3 items)." },
+              { code: "1.4", text: "Liquidation of Partnership: Lump-sum method and Installment method (schedule of safe payments & cash priority program) (2.86%, 2 items)." }
+            ]
+          },
+          {
+            id: "AFAR_4",
+            tosIndex: 4,
+            code: "4.0",
+            name: "Revenue Recognition (PFRS 15)",
+            weight: 14.29,
+            items: 10,
+            easy: 2,
+            moderate: 5,
+            difficult: 3,
+            subtopics: [
+              { code: "4.1", text: "Five-step Model Framework: Contract identification, performance obligations, price, allocation, and recognition (1.43%)." },
+              { code: "4.2", text: "Specific Revenue Streams: Right of return, principal-agent, upfront fees, licenses, repurchases, and gift cards (1.43%)." },
+              { code: "4.3", text: "Long-term Construction Contracts: Percentage of Completion (over time), Input method (cost-to-cost), Output method, Contract Assets / Liabilities, and loss recognition (7.14%, 5 items)." },
+              { code: "4.4", text: "Franchise Operations: Initial franchise fees and continuing franchise fees from franchisor's perspective (1.43%)." },
+              { code: "4.5", text: "Consignment Sales: Journal entries, remitted collections, ending inventory, and profit/loss (1.43%)." },
+              { code: "4.6", text: "Financial Statement Presentation of Contract Balances (2.86%, 2 items)." }
+            ]
+          },
+          {
+            id: "AFAR_13",
+            tosIndex: 13,
+            code: "13.0",
+            name: "Cost Accounting",
+            weight: 14.29,
+            items: 10,
+            easy: 3,
+            moderate: 4,
+            difficult: 3,
+            subtopics: [
+              { code: "13.1", text: "Cost Accumulation Systems: Actual costing, normal costing, and standard costing systems (1.42%)." },
+              { code: "13.2", text: "Job Order Costing: COGM/COGS, spoiled units, rework costs, scrap, DM, DL, and applied overhead (2.86%, 2 items)." },
+              { code: "13.3", text: "Process Costing System: Cost of Production Report under FIFO and Weighted Average, EUP, and normal vs abnormal lost units (2.86%, 2 items)." },
+              { code: "13.4", text: "Backflush / JIT Costing: Trigger points and backflushing costs to finished goods (1.43%)." },
+              { code: "13.5", text: "Activity-Based Costing (ABC): Traditional vs ABC overhead allocation, cost pools, and drivers (1.43%)." },
+              { code: "13.6", text: "Joint and By-Products: Sales value at split-off, NRV, weighted average, and by-product treatment (2.86%, 2 items)." },
+              { code: "13.7", text: "Service Department Cost Allocation: Direct, Step-down, and Reciprocal (algebraic) methods (1.43%)." }
+            ]
+          },
+          {
+            id: "AFAR_6",
+            tosIndex: 6,
+            code: "6.0",
+            name: "Business Combinations (PFRS 3)",
+            weight: 8.57,
+            items: 6,
+            easy: 1,
+            moderate: 3,
+            difficult: 2,
+            subtopics: [
+              { code: "6.1", text: "Nature, scope, and characteristics of business combinations (1.43%)." },
+              { code: "6.2", text: "Acquisition Method: Consideration transferred, acquired net assets fair values, non-controlling interest valuation, Goodwill or Gain on Bargain Purchase calculation, and entries (5.71%, 4 items)." },
+              { code: "6.3", text: "Financial statement presentation and disclosures (1.43%)." }
+            ]
+          },
+          {
+            id: "AFAR_8",
+            tosIndex: 8,
+            code: "8.0",
+            name: "Consolidated Financial Statements (PFRS 10)",
+            weight: 7.14,
+            items: 5,
+            easy: 2,
+            moderate: 1,
+            difficult: 2,
+            subtopics: [
+              { code: "8.1", text: "Consolidation Procedures: Net income, dividend amortization, goodwill impairment, and intercompany inventory/land/depreciable asset eliminations (2.86%, 2 items)." },
+              { code: "8.2", text: "Allocation of Consolidated Balances: Consolidated net income and equity attributable to parent and NCI (4.28%, 3 items)." }
+            ]
+          },
+          {
+            id: "AFAR_2",
+            tosIndex: 2,
+            code: "2.0",
+            name: "Corporate Liquidation",
+            weight: 5.71,
+            items: 4,
+            easy: 1,
+            moderate: 1,
+            difficult: 2,
+            subtopics: [
+              { code: "2.1", text: "Statement of Affairs & Deficiency: Free assets, fully/partially secured liabilities, and unsecured priority claims (4.29%, 3 items)." },
+              { code: "2.2", text: "Statement of Realization and Liquidation: Trustee accounting and transactions (4.29%)." },
+              { code: "2.3", text: "Order of Priority of Claimants to company assets in corporate liquidation (1.42%, 1 item)." }
+            ]
+          },
+          {
+            id: "AFAR_3",
+            tosIndex: 3,
+            code: "3.0",
+            name: "Joint Arrangements (PFRS 11)",
+            weight: 5.71,
+            items: 4,
+            easy: 1,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "3.1", text: "Joint Operation: Nature, distinction from business combinations, and accounting for operator transactions (2.87%, 2 items)." },
+              { code: "3.2", text: "Joint Venture: Nature and application of equity method (1.42%)." },
+              { code: "3.3", text: "Accounting for SMEs Joint Arrangements (1.42%)." }
+            ]
+          },
+          {
+            id: "AFAR_5",
+            tosIndex: 5,
+            code: "5.0",
+            name: "Home Office, Branch & Agency Transactions",
+            weight: 5.71,
+            items: 4,
+            easy: 1,
+            moderate: 1,
+            difficult: 2,
+            subtopics: [
+              { code: "5.1", text: "General and special procedures: Inter-branch transfers of cash and merchandise at billed price (1.42%)." },
+              { code: "5.2", text: "Reconciliation of reciprocal accounts (Investment in Branch vs Home Office) (1.43%)." },
+              { code: "5.3", text: "Preparation of individual and combined financial statements with inventory allowance elimination (1.43%)." },
+              { code: "5.4", text: "Agency Transactions: Imprest fund and financial impact (1.43%)." }
+            ]
+          },
+          {
+            id: "AFAR_7",
+            tosIndex: 7,
+            code: "7.0",
+            name: "Separate Financial Statements (PAS 27)",
+            weight: 5.71,
+            items: 4,
+            easy: 1,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "7.1", text: "Measurement of Investment in Subsidiaries, Associates, and Joint Ventures: At Cost, PAS 39 / PFRS 9, and Equity Method (4.28%, 3 items)." },
+              { code: "7.2", text: "Treatment of dividends received and related disclosures (1.43%)." }
+            ]
+          },
+          {
+            id: "AFAR_9",
+            tosIndex: 9,
+            code: "9.0",
+            name: "Derivatives and Hedging Accounting (PFRS 9)",
+            weight: 5.71,
+            items: 4,
+            easy: 1,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "9.1", text: "Derivative Recognition & Valuation: Forwards, futures, options, and swaps (2.86%, 2 items)." },
+              { code: "9.2", text: "Hedge Accounting: Undesignated hedges (import/export), Fair value hedges, Cash flow hedges, and Net investment hedges (2.85%, 2 items)." }
+            ]
+          },
+          {
+            id: "AFAR_10",
+            tosIndex: 10,
+            code: "10.0",
+            name: "Foreign Currency Translation (PAS 21 / PAS 29)",
+            weight: 4.29,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "10.1", text: "Closing / Current Rate Method: Translation into presentation currency (OCI translation reserve) (1.43%)." },
+              { code: "10.2", text: "Remeasurement to Functional Currency (Temporal Method): P&L translation gain/loss (1.43%)." },
+              { code: "10.3", text: "Hyperinflationary Economy Financial Statement Restatement (PAS 29) (1.43%)." }
+            ]
+          },
+          {
+            id: "AFAR_11",
+            tosIndex: 11,
+            code: "11.0",
+            name: "Not-for-Profit Organizations (NPO)",
+            weight: 2.86,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "11.1", text: "VWHO, Hospitals, Colleges/Universities, and Associations: With and without donor restrictions net assets, contributions, pledges, and endowments (2.86%, 2 items)." }
+            ]
+          },
+          {
+            id: "AFAR_12",
+            tosIndex: 12,
+            code: "12.0",
+            name: "Government Accounting - General Fund",
+            weight: 2.86,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "12.1", text: "Government Accounting Manual (GAM): Budget cycle (appropriation, allotment, obligation, disbursement), journal entries for National Government Agencies, and NCA (2.86%, 2 items)." }
+            ]
+          },
+          {
+            id: "AFAR_14",
+            tosIndex: 14,
+            code: "14.0",
+            name: "Other Special Topics (PFRS 17 & IFRIC 12)",
+            weight: 2.86,
+            items: 2,
+            easy: 2,
+            moderate: 0,
+            difficult: 0,
+            subtopics: [
+              { code: "14.1", text: "Insurance Contracts (PFRS 17): Identification, measurement, and reinsurance contracts (1.43%)." },
+              { code: "14.2", text: "Build, Operate and Transfer (IFRIC 12): Financial asset and intangible asset models (1.43%)." }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "MS",
+        code: "MS",
+        name: "Management Services",
+        totalItems: 70,
+        examWeight: "16.67%",
+        color: "#48A752",
+        bgLight: "#F1FBF2",
+        icon: "📈",
+        description: "Cost-Volume-Profit, Budgeting, Standard Costing, Capital Budgeting, Financial Management, and Economics.",
+        topics: [
+          {
+            id: "MS_A2",
+            tosIndex: 2,
+            code: "A.2",
+            name: "Management Accounting: Planning & Control Techniques (CVP, Budgets, Variances)",
+            weight: 31.40,
+            items: 22,
+            easy: 6,
+            moderate: 11,
+            difficult: 5,
+            subtopics: [
+              { code: "2.1", text: "Cost Behavior & Segregation: Direct/indirect, fixed/variable, mixed, sunk/opportunity costs, high-low method, and regression (4 items)." },
+              { code: "2.2", text: "Cost-Volume-Profit (CVP) Analysis: Break-even point, target profit, margin of safety, operating leverage, indifference point, and multi-product sales mix (4 items)." },
+              { code: "2.3", text: "Traditional & Activity-Based Costing: Absorption vs variable costing income reconciliation, fixed FOH treatment, cost pools, and activity drivers (4 items)." },
+              { code: "2.4", text: "Financial Planning & Budgeting: Master budget, production/inventory/cash budgets, and control mechanisms (6 items)." },
+              { code: "2.5", text: "Standard Costing & Variance Analysis: Direct material, direct labor, 2-way/3-way/4-way overhead variances, sales and gross profit variations (4 items)." }
+            ]
+          },
+          {
+            id: "MS_A3",
+            tosIndex: 3,
+            code: "A.3",
+            name: "Management Accounting: Performance Measurement",
+            weight: 11.40,
+            items: 8,
+            easy: 2,
+            moderate: 4,
+            difficult: 2,
+            subtopics: [
+              { code: "3.1", text: "Responsibility Accounting & Transfer Pricing: Cost, profit, investment centers (ROI, Residual Income, EVA), and transfer pricing rules (4 items)." },
+              { code: "3.2", text: "Balanced Scorecard: Financial, customer, internal process, learning & growth perspectives, and KPI design (4 items)." }
+            ]
+          },
+          {
+            id: "MS_A4",
+            tosIndex: 4,
+            code: "A.4",
+            name: "Management Accounting: Decision Making (Relevant Costing & Capital Budgeting)",
+            weight: 11.40,
+            items: 8,
+            easy: 2,
+            moderate: 3,
+            difficult: 3,
+            subtopics: [
+              { code: "4.1", text: "Relevant Costing & Short-term Non-routine Decisions: Make or buy, accept/reject special orders, drop or continue product line, sell or process further, and product mix (5 items)." },
+              { code: "4.2", text: "Capital Budgeting Decision Elements: Net investment, operating cash inflows, payback period, ARR, NPV, IRR, and Profitability Index (2 items)." },
+              { code: "4.3", text: "Quantitative Techniques: Probability analysis, decision tree diagrams, and linear programming (1 item)." }
+            ]
+          },
+          {
+            id: "MS_B3",
+            tosIndex: 7,
+            code: "B.3",
+            name: "Financial Management: Working Capital Management",
+            weight: 8.50,
+            items: 6,
+            easy: 1,
+            moderate: 3,
+            difficult: 2,
+            subtopics: [
+              { code: "3.1", text: "Cash & Marketable Securities: Cash conversion cycle, Baumol and Miller-Orr models, float management." },
+              { code: "3.2", text: "Receivables & Inventory Management: Credit policy, aging, DSO, factoring, EOQ, reorder point, safety stock, and short-term financing techniques." }
+            ]
+          },
+          {
+            id: "MS_B2",
+            tosIndex: 6,
+            code: "B.2",
+            name: "Financial Management: Financial Statement Analysis",
+            weight: 7.10,
+            items: 5,
+            easy: 1,
+            moderate: 3,
+            difficult: 1,
+            subtopics: [
+              { code: "2.1", text: "Financial Statement Analysis: Horizontal, vertical, ratio analysis (liquidity, solvency, activity, profitability, market ratios), and DuPont equation." }
+            ]
+          },
+          {
+            id: "MS_B4",
+            tosIndex: 8,
+            code: "B.4",
+            name: "Financial Management: Capital Budgeting Decisions",
+            weight: 7.10,
+            items: 5,
+            easy: 1,
+            moderate: 2,
+            difficult: 2,
+            subtopics: [
+              { code: "4.1", text: "Discounted & Non-discounted Cash Flow Techniques: Cost of capital, capital rationing, project ranking, inflation, and risk adjustment." }
+            ]
+          },
+          {
+            id: "MS_B1",
+            tosIndex: 5,
+            code: "B.1",
+            name: "Financial Management: Nature, Objectives & Scope",
+            weight: 4.30,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "Scope of Financial Management: Maximization of shareholder wealth, agency conflicts, financial manager responsibilities, and financial environments." }
+            ]
+          },
+          {
+            id: "MS_C1",
+            tosIndex: 12,
+            code: "I.1",
+            name: "Economic Concepts: Macroeconomics",
+            weight: 4.30,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "Macroeconomics for Business: GDP, inflation, interest rates, monetary policy (BSP), fiscal policy, exchange rates, and business cycles." }
+            ]
+          },
+          {
+            id: "MS_A1",
+            tosIndex: 1,
+            code: "A.1",
+            name: "Management Accounting: Objectives, Role & Scope",
+            weight: 2.90,
+            items: 2,
+            easy: 2,
+            moderate: 0,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Management Accounting vs Financial Accounting: Roles of Controller vs Treasurer, certifications (CMA), and global trends." }
+            ]
+          },
+          {
+            id: "MS_B5",
+            tosIndex: 9,
+            code: "B.5",
+            name: "Financial Management: Risk and Leverage",
+            weight: 2.90,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "5.1", text: "Risk & Leverage: Operating leverage (DOL), Financial leverage (DFL), Total leverage (DTL), business vs financial risk, and risk-return trade-offs." }
+            ]
+          },
+          {
+            id: "MS_B6",
+            tosIndex: 10,
+            code: "B.6",
+            name: "Financial Management: Capital Structure & Long-term Financing",
+            weight: 2.90,
+            items: 2,
+            easy: 1,
+            moderate: 0,
+            difficult: 1,
+            subtopics: [
+              { code: "6.1", text: "Capital Structure: Weighted Average Cost of Capital (WACC), cost of debt, cost of equity (CAPM, DDM), optimal capital structure, and long-term financing instruments." }
+            ]
+          },
+          {
+            id: "MS_B7",
+            tosIndex: 11,
+            code: "B.7",
+            name: "Financial Markets & Derivative Valuation",
+            weight: 2.90,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "7.1", text: "Philippine Stock Exchange (PSE), money markets, capital markets, and derivative instruments valuation (forwards, futures, options)." }
+            ]
+          },
+          {
+            id: "MS_C2",
+            tosIndex: 13,
+            code: "I.2",
+            name: "Economic Concepts: Microeconomics",
+            weight: 2.90,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "2.1", text: "Microeconomics for Business: Supply and demand curves, price elasticity, market structures (perfect competition, monopoly, oligopoly, monopolistic competition), and pricing strategies." }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "AUD",
+        code: "AUD",
+        name: "Auditing",
+        totalItems: 70,
+        examWeight: "16.67%",
+        color: "#438EEC",
+        bgLight: "#F0F7FF",
+        icon: "🔍",
+        description: "Risk-based Audit, PSA standards, Audit Cycles, Internal Controls, Audit Reports, ISQM, and CIS.",
+        topics: [
+          {
+            id: "AUD_P2",
+            tosIndex: 10,
+            code: "AP.2",
+            name: "Audit Practice: Planning the Audit & Risk Assessment (Business Cycles)",
+            weight: 25.70,
+            items: 18,
+            easy: 4,
+            moderate: 6,
+            difficult: 8,
+            subtopics: [
+              { code: "2.1", text: "Risk-based Audit Overview, risk assessment, and preliminary engagement activities." },
+              { code: "2.4", text: "Audit Plan & Strategy: Overall audit strategy, materiality (overall & performance), and audit cycles:" },
+              { code: "2.4.4.1", text: "Order to Cash (Revenue and Collections Cycle) audit procedures." },
+              { code: "2.4.4.2", text: "Purchase to Pay (Purchases and Cash Disbursements Cycle) audit procedures." },
+              { code: "2.4.4.3", text: "Plan to Inventory (Production and Warehousing Cycle) audit procedures." },
+              { code: "2.4.4.4", text: "Hire to Retire (Human Resources and Payroll Cycle) audit procedures." },
+              { code: "2.4.4.5", text: "Acquire to Retire (Property, Plant, and Equipment Cycle) audit procedures." },
+              { code: "2.4.4.6", text: "Record to Report (General Ledger and Financial Reporting Cycle) audit procedures." },
+              { code: "2.4.4.7", text: "Close, Consolidate and Report / Financial Planning & Analysis." },
+              { code: "2.5", text: "Entity-wide and business process level risk assessment and control deficiency evaluation." }
+            ]
+          },
+          {
+            id: "AUD_P4",
+            tosIndex: 12,
+            code: "AP.4",
+            name: "Audit Practice: Audit Communication and Reporting",
+            weight: 8.60,
+            items: 6,
+            easy: 1,
+            moderate: 3,
+            difficult: 2,
+            subtopics: [
+              { code: "4.1", text: "Audit evidence evaluation and reporting overview." },
+              { code: "4.3", text: "Communicating audit findings with Those Charged with Governance (TCWG)." },
+              { code: "4.4", text: "Drafting the audit report, modifications, Emphasis of Matter, Other Matter, and Key Audit Matters (KAM)." },
+              { code: "4.5", text: "Monitoring and engagement closing procedures." }
+            ]
+          },
+          {
+            id: "AUD_P3",
+            tosIndex: 11,
+            code: "AP.3",
+            name: "Audit Practice: Risk Response & Substantive Testing",
+            weight: 8.50,
+            items: 6,
+            easy: 1,
+            moderate: 5,
+            difficult: 0,
+            subtopics: [
+              { code: "3.1", text: "Risk-based audit response and substantive testing extent." },
+              { code: "3.4", text: "Audit working papers, analysis worksheets, and formulating adjusting/correcting journal entries." },
+              { code: "3.5", text: "Written management representations and engagement supervision." }
+            ]
+          },
+          {
+            id: "AUD_T3",
+            tosIndex: 3,
+            code: "AT.3",
+            name: "Audit Theory: Understanding Entity, Environment & Internal Control",
+            weight: 7.10,
+            items: 5,
+            easy: 2,
+            moderate: 3,
+            difficult: 0,
+            subtopics: [
+              { code: "3.1", text: "Entity, regulatory, and business risk factors." },
+              { code: "3.2", text: "Internal Control Components: Control environment, risk assessment, info system, control activities, and monitoring." },
+              { code: "3.3", text: "Assessing Risks of Material Misstatement (RMM), fraud risks, and significant risks." }
+            ]
+          },
+          {
+            id: "AUD_T4",
+            tosIndex: 4,
+            code: "AT.4",
+            name: "Audit Theory: Objectives, Evidence, Procedures & Working Papers",
+            weight: 7.10,
+            items: 5,
+            easy: 2,
+            moderate: 1,
+            difficult: 2,
+            subtopics: [
+              { code: "4.1", text: "Nature, sufficiency, and appropriateness of audit evidence." },
+              { code: "4.2", text: "Management assertions (existence, completeness, valuation, rights, presentation)." },
+              { code: "4.3", text: "Audit procedures (inspection, observation, inquiry, confirmation, recalculation, reperformance, analytical procedures)." },
+              { code: "4.4", text: "Audit documentation and working paper retention." }
+            ]
+          },
+          {
+            id: "AUD_T5",
+            tosIndex: 5,
+            code: "AT.5",
+            name: "Audit Theory: Completing the Audit & Post-Audit Responsibilities",
+            weight: 7.10,
+            items: 5,
+            easy: 1,
+            moderate: 1,
+            difficult: 3,
+            subtopics: [
+              { code: "5.1", text: "Final analytical review, related party review, subsequent events (Type 1 adjusting vs Type 2 non-adjusting), and going concern evaluation (PSA 570)." },
+              { code: "5.2", text: "Management representation letter, opinion formulation, and post-audit discovery of facts or omitted procedures." }
+            ]
+          },
+          {
+            id: "AUD_T8",
+            tosIndex: 8,
+            code: "AT.8",
+            name: "Audit Theory: Attestation Services & Other Assurance Engagements",
+            weight: 7.10,
+            items: 5,
+            easy: 1,
+            moderate: 1,
+            difficult: 3,
+            subtopics: [
+              { code: "8.1", text: "Special purpose audit engagements, components of FS, and compliance reports." },
+              { code: "8.2", text: "Review engagements (PSRE 2400/2410), Agreed-upon procedures (PSRS 4400), Compilation engagements (PSRS 4410), prospective financial info examination, and SOC reports." }
+            ]
+          },
+          {
+            id: "AUD_P1",
+            tosIndex: 9,
+            code: "AP.1",
+            name: "Audit Practice: Governance, Ethics & Quality Management (ISQM)",
+            weight: 7.10,
+            items: 5,
+            easy: 3,
+            moderate: 2,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Corporate governance and ethical principles for professional accountants (integrity, objectivity, competence, confidentiality, professional behavior)." },
+              { code: "1.3", text: "System of Quality Management (ISQM 1 & 2): 8 components of SOQM, leadership, ethics, engagement performance, monitoring, and BOA accreditation." }
+            ]
+          },
+          {
+            id: "AUD_T1",
+            tosIndex: 1,
+            code: "AT.1",
+            name: "Audit Theory: Fundamentals of Auditing & Assurance Services",
+            weight: 5.70,
+            items: 4,
+            easy: 4,
+            moderate: 0,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Nature, objective, and 5 elements of assurance engagements; reasonable vs limited assurance." },
+              { code: "1.2", text: "Types of audits (FS audit, operational audit, compliance audit) and types of auditors (external, internal, government/COA)." }
+            ]
+          },
+          {
+            id: "AUD_T2",
+            tosIndex: 2,
+            code: "AT.2",
+            name: "Audit Theory: Risk-based FS Audit - Client Acceptance & Planning",
+            weight: 5.70,
+            items: 4,
+            easy: 3,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "2.1", text: "Risk-based audit methodology, pre-engagement acceptance, engagement letters." },
+              { code: "2.3", text: "Audit planning scope, preliminary analytical procedures, materiality, audit risk model (AR = IR × CR × DR), and direction/supervision." }
+            ]
+          },
+          {
+            id: "AUD_T6",
+            tosIndex: 6,
+            code: "AT.6",
+            name: "Audit Theory: Reports on Audited Financial Statements",
+            weight: 5.70,
+            items: 4,
+            easy: 1,
+            moderate: 3,
+            difficult: 0,
+            subtopics: [
+              { code: "6.1", text: "Standard Unmodified Auditor's Report: Basic elements, format, and structure." },
+              { code: "6.3", text: "Modified Auditor's Reports: Qualified opinion, Adverse opinion, Disclaimer of opinion; Emphasis of Matter, Other Matter, and Key Audit Matters (KAM - PSA 701)." }
+            ]
+          },
+          {
+            id: "AUD_T7",
+            tosIndex: 7,
+            code: "AT.7",
+            name: "Audit Theory: Auditing in a CIS / IT Environment",
+            weight: 4.20,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "7.1", text: "Internal Controls in CIS: General controls vs Application controls (input, processing, output)." },
+              { code: "7.2", text: "Approaches to CIS audit: Auditing around vs through the computer, Computer-Assisted Audit Techniques (CAATs), test data, parallel simulation, and emerging technologies." }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "RFBT",
+        code: "RFBT",
+        name: "Regulatory Framework for Business Transactions",
+        totalItems: 100,
+        examWeight: "16.67%",
+        color: "#F37D45",
+        bgLight: "#FFF5EF",
+        icon: "⚖️",
+        description: "Corporations (30%), Obligations & Contracts, Partnerships, Sales, AMLA, FRIA, Cooperatives, and Special Laws.",
+        topics: [
+          {
+            id: "RFBT_G2",
+            tosIndex: 10,
+            code: "G.2",
+            name: "Corporations (Revised Corporation Code - RA 11232 & SRC Rule 68)",
+            weight: 30.00,
+            items: 30,
+            easy: 9,
+            moderate: 12,
+            difficult: 9,
+            subtopics: [
+              { code: "1.1.5.1", text: "Definition, characteristics, classes of corporations, and nationality (control test vs grandfather rule)." },
+              { code: "1.1.5.4", text: "Separate Juridical Personality and Piercing the Corporate Veil doctrine." },
+              { code: "1.1.5.5", text: "Capital Structure: Incorporators, corporate term, share classes (common, preferred, founder's, redeemable, treasury shares)." },
+              { code: "1.1.5.6", text: "Incorporation & Organization: Articles of Incorporation, By-laws, corporate name, SEC registration, and election of directors/trustees." },
+              { code: "1.1.5.7", text: "Corporate Powers: General and specific powers, pre-emptive rights, asset sale, dividends, ultra vires acts, and Trust Fund Doctrine." },
+              { code: "1.1.6.1", text: "Stockholders' Rights: Voting, proxies, voting trusts, appraisal right, right to inspect, and remedial suits (derivative, individual, representative)." },
+              { code: "1.1.6.2", text: "Board of Directors/Trustees: Qualifications, independent directors, vacancies, compensation, disloyalty, business judgment rule, and interlocking directors." },
+              { code: "1.1.6.4", text: "Dissolution and Liquidation: Modes of dissolution and methods of corporate liquidation." },
+              { code: "1.1.6.5", text: "Special Corporations: One Person Corporation (OPC), Non-stock, and Foreign Corporations (license, personality to sue, isolated transactions)." },
+              { code: "1.1.6.6", text: "Merger & Consolidation: Procedures and legal effects." },
+              { code: "1.1.6.8", text: "Corporate Governance, SEC sanctions, and Securities Regulation Code (SRC Rule 68, registration, fraud, and insider trading)." }
+            ]
+          },
+          {
+            id: "RFBT_A1",
+            tosIndex: 1,
+            code: "A.1",
+            name: "Law on Obligations",
+            weight: 6.00,
+            items: 6,
+            easy: 2,
+            moderate: 2,
+            difficult: 2,
+            subtopics: [
+              { code: "1.1.1", text: "Sources of Obligations: Law, contracts, quasi-contracts (negotiorum gestio, solutio indebiti), delicts, and quasi-delicts." },
+              { code: "1.1.2", text: "Kinds of Obligations: Pure, conditional, with a term, joint, solidary, alternative, facultative, divisible, indivisible, and with a penal clause." },
+              { code: "1.1.3", text: "Circumstances Affecting Obligations: Fortuitous events, fraud (dolo), negligence (culpa), delay (mora), and breach of contract." },
+              { code: "1.1.5", text: "Extinguishment of Obligations: Payment, mercantile documents, dation in payment, cession, consignation, loss of thing due, condonation, confusion, compensation, and novation." }
+            ]
+          },
+          {
+            id: "RFBT_A2",
+            tosIndex: 2,
+            code: "A.2",
+            name: "Law on Contracts",
+            weight: 6.00,
+            items: 6,
+            easy: 2,
+            moderate: 2,
+            difficult: 2,
+            subtopics: [
+              { code: "2.1", text: "General Provisions: Essential characteristics (autonomy, mutuality, relativity, obligatoriness) and stages of contract." },
+              { code: "2.2", text: "Essential Requisites of Contracts: Consent (vices of consent: mistake, violence, intimidation, fraud), Object, and Cause." },
+              { code: "2.3", text: "Forms of Contracts, Reformation of Instruments, and Interpretation of Contracts." },
+              { code: "2.6", text: "Defective Contracts: Rescissible contracts (lesion/fraud), Voidable contracts, Unenforceable contracts (Statute of Frauds), and Void/Inexistent contracts." }
+            ]
+          },
+          {
+            id: "RFBT_G1",
+            tosIndex: 9,
+            code: "G.1",
+            name: "Law on Partnerships",
+            weight: 6.00,
+            items: 6,
+            easy: 2,
+            moderate: 2,
+            difficult: 2,
+            subtopics: [
+              { code: "1.1.1", text: "Nature and kinds of partnerships; formalities required (public instrument & registration)." },
+              { code: "1.1.3", text: "Rules of management and obligations of partners (to partnership, partners, and third persons)." },
+              { code: "1.1.4", text: "Rights of a partner, sharing of profits and losses, dissolution, and winding up." },
+              { code: "1.1.4.6", text: "Limited Partnerships: Formation, rights, and liabilities of limited partners." }
+            ]
+          },
+          {
+            id: "RFBT_H4",
+            tosIndex: 14,
+            code: "H.4",
+            name: "Anti-Money Laundering Act (AMLA - RA 9160 as amended)",
+            weight: 6.00,
+            items: 6,
+            easy: 2,
+            moderate: 2,
+            difficult: 2,
+            subtopics: [
+              { code: "4.1", text: "Policy, covered persons, and unlawful activities (predicate crimes)." },
+              { code: "4.5", text: "Money laundering offenses, terrorism financing, and asset forfeiture." },
+              { code: "4.6", text: "Preventive Measures: Customer due diligence (KYC), beneficial ownership, prohibited anonymous accounts, and CTR / STR reporting (5-day deadline)." },
+              { code: "4.8", text: "Record-keeping requirements (5 years) and safe harbor provisions." }
+            ]
+          },
+          {
+            id: "RFBT_D",
+            tosIndex: 6,
+            code: "D",
+            name: "Financial Rehabilitation and Insolvency Act (FRIA - RA 10142)",
+            weight: 5.00,
+            items: 5,
+            easy: 2,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "1.0", text: "Definitions of terms (insolvency, debtor, creditor) and suspension of payments." },
+              { code: "3.0", text: "Rehabilitation: Court-supervised (voluntary & involuntary), Pre-negotiated, and Out-of-Court (OCRA); Commencement Order, Stay Order, Receiver, Rehabilitation Plan, and Cram Down." },
+              { code: "4.0", text: "Liquidation Proceedings: Voluntary vs involuntary, conversion, liquidation order, and rights of secured creditors." }
+            ]
+          },
+          {
+            id: "RFBT_G4",
+            tosIndex: 12,
+            code: "G.4",
+            name: "Philippine Cooperative Code (RA 9520)",
+            weight: 5.00,
+            items: 5,
+            easy: 2,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1.8.1", text: "Organization and registration of cooperatives with CDA; administration and governance." },
+              { code: "1.1.8.4", text: "Memberships (regular vs associate), capital, property of funds, and member rights." },
+              { code: "1.1.8.7", text: "Allocation of funds: Reserve fund, educational fund, optional fund; types and dissolution of cooperatives." }
+            ]
+          },
+          {
+            id: "RFBT_A3",
+            tosIndex: 3,
+            code: "A.3",
+            name: "Law on Sales",
+            weight: 3.00,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "3.1", text: "Nature, forms, and essential requisites; earnest money vs option money." },
+              { code: "3.3", text: "Obligations of vendor and vendee; warranties against eviction and hidden defects." },
+              { code: "3.5", text: "Installment Sales: Recto Law (personal property) and Maceda Law (real property - cash surrender value & grace periods); PD 957 Condominium Act." },
+              { code: "3.6", text: "Extinguishment of Sale: Conventional redemption (pacto de retro) and legal redemption." }
+            ]
+          },
+          {
+            id: "RFBT_A4",
+            tosIndex: 4,
+            code: "A.4",
+            name: "Credit Transactions (Pledge, Real & Chattel Mortgage)",
+            weight: 3.00,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "4.1", text: "Pledge, Real Mortgage, and Chattel Mortgage: Requisites, indivisibility, and prohibition on Pactum Commissorium." },
+              { code: "4.2", text: "Formalities to bind third persons, rights and obligations, and foreclosure procedures." }
+            ]
+          },
+          {
+            id: "RFBT_G3",
+            tosIndex: 11,
+            code: "G.3",
+            name: "Insurance Code (RA 10607)",
+            weight: 3.00,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1.7.1", text: "Concept, elements, characteristics of insurance contracts, and insurable interest in life and property." },
+              { code: "1.1.7.4", text: "Classes of insurance, perfection, rescission (concealment, misrepresentation), and subrogation." }
+            ]
+          },
+          {
+            id: "RFBT_H6",
+            tosIndex: 16,
+            code: "H.6",
+            name: "Data Privacy Act (RA 10173)",
+            weight: 3.00,
+            items: 3,
+            easy: 1,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "6.1", text: "Definitions, scope, and extraterritorial application; general data privacy principles (transparency, legitimate purpose, proportionality)." },
+              { code: "6.4", text: "Processing of personal data, rights of data subjects, security measures, and 72-hour breach notification." }
+            ]
+          },
+          {
+            id: "RFBT_B",
+            tosIndex: 5,
+            code: "B",
+            name: "Bouncing Checks Law (Batas Pambansa Blg. 22)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "Requisites to be liable under BP 22, evidence of knowledge of insufficient funds, drawer duty, and comparison with Estafa." }
+            ]
+          },
+          {
+            id: "RFBT_C",
+            tosIndex: 6,
+            code: "C",
+            name: "Consumer Protection Laws (Lemon Law & Price Tag Act)",
+            weight: 2.00,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Product safety, deceptive sales acts, product warranties, Price Tag Act, and Lemon Law (RA 10642)." }
+            ]
+          },
+          {
+            id: "RFBT_E",
+            tosIndex: 7,
+            code: "E",
+            name: "Philippine Competition Act (RA 10667)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "Prohibited Acts: Anti-competitive agreements, abuse of dominant position, prohibited mergers/acquisitions, and compulsory notification thresholds." }
+            ]
+          },
+          {
+            id: "RFBT_F",
+            tosIndex: 8,
+            code: "F",
+            name: "Government Procurement Reform Act (RA 9184)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "1.1", text: "Bidding procedures (documents, invitation, evaluation, post-qualification, award) and alternative procurement methods." }
+            ]
+          },
+          {
+            id: "RFBT_H1",
+            tosIndex: 13,
+            code: "H.1",
+            name: "PDIC Law (RA 3591 as amended)",
+            weight: 2.00,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "1.1", text: "Insurable deposits, maximum coverage (P500,000 per depositor per bank), joint accounts rules, and claim requirements." }
+            ]
+          },
+          {
+            id: "RFBT_H2",
+            tosIndex: 14,
+            code: "H.2",
+            name: "Secrecy of Bank Deposits (RA 1405 & RA 6426)",
+            weight: 2.00,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "2.1", text: "Prohibited disclosures, statutory exceptions, and garnishment of peso vs foreign currency deposits." }
+            ]
+          },
+          {
+            id: "RFBT_H3",
+            tosIndex: 15,
+            code: "H.3",
+            name: "Truth in Lending Act (RA 3765)",
+            weight: 2.00,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "3.1", text: "Mandatory finance charge disclosures, covered transactions, and penalties for non-compliance." }
+            ]
+          },
+          {
+            id: "RFBT_H5",
+            tosIndex: 17,
+            code: "H.5",
+            name: "Intellectual Property Code (RA 8293)",
+            weight: 2.00,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "5.1", text: "Patents (novelty, inventive step, 20 yrs), Trademarks (10 yrs, protection), and Copyright (life + 50 yrs, fair use)." }
+            ]
+          },
+          {
+            id: "RFBT_H7",
+            tosIndex: 18,
+            code: "H.7",
+            name: "Electronic Commerce Act (RA 8792)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "7.1", text: "Legal recognition of electronic data messages, electronic documents, and electronic signatures." }
+            ]
+          },
+          {
+            id: "RFBT_H8",
+            tosIndex: 19,
+            code: "H.8",
+            name: "Ease of Doing Business Act (RA 11032)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "8.1", text: "Citizen's Charter, 3-7-20 working day rule, zero-contact policy, and automatic approval on inaction." }
+            ]
+          },
+          {
+            id: "RFBT_H9",
+            tosIndex: 20,
+            code: "H.9",
+            name: "Labor Standards Law (PD 442 as amended)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "9.1", text: "Basic pay, overtime, night differential, holiday premiums, 13th month pay, and statutory leaves (SIL, Maternity RA 11210, Paternity, Solo Parent)." }
+            ]
+          },
+          {
+            id: "RFBT_H10",
+            tosIndex: 21,
+            code: "H.10",
+            name: "Social Security Law (RA 11199)",
+            weight: 2.00,
+            items: 2,
+            easy: 0,
+            moderate: 1,
+            difficult: 1,
+            subtopics: [
+              { code: "10.1", text: "Mandatory coverage, SSS benefits (pension, sickness, maternity, disability, unemployment), and contribution calculations." }
+            ]
+          }
+        ]
+      },
+
+      {
+        id: "TAX",
+        code: "TAX",
+        name: "Taxation",
+        totalItems: 70,
+        examWeight: "16.67%",
+        color: "#F5A623",
+        bgLight: "#FFFBF2",
+        icon: "🧾",
+        description: "Income Tax (20%), Transfer Taxes, Business Taxes (VAT/OPT), Tax Remedies, and Preferential Tax.",
+        topics: [
+          {
+            id: "TAX_C",
+            tosIndex: 3,
+            code: "C",
+            name: "Income Taxation",
+            weight: 20.00,
+            items: 14,
+            easy: 2,
+            moderate: 4,
+            difficult: 8,
+            subtopics: [
+              { code: "1.0", text: "Taxpayer classification (individuals: RC, NRC, RA, NRA; corporations: DC, RFC, NRFC, partnerships, estates/trusts) and tax bases." },
+              { code: "2.0", text: "Gross Income Inclusions and statutory exclusions under Section 32 (de minimis, 13th month pay & benefits up to P90,000)." },
+              { code: "3.0", text: "Allowable Deductions: Itemized deductions (business expenses, interest arbitrage, taxes, losses, bad debts, depreciation, contributions) vs 40% OSD." },
+              { code: "4.0", text: "Accounting periods (calendar vs fiscal) and accounting methods (cash, accrual, installment)." },
+              { code: "5.0", text: "Tax Due Computation: Individual graduated rates, 8% optional gross tax, Corporate regular rate (25% / 20% CREATE), 2% MCIT, 6% CGT on real property, 15% CGT on shares, and Final Withholding Taxes." },
+              { code: "6.0", text: "Tax Credits (foreign tax credit Sec 34C, CWT credits) and Tax return filing/payment requirements." },
+              { code: "7.0", text: "Withholding Taxes: Compensation, Expanded Creditable Withholding Tax (CWT), Final Withholding Tax (FWT), and government money payments." },
+              { code: "8.0", text: "Special Laws: Senior Citizens, PWD (RA 7277), BMBE Act (RA 9178), and book-to-tax income reconciliation." }
+            ]
+          },
+          {
+            id: "TAX_D",
+            tosIndex: 4,
+            code: "D",
+            name: "Transfer Taxes (Estate & Donor's Tax)",
+            weight: 17.14,
+            items: 12,
+            easy: 1,
+            moderate: 7,
+            difficult: 4,
+            subtopics: [
+              { code: "1.1", text: "Estate Tax (6% flat rate): Gross estate inclusions (properties, revocable transfers, contemplation of death, life insurance) and exclusions." },
+              { code: "1.4", text: "Estate Tax Deductions: Ordinary deductions (LIT, vanishing deduction, transfers for public use) and Special deductions (P5M standard deduction, P10M family home, RA 4917)." },
+              { code: "1.5", text: "Net Estate Computation, foreign tax credits, and BIR Form 1801 filing requirements (1 yr)." },
+              { code: "2.1", text: "Donor's Tax (6% flat rate): Taxable transfers, P250,000 annual exemption, exempt gifts to government and accredited institutions, and BIR Form 1800 filing (30 days)." }
+            ]
+          },
+          {
+            id: "TAX_E",
+            tosIndex: 5,
+            code: "E",
+            name: "Business Taxes (VAT & Percentage Tax)",
+            weight: 17.14,
+            items: 12,
+            easy: 1,
+            moderate: 6,
+            difficult: 5,
+            subtopics: [
+              { code: "1.1", text: "Value-Added Tax (12%): Persons subject, threshold (> P3,000,000), output tax on sales of goods, services, and importations." },
+              { code: "1.3", text: "Zero-rated (0%) sales and VAT-exempt transactions under Section 109." },
+              { code: "1.4", text: "Input Tax Credits: Domestic purchases, importation, transitional (2%), presumptive input tax (4%), and refund process." },
+              { code: "2.1", text: "Percentage Tax: Section 116 non-VAT taxpayers, special percentage taxes on transport (3%), franchises, banks (GRT), and amusement." },
+              { code: "3.1", text: "Senior Citizen and PWD 20% discount and VAT exemptions." }
+            ]
+          },
+          {
+            id: "TAX_A",
+            tosIndex: 1,
+            code: "A",
+            name: "Principles of Taxation",
+            weight: 11.43,
+            items: 8,
+            easy: 8,
+            moderate: 0,
+            difficult: 0,
+            subtopics: [
+              { code: "1.0", text: "Nature, scope, classification, and essential characteristics of taxation." },
+              { code: "2.0", text: "Principles of a Sound Tax System: Fiscal adequacy, administrative feasibility, and theoretical justice." },
+              { code: "3.0", text: "Limitations: Inherent limitations (public purpose, territoriality, comity) and Constitutional limitations (due process, equal protection, uniformity)." },
+              { code: "4.0", text: "Tax Evasion (illegal) vs Tax Avoidance (legal); Situs of taxation, and direct vs indirect double taxation." },
+              { code: "5.0", text: "Tax Administration Agencies: BIR, Local Governments, BOI, PEZA, and BCDA." }
+            ]
+          },
+          {
+            id: "TAX_B",
+            tosIndex: 2,
+            code: "B",
+            name: "Tax Remedies (Government & Taxpayer)",
+            weight: 11.43,
+            items: 8,
+            easy: 4,
+            moderate: 4,
+            difficult: 0,
+            subtopics: [
+              { code: "1.0", text: "Government Remedies: Assessment procedures (LOA, Notice of Discrepancy, PAN, FAN/FLD), 3-year vs 10-year prescriptive periods, distraint, levy, civil/criminal actions, compromise, and abatement." },
+              { code: "2.0", text: "Taxpayer Remedies: Protest against FAN (reconsideration vs reinvestigation within 30 days, 60 days to submit docs), FDDA appeal to CTA (30 days), and claim for refund/TCC under Sec 204/229 (2-year prescriptive period)." }
+            ]
+          },
+          {
+            id: "TAX_I",
+            tosIndex: 9,
+            code: "I",
+            name: "Preferential Taxation (PEZA, BCDA, BOI, Tax Treaties)",
+            weight: 11.43,
+            items: 8,
+            easy: 2,
+            moderate: 3,
+            difficult: 3,
+            subtopics: [
+              { code: "1.0", text: "Special Economic Zone Act (PEZA): 5% Gross Income Tax (GIT) in lieu of all taxes, Income Tax Holiday (ITH), and VAT zero-rating." },
+              { code: "2.0", text: "BCDA Act and Omnibus Investments Code (BOI): Incentives under CREATE Act." },
+              { code: "4.0", text: "Double Taxation Agreements (DTA / Tax Treaties): Royalties, dividends, interest, capital gains, permanent establishment rules, and TTRA." }
+            ]
+          },
+          {
+            id: "TAX_H",
+            tosIndex: 8,
+            code: "H",
+            name: "Local Government Taxation & Real Property Tax (LGC)",
+            weight: 5.73,
+            items: 4,
+            easy: 1,
+            moderate: 2,
+            difficult: 1,
+            subtopics: [
+              { code: "1.0", text: "Scope of LGU taxing powers under Local Government Code (RA 7160); Local Business Tax (LBT) rates, tax base, and payment dates." },
+              { code: "2.0", text: "Real Property Taxation (RPT): Appraisal principles, assessment levels, Special Education Fund (SEF), and taxpayer remedies (payment under protest, LBAA, CBAA)." }
+            ]
+          },
+          {
+            id: "TAX_F",
+            tosIndex: 6,
+            code: "F",
+            name: "Excise Tax",
+            weight: 2.85,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "1.0", text: "Specific vs Ad Valorem excise taxes; covered articles (alcohol, tobacco, petroleum, automobiles, sweetened beverages), base, and compliance." }
+            ]
+          },
+          {
+            id: "TAX_G",
+            tosIndex: 7,
+            code: "G",
+            name: "Documentary Stamp Tax (DST)",
+            weight: 2.85,
+            items: 2,
+            easy: 1,
+            moderate: 1,
+            difficult: 0,
+            subtopics: [
+              { code: "1.0", text: "Taxable documents and transactions (original issue of shares, share transfers, promissory notes, deeds of sale, mortgages), tax rates, and filing." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    /* ==========================================================================
+       LOCAL STORAGE REPOSITORY & STATE MANAGEMENT
+       ========================================================================== */
+    const STORAGE_PREFIX = "cpa_tracker_";
+    const APP_STATE = {
+      activeSubjectId: "ALL", // "ALL" or subject id like "FAR", "AFAR", etc.
+      sortBy: "yield_desc",  // "yield_desc", "yield_asc", "tos_order", "mastery_asc", "mastery_desc"
+      masteryFilter: "all",
+      sourceFilter: "all",
+      searchQuery: "",
+      openAccordions: new Set(),
+      // User data stored per topic id:
+      // mastery[topicId] = 0 | 25 | 50 | 75 | 100
+      // sources[topicId] = ['CPAR', 'ReSA', 'REO']
+      // subtopics[topicId] = ['sub_0', 'sub_1']
+      // notes[topicId] = string
+      mastery: {},
+      sources: {},
+      subtopics: {},
+      notes: {}
+    };
+
+    function loadStateFromStorage() {
+      try {
+        const savedMastery = localStorage.getItem(STORAGE_PREFIX + "mastery");
+        if (savedMastery) APP_STATE.mastery = JSON.parse(savedMastery);
+
+        const savedSources = localStorage.getItem(STORAGE_PREFIX + "sources");
+        if (savedSources) APP_STATE.sources = JSON.parse(savedSources);
+
+        const savedSubtopics = localStorage.getItem(STORAGE_PREFIX + "subtopics");
+        if (savedSubtopics) APP_STATE.subtopics = JSON.parse(savedSubtopics);
+
+        const savedNotes = localStorage.getItem(STORAGE_PREFIX + "notes");
+        if (savedNotes) APP_STATE.notes = JSON.parse(savedNotes);
+
+        const savedAccordions = localStorage.getItem(STORAGE_PREFIX + "open_accordions");
+        if (savedAccordions) {
+          const arr = JSON.parse(savedAccordions);
+          APP_STATE.openAccordions = new Set(arr);
+        }
+      } catch (e) {
+        console.error("Error reading localStorage:", e);
+      }
+    }
+
+    function saveStateToStorage(key) {
+      try {
+        if (!key || key === "mastery") localStorage.setItem(STORAGE_PREFIX + "mastery", JSON.stringify(APP_STATE.mastery));
+        if (!key || key === "sources") localStorage.setItem(STORAGE_PREFIX + "sources", JSON.stringify(APP_STATE.sources));
+        if (!key || key === "subtopics") localStorage.setItem(STORAGE_PREFIX + "subtopics", JSON.stringify(APP_STATE.subtopics));
+        if (!key || key === "notes") localStorage.setItem(STORAGE_PREFIX + "notes", JSON.stringify(APP_STATE.notes));
+        if (!key || key === "open_accordions") localStorage.setItem(STORAGE_PREFIX + "open_accordions", JSON.stringify(Array.from(APP_STATE.openAccordions)));
+      } catch (e) {
+        console.error("Error writing localStorage:", e);
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toastPill");
+      const toastMsg = document.getElementById("toastMessage");
+      toastMsg.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+    }
+
+    /* ==========================================================================
+       PROGRESS & MASTERY CALCULATIONS
+       ========================================================================== */
+    function getTopicMastery(topicId) {
+      return APP_STATE.mastery[topicId] !== undefined ? Number(APP_STATE.mastery[topicId]) : 0;
+    }
+
+    function getTopicSources(topicId) {
+      return APP_STATE.sources[topicId] || [];
+    }
+
+    function calculateSubjectProgress(subject) {
+      let totalTopicWeight = 0;
+      let earnedWeightedMastery = 0;
+
+      subject.topics.forEach(topic => {
+        totalTopicWeight += topic.weight;
+        const masteryLevel = getTopicMastery(topic.id); // 0 to 100
+        earnedWeightedMastery += (masteryLevel / 100) * topic.weight;
+      });
+
+      if (totalTopicWeight === 0) return 0;
+      return (earnedWeightedMastery / totalTopicWeight) * 100;
+    }
+
+    function calculateOverallExamProgress() {
+      let totalSubjectScore = 0;
+      let totalMasteredTopics = 0;
+      let totalTopicsCount = 0;
+      let totalItemsMasteredWeighted = 0;
+
+      CPA_SUBJECTS.forEach(subject => {
+        const subjProgress = calculateSubjectProgress(subject);
+        // Each subject is 1/6 (16.67%) of the CPA board examination
+        totalSubjectScore += subjProgress * (1 / 6);
+
+        subject.topics.forEach(t => {
+          totalTopicsCount++;
+          const m = getTopicMastery(t.id);
+          if (m === 100) totalMasteredTopics++;
+          totalItemsMasteredWeighted += (m / 100) * t.items;
+        });
+      });
+
+      return {
+        overallPercent: Math.min(100, Math.max(0, totalSubjectScore)),
+        masteredTopics: totalMasteredTopics,
+        totalTopics: totalTopicsCount,
+        masteredItems: Math.round(totalItemsMasteredWeighted)
+      };
+    }
+
+    function updateProgressUI() {
+      const { overallPercent, masteredTopics, totalTopics, masteredItems } = calculateOverallExamProgress();
+      
+      const pctFormatted = overallPercent.toFixed(1) + "%";
+      document.getElementById("masterPercentText").textContent = pctFormatted;
+      document.getElementById("masterProgressBar").style.width = pctFormatted;
+
+      // Motivational Quotes based on readiness tier
+      let quote = "Every single problem solved builds your CPA license! ☕✨";
+      let status = "Getting Started 🌱";
+      if (overallPercent >= 90) {
+        quote = "Topnotcher energy! You're ready to conquer the LECPA! 🏆🎓🌸";
+        status = "Board Exam Ready! 🌟";
+      } else if (overallPercent >= 75) {
+        quote = "Incredible momentum! Keep that pre-week discipline high! 📖💪✨";
+        status = "Highly Confident ✨";
+      } else if (overallPercent >= 50) {
+        quote = "Halfway through the Table of Specifications! Stay focused! 🌸📚";
+        status = "Solid Foundation 🎯";
+      } else if (overallPercent >= 25) {
+        quote = "Great progress! Attack the highest-yield topics next! 💡✨";
+        status = "Building Mastery 📝";
+      }
+
+      document.getElementById("motivationalQuote").textContent = quote;
+      document.getElementById("masterStatusBadge").textContent = `(${status})`;
+      document.getElementById("summaryStatsText").textContent = `${masteredTopics} / ${totalTopics} Topics Mastered · ~${masteredItems} Board Items Covered`;
+
+      // Update subject selector cards progress
+      renderSubjectGridCards();
+    }
+
+    /* ==========================================================================
+       RENDERING: SUBJECT SELECTION CARDS
+       ========================================================================== */
+    function renderSubjectGridCards() {
+      const container = document.getElementById("subjectGridCards");
+      let html = "";
+
+      // "All Subjects" summary card
+      const isAllActive = APP_STATE.activeSubjectId === "ALL";
+      const { overallPercent } = calculateOverallExamProgress();
+
+      html += `
+        <div class="subject-pill-card ${isAllActive ? 'active' : ''}" onclick="selectSubject('ALL')">
+          <div class="subject-pill-top">
+            <span class="subject-code">🌸 ALL SUBJECTS</span>
+            <span class="subject-weight-badge" style="background: #E8DDFA; color: #6F3BBE;">100% BOARD</span>
+          </div>
+          <div class="subject-full-title">Complete 6 Subjects High-Yield Pre-Week Overview</div>
+          <div class="mini-progress-track">
+            <div class="mini-progress-fill" style="width: ${overallPercent.toFixed(1)}%; background: linear-gradient(90deg, #FFA8B9, #CBB0F7);"></div>
+          </div>
+          <div class="subject-stats-row">
+            <span>Overall Review</span>
+            <span>${overallPercent.toFixed(1)}%</span>
+          </div>
+        </div>
+      `;
+
+      // 6 Individual Board Subjects
+      CPA_SUBJECTS.forEach(subject => {
+        const isActive = APP_STATE.activeSubjectId === subject.id;
+        const progress = calculateSubjectProgress(subject);
+        
+        let masteredInSubj = 0;
+        subject.topics.forEach(t => {
+          if (getTopicMastery(t.id) === 100) masteredInSubj++;
+        });
+
+        html += `
+          <div class="subject-pill-card ${isActive ? 'active' : ''}" onclick="selectSubject('${subject.id}')">
+            <div class="subject-pill-top">
+              <span class="subject-code">${subject.icon} ${subject.code}</span>
+              <span class="subject-weight-badge">${subject.totalItems} Items</span>
+            </div>
+            <div class="subject-full-title">${subject.name}</div>
+            <div class="mini-progress-track">
+              <div class="mini-progress-fill" style="width: ${progress.toFixed(1)}%; background: ${subject.color};"></div>
+            </div>
+            <div class="subject-stats-row">
+              <span>${masteredInSubj}/${subject.topics.length} Mastered</span>
+              <span style="color: ${subject.color}; font-weight: 800;">${progress.toFixed(1)}%</span>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function selectSubject(subjectId) {
+      APP_STATE.activeSubjectId = subjectId;
+      renderSubjectGridCards();
+      renderTopicsView();
+      // Smooth scroll down to topics view on mobile
+      const main = document.getElementById("topicsMainContainer");
+      if (window.innerWidth < 768) {
+        main.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    /* ==========================================================================
+       RENDERING: TOPICS ACCORDIONS & INTERACTION
+       ========================================================================== */
+    function getSortedAndFilteredTopics(subject) {
+      let topics = [...subject.topics];
+
+      // 1. Text Search Filter
+      const query = APP_STATE.searchQuery.trim().toLowerCase();
+      if (query) {
+        topics = topics.filter(topic => {
+          const matchTitle = topic.name.toLowerCase().includes(query);
+          const matchCode = topic.code.toLowerCase().includes(query);
+          const matchSub = topic.subtopics.some(s => s.text.toLowerCase().includes(query) || s.code.toLowerCase().includes(query));
+          const matchNotes = (APP_STATE.notes[topic.id] || "").toLowerCase().includes(query);
+          return matchTitle || matchCode || matchSub || matchNotes;
+        });
+      }
+
+      // 2. Mastery Filter
+      if (APP_STATE.masteryFilter !== "all") {
+        topics = topics.filter(topic => {
+          const m = getTopicMastery(topic.id);
+          if (APP_STATE.masteryFilter === "not_started") return m === 0;
+          if (APP_STATE.masteryFilter === "in_progress") return m > 0 && m < 100;
+          if (APP_STATE.masteryFilter === "mastered") return m === 100;
+          if (APP_STATE.masteryFilter === "unmastered") return m < 100;
+          return true;
+        });
+      }
+
+      // 3. Source Tag Filter (CPAR, ReSA, REO)
+      if (APP_STATE.sourceFilter !== "all") {
+        topics = topics.filter(topic => {
+          const sources = getTopicSources(topic.id);
+          return sources.includes(APP_STATE.sourceFilter);
+        });
+      }
+
+      // 4. Dynamic Sorting
+      topics.sort((a, b) => {
+        if (APP_STATE.sortBy === "yield_desc") {
+          return b.weight - a.weight; // Highest Yield first exactly as requested
+        } else if (APP_STATE.sortBy === "yield_asc") {
+          return a.weight - b.weight;
+        } else if (APP_STATE.sortBy === "tos_order") {
+          return a.tosIndex - b.tosIndex;
+        } else if (APP_STATE.sortBy === "mastery_asc") {
+          return getTopicMastery(a.id) - getTopicMastery(b.id);
+        } else if (APP_STATE.sortBy === "mastery_desc") {
+          return getTopicMastery(b.id) - getTopicMastery(a.id);
+        }
+        return 0;
+      });
+
+      return topics;
+    }
+
+    function renderTopicsView() {
+      const container = document.getElementById("topicsMainContainer");
+      let subjectsToRender = CPA_SUBJECTS;
+
+      if (APP_STATE.activeSubjectId !== "ALL") {
+        subjectsToRender = CPA_SUBJECTS.filter(s => s.id === APP_STATE.activeSubjectId);
+      }
+
+      let totalRenderedTopics = 0;
+      let html = "";
+
+      subjectsToRender.forEach(subject => {
+        const filteredTopics = getSortedAndFilteredTopics(subject);
+        totalRenderedTopics += filteredTopics.length;
+
+        if (filteredTopics.length === 0 && (APP_STATE.searchQuery || APP_STATE.masteryFilter !== "all" || APP_STATE.sourceFilter !== "all")) {
+          // If filtering and no topics match in this subject, skip header or show quiet empty message
+          return;
+        }
+
+        const subjProgress = calculateSubjectProgress(subject);
+
+        html += `
+          <section class="subject-section" id="section_${subject.id}">
+            <!-- Subject Header Banner -->
+            <div class="subject-header-banner">
+              <div class="subject-title-wrap">
+                <span class="subject-badge-pill">${subject.icon} ${subject.code}</span>
+                <div>
+                  <h2 class="subject-title-h2">${subject.name}</h2>
+                  <div class="subject-title-desc">${subject.description} · <strong>${subject.totalItems} Board Items</strong> (100% TOS)</div>
+                </div>
+              </div>
+
+              <div class="subject-header-right">
+                <div class="subject-progress-pill">
+                  <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted);">Subject Mastery:</span>
+                  <div class="subject-pct-num">${subjProgress.toFixed(1)}%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- List of Topic Accordion Cards -->
+            <div class="topics-list">
+        `;
+
+        filteredTopics.forEach((topic, index) => {
+          const mastery = getTopicMastery(topic.id);
+          const sources = getTopicSources(topic.id);
+          const isOpen = APP_STATE.openAccordions.has(topic.id);
+          const notesText = APP_STATE.notes[topic.id] || "";
+          const isMastered = mastery === 100;
+
+          // High Yield badge
+          let yieldClass = "standard";
+          let yieldIcon = "📑";
+          if (topic.weight >= 14.0) {
+            yieldClass = "high";
+            yieldIcon = "🔥";
+          } else if (topic.weight >= 7.0) {
+            yieldClass = "medium";
+            yieldIcon = "⚡";
+          }
+
+          html += `
+            <div class="topic-card ${isOpen ? 'open' : ''} ${isMastered ? 'mastered' : ''}" id="card_${topic.id}">
+              <!-- Accordion Summary Row -->
+              <div class="topic-summary-row" onclick="toggleAccordion('${topic.id}', event)">
+                
+                <!-- Rank Badge -->
+                <div class="topic-rank-badge ${topic.weight >= 14 ? 'high-yield' : ''}" title="TOS Weight: ${topic.weight.toFixed(2)}%">
+                  #${index + 1}
+                </div>
+
+                <!-- Title & Yield Info -->
+                <div class="topic-info-col">
+                  <div class="topic-title-flex">
+                    <span class="topic-title-text">${topic.code}. ${topic.name}</span>
+                    <span class="yield-tag ${yieldClass}">
+                      ${yieldIcon} ${topic.weight.toFixed(2)}% (${topic.items} items)
+                    </span>
+                  </div>
+                  <div class="topic-meta-line">
+                    <span>${topic.subtopics.length} outcomes</span>
+                    <span>·</span>
+                    <span>Easy: ${topic.easy || 0}</span>
+                    <span>·</span>
+                    <span>Moderate: ${topic.moderate || 0}</span>
+                    <span>·</span>
+                    <span>Difficult: ${topic.difficult || 0}</span>
+                  </div>
+                </div>
+
+                <!-- Review Center Tagging Checkboxes (CPAR, ReSA, REO) -->
+                <div class="source-tags-cell" onclick="event.stopPropagation();">
+                  <label class="source-checkbox-label ${sources.includes('CPAR') ? 'checked-cpar' : ''}" title="Tag CPAR Materials Used">
+                    <input type="checkbox" ${sources.includes('CPAR') ? 'checked' : ''} onchange="toggleTopicSource('${topic.id}', 'CPAR', this.checked)">
+                    CPAR
+                  </label>
+                  <label class="source-checkbox-label ${sources.includes('ReSA') ? 'checked-resa' : ''}" title="Tag ReSA Materials Used">
+                    <input type="checkbox" ${sources.includes('ReSA') ? 'checked' : ''} onchange="toggleTopicSource('${topic.id}', 'ReSA', this.checked)">
+                    ReSA
+                  </label>
+                  <label class="source-checkbox-label ${sources.includes('REO') ? 'checked-reo' : ''}" title="Tag REO Materials Used">
+                    <input type="checkbox" ${sources.includes('REO') ? 'checked' : ''} onchange="toggleTopicSource('${topic.id}', 'REO', this.checked)">
+                    REO
+                  </label>
+                </div>
+
+                <!-- Mastery Level Dropdown Selector -->
+                <div class="mastery-select-cell" onclick="event.stopPropagation();">
+                  <select class="mastery-select" data-val="${mastery}" onchange="changeTopicMastery('${topic.id}', this.value)">
+                    <option value="0" ${mastery === 0 ? 'selected' : ''}>0% - Not Started</option>
+                    <option value="25" ${mastery === 25 ? 'selected' : ''}>25% - Needs Practice</option>
+                    <option value="50" ${mastery === 50 ? 'selected' : ''}>50% - Familiar</option>
+                    <option value="75" ${mastery === 75 ? 'selected' : ''}>75% - Confident</option>
+                    <option value="100" ${mastery === 100 ? 'selected' : ''}>100% - Mastered</option>
+                  </select>
+                </div>
+
+                <!-- Accordion Toggle Chevron -->
+                <div class="expand-chevron-cell" title="View subtopic specifications">
+                  ▼
+                </div>
+
+              </div>
+
+              <!-- Collapsible Sub-topic Specifications Body -->
+              <div class="topic-details-body">
+                <div class="specs-header">
+                  <div class="specs-title">
+                    <span>📋 Table of Specifications Competencies</span>
+                  </div>
+                  <div class="bloom-breakdown-strip">
+                    <span class="bloom-tag" style="background: #EBF8EC; color: #2E6B3B;">Easy: ${topic.easy || 0} items</span>
+                    <span class="bloom-tag" style="background: #FFF3EB; color: #B44D12;">Moderate: ${topic.moderate || 0} items</span>
+                    <span class="bloom-tag" style="background: #FFEAEF; color: #C71B42;">Difficult: ${topic.difficult || 0} items</span>
+                    <button class="btn-cute" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;" onclick="checkAllSubtopics('${topic.id}')">
+                      ✓ Check All
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Sub-topics Checklist -->
+                <div class="subtopics-list">
+                  ${topic.subtopics.map((sub, sIdx) => {
+                    const subKey = `${topic.id}_s${sIdx}`;
+                    const isChecked = (APP_STATE.subtopics[topic.id] || []).includes(subKey);
+                    return `
+                      <div class="subtopic-item ${isChecked ? 'completed' : ''}" onclick="toggleSubtopicCheck('${topic.id}', '${subKey}', event)">
+                        <input type="checkbox" class="subtopic-checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleSubtopicCheck('${topic.id}', '${subKey}', event);">
+                        <div class="subtopic-text">
+                          <strong>${sub.code}</strong> ${sub.text}
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+
+                <!-- Pre-Week Quick Notes & Formula Trap -->
+                <div class="topic-notes-wrap">
+                  <div class="notes-label">
+                    <span>💡 Pre-Week Quick Notes / Tricky Traps:</span>
+                  </div>
+                  <textarea class="notes-textarea" placeholder="Write key formulas, journal entries, or mnemonics here (auto-saved)..." oninput="saveTopicNote('${topic.id}', this.value)">${notesText}</textarea>
+                </div>
+
+              </div>
+
+            </div>
+          `;
+        });
+
+        html += `
+            </div>
+          </section>
+        `;
+      });
+
+      if (totalRenderedTopics === 0) {
+        html = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍🌸</div>
+            <h3 style="font-size: 1.15rem; color: #372A3C; margin-bottom: 0.4rem;">No topics matched your search or filters</h3>
+            <p style="font-size: 0.85rem;">Try clearing your search query or setting the source & mastery filters back to "All".</p>
+            <button class="btn-cute" style="margin-top: 1rem;" onclick="resetFilters()">Clear Filters</button>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    /* ==========================================================================
+       USER EVENT HANDLERS & MUTATIONS
+       ========================================================================== */
+    function toggleAccordion(topicId, event) {
+      if (APP_STATE.openAccordions.has(topicId)) {
+        APP_STATE.openAccordions.delete(topicId);
+      } else {
+        APP_STATE.openAccordions.add(topicId);
+      }
+      saveStateToStorage("open_accordions");
+      
+      const card = document.getElementById("card_" + topicId);
+      if (card) {
+        card.classList.toggle("open");
+      }
+    }
+
+    function changeTopicMastery(topicId, value) {
+      const valNum = Number(value);
+      APP_STATE.mastery[topicId] = valNum;
+      saveStateToStorage("mastery");
+
+      // Update UI color on select element
+      const card = document.getElementById("card_" + topicId);
+      if (card) {
+        const sel = card.querySelector(".mastery-select");
+        if (sel) sel.setAttribute("data-val", valNum);
+        if (valNum === 100) {
+          card.classList.add("mastered");
+        } else {
+          card.classList.remove("mastered");
+        }
+      }
+
+      updateProgressUI();
+      showToast(`Mastery updated to ${valNum}% ✨`);
+    }
+
+    function toggleTopicSource(topicId, sourceName, isChecked) {
+      if (!APP_STATE.sources[topicId]) {
+        APP_STATE.sources[topicId] = [];
+      }
+      
+      if (isChecked) {
+        if (!APP_STATE.sources[topicId].includes(sourceName)) {
+          APP_STATE.sources[topicId].push(sourceName);
+        }
+      } else {
+        APP_STATE.sources[topicId] = APP_STATE.sources[topicId].filter(s => s !== sourceName);
+      }
+
+      saveStateToStorage("sources");
+      renderTopicsView();
+      showToast(`Tagged with ${sourceName} 📚`);
+    }
+
+    function toggleSubtopicCheck(topicId, subKey, event) {
+      if (!APP_STATE.subtopics[topicId]) {
+        APP_STATE.subtopics[topicId] = [];
+      }
+
+      const list = APP_STATE.subtopics[topicId];
+      const index = list.indexOf(subKey);
+      if (index >= 0) {
+        list.splice(index, 1);
+      } else {
+        list.push(subKey);
+      }
+
+      saveStateToStorage("subtopics");
+      renderTopicsView();
+    }
+
+    function checkAllSubtopics(topicId) {
+      const subject = CPA_SUBJECTS.find(s => s.topics.some(t => t.id === topicId));
+      if (!subject) return;
+      const topic = subject.topics.find(t => t.id === topicId);
+      if (!topic) return;
+
+      APP_STATE.subtopics[topicId] = topic.subtopics.map((_, sIdx) => `${topicId}_s${sIdx}`);
+      saveStateToStorage("subtopics");
+      renderTopicsView();
+      showToast("All competencies marked complete! 🌸");
+    }
+
+    let noteDebounceTimer = null;
+    function saveTopicNote(topicId, text) {
+      APP_STATE.notes[topicId] = text;
+      clearTimeout(noteDebounceTimer);
+      noteDebounceTimer = setTimeout(() => {
+        saveStateToStorage("notes");
+        showToast("Notes saved! 📝");
+      }, 500);
+    }
+
+    function resetFilters() {
+      APP_STATE.searchQuery = "";
+      APP_STATE.masteryFilter = "all";
+      APP_STATE.sourceFilter = "all";
+      APP_STATE.sortBy = "yield_desc";
+      document.getElementById("searchInput").value = "";
+      document.getElementById("masteryFilterSelect").value = "all";
+      document.getElementById("sortSelect").value = "yield_desc";
+      document.querySelectorAll(".chip-btn").forEach(btn => btn.classList.remove("active", "active-all"));
+      document.querySelector('[data-source-filter="all"]').classList.add("active-all");
+      renderTopicsView();
+    }
+
+    /* ==========================================================================
+       SETUP EVENT LISTENERS & INITIALIZATION
+       ========================================================================== */
+    document.addEventListener("DOMContentLoaded", () => {
+      loadStateFromStorage();
+      updateProgressUI();
+      renderSubjectGridCards();
+      renderTopicsView();
+
+      // Search Handler
+      const searchInput = document.getElementById("searchInput");
+      let searchTimeout = null;
+      searchInput.addEventListener("input", (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          APP_STATE.searchQuery = e.target.value;
+          renderTopicsView();
+        }, 180);
+      });
+
+      // Sort Handler
+      const sortSelect = document.getElementById("sortSelect");
+      sortSelect.addEventListener("change", (e) => {
+        APP_STATE.sortBy = e.target.value;
+        renderTopicsView();
+      });
+
+      // Mastery Filter Handler
+      const masteryFilterSelect = document.getElementById("masteryFilterSelect");
+      masteryFilterSelect.addEventListener("change", (e) => {
+        APP_STATE.masteryFilter = e.target.value;
+        renderTopicsView();
+      });
+
+      // Source Filter Chips
+      document.querySelectorAll(".chip-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const filter = btn.getAttribute("data-source-filter");
+          APP_STATE.sourceFilter = filter;
+
+          document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active", "active-all"));
+          if (filter === "all") {
+            btn.classList.add("active-all");
+          } else {
+            btn.classList.add("active");
+          }
+          renderTopicsView();
+        });
+      });
+
+      // Expand All Button
+      document.getElementById("btnExpandAll").addEventListener("click", () => {
+        CPA_SUBJECTS.forEach(s => {
+          s.topics.forEach(t => APP_STATE.openAccordions.add(t.id));
+        });
+        saveStateToStorage("open_accordions");
+        renderTopicsView();
+        showToast("Expanded all specifications! 📖");
+      });
+
+      // Collapse All Button
+      document.getElementById("btnCollapseAll").addEventListener("click", () => {
+        APP_STATE.openAccordions.clear();
+        saveStateToStorage("open_accordions");
+        renderTopicsView();
+        showToast("Collapsed all specifications! 📦");
+      });
+
+      // Export JSON Backup
+      document.getElementById("btnExportData").addEventListener("click", () => {
+        const backupData = {
+          exportDate: new Date().toISOString(),
+          version: "PRC-BOA-OCT-2022",
+          mastery: APP_STATE.mastery,
+          sources: APP_STATE.sources,
+          subtopics: APP_STATE.subtopics,
+          notes: APP_STATE.notes
+        };
+        const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `CPA_PreWeek_Review_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast("Backup exported successfully! 💾");
+      });
+
+      // Reset Modal
+      const resetModal = document.getElementById("resetModal");
+      document.getElementById("btnResetModal").addEventListener("click", () => {
+        resetModal.classList.add("open");
+      });
+      document.getElementById("btnCancelReset").addEventListener("click", () => {
+        resetModal.classList.remove("open");
+      });
+      document.getElementById("btnConfirmReset").addEventListener("click", () => {
+        APP_STATE.mastery = {};
+        APP_STATE.sources = {};
+        APP_STATE.subtopics = {};
+        APP_STATE.notes = {};
+        APP_STATE.openAccordions.clear();
+        
+        localStorage.removeItem(STORAGE_PREFIX + "mastery");
+        localStorage.removeItem(STORAGE_PREFIX + "sources");
+        localStorage.removeItem(STORAGE_PREFIX + "subtopics");
+        localStorage.removeItem(STORAGE_PREFIX + "notes");
+        localStorage.removeItem(STORAGE_PREFIX + "open_accordions");
+
+        resetModal.classList.remove("open");
+        updateProgressUI();
+        renderTopicsView();
+        showToast("Tracker reset to fresh start! 🌱");
+      });
+
+    });
+  </script>
+
+</body>
+</html>
