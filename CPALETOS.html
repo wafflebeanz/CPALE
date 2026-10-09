@@ -145,15 +145,21 @@
       position: sticky;
       top: 0.75rem;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-radius: var(--radius-lg);
       border: var(--border-soft);
       box-shadow: var(--shadow-md);
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 2rem;
-      transition: all 0.25s ease;
+      padding: 1.15rem 1.45rem;
+      margin-bottom: 1.75rem;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sticky-header.collapsed {
+      padding: 0.65rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      background: rgba(255, 255, 255, 0.96);
+      margin-bottom: 1.25rem;
     }
 
     .header-top-row {
@@ -168,6 +174,7 @@
       display: flex;
       align-items: center;
       gap: 0.65rem;
+      flex-wrap: wrap;
     }
     .brand-title h1 {
       font-size: 1.45rem;
@@ -190,6 +197,38 @@
       border-radius: 9999px;
       letter-spacing: 0.05em;
       box-shadow: 0 2px 6px rgba(147, 96, 232, 0.18);
+    }
+
+    /* Collapsed Mini-Progress Pill */
+    .header-mini-progress-pill {
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      background: #FFF4F7;
+      border: 1px solid rgba(245, 200, 215, 0.9);
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #5D2E7C;
+      animation: slideDown 0.2s ease-out;
+    }
+    .sticky-header.collapsed .header-mini-progress-pill {
+      display: inline-flex;
+    }
+    .header-mini-track {
+      width: 85px;
+      height: 7px;
+      background: #EFE6EC;
+      border-radius: 9999px;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .header-mini-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FFA8B9 0%, #CBB0F7 50%, #A2E2A8 100%);
+      border-radius: 9999px;
+      transition: width 0.4s ease;
     }
 
     .header-actions {
@@ -230,9 +269,35 @@
       color: var(--lilac-500);
     }
 
+    .btn-toggle-banner {
+      background: var(--lilac-100);
+      border-color: var(--lilac-200);
+      color: var(--lilac-500);
+    }
+    .btn-toggle-banner:hover {
+      background: var(--lilac-200);
+      color: #6F3BBE;
+    }
+    .sticky-header.collapsed .btn-toggle-banner {
+      background: linear-gradient(135deg, #FFE1E6 0%, #E6D5FB 100%);
+      color: #5D2E7C;
+      border-color: #FFCAD4;
+      box-shadow: 0 2px 6px rgba(147, 96, 232, 0.18);
+    }
+
     /* Overall Progress Bar */
     .master-progress-wrap {
       margin-top: 1rem;
+      max-height: 250px;
+      opacity: 1;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, margin-top 0.25s ease;
+    }
+    .sticky-header.collapsed .master-progress-wrap {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      pointer-events: none;
     }
     .master-progress-labels {
       display: flex;
@@ -1127,7 +1192,7 @@
   <div class="app-container">
 
     <!-- STICKY TOP PRE-WEEK MASTER PROGRESS BAR -->
-    <header class="sticky-header">
+    <header class="sticky-header" id="stickyHeader">
       <div class="header-top-row">
         <div class="brand-title">
           <span class="float-icon" style="font-size: 1.6rem;">🌸</span>
@@ -1136,9 +1201,21 @@
             <div class="brand-sub">PRC Board of Accountancy TOS · High-Yield Pre-Week Review</div>
           </div>
           <span class="badge-cpa">OCT 2022 TOS</span>
+
+          <!-- Mini live progress pill shown when collapsed -->
+          <div class="header-mini-progress-pill" id="headerMiniPill" title="Overall review progress">
+            <span id="miniPercentText">0.0%</span>
+            <div class="header-mini-track">
+              <div class="header-mini-fill" id="miniProgressBar" style="width: 0%;"></div>
+            </div>
+            <span id="miniStatsText" style="color: var(--text-muted); font-size: 0.74rem;">0/80</span>
+          </div>
         </div>
 
         <div class="header-actions">
+          <button class="btn-cute btn-toggle-banner" id="btnToggleBanner" title="Collapse / Expand Floating Banner">
+            <span id="bannerToggleIcon">▲</span> <span id="bannerToggleText">Minimize</span>
+          </button>
           <button class="btn-cute" id="btnToggleSound" title="Toggle audio feedback">
             <span id="soundIcon">🔊</span> <span id="soundText">Sound: ON</span>
           </button>
@@ -2735,6 +2812,7 @@
       masteryFilter: "all",
       sourceFilter: "all",
       searchQuery: "",
+      isBannerCollapsed: false,
       openAccordions: new Set(),
       openSubjectNotes: new Set(),
       openOutcomeNotes: new Set(),
@@ -2753,6 +2831,11 @@
         const savedSound = localStorage.getItem(STORAGE_PREFIX + "sound_enabled");
         if (savedSound !== null) {
           SOUND.enabled = savedSound === "true";
+        }
+
+        const savedBannerCollapsed = localStorage.getItem(STORAGE_PREFIX + "banner_collapsed");
+        if (savedBannerCollapsed !== null) {
+          APP_STATE.isBannerCollapsed = savedBannerCollapsed === "true";
         }
 
         const savedMastery = localStorage.getItem(STORAGE_PREFIX + "mastery");
@@ -2790,6 +2873,7 @@
     function saveStateToStorage(key) {
       try {
         if (!key || key === "sound") localStorage.setItem(STORAGE_PREFIX + "sound_enabled", String(SOUND.enabled));
+        if (!key || key === "banner_collapsed") localStorage.setItem(STORAGE_PREFIX + "banner_collapsed", String(APP_STATE.isBannerCollapsed));
         if (!key || key === "mastery") localStorage.setItem(STORAGE_PREFIX + "mastery", JSON.stringify(APP_STATE.mastery));
         if (!key || key === "sources") localStorage.setItem(STORAGE_PREFIX + "sources", JSON.stringify(APP_STATE.sources));
         if (!key || key === "subtopics") localStorage.setItem(STORAGE_PREFIX + "subtopics", JSON.stringify(APP_STATE.subtopics));
@@ -2891,6 +2975,14 @@
       document.getElementById("motivationalQuote").textContent = quote;
       document.getElementById("masterStatusBadge").textContent = `(${status})`;
       document.getElementById("summaryStatsText").textContent = `${masteredTopics} / ${totalTopics} Topics Mastered · ~${masteredItems} Board Items Covered`;
+
+      // Update collapsed mini-progress pill
+      const miniPct = document.getElementById("miniPercentText");
+      const miniBar = document.getElementById("miniProgressBar");
+      const miniStats = document.getElementById("miniStatsText");
+      if (miniPct) miniPct.textContent = pctFormatted;
+      if (miniBar) miniBar.style.width = pctFormatted;
+      if (miniStats) miniStats.textContent = `${masteredTopics}/${totalTopics} Done`;
 
       renderSubjectGridCards();
     }
@@ -3464,14 +3556,46 @@
       renderTopicsView();
     }
 
+    function applyBannerCollapsedState(collapsed) {
+      const header = document.getElementById("stickyHeader");
+      const icon = document.getElementById("bannerToggleIcon");
+      const text = document.getElementById("bannerToggleText");
+      if (!header) return;
+
+      if (collapsed) {
+        header.classList.add("collapsed");
+        if (icon) icon.textContent = "▼";
+        if (text) text.textContent = "Expand";
+      } else {
+        header.classList.remove("collapsed");
+        if (icon) icon.textContent = "▲";
+        if (text) text.textContent = "Minimize";
+      }
+    }
+
+    function toggleBannerCollapse() {
+      SOUND.tap();
+      APP_STATE.isBannerCollapsed = !APP_STATE.isBannerCollapsed;
+      saveStateToStorage("banner_collapsed");
+      applyBannerCollapsedState(APP_STATE.isBannerCollapsed);
+      showToast(APP_STATE.isBannerCollapsed ? "Banner minimized ✨" : "Banner expanded 🌸");
+    }
+
     /* ==========================================================================
        SETUP EVENT LISTENERS & INITIALIZATION
        ========================================================================== */
     document.addEventListener("DOMContentLoaded", () => {
       loadStateFromStorage();
+      applyBannerCollapsedState(APP_STATE.isBannerCollapsed);
       updateProgressUI();
       renderSubjectGridCards();
       renderTopicsView();
+
+      // Banner Collapse/Expand Toggle
+      const toggleBannerBtn = document.getElementById("btnToggleBanner");
+      if (toggleBannerBtn) {
+        toggleBannerBtn.addEventListener("click", toggleBannerCollapse);
+      }
 
       // Sound Toggle Button
       const soundBtn = document.getElementById("btnToggleSound");
