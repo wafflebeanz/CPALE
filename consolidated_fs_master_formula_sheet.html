@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consolidated FS — Complete Formula & Intercompany Reference</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --header-green: #e2efda;
+      --header-green-border: #c5e0b4;
+      --schedule-pink: #d97398;
+      --bracket-blue: #6d9eeb;
+      --note-blue: #3d6cb9;
+      --ic-highlight: #fff2cc;
+      --ic-border: #f1c232;
+      --fv-highlight: #e8f0fe;
+      --fv-border: #4a86e8;
+      --grid-line: #e5e7eb;
+    }
+
+    body {
+      font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+      background-color: #f3f4f6;
+      color: #111827;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .ui-sans {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .mono-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Spreadsheet Grid Background */
+    .spreadsheet-canvas {
+      background-color: #ffffff;
+      background-image: 
+        linear-gradient(to right, rgba(229, 231, 235, 0.45) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(229, 231, 235, 0.45) 1px, transparent 1px);
+      background-size: 120px 26px;
+    }
+
+    .no-grid {
+      background-image: none !important;
+    }
+
+    /* Schedule Title Bar (Dusty Pink like Screenshot) */
+    .schedule-banner {
+      background-color: var(--schedule-pink);
+      color: #ffffff;
+      font-weight: 700;
+      padding: 4px 10px;
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    /* Accounting Underlines */
+    .acct-single-top {
+      border-top: 1.5px solid #111827;
+    }
+
+    .acct-double-bottom {
+      border-bottom: 3px double #111827;
+    }
+
+    /* Interactive Line Item Styling */
+    .line-row {
+      position: relative;
+      transition: background-color 0.14s ease, transform 0.1s ease;
+      cursor: pointer;
+      border-radius: 3px;
+      padding: 2.5px 6px;
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .line-row:hover, .line-row.active-row {
+      background-color: #fce8f0 !important;
+    }
+
+    .line-row .item-label {
+      border-bottom: 1px dashed rgba(107, 114, 128, 0.45);
+      padding-bottom: 1px;
+    }
+
+    .line-row:hover .item-label {
+      border-bottom-color: #be185d;
+      color: #831843;
+    }
+
+    /* Highlight Modes */
+    body.highlight-ic .is-ic {
+      background-color: var(--ic-highlight);
+      border-left: 3px solid var(--ic-border);
+      padding-left: 5px;
+    }
+
+    body.highlight-fv .is-fv {
+      background-color: var(--fv-highlight);
+      border-left: 3px solid var(--fv-border);
+      padding-left: 5px;
+    }
+
+    /* Blue Side Note Text */
+    .side-note {
+      color: var(--note-blue);
+      font-style: italic;
+      font-size: 0.78rem;
+      line-height: 1.2;
+    }
+
+    .side-note-dark {
+      color: #1f2937;
+      font-style: italic;
+      font-size: 0.78rem;
+      line-height: 1.25;
+    }
+
+    /* Visual Brackets matching Excel drawing lines */
+    .blue-bracket {
+      border-top: 1.5px solid var(--bracket-blue);
+      border-bottom: 1.5px solid var(--bracket-blue);
+      border-right: 1.5px solid var(--bracket-blue);
+      width: 14px;
+      pointer-events: none;
+    }
+
+    /* Floating Tooltip Card */
+    #floating-tooltip {
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+      z-index: 1000;
+      max-width: 430px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bottom Google Sheets / Excel Tabs */
+    .sheet-tab {
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      border-right: 1px solid #d1d5db;
+      background-color: #e5e7eb;
+      color: #374151;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .sheet-tab:hover {
+      background-color: #f3f4f6;
+    }
+
+    .sheet-tab.active {
+      background-color: #ffffff;
+      color: #be185d;
+      font-weight: 700;
+      border-top: 2px solid #d97398;
+      box-shadow: 0 -1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Column Header Letters (A, B, C, D...) */
+    .col-header {
+      background-color: #f8fafc;
+      border-bottom: 1px solid #cbd5e1;
+      border-right: 1px solid #cbd5e1;
+      color: #64748b;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 2px 0;
+      user-select: none;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      .spreadsheet-canvas { background-image: none !important; }
+    }
+  </style>
+</head>
+<body class="highlight-ic min-h-screen flex flex-col justify-between">
+
+  <!-- TOP CONTROL & FILTER BAR -->
+  <header class="no-print ui-sans bg-slate-900 text-white px-4 py-2.5 shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="bg-pink-600 text-white text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider">AFAR Reviewer</span>
+        <h1 class="text-sm sm:text-base font-semibold tracking-tight">Consolidated Financial Statements — Interactive Formula & Elimination Sheet</h1>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <!-- Search Input -->
+        <div class="relative">
+          <input id="searchInput" type="text" placeholder="Search item (e.g., UPEI, RPBI, CTIR)..." 
+            class="bg-slate-800 text-white placeholder-slate-400 border border-slate-700 rounded px-3 py-1.5 w-52 sm:w-64 focus:outline-none focus:border-pink-400 text-xs">
+          <button id="clearSearch" class="hidden absolute right-2 top-1.5 text-slate-400 hover:text-white">✕</button>
+        </div>
+
+        <!-- Highlight Intercompany Toggle -->
+        <button id="toggleICBtn" onclick="toggleHighlight('ic')" 
+          class="bg-amber-400/20 border border-amber-400 text-amber-200 px-2.5 py-1.5 rounded font-medium hover:bg-amber-400/30 transition flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+          <span>Intercompany Items: <strong id="icStateText">ON</strong></span>
+        </button>
+
+        <!-- Highlight UVA/OVA & Acq Cost Toggle -->
+        <button id="toggleFVBtn" onclick="toggleHighlight('fv')" 
+          class="bg-slate-800 border border-slate-600 text-slate-300 px-2.5 py-1.5 rounded font-medium hover:bg-slate-700 transition flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-blue-400 inline-block"></span>
+          <span>FV (UVA/OVA) & Costs: <strong id="fvStateText">OFF</strong></span>
+        </button>
+
+        <!-- Toggle Gridlines -->
+        <button onclick="toggleGrid()" class="bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1.5 rounded hover:bg-slate-700 transition">
+          Gridlines
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SPREADSHEET COLUMN LETTERS BAR -->
+  <div class="no-print grid grid-cols-12 bg-slate-100 border-b border-slate-300">
+    <div class="col-header col-span-1"></div>
+    <div class="col-header col-span-2">A</div>
+    <div class="col-header col-span-2">B</div>
+    <div class="col-header col-span-1">C</div>
+    <div class="col-header col-span-2">D</div>
+    <div class="col-header col-span-2">E</div>
+    <div class="col-header col-span-2">F</div>
+  </div>
+
+  <!-- MAIN SPREADSHEET WORKBOOK CANVAS -->
+  <main id="workbookCanvas" class="spreadsheet-canvas flex-grow pb-20 pt-3 px-2 sm:px-6 lg:px-10">
+    <div class="max-w-7xl mx-auto">
+
+      <!-- SAGE GREEN SPREADSHEET BANNER -->
+      <div class="mb-5 px-3 py-1.5 border border-[#c5e0b4] rounded-sm flex flex-wrap justify-between items-center gap-2" style="background-color: var(--header-green);">
+        <div class="font-bold text-sm sm:text-base text-gray-900">
+          Consolidated FS — Date of Acquisition, Subsequent Periods &amp; Intercompany Transactions
+        </div>
+        <div class="ui-sans text-xs text-emerald-900 font-medium flex items-center gap-3">
+          <span>💡 <strong>Hover</strong> any line item for explanations &amp; journal entries</span>
+          <span class="hidden sm:inline">|</span>
+          <span class="hidden sm:inline">📌 <strong>Click</strong> any line item to pin details</span>
+        </div>
+      </div>
+
+      <!-- PINNED INSPECTOR DRAWER (Shows when user clicks an item) -->
+      <div id="pinnedInspector" class="hidden no-print ui-sans mb-6 bg-slate-900 text-white rounded-lg p-4 border-l-4 border-pink-500 shadow-lg">
+        <div class="flex justify-between items-start gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs uppercase tracking-wider px-2 py-0.5 rounded bg-pink-600 font-bold" id="pinBadge">Pinned Item</span>
+              <h3 class="text-base font-bold text-white" id="pinTitle">Line Item Title</h3>
+            </div>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed" id="pinDesc"></p>
+            <div id="pinEntryBox" class="mt-2.5 bg-slate-800/90 border border-slate-700 rounded p-2.5 mono-font text-xs text-emerald-300 whitespace-pre-line"></div>
+            <div id="pinTrapBox" class="mt-2 text-xs text-amber-300 font-medium"></div>
+          </div>
+          <button onclick="closePinned()" class="text-slate-400 hover:text-white text-sm px-2 py-1 bg-slate-800 rounded">Close ✕</button>
+        </div>
+      </div>
+
+      <!-- ======================================================================= -->
+      <!-- MULTI-COLUMN SCHEDULE LAYOUT (MATCHING SCREENSHOTS)                     -->
+      <!-- ======================================================================= -->
+      <div id="schedulesContainer" class="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-7 items-start">
+
+        <!-- =================================================================== -->
+        <!-- LEFT COLUMN: ASSETS, LIABILITIES, SHE, GOODWILL (Schedules A - E)   -->
+        <!-- =================================================================== -->
+        <div class="lg:col-span-6 space-y-7" data-section="acq">
+
+          <!-- SCHEDULE A: CONSOLIDATED TOTAL ASSETS -->
+          <section class="schedule-card" data-tags="assets acq subsequent intercompany upei ppe goodwill ctir">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>A. Consolidated Total Assets</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <!-- Row 1 -->
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="a_parent_bv">
+                  <span class="item-label">1. Assets – Parent @BV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Separate carrying amount</div>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="a_sub_fv">
+                  <span class="item-label">2. Assets – Subsidiary @FV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">BV + Unamort. UVA − Unamort. OVA</div>
+              </div>
+
+              <!-- Row 3 -->
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="a_pp_assets">
+                  <span class="item-label">3. Purchase Price (In the form of assets)</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Cash / non-cash asset outflow</div>
+              </div>
+
+              <!-- Row 4 -->
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="a_goodwill">
+                  <span class="item-label">4. Goodwill</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Net of cumulative impairment</div>
+              </div>
+
+              <!-- Rows 5, 6, 7 with Blue Bracket -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-fv flex justify-between" data-key="a_dc_ic">
+                    <span class="item-label">5. Direct / Indirect Cost</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="a_ctir_stocks">
+                    <span class="item-label">6. CTIR – stocks</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="a_ctir_debt">
+                    <span class="item-label">7. CTIR – debt</span>
+                    <span>(xx)</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note text-center leading-tight">deduct only if<br>paid</div>
+                </div>
+              </div>
+
+              <!-- Intercompany Asset Eliminations (Subsequent) -->
+              <div class="grid grid-cols-12 items-stretch pt-0.5">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-ic flex justify-between" data-key="a_ic_receivables">
+                    <span class="item-label">8. Intercompany Receivables / Advances</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="a_upei">
+                    <span class="item-label">9. Unrealized Profit in Ending Invty (UPEI)</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="a_ic_ppe_gain">
+                    <span class="item-label">10. Net Unrealized Gain on Intercompany PPE</span>
+                    <span>(xx)</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note leading-tight">intercompany<br>asset eliminations</div>
+                </div>
+              </div>
+
+              <!-- Total Row -->
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso Total Assets</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE B: CONSOLIDATED TOTAL LIABILITIES -->
+          <section class="schedule-card" data-tags="liabilities acq subsequent intercompany ctir">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>B. Consolidated Total Liab</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="b_parent_bv">
+                  <span class="item-label">1. Liab – Parent @BV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="b_sub_fv">
+                  <span class="item-label">2. Liab – Subsidiary @FV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">BV + UVL − OVL</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="b_pp_debt">
+                  <span class="item-label">3. Purchase Price (in the form of debt)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Bonds / Notes issued as PP</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="b_contingent_liab">
+                  <span class="item-label">4. Contingent Liab</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Present obligation @FV</div>
+              </div>
+
+              <!-- Bracketed Rows 5 & 6 -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-fv flex justify-between" data-key="b_dc_ic_unpaid">
+                    <span class="item-label">5. DC/IC</span>
+                    <span>xx</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="b_ctir_stocks_unpaid">
+                    <span class="item-label">6. CTIR – stocks</span>
+                    <span>xx</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-4/5 mr-2"></div>
+                  <div class="side-note">add only if unpaid</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="b_ctir_debt">
+                  <span class="item-label">7. CTIR – debt</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note-dark">deduct if paid (reduces bond carrying val)</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="b_ic_payables">
+                  <span class="item-label">8. Intercompany Payables / Advances</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Eliminate 100% vs IC Receivable</div>
+              </div>
+
+              <!-- Total Row -->
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso Total Liability</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE C: CONSOLIDATED TOTAL SHE (DATE OF ACQUISITION) -->
+          <section class="schedule-card" data-tags="she equity acq ctir bargain">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>C. Consolidated Total SHE (At Acquisition)</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="c_she_parent">
+                  <span class="item-label">1. SHE – Parent</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Sub's pre-acq SHE is 100% eliminated</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="c_nci">
+                  <span class="item-label">2. NCI</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">@FV or Proportionate Share</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="c_pp_shares">
+                  <span class="item-label">3. PP (in the form of shares)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Issued shares @Fair Value</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="c_gl">
+                  <span class="item-label">4. G/L</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note-dark text-[11px]">» Gain on BP, G/L on Remeasurement (PHI)</div>
+              </div>
+
+              <!-- Bracketed Rows 5, 6, 7 -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-fv flex justify-between" data-key="c_dc">
+                    <span class="item-label">5. DC</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="c_ic">
+                    <span class="item-label">6. IC</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="c_ctir_stocks">
+                    <span class="item-label">7. CTIR – stocks</span>
+                    <span>(xx)</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note text-center leading-tight">deduct whether<br>paid/unpaid</div>
+                </div>
+              </div>
+
+              <!-- Total Row -->
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso Total SHE</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE D: GOODWILL / GAIN ON BARGAIN PURCHASE -->
+          <section class="schedule-card" data-tags="goodwill bargain purchase acq nci phi">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>D. Goodwill / (Gain on Bargain Purchase)</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="d_ct">
+                  <span class="item-label">1. Consideration Transferred @FV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Cash + Debt + Shares + Contingent</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="d_phi">
+                  <span class="item-label">2. Previously Held Interest (PHI) @FV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Step acquisition remeasured @FV</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="d_nci">
+                  <span class="item-label">3. Non-Controlling Interest (IM of NCI)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">FV (Full GW) or PS (Partial GW)</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="d_fvna">
+                  <span class="item-label">4. Fair Value of Net Assets Acquired (FVNAA)</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Sub BV Equity + UVA − OVA</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Goodwill / (Gain on BP)</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">If negative » Gain on BP (to RE)</div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- RIGHT COLUMN: SHARE PREMIUM, RE, NCI, SUBSEQUENT SHE (E - I)        -->
+        <!-- =================================================================== -->
+        <div class="lg:col-span-6 space-y-7" data-section="equity">
+
+          <!-- SCHEDULE E & F: SHARE CAPITAL & SHARE PREMIUM -->
+          <section class="schedule-card" data-tags="share capital share premium ctir stocks equity acq">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>E. Conso Share Capital &amp; F. Conso Share Premium</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="e_sc_parent">
+                  <span class="item-label">Share Capital – Parent</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Parent's legal capital only</div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="e_sc_issued">
+                  <span class="item-label">PP (in the form of shares) @Par Value</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center pb-2">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso Share Capital</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <!-- F. Share Premium Banner -->
+              <div class="grid grid-cols-12 items-center pt-1">
+                <div class="col-span-8 schedule-banner">
+                  <span>F. Consolidated Share Premium</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 line-row flex justify-between" data-key="f_sp_parent">
+                  <span class="item-label">Share Premium – Parent</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="f_sp_excess">
+                  <span class="item-label">PP (in the form of shares) excess of FV over par</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="f_ctir_stocks">
+                  <span class="item-label">CTIR – stocks</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Whether paid or unpaid</div>
+              </div>
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso Share Premium</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE G: CONSOLIDATED RETAINED EARNINGS -->
+          <section class="schedule-card" data-tags="retained earnings cre subsequent equity intercompany">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>G. Consolidated RE</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="g_cre_beg">
+                  <span class="item-label">Conso RE, beg</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note-dark text-[11px]">RE–parent (on date of acq.), Conso RE, end prior yr</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="g_cni_parent">
+                  <span class="item-label">Conso NI – parent (CI in CNI)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Includes IC &amp; UVA/OVA effects</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="g_div_parent">
+                  <span class="item-label">Dividends Declared – parent</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Parent's dividends ONLY</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso RE, End</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE H: NON-CONTROLLING INTEREST, END -->
+          <section class="schedule-card" data-tags="nci ncina equity subsequent upstream intercompany">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>H. Non Controlling Interest, End (NCINA)</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="h_nci_beg">
+                  <span class="item-label">NCI, beg</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note-dark text-[11px]">if 1st year, IM of NCI; if subsequent yr, NCI end last yr</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="h_ncini">
+                  <span class="item-label">Conso NI – NCI (NCINI)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Affected by UPSTREAM sales only</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="h_nci_div">
+                  <span class="item-label">Div Received by NCI from Sub</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">NCI % × Sub Dividends Declared</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>NCI, end</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+
+            <!-- Screenshot Note Block -->
+            <div class="mt-4 py-2 px-3 bg-amber-50/70 border-l-4 border-amber-400 rounded-r text-xs space-y-1">
+              <div class="font-bold text-gray-900">Note: Intercompany Sale = Eliminate</div>
+              <div>Parent to Subsidiary » <strong class="text-pink-800">Downstream</strong> » allocate to <strong>parent only (100% CI)</strong></div>
+              <div>Subsidiary to Parent » <strong class="text-indigo-800">Upstream</strong> » allocate to <strong>parent (CI%) and subsidiary (NCI%)</strong></div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE I: CONSO TOTAL SHE (SUBSEQUENT) -->
+          <section class="schedule-card" data-tags="she equity subsequent">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>I. Conso Total SHE</span>
+                <span class="italic font-normal text-xs">combined E, F, G, H</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="i_she_parent_end">
+                  <span class="item-label">SHE – Parent, End (Conso SC + Conso SP + Conso RE, end)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Controlling Equity</div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="i_nci_end">
+                  <span class="item-label">NCI, end</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Non-Controlling Equity</div>
+              </div>
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso Total SHE, End</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- DIVIDER FOR SECOND SCREENSHOT (ITEMS J, K, L, M, N, O, P, Q)        -->
+        <!-- =================================================================== -->
+        <div class="lg:col-span-12 pt-4 pb-1 border-t-2 border-dashed border-gray-300" data-section="pnl">
+          <div class="px-3 py-1.5 border border-[#c5e0b4] rounded-sm font-bold text-sm sm:text-base text-gray-900" style="background-color: var(--header-green);">
+            Consolidated P&amp;L, Inventory, PPE &amp; Net Income Attribution (Schedules J – Q)
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- LEFT COLUMN (J - N): COST OF SALES, INVENTORY, OPEX, GAIN/LOSS      -->
+        <!-- =================================================================== -->
+        <div class="lg:col-span-6 space-y-7" data-section="pnl">
+
+          <!-- SCHEDULE J: CONSOLIDATED COST OF SALES -->
+          <section class="schedule-card" data-tags="cos cost of sales inventory upei rpbi intercompany pnl">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>J. Consolidated Cost of Sales</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="j_cos_parent">
+                  <span class="item-label">COS – parent</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="j_cos_sub">
+                  <span class="item-label">COS – subsidiary</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="j_inv_uva_ova">
+                  <span class="item-label">Invty Amortization of UVA/(OVA)</span>
+                  <span>xx(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">UVA sold (+), OVA sold (−)</div>
+              </div>
+
+              <!-- Intercompany Additions to Schedule J -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-ic flex justify-between" data-key="j_ic_sales">
+                    <span class="item-label">Intercompany Sales (transfer price)</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="j_upei">
+                    <span class="item-label">Unrealized Profit in Ending Inventory (UPEI)</span>
+                    <span>xx</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="j_rpbi">
+                    <span class="item-label">Realized Profit in Beginning Inventory (RPBI)</span>
+                    <span>(xx)</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note leading-tight">intercompany<br>invty effects</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated Cost of Sales</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE K: CONSOLIDATED INVENTORY -->
+          <section class="schedule-card" data-tags="inventory upei rpbi uva ova intercompany assets">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>K. Consolidated Inventory</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="k_inv_parent">
+                  <span class="item-label">Inventory – Parent @BV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="k_inv_sub">
+                  <span class="item-label">Inventory – Subsidiary @BV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="k_uva_inv">
+                  <span class="item-label">UVA of Invty</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Acq-date FV step-up</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="k_amort_uva">
+                  <span class="item-label">Amort of UVA</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Portion sold to 3rd party</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="k_ova_inv">
+                  <span class="item-label">OVA of Invty</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Acq-date FV write-down</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="k_amort_ova">
+                  <span class="item-label">Amort of OVA</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="k_upei">
+                  <span class="item-label">Unrealized Profit in Ending Inventory (UPEI)</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note font-semibold">⚠️ RPBI has NO effect here!</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated Inventory</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE L: CONSOLIDATED OPEX -->
+          <section class="schedule-card" data-tags="opex operating expenses depreciation goodwill impairment ppe intercompany pnl">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>L. Consolidated OPEX</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="l_opex_parent">
+                  <span class="item-label">OPEX – Parent</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="l_opex_sub">
+                  <span class="item-label">OPEX – Subsidiary</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <!-- UVA / OVA PPE through depreciation -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-fv flex justify-between" data-key="l_amort_uva_ppe">
+                    <span class="item-label">Amortization of UVA – PPE</span>
+                    <span>xx</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="l_amort_ova_ppe">
+                    <span class="item-label">Amortization of OVA – PPE</span>
+                    <span>(xx)</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-2">
+                  <div class="side-note-dark leading-tight">through<br>depreciation</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="l_gw_impairment">
+                  <span class="item-label">Impairment Loss – Goodwill</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Current year write-down</div>
+              </div>
+
+              <!-- Intercompany OPEX Adjustments -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-ic flex justify-between" data-key="l_excess_depr">
+                    <span class="item-label">Excess Depreciation – Intercompany Gain on PPE</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="l_deficient_depr">
+                    <span class="item-label">Deficient Depreciation – Intercompany Loss on PPE</span>
+                    <span>xx</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="l_ic_rent_mgmt">
+                    <span class="item-label">Intercompany Rent / Service / Mgmt Fees</span>
+                    <span>(xx)</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note leading-tight">intercompany<br>OPEX adjustments</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso OPEX</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE M & N: CONSOLIDATED GAIN / LOSS ON SALE -->
+          <section class="schedule-card" data-tags="gain on sale loss on sale ppe intercompany pnl">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>M. Consolidated Gain on Sale</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="m_gain_parent">
+                  <span class="item-label">Gain on Sale – Parent</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="m_gain_sub">
+                  <span class="item-label">Gain on Sale – Subsidiary</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-fv flex justify-between" data-key="m_uva_ppe_sale">
+                    <span class="item-label">Amort of UVA – PPE</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-fv flex justify-between" data-key="m_ova_ppe_sale">
+                    <span class="item-label">Amort of OVA – PPE</span>
+                    <span>xx</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-2">
+                  <div class="side-note-dark leading-tight">through sale to<br>external party</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="m_ic_unrealized_gain">
+                  <span class="item-label">Unrealized Gain on Intercompany Sale of PPE</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Eliminate 100% in yr of sale</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pb-2">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated Gain on Sale</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <!-- N. Consolidated Loss on Sale -->
+              <div class="grid grid-cols-12 items-center pt-1">
+                <div class="col-span-8 schedule-banner">
+                  <span>N. Consolidated Loss on Sale</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 line-row flex justify-between" data-key="n_loss_parent_sub">
+                  <span class="item-label">Loss on Sale – Parent &amp; Subsidiary</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="n_uva_ova_loss">
+                  <span class="item-label">Amort of UVA / (OVA) – PPE sold</span>
+                  <span>xx(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">UVA increases loss; OVA reduces</div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="n_ic_unrealized_loss">
+                  <span class="item-label">Unrealized Loss on Intercompany Sale of PPE</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Eliminate 100% in yr of sale</div>
+              </div>
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated Loss on Sale</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- RIGHT COLUMN (O - Q): SALES, CNI ATTRIBUTION, CONSOLIDATED PPE      -->
+        <!-- =================================================================== -->
+        <div class="lg:col-span-6 space-y-7" data-section="pnl">
+
+          <!-- SCHEDULE O: CONSOLIDATED SALES & GROSS PROFIT -->
+          <section class="schedule-card" data-tags="sales gross profit intercompany pnl">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>O. Consolidated Sales &amp; Gross Profit</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="o_sales_parent_sub">
+                  <span class="item-label">Sales – Parent + Sales – Subsidiary</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="o_ic_sales">
+                  <span class="item-label">Intercompany Sales (Downstream + Upstream)</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">100% of transfer price billed</div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated Sales</span>
+                  <span class="w-20 text-right acct-single-top">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="o_less_conso_cos">
+                  <span class="item-label">Less: Consolidated Cost of Sales (from J)</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated Gross Profit</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE P: CONSOLIDATED NET INCOME (CNI ATTRIBUTION) -->
+          <section class="schedule-card" data-tags="cni net income ncini parent downstream upstream intercompany pnl equity">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>P. Consolidated Net Income (Parent &amp; NCI)</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="text-xs font-bold text-pink-900 px-1.5 pt-1">1. Adjusted Net Income of Subsidiary (Shared by CI% &amp; NCI%):</div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="p_sub_ni">
+                  <span class="item-label">Net Income – Subsidiary (separate books)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="p_sub_uva_ova">
+                  <span class="item-label">Amortization of (UVA) / OVA</span>
+                  <span>(xx)xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Invty &amp; PPE FV amort.</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="p_sub_gw_imp">
+                  <span class="item-label">Goodwill Impairment (if Full Goodwill method)</span>
+                  <span>(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">If Partial GW » 100% to Parent</div>
+              </div>
+
+              <!-- Upstream Intercompany Adjustments -->
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-ic flex justify-between" data-key="p_up_upei">
+                    <span class="item-label">Upstream UPEI</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="p_up_rpbi">
+                    <span class="item-label">Upstream RPBI</span>
+                    <span>xx</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="p_up_ppe_gain">
+                    <span class="item-label">Upstream Unrealized Gain on PPE (yr of sale)</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="p_up_excess_depr">
+                    <span class="item-label">Upstream Excess Depreciation on PPE</span>
+                    <span>xx</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note leading-tight">UPSTREAM only<br>(Sub is Seller)</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Adjusted Net Income of Subsidiary</span>
+                  <span class="w-20 text-right acct-single-top">xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note-dark">× NCI% = <strong>NCINI</strong></div>
+              </div>
+
+              <!-- Controlling Interest Share -->
+              <div class="text-xs font-bold text-pink-900 px-1.5 pt-2.5">2. Conso NI Attributable to Parent (CI in CNI):</div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="p_parent_own_ni">
+                  <span class="item-label">Parent Separate NI (EXCLUDING Div Income from Sub)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Strip out Sub dividend!</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-ic flex justify-between" data-key="p_down_adj">
+                  <span class="item-label">Downstream: − UPEI + RPBI − Unr. Gain + Excess Depr</span>
+                  <span>(xx)xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">100% absorbed by Parent</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="p_parent_share_sub">
+                  <span class="item-label">Parent Share in Adjusted Sub NI (CI% × Adj Sub NI)</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Conso NI – Parent (CI in CNI)</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">+ NCINI = Total Conso NI</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SCHEDULE Q: CONSOLIDATED PPE (NET) -->
+          <section class="schedule-card" data-tags="ppe fixed assets depreciation intercompany assets">
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-8 schedule-banner">
+                <span>Q. Consolidated PPE (Net)</span>
+              </div>
+              <div class="col-span-4"></div>
+            </div>
+
+            <div class="mt-1 space-y-0.5">
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row flex justify-between" data-key="q_ppe_bv">
+                  <span class="item-label">PPE (Net) – Parent @BV + Subsidiary @BV</span>
+                  <span>xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center">
+                <div class="col-span-8 line-row is-fv flex justify-between" data-key="q_ppe_uva_ova">
+                  <span class="item-label">Unamortized UVA / (OVA) of PPE</span>
+                  <span>xx(xx)</span>
+                </div>
+                <div class="col-span-4 pl-2 side-note">Initial FV adj less accum amort</div>
+              </div>
+
+              <div class="grid grid-cols-12 items-stretch">
+                <div class="col-span-8 space-y-0.5">
+                  <div class="line-row is-ic flex justify-between" data-key="q_ic_gain_ppe">
+                    <span class="item-label">Unrealized Gain on Intercompany Sale of PPE</span>
+                    <span>(xx)</span>
+                  </div>
+                  <div class="line-row is-ic flex justify-between" data-key="q_accum_excess_depr">
+                    <span class="item-label">Cumulative Excess Depreciation to Date</span>
+                    <span>xx</span>
+                  </div>
+                </div>
+                <div class="col-span-4 flex items-center pl-1">
+                  <div class="blue-bracket h-5/6 mr-2"></div>
+                  <div class="side-note leading-tight">Net Unamortized<br>Intercompany Gain</div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-12 items-center pt-0.5">
+                <div class="col-span-8 flex justify-between font-bold px-1.5 py-0.5">
+                  <span>Consolidated PPE (Net)</span>
+                  <span class="w-20 text-right acct-single-top acct-double-bottom">xx</span>
+                </div>
+                <div class="col-span-4"></div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FLOATING HOVER TOOLTIP CARD -->
+  <div id="floating-tooltip" class="hidden fixed ui-sans bg-slate-900/95 text-white p-3.5 rounded-lg border border-slate-700 backdrop-blur-sm">
+    <div class="flex items-center justify-between gap-2 mb-1">
+      <span id="ttBadge" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-pink-600 text-white">Schedule Rule</span>
+      <span class="text-[10px] text-slate-400">Click row to pin</span>
+    </div>
+    <div id="ttTitle" class="font-bold text-sm text-white mb-1"></div>
+    <p id="ttDesc" class="text-xs text-slate-200 leading-relaxed"></p>
+    <div id="ttEntry" class="hidden mt-2 bg-slate-800 border border-slate-700 rounded p-2 mono-font text-[11px] text-emerald-300 whitespace-pre-line"></div>
+    <div id="ttTrap" class="hidden mt-2 text-[11px] text-amber-300 font-medium border-t border-slate-700/80 pt-1.5"></div>
+  </div>
+
+  <!-- SPREADSHEET BOTTOM TAB BAR (LIKE GOOGLE SHEETS / EXCEL IN SCREENSHOT) -->
+  <footer class="no-print ui-sans fixed bottom-0 left-0 right-0 bg-gray-200 border-t border-gray-300 flex items-center justify-between px-3 z-40 overflow-x-auto">
+    <div class="flex items-center">
+      <div class="px-2.5 py-1.5 text-gray-500 font-bold text-sm select-none">☰</div>
+      <div class="sheet-tab active" onclick="filterSection('all', this)">
+        <span class="w-2 h-2 rounded-full bg-pink-500"></span>
+        <span>All Schedules (A–Q)</span>
+      </div>
+      <div class="sheet-tab" onclick="filterSection('acq', this)">
+        <span>1. Date of Acq (A–D)</span>
+      </div>
+      <div class="sheet-tab" onclick="filterSection('equity', this)">
+        <span>2. Conso SHE, RE &amp; NCI (E–I)</span>
+      </div>
+      <div class="sheet-tab" onclick="filterSection('pnl', this)">
+        <span>3. P&amp;L &amp; Intercompany (J–Q)</span>
+      </div>
+      <div class="sheet-tab" onclick="filterSection('intercompany-only', this)">
+        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+        <span>4. Intercompany Focus</span>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-4 text-[11px] text-gray-600 pr-2">
+      <span>PFRS 3 &amp; PFRS 10 Compliant</span>
+      <span>•</span>
+      <span>100% Self-Contained Study Sheet</span>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC & TOOLTIP KNOWLEDGE BASE -->
+  <script>
+    const ITEM_KNOWLEDGE = {
+      // SCHEDULE A
+      a_parent_bv: {
+        badge: "Schedule A • Base Asset",
+        title: "1. Assets – Parent @ Book Value",
+        desc: "Under PFRS 3, the acquirer (Parent) retains its own assets and liabilities at their existing carrying amounts (Book Value). Do NOT remeasure the Parent's own assets to Fair Value.",
+        trap: "⚠️ Exam Trap: If the problem gives Fair Value of Parent's assets, ignore it! Only the Subsidiary's identifiable assets are remeasured to Fair Value on acquisition date."
+      },
+      a_sub_fv: {
+        badge: "Schedule A • Fair Value Adjustment",
+        title: "2. Assets – Subsidiary @ Fair Value",
+        desc: "All identifiable assets of the Subsidiary are recognized at Acquisition-Date Fair Value (100% of FV regardless of whether Parent owns 100% or less). In subsequent years, this equals Sub Ending BV + Remaining Unamortized UVA − Remaining Unamortized OVA.",
+        entry: "Dr. Identifiable Asset (UVA)       xx\n   Cr. Revaluation / Sub Equity        xx",
+        trap: "⚠️ Exam Trap: Exclude any preexisting Goodwill recorded on the Subsidiary's separate books prior to acquisition!"
+      },
+      a_pp_assets: {
+        badge: "Schedule A • Cash Outflow",
+        title: "3. Purchase Price (In the form of assets)",
+        desc: "If the acquisition consideration paid by the Parent in cash or non-cash assets has NOT YET been recorded on the Parent's pre-acquisition balance sheet, deduct the cash/asset outflow here.",
+        entry: "Dr. Investment in Subsidiary       xx\n   Cr. Cash / Other Assets             xx",
+        trap: "⚠️ Exam Trap: Check if the Parent's trial balance already recorded the acquisition. If already recorded, Cash was already reduced and 'Investment in Sub' is eliminated instead."
+      },
+      a_goodwill: {
+        badge: "Schedule A • Intangible Asset",
+        title: "4. Goodwill (Unimpaired Balance)",
+        desc: "Goodwill arising from the business combination is recognized as a Consolidated Asset. Subsequent to acquisition, Goodwill is NOT amortized; instead, it is tested annually for impairment (Initial Goodwill − Cumulative Impairment Loss).",
+        trap: "⚠️ Exam Trap: Gain on Bargain Purchase is NEVER recognized as a negative asset; it goes directly to Consolidated Retained Earnings (or Profit/Loss)."
+      },
+      a_dc_ic: {
+        badge: "Schedule A • Transaction Costs",
+        title: "5. Direct / Indirect Acquisition Costs (DC / IC)",
+        desc: "Finder's fees, legal, accounting, valuation, and general administrative costs are expensed outright (reducing Retained Earnings). Deduct from Total Assets ONLY IF PAID in cash (not yet recorded).",
+        entry: "Dr. Acquisition Expense (RE)       xx\n   Cr. Cash (if paid) / Payable        xx"
+      },
+      a_ctir_stocks: {
+        badge: "Schedule A • Share Issuance Costs",
+        title: "6. Cost to Issue and Register Stocks (CTIR – stocks)",
+        desc: "Stock issuance costs (underwriting, SEC registration, stamp tax on new shares) reduce Share Premium. Deduct from Consolidated Total Assets ONLY IF PAID in cash.",
+        entry: "Dr. Share Premium (or RE)          xx\n   Cr. Cash (if paid)                  xx"
+      },
+      a_ctir_debt: {
+        badge: "Schedule A • Debt Issuance Costs",
+        title: "7. Cost to Issue and Register Debt (CTIR – debt)",
+        desc: "Bond/debt issue costs reduce the carrying amount of the debt liability (amortized via effective interest method). Deduct from Consolidated Assets ONLY IF PAID in cash.",
+        entry: "Dr. Bond Issue Cost (contra-liab)  xx\n   Cr. Cash (if paid)                  xx"
+      },
+      a_ic_receivables: {
+        badge: "Schedule A • Intercompany Elimination",
+        title: "8. Intercompany Receivables / Advances",
+        desc: "All reciprocal receivables, notes, advances, or management fees owed between Parent and Subsidiary must be 100% eliminated because the consolidated group cannot owe money to itself.",
+        entry: "Dr. Accounts Payable (Intercompany)    xx\n   Cr. Accounts Receivable (Interco)       xx",
+        trap: "⚠️ Exam Trap: Reconcile any Cash-in-Transit or Goods-in-Transit first before eliminating reciprocal accounts!"
+      },
+      a_upei: {
+        badge: "Schedule A • Intercompany Inventory",
+        title: "9. Unrealized Profit in Ending Inventory (UPEI)",
+        desc: "Markup on intercompany inventory transfers still held by the buying affiliate at year-end overstates ending inventory on the balance sheet. Deduct 100% of UPEI from Consolidated Assets.",
+        entry: "Dr. Cost of Sales                  xx\n   Cr. Inventory (Ending)              xx",
+        trap: "⚠️ Exam Trap: RPBI (Beginning Inventory profit) does NOT affect ending Consolidated Inventory or ending Total Assets!"
+      },
+      a_ic_ppe_gain: {
+        badge: "Schedule A • Intercompany PPE",
+        title: "10. Net Unrealized Gain on Intercompany PPE",
+        desc: "When an affiliate sells PPE to another at a gain, the carrying value of PPE is inflated. Deduct the remaining unamortized gain (Original Intercompany Gain − Cumulative Excess Depreciation to date).",
+        entry: "Dr. Gain on Sale / RE, beg         xx\nDr. Accumulated Depreciation       xx\n   Cr. Equipment / PPE                 xx\n   Cr. Depreciation Expense (OPEX)     xx"
+      },
+
+      // SCHEDULE B
+      b_parent_bv: {
+        badge: "Schedule B • Base Liability",
+        title: "1. Liabilities – Parent @ Book Value",
+        desc: "Parent's existing liabilities are carried at their separate book values."
+      },
+      b_sub_fv: {
+        badge: "Schedule B • Fair Value Adjustment",
+        title: "2. Liabilities – Subsidiary @ Fair Value",
+        desc: "Subsidiary's identifiable liabilities are measured at Acquisition-Date Fair Value (Book Value + Undervalued Liabilities − Overvalued Liabilities)."
+      },
+      b_pp_debt: {
+        badge: "Schedule B • Debt Consideration",
+        title: "3. Purchase Price (in the form of debt)",
+        desc: "Bonds, notes, or payables issued by the Parent to the former owners of the Subsidiary as part of consideration transferred, measured at Fair Value (Present Value)."
+      },
+      b_contingent_liab: {
+        badge: "Schedule B • PFRS 3 Exception",
+        title: "4. Contingent Liability of Subsidiary",
+        desc: "Under PFRS 3, a contingent liability assumed in a business combination is recognized at Fair Value if it is a PRESENT obligation arising from past events and its FV can be reliably measured—EVEN IF outflow is NOT probable!",
+        trap: "⚠️ Exam Trap: Unlike PAS 37 (which requires 'probable' outflow), PFRS 3 only requires a 'present obligation' + reliable FV!"
+      },
+      b_dc_ic_unpaid: {
+        badge: "Schedule B • Unpaid Costs",
+        title: "5. Direct / Indirect Costs (If Unpaid)",
+        desc: "If acquisition-related costs were incurred but not yet paid in cash at the balance sheet date, they create an accrued liability. Add to Consolidated Liabilities ONLY IF UNPAID.",
+        entry: "Dr. Retained Earnings (Expense)    xx\n   Cr. Accrued Expenses Payable        xx"
+      },
+      b_ctir_stocks_unpaid: {
+        badge: "Schedule B • Unpaid Stock Issuance Costs",
+        title: "6. CTIR – stocks (If Unpaid)",
+        desc: "If share issuance costs are unpaid at reporting date, add the accrued liability to Consolidated Liabilities.",
+        entry: "Dr. Share Premium                  xx\n   Cr. Accounts Payable                xx"
+      },
+      b_ctir_debt: {
+        badge: "Schedule B • Contra-Liability",
+        title: "7. CTIR – debt (Deduct if Paid)",
+        desc: "Debt issuance costs directly reduce the initial carrying value of the financial liability (bonds/notes payable). If paid in cash, Cash decreases and Total Liabilities decrease by the contra-liability (Bond Issue Cost).",
+        entry: "Dr. Bond Issue Cost (reduces Liab) xx\n   Cr. Cash                            xx",
+        trap: "⚠️ Exam Trap: If CTIR-debt is UNPAID, the debit to Bond Issue Cost (contra-liability) and credit to Accrued Payable offset each other within Total Liabilities (net zero effect on Total Liab)!"
+      },
+      b_ic_payables: {
+        badge: "Schedule B • Intercompany Elimination",
+        title: "8. Intercompany Payables / Advances",
+        desc: "Eliminate 100% of reciprocal accounts payable, notes payable, dividend payable, or management fee payable between Parent and Subsidiary.",
+        entry: "Dr. Intercompany Payable           xx\n   Cr. Intercompany Receivable         xx"
+      },
+
+      // SCHEDULE C
+      c_she_parent: {
+        badge: "Schedule C • Acquirer Equity",
+        title: "1. Shareholders' Equity – Parent",
+        desc: "Start with the Parent's total Shareholders' Equity at book value. The Subsidiary's pre-acquisition Shareholders' Equity is 100% eliminated upon consolidation!"
+      },
+      c_nci: {
+        badge: "Schedule C • Non-Controlling Interest",
+        title: "2. Non-Controlling Interest (Initial Measurement)",
+        desc: "Measured at either (a) Fair Value of NCI (Full Goodwill method) or (b) NCI's Proportionate Share of the Subsidiary's Fair Value of Net Identifiable Assets (Partial Goodwill method). Note: PS acts as the statutory floor if FV of NCI is below PS.",
+        trap: "⚠️ Exam Trap: Always check if the implied FV of NCI (from share price) is less than Proportionate Share. If FV < PS, use Proportionate Share!"
+      },
+      c_pp_shares: {
+        badge: "Schedule C • Equity Consideration",
+        title: "3. Purchase Price (in the form of shares)",
+        desc: "New shares issued by the Parent as consideration are added to Consolidated SHE at their Acquisition-Date Fair Value (Par Value goes to Share Capital; excess goes to Share Premium)."
+      },
+      c_gl: {
+        badge: "Schedule C • Acquisition Gains/Losses",
+        title: "4. Gains / Losses Affecting Retained Earnings",
+        desc: "Includes: (1) Gain on Bargain Purchase (excess of FVNAA over aggregate consideration), (2) Gain or Loss on Remeasurement of Previously Held Interest (PHI) to FV in a step acquisition, and (3) Adjustments outside the measurement period."
+      },
+      c_dc: {
+        badge: "Schedule C • Expense Deduction",
+        title: "5. Direct Costs (DC)",
+        desc: "Always deducted from Consolidated SHE (specifically Retained Earnings) WHETHER PAID OR UNPAID, because expenses reduce equity upon incurrence."
+      },
+      c_ic: {
+        badge: "Schedule C • Expense Deduction",
+        title: "6. Indirect Costs (IC)",
+        desc: "General and administrative acquisition costs are always deducted from Consolidated SHE (Retained Earnings) WHETHER PAID OR UNPAID."
+      },
+      c_ctir_stocks: {
+        badge: "Schedule C • Share Premium Deduction",
+        title: "7. CTIR – stocks",
+        desc: "Stock issuance costs are always deducted from Consolidated SHE (specifically Share Premium first, then Retained Earnings if Share Premium is insufficient) WHETHER PAID OR UNPAID."
+      },
+
+      // SCHEDULE D
+      d_ct: {
+        badge: "Schedule D • Goodwill Formula",
+        title: "1. Consideration Transferred @ Fair Value",
+        desc: "Sum of acquisition-date Fair Values of: Cash paid + Non-cash assets transferred + Liabilities incurred (PV) + Equity shares issued + Contingent Consideration @FV."
+      },
+      d_phi: {
+        badge: "Schedule D • Step Acquisition",
+        title: "2. Previously Held Interest (PHI) @ Fair Value",
+        desc: "In a business combination achieved in stages (e.g., 25% associate becomes 80% subsidiary), the prior 25% equity interest is remeasured to Acquisition-Date Fair Value. Any resulting gain/loss goes to Profit or Loss (or OCI if FVOCI election)."
+      },
+      d_nci: {
+        badge: "Schedule D • NCI Valuation",
+        title: "3. Non-Controlling Interest (IM of NCI)",
+        desc: "Added to total acquisition value to compare against 100% of Fair Value of Net Identifiable Assets Acquired."
+      },
+      d_fvna: {
+        badge: "Schedule D • Net Assets",
+        title: "4. Fair Value of Net Identifiable Assets Acquired (FVNAA)",
+        desc: "Calculated as: Identifiable Assets @FV − Assumed Liabilities @FV (or Sub Book Value of Net Assets + Undervalued Assets − Overvalued Assets − Undervalued Liabilities + Overvalued Liabilities)."
+      },
+
+      // SCHEDULE E & F
+      e_sc_parent: {
+        badge: "Schedule E • Share Capital",
+        title: "Share Capital – Parent",
+        desc: "Consolidated Share Capital consists ONLY of the Parent's Share Capital plus any new shares issued by the Parent for the acquisition. Subsidiary's Share Capital is 100% eliminated."
+      },
+      e_sc_issued: {
+        badge: "Schedule E • Issued Shares",
+        title: "PP (in the form of shares) @ Par Value",
+        desc: "Number of shares issued by Parent × Par Value per share."
+      },
+      f_sp_parent: {
+        badge: "Schedule F • Share Premium",
+        title: "Share Premium – Parent",
+        desc: "Parent's existing Share Premium (Additional Paid-in Capital) prior to the business combination."
+      },
+      f_sp_excess: {
+        badge: "Schedule F • Share Premium",
+        title: "Excess of Fair Value over Par Value",
+        title: "PP (in the form of shares) excess of FV over par",
+        desc: "Number of shares issued by Parent × (Fair Value per share on acquisition date − Par Value per share)."
+      },
+      f_ctir_stocks: {
+        badge: "Schedule F • Stock Issuance Cost",
+        title: "CTIR – stocks",
+        desc: "Deducted directly from Consolidated Share Premium (whether paid or unpaid). Trap: If CTIR-stocks exceeds total available Share Premium, the excess is deducted from Retained Earnings!"
+      },
+
+      // SCHEDULE G
+      g_cre_beg: {
+        badge: "Schedule G • Retained Earnings Rollforward",
+        title: "Consolidated Retained Earnings, Beginning",
+        desc: "In Year 1 (first year of acquisition), Conso RE, beg is the Parent's RE on the date of acquisition (adjusted for DC/IC and Gain on BP). In Year 2+, it is last year's Ending Consolidated Retained Earnings."
+      },
+      g_cni_parent: {
+        badge: "Schedule G • Controlling Net Income",
+        title: "Conso NI – Parent (CI in CNI)",
+        desc: "The Controlling Interest's share of Consolidated Net Income from Schedule P. It already incorporates 100% of Downstream intercompany adjustments and Parent's % of Upstream adjustments + UVA/OVA amortization."
+      },
+      g_div_parent: {
+        badge: "Schedule G • Dividends",
+        title: "Dividends Declared – Parent",
+        desc: "Only dividends declared by the PARENT to its external shareholders are deducted here. Dividends declared by the Subsidiary are eliminated (Parent's share) or deducted from NCI (NCI's share)."
+      },
+
+      // SCHEDULE H
+      h_nci_beg: {
+        badge: "Schedule H • NCI Rollforward",
+        title: "NCI, Beginning",
+        desc: "In Year 1, this is the Initial Measurement (IM) of NCI at the date of acquisition. In subsequent years, it is the ending NCI balance from the prior year's consolidated balance sheet."
+      },
+      h_ncini: {
+        badge: "Schedule H • NCI Share of Profit",
+        title: "Conso NI – NCI (NCINI)",
+        desc: "NCI % × Adjusted Net Income of Subsidiary (from Schedule P). Remember: Downstream sales NEVER affect NCINI; only Upstream sales and Sub UVA/OVA amortization affect NCINI!"
+      },
+      h_nci_div: {
+        badge: "Schedule H • NCI Dividends",
+        title: "Dividends Received by NCI from Subsidiary",
+        desc: "Calculated as: NCI % × Dividends Declared by the Subsidiary during the period."
+      },
+
+      // SCHEDULE I
+      i_she_parent_end: {
+        badge: "Schedule I • Controlling Equity",
+        title: "Controlling Interest in Consolidated SHE",
+        desc: "Equals Consolidated Share Capital (Schedule E) + Consolidated Share Premium (Schedule F) + Consolidated Retained Earnings, End (Schedule G)."
+      },
+      i_nci_end: {
+        badge: "Schedule I • Non-Controlling Equity",
+        title: "Non-Controlling Interest, End (Schedule H)",
+        desc: "Under PFRS 10, NCI is presented within Consolidated Shareholders' Equity, separately from the equity of the owners of the parent."
+      },
+
+      // SCHEDULE J
+      j_cos_parent: {
+        badge: "Schedule J • Base Cost of Sales",
+        title: "Cost of Sales – Parent",
+        desc: "Separate Cost of Goods Sold reported on the Parent's income statement."
+      },
+      j_cos_sub: {
+        badge: "Schedule J • Base Cost of Sales",
+        title: "Cost of Sales – Subsidiary",
+        desc: "Separate Cost of Goods Sold reported on the Subsidiary's income statement."
+      },
+      j_inv_uva_ova: {
+        badge: "Schedule J • Acquisition FV Amortization",
+        title: "Inventory Amortization of UVA / (OVA)",
+        desc: "When the Subsidiary's acquisition-date inventory is sold to third parties: Undervalued Inventory (UVA) increases Consolidated Cost of Sales (+); Overvalued Inventory (OVA) decreases Consolidated Cost of Sales (−).",
+        entry: "Dr. Cost of Sales (for UVA sold)   xx\n   Cr. Inventory                       xx"
+      },
+      j_ic_sales: {
+        badge: "Schedule J • Intercompany Inventory",
+        title: "Less: Intercompany Sales (Transfer Price)",
+        desc: "100% of the total intercompany sales price billed between Parent and Subsidiary during the year (both Downstream and Upstream) is deducted from both Consolidated Sales and Consolidated Cost of Sales.",
+        entry: "Dr. Sales (Intercompany)           xx\n   Cr. Cost of Sales                   xx",
+        trap: "⚠️ Exam Trap: Deduct the FULL transfer price billed during the year regardless of whether the goods were resold or remain in ending inventory!"
+      },
+      j_upei: {
+        badge: "Schedule J • Intercompany Deferral",
+        title: "Add: Unrealized Profit in Ending Inventory (UPEI)",
+        desc: "Unsold intercompany inventory at year-end contains an unrealized markup. Because Ending Inventory is overstated, Cost of Sales is understated—so we ADD UPEI to Consolidated Cost of Sales.",
+        entry: "Dr. Cost of Sales (P&L)            xx\n   Cr. Inventory (Balance Sheet)       xx",
+        trap: "⚠️ Formula: UPEI = Ending Intercompany Inventory @ Transfer Price × Gross Profit Rate (based on Sales)."
+      },
+      j_rpbi: {
+        badge: "Schedule J • Intercompany Realization",
+        title: "Less: Realized Profit in Beginning Inventory (RPBI)",
+        desc: "Last year's ending intercompany inventory was sold to external third parties this year. The profit deferred last year is now realized, reducing current year Consolidated Cost of Sales.",
+        entry: "Dr. Retained Earnings, Beg (CI)    xx\nDr. NCI, Beg (if Upstream)         xx\n   Cr. Cost of Sales                   xx"
+      },
+
+      // SCHEDULE K
+      k_inv_parent: {
+        badge: "Schedule K • Balance Sheet Inventory",
+        title: "Inventory – Parent @ Book Value",
+        desc: "Ending inventory carried on the Parent's separate balance sheet."
+      },
+      k_inv_sub: {
+        badge: "Schedule K • Balance Sheet Inventory",
+        title: "Inventory – Subsidiary @ Book Value",
+        desc: "Ending inventory carried on the Subsidiary's separate balance sheet."
+      },
+      k_uva_inv: {
+        badge: "Schedule K • Fair Value Differential",
+        title: "UVA of Inventory",
+        desc: "Initial acquisition-date excess of Fair Value over Book Value of the Subsidiary's inventory."
+      },
+      k_amort_uva: {
+        badge: "Schedule K • Fair Value Amortization",
+        title: "Amortization of UVA of Inventory",
+        desc: "Portion of the acquisition-date inventory that has already been sold. Only the UNSOLD (unamortized) portion of UVA remains in ending Consolidated Inventory."
+      },
+      k_ova_inv: {
+        badge: "Schedule K • Fair Value Differential",
+        title: "OVA of Inventory",
+        desc: "Initial acquisition-date deficit where Subsidiary's inventory Book Value exceeded Fair Value."
+      },
+      k_amort_ova: {
+        badge: "Schedule K • Fair Value Amortization",
+        title: "Amortization of OVA of Inventory",
+        desc: "Reversal of OVA for the portion of acquisition-date inventory sold during the period."
+      },
+      k_upei: {
+        badge: "Schedule K • Intercompany Elimination",
+        title: "Less: Unrealized Profit in Ending Inventory (UPEI)",
+        desc: "Strips out the intercompany markup embedded in the buyer's ending inventory so that Consolidated Inventory is stated at original cost to the economic entity.",
+        entry: "Dr. Cost of Sales                  xx\n   Cr. Inventory (Ending)              xx",
+        trap: "⚠️ CRITICAL RULE: Realized Profit in Beginning Inventory (RPBI) has NO EFFECT on Consolidated Inventory because beginning inventory has already been sold to outsiders!"
+      },
+
+      // SCHEDULE L
+      l_opex_parent: {
+        badge: "Schedule L • Operating Expenses",
+        title: "OPEX – Parent",
+        desc: "Operating expenses (selling, general, administrative, and depreciation) from Parent's separate income statement."
+      },
+      l_opex_sub: {
+        badge: "Schedule L • Operating Expenses",
+        title: "OPEX – Subsidiary",
+        desc: "Operating expenses from Subsidiary's separate income statement."
+      },
+      l_amort_uva_ppe: {
+        badge: "Schedule L • Fair Value Depreciation",
+        title: "Add: Amortization of UVA – PPE (Through Depreciation)",
+        desc: "When the Subsidiary's depreciable PPE was undervalued on the acquisition date (FV > BV), consolidated depreciation is higher than separate book depreciation. Add annual UVA amortization (UVA ÷ remaining useful life).",
+        entry: "Dr. Depreciation Expense (OPEX)    xx\n   Cr. Accumulated Depreciation        xx"
+      },
+      l_amort_ova_ppe: {
+        badge: "Schedule L • Fair Value Depreciation",
+        title: "Less: Amortization of OVA – PPE (Through Depreciation)",
+        desc: "When the Subsidiary's depreciable PPE was overvalued on acquisition date (FV < BV), consolidated depreciation is lower than book depreciation. Deduct annual OVA amortization.",
+        entry: "Dr. Accumulated Depreciation       xx\n   Cr. Depreciation Expense (OPEX)     xx"
+      },
+      l_gw_impairment: {
+        badge: "Schedule L • Goodwill Write-down",
+        title: "Add: Impairment Loss – Goodwill",
+        desc: "Current year impairment loss on Goodwill is recognized as part of Consolidated Operating Expenses."
+      },
+      l_excess_depr: {
+        badge: "Schedule L • Intercompany PPE",
+        title: "Less: Excess Depreciation on Intercompany Gain – PPE",
+        desc: "Because the buying affiliate depreciates the asset based on the inflated intercompany transfer price, its depreciation expense is overstated. Deduct the excess depreciation (Unrealized Gain ÷ remaining life) from Consolidated OPEX.",
+        entry: "Dr. Accumulated Depreciation       xx\n   Cr. Depreciation Expense (OPEX)     xx",
+        trap: "⚠️ Exam Trap: This piecemeal reduction of OPEX is how an intercompany gain on depreciable PPE is gradually realized over the asset's remaining life!"
+      },
+      l_deficient_depr: {
+        badge: "Schedule L • Intercompany PPE",
+        title: "Add: Deficient Depreciation on Intercompany Loss – PPE",
+        desc: "When PPE is sold between affiliates at a loss, the buyer's depreciation basis is understated. Add the deficient depreciation (Unrealized Loss ÷ remaining life) to Consolidated OPEX.",
+        entry: "Dr. Depreciation Expense (OPEX)    xx\n   Cr. Accumulated Depreciation        xx"
+      },
+      l_ic_rent_mgmt: {
+        badge: "Schedule L • Reciprocal Services",
+        title: "Less: Intercompany Rent / Service / Management Fees",
+        desc: "Any rent, royalty, or management fee charged by one affiliate to another is eliminated 100% from both Consolidated Other Income and Consolidated OPEX.",
+        entry: "Dr. Rent / Management Fee Income   xx\n   Cr. Rent / Management Fee Expense   xx"
+      },
+
+      // SCHEDULE M & N
+      m_gain_parent: {
+        badge: "Schedule M • Separate Gain",
+        title: "Gain on Sale – Parent",
+        desc: "Gain on disposal of assets reported on Parent's separate books."
+      },
+      m_gain_sub: {
+        badge: "Schedule M • Separate Gain",
+        title: "Gain on Sale – Subsidiary",
+        desc: "Gain on disposal of assets reported on Subsidiary's separate books."
+      },
+      m_uva_ppe_sale: {
+        badge: "Schedule M • Disposal of FV Adjusted Asset",
+        title: "Less: Unamortized UVA of PPE Sold to Third Party",
+        desc: "If the Subsidiary sells an asset to an external third party that had an unamortized acquisition-date UVA, the consolidated carrying value of the asset was higher than Sub's book value—so the Consolidated Gain is LOWER by the remaining unamortized UVA."
+      },
+      m_ova_ppe_sale: {
+        badge: "Schedule M • Disposal of FV Adjusted Asset",
+        title: "Add: Unamortized OVA of PPE Sold to Third Party",
+        desc: "If the Subsidiary sells an asset with an unamortized acquisition-date OVA to an outside party, the consolidated carrying value was lower than Sub's book value—so Consolidated Gain is HIGHER by the remaining OVA."
+      },
+      m_ic_unrealized_gain: {
+        badge: "Schedule M • Intercompany PPE Elimination",
+        title: "Less: Unrealized Gain on Intercompany Sale of PPE",
+        desc: "In the year of an intercompany PPE sale, 100% of the Gain on Sale recorded by the selling affiliate is eliminated! An entity cannot recognize a gain by selling an asset to itself.",
+        entry: "Dr. Gain on Sale of PPE            xx\n   Cr. PPE / Equipment                 xx",
+        trap: "⚠️ Exam Trap: Eliminate 100% of the intercompany gain on the Consolidated Income Statement even if the Parent owns less than 100% of the Subsidiary!"
+      },
+      n_loss_parent_sub: {
+        badge: "Schedule N • Separate Loss",
+        title: "Loss on Sale – Parent & Subsidiary",
+        desc: "Combined separate losses on asset disposals."
+      },
+      n_uva_ova_loss: {
+        badge: "Schedule N • Disposal of FV Adjusted Asset",
+        title: "Amortization of Remaining UVA / (OVA) on PPE Sold",
+        desc: "Unamortized UVA on an asset sold to a third party increases the Consolidated Loss (+); unamortized OVA decreases the Consolidated Loss (−)."
+      },
+      n_ic_unrealized_loss: {
+        badge: "Schedule N • Intercompany Loss Elimination",
+        title: "Less: Unrealized Loss on Intercompany Sale of PPE",
+        desc: "Unless the loss represents a genuine impairment loss, 100% of an intercompany loss on sale of PPE is eliminated in the year of transfer.",
+        entry: "Dr. PPE / Equipment                xx\n   Cr. Loss on Sale of PPE             xx"
+      },
+
+      // SCHEDULE O
+      o_sales_parent_sub: {
+        badge: "Schedule O • Top-Line Revenue",
+        title: "Sales – Parent + Sales – Subsidiary",
+        desc: "Combined gross revenues from the separate income statements of Parent and Subsidiary."
+      },
+      o_ic_sales: {
+        badge: "Schedule O • Intercompany Revenue Elimination",
+        title: "Less: Intercompany Sales (Downstream + Upstream)",
+        desc: "Eliminate 100% of intercompany sales billed during the period, whether Downstream or Upstream, and whether paid or unpaid.",
+        entry: "Dr. Sales                          xx\n   Cr. Cost of Sales                   xx"
+      },
+      o_less_conso_cos: {
+        badge: "Schedule O • Gross Margin",
+        title: "Less: Consolidated Cost of Sales",
+        desc: "Subtract Consolidated Cost of Sales (computed in Schedule J) from Consolidated Sales to arrive at Consolidated Gross Profit."
+      },
+
+      // SCHEDULE P
+      p_sub_ni: {
+        badge: "Schedule P • Subsidiary Net Income",
+        title: "Net Income – Subsidiary (Separate Books)",
+        desc: "Start with the Subsidiary's reported net income for the current period."
+      },
+      p_sub_uva_ova: {
+        badge: "Schedule P • Fair Value Amortization",
+        title: "Amortization of (UVA) / OVA",
+        desc: "Because UVA/OVA belong to the Subsidiary's net assets, their amortization adjusts the Subsidiary's Net Income and is shared between the Parent (CI%) and NCI (NCI%)."
+      },
+      p_sub_gw_imp: {
+        badge: "Schedule P • Goodwill Impairment Allocation",
+        title: "Goodwill Impairment (Full vs. Partial Goodwill)",
+        desc: "Under Full Goodwill (NCI @ Fair Value), Goodwill Impairment is deducted here so NCI absorbs its NCI% share (or shared according to goodwill ratio). Under Partial Goodwill (NCI @ Proportionate Share), 100% of Goodwill Impairment is borne by the Parent only!"
+      },
+      p_up_upei: {
+        badge: "Schedule P • Upstream Inventory",
+        title: "Less: Upstream UPEI (Subsidiary → Parent)",
+        desc: "Because the Subsidiary was the seller, the unrealized profit is inside the Subsidiary's reported net income. Deduct Upstream UPEI here so both Parent (CI%) and NCI (NCI%) share the deferral."
+      },
+      p_up_rpbi: {
+        badge: "Schedule P • Upstream Inventory",
+        title: "Add: Upstream RPBI (Subsidiary → Parent)",
+        desc: "Prior year's Upstream UPEI is realized this year when Parent sells the goods to outsiders. Add to Subsidiary's Net Income."
+      },
+      p_up_ppe_gain: {
+        badge: "Schedule P • Upstream PPE",
+        title: "Less: Upstream Unrealized Gain on PPE (Year of Sale)",
+        desc: "Deducted from Subsidiary's Net Income in the year the Subsidiary sells an asset at a gain to the Parent."
+      },
+      p_up_excess_depr: {
+        badge: "Schedule P • Upstream PPE Realization",
+        title: "Add: Upstream Excess Depreciation on PPE",
+        desc: "Added to Subsidiary's Net Income each year as the upstream intercompany gain is realized piecemeal through depreciation."
+      },
+      p_parent_own_ni: {
+        badge: "Schedule P • Parent Separate NI",
+        title: "Parent Separate NI (EXCLUDING Dividend Income from Sub)",
+        desc: "Under the Cost Method, Parent's book Net Income includes Dividend Income received from the Subsidiary. You MUST deduct (remove) Dividend Income from Sub to avoid double-counting Sub's earnings!",
+        entry: "Dr. Dividend Income (Parent)       xx\n   Cr. Dividends Declared (Sub)        xx",
+        trap: "⚠️ Top CPALE Exam Trap: Always check if Parent's Net Income includes Dividend Income from Subsidiary and subtract it first!"
+      },
+      p_down_adj: {
+        badge: "Schedule P • Downstream Adjustments",
+        title: "Downstream Adjustments (100% Parent)",
+        desc: "When the Parent is the seller (Downstream), NCI is 100% unaffected. All Downstream UPEI (−), Downstream RPBI (+), Downstream PPE Unrealized Gain (−), and Downstream Excess Depreciation (+) adjust ONLY the Parent's share of Consolidated Net Income."
+      },
+      p_parent_share_sub: {
+        badge: "Schedule P • Equity Pickup",
+        title: "Parent Share in Adjusted Subsidiary Net Income",
+        desc: "Multiply the Adjusted Net Income of Subsidiary by the Parent's ownership percentage (CI%)."
+      },
+
+      // SCHEDULE Q
+      q_ppe_bv: {
+        badge: "Schedule Q • Carrying Amount",
+        title: "PPE (Net) – Parent @BV + Subsidiary @BV",
+        desc: "Combined carrying amounts (Cost less Accumulated Depreciation) of Property, Plant & Equipment on the separate balance sheets."
+      },
+      q_ppe_uva_ova: {
+        badge: "Schedule Q • Unamortized FV Differential",
+        title: "Unamortized UVA / (OVA) of PPE",
+        desc: "Acquisition-date UVA of PPE minus cumulative depreciation amortization from acquisition date to the current balance sheet date (or minus OVA + cumulative OVA amortization)."
+      },
+      q_ic_gain_ppe: {
+        badge: "Schedule Q • Intercompany PPE",
+        title: "Less: Unrealized Gain on Intercompany Sale of PPE",
+        desc: "Deduct the original intercompany gain recorded on the transfer of the asset between Parent and Subsidiary."
+      },
+      q_accum_excess_depr: {
+        badge: "Schedule Q • Piecemeal Realization",
+        title: "Add: Cumulative Excess Depreciation to Date",
+        desc: "Because the buyer has been recording higher depreciation each year since the intercompany transfer, adding back cumulative excess depreciation leaves only the UNAMORTIZED portion of the intercompany gain deducted from Consolidated PPE (Net)."
+      }
+    };
+
+    const tooltip = document.getElementById('floating-tooltip');
+    const ttBadge = document.getElementById('ttBadge');
+    const ttTitle = document.getElementById('ttTitle');
+    const ttDesc = document.getElementById('ttDesc');
+    const ttEntry = document.getElementById('ttEntry');
+    const ttTrap = document.getElementById('ttTrap');
+
+    // Attach hover and click listeners to all .line-row elements
+    document.querySelectorAll('.line-row').forEach(row => {
+      const key = row.getAttribute('data-key');
+      const data = ITEM_KNOWLEDGE[key];
+      if (!data) return;
+
+      row.addEventListener('mouseenter', (e) => {
+        ttBadge.textContent = data.badge || 'Formula Note';
+        ttTitle.textContent = data.title;
+        ttDesc.textContent = data.desc;
+
+        if (data.entry) {
+          ttEntry.textContent = "Working Paper Elimination Entry:\n" + data.entry;
+          ttEntry.classList.remove('hidden');
+        } else {
+          ttEntry.classList.add('hidden');
+        }
+
+        if (data.trap) {
+          ttTrap.textContent = data.trap;
+          ttTrap.classList.remove('hidden');
+        } else {
+          ttTrap.classList.add('hidden');
+        }
+
+        tooltip.classList.remove('hidden');
+        positionTooltip(e);
+      });
+
+      row.addEventListener('mousemove', (e) => {
+        positionTooltip(e);
+      });
+
+      row.addEventListener('mouseleave', () => {
+        tooltip.classList.add('hidden');
+      });
+
+      // Click to pin explanation at top
+      row.addEventListener('click', () => {
+        document.querySelectorAll('.line-row').forEach(r => r.classList.remove('active-row'));
+        row.classList.add('active-row');
+
+        document.getElementById('pinBadge').textContent = data.badge;
+        document.getElementById('pinTitle').textContent = data.title;
+        document.getElementById('pinDesc').textContent = data.desc;
+
+        const pinEntry = document.getElementById('pinEntryBox');
+        if (data.entry) {
+          pinEntry.textContent = "Working Paper Elimination Entry:\n" + data.entry;
+          pinEntry.classList.remove('hidden');
+        } else {
+          pinEntry.classList.add('hidden');
+        }
+
+        const pinTrap = document.getElementById('pinTrapBox');
+        if (data.trap) {
+          pinTrap.textContent = data.trap;
+          pinTrap.classList.remove('hidden');
+        } else {
+          pinTrap.classList.add('hidden');
+        }
+
+        const inspector = document.getElementById('pinnedInspector');
+        inspector.classList.remove('hidden');
+      });
+    });
+
+    function positionTooltip(e) {
+      const pad = 16;
+      const rect = tooltip.getBoundingClientRect();
+      let left = e.clientX + pad;
+      let top = e.clientY + pad;
+
+      if (left + rect.width > window.innerWidth - 12) {
+        left = e.clientX - rect.width - pad;
+      }
+      if (top + rect.height > window.innerHeight - 45) {
+        top = e.clientY - rect.height - pad;
+      }
+      tooltip.style.left = Math.max(8, left) + 'px';
+      tooltip.style.top = Math.max(8, top) + 'px';
+    }
+
+    function closePinned() {
+      document.getElementById('pinnedInspector').classList.add('hidden');
+      document.querySelectorAll('.line-row').forEach(r => r.classList.remove('active-row'));
+    }
+
+    // Toggle Intercompany and Fair Value Highlighting
+    function toggleHighlight(type) {
+      if (type === 'ic') {
+        const active = document.body.classList.toggle('highlight-ic');
+        document.getElementById('icStateText').textContent = active ? 'ON' : 'OFF';
+        const btn = document.getElementById('toggleICBtn');
+        btn.className = active
+          ? 'bg-amber-400/20 border border-amber-400 text-amber-200 px-2.5 py-1.5 rounded font-medium hover:bg-amber-400/30 transition flex items-center gap-1.5'
+          : 'bg-slate-800 border border-slate-600 text-slate-300 px-2.5 py-1.5 rounded font-medium hover:bg-slate-700 transition flex items-center gap-1.5';
+      } else if (type === 'fv') {
+        const active = document.body.classList.toggle('highlight-fv');
+        document.getElementById('fvStateText').textContent = active ? 'ON' : 'OFF';
+        const btn = document.getElementById('toggleFVBtn');
+        btn.className = active
+          ? 'bg-blue-500/25 border border-blue-400 text-blue-200 px-2.5 py-1.5 rounded font-medium hover:bg-blue-500/35 transition flex items-center gap-1.5'
+          : 'bg-slate-800 border border-slate-600 text-slate-300 px-2.5 py-1.5 rounded font-medium hover:bg-slate-700 transition flex items-center gap-1.5';
+      }
+    }
+
+    function toggleGrid() {
+      document.getElementById('workbookCanvas').classList.toggle('no-grid');
+    }
+
+    // Bottom Sheet Tab Filtering
+    function filterSection(section, tabEl) {
+      document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+      tabEl.classList.add('active');
+
+      const blocks = document.querySelectorAll('[data-section]');
+      const cards = document.querySelectorAll('.schedule-card');
+
+      if (section === 'all') {
+        blocks.forEach(b => b.classList.remove('hidden'));
+        cards.forEach(c => c.classList.remove('hidden'));
+      } else if (section === 'intercompany-only') {
+        blocks.forEach(b => b.classList.remove('hidden'));
+        cards.forEach(c => {
+          const tags = c.getAttribute('data-tags') || '';
+          if (tags.includes('intercompany')) {
+            c.classList.remove('hidden');
+          } else {
+            c.classList.add('hidden');
+          }
+        });
+        if (!document.body.classList.contains('highlight-ic')) {
+          toggleHighlight('ic');
+        }
+      } else {
+        cards.forEach(c => c.classList.remove('hidden'));
+        blocks.forEach(b => {
+          if (b.getAttribute('data-section') === section) {
+            b.classList.remove('hidden');
+          } else {
+            b.classList.add('hidden');
+          }
+        });
+      }
+    }
+
+    // Live Search Filter
+    const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
+
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      clearSearch.classList.toggle('hidden', q === '');
+
+      document.querySelectorAll('.schedule-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+        if (!q || text.includes(q) || tags.includes(q)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+
+    clearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input'));
+    });
+  </script>
+</body>
+</html>
