@@ -85,18 +85,30 @@
       line-height: 1.45;
     }
 
-    .line-row:hover, .line-row.active-row {
+    @media (hover: hover) and (pointer: fine) {
+      .line-row:hover {
+        background-color: #fce8f0 !important;
+      }
+      .line-row:hover .item-label {
+        border-bottom-color: #be185d;
+        color: #831843;
+      }
+    }
+
+    .line-row.active-row {
       background-color: #fce8f0 !important;
+      outline: 1.5px solid #d97398;
+    }
+
+    .line-row.active-row .item-label {
+      border-bottom-color: #be185d;
+      color: #831843;
+      font-weight: 700;
     }
 
     .line-row .item-label {
       border-bottom: 1px dashed rgba(107, 114, 128, 0.45);
       padding-bottom: 1px;
-    }
-
-    .line-row:hover .item-label {
-      border-bottom-color: #be185d;
-      color: #831843;
     }
 
     /* Highlight Modes */
@@ -230,6 +242,13 @@
         <button onclick="toggleGrid()" class="bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-1.5 rounded hover:bg-slate-700 transition">
           Gridlines
         </button>
+
+        <!-- Top Bar Unpin Button (Visible whenever an item is pinned) -->
+        <button id="topUnpinBtn" onclick="closePinned()" 
+          class="hidden bg-pink-600 hover:bg-pink-500 text-white border border-pink-400 px-3 py-1.5 rounded font-semibold shadow-sm transition flex items-center gap-1.5 animate-pulse">
+          <span>📌 Unpin Item</span>
+          <span class="font-bold">✕</span>
+        </button>
       </div>
     </div>
   </header>
@@ -255,25 +274,36 @@
           Consolidated FS — Date of Acquisition, Subsequent Periods &amp; Intercompany Transactions
         </div>
         <div class="ui-sans text-xs text-emerald-900 font-medium flex items-center gap-3">
-          <span>💡 <strong>Hover</strong> any line item for explanations &amp; journal entries</span>
+          <span class="hidden sm:inline">💡 <strong>Hover</strong> any line item for explanations &amp; journal entries</span>
           <span class="hidden sm:inline">|</span>
-          <span class="hidden sm:inline">📌 <strong>Click</strong> any line item to pin details</span>
+          <span>📌 <strong>Tap / Click</strong> any row to pin (tap again or press <strong>Unpin</strong> to close)</span>
         </div>
       </div>
 
-      <!-- PINNED INSPECTOR DRAWER (Shows when user clicks an item) -->
-      <div id="pinnedInspector" class="hidden no-print ui-sans mb-6 bg-slate-900 text-white rounded-lg p-4 border-l-4 border-pink-500 shadow-lg">
-        <div class="flex justify-between items-start gap-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs uppercase tracking-wider px-2 py-0.5 rounded bg-pink-600 font-bold" id="pinBadge">Pinned Item</span>
-              <h3 class="text-base font-bold text-white" id="pinTitle">Line Item Title</h3>
+      <!-- PINNED INSPECTOR DRAWER (Sticky on Mobile & Desktop when an item is tapped/clicked) -->
+      <div id="pinnedInspector" class="hidden no-print ui-sans sticky top-14 z-30 mb-6 bg-slate-900/95 backdrop-blur-md text-white rounded-lg p-3.5 sm:p-4 border-l-4 border-pink-500 shadow-2xl ring-1 ring-slate-700">
+        <div class="flex flex-col sm:flex-row justify-between items-start gap-3">
+          <div class="w-full">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-pink-600 font-bold" id="pinBadge">Pinned Item</span>
+                <h3 class="text-sm sm:text-base font-bold text-white" id="pinTitle">Line Item Title</h3>
+              </div>
+              <!-- Prominent Easy-to-Tap Unpin / Close Button -->
+              <button onclick="closePinned()" aria-label="Unpin and close explanation"
+                class="shrink-0 flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white bg-pink-600 hover:bg-pink-500 active:bg-pink-700 px-3 py-1.5 rounded-md shadow-md transition cursor-pointer">
+                <span>Unpin / Close</span>
+                <span class="text-sm leading-none">✕</span>
+              </button>
             </div>
-            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed" id="pinDesc"></p>
-            <div id="pinEntryBox" class="mt-2.5 bg-slate-800/90 border border-slate-700 rounded p-2.5 mono-font text-xs text-emerald-300 whitespace-pre-line"></div>
+            <p class="text-xs text-slate-200 mt-2 leading-relaxed" id="pinDesc"></p>
+            <div id="pinEntryBox" class="mt-2.5 bg-slate-800/90 border border-slate-700 rounded p-2.5 mono-font text-xs text-emerald-300 whitespace-pre-line overflow-x-auto"></div>
             <div id="pinTrapBox" class="mt-2 text-xs text-amber-300 font-medium"></div>
+            <div class="mt-2.5 pt-2 border-t border-slate-800 flex justify-between items-center text-[11px] text-slate-400">
+              <span>Tip: Tap the highlighted row again or tap "Unpin / Close" to dismiss.</span>
+              <button onclick="closePinned()" class="text-pink-400 hover:text-pink-300 font-semibold underline">Dismiss ✕</button>
+            </div>
           </div>
-          <button onclick="closePinned()" class="text-slate-400 hover:text-white text-sm px-2 py-1 bg-slate-800 rounded">Close ✕</button>
         </div>
       </div>
 
@@ -1933,13 +1963,18 @@
     const ttEntry = document.getElementById('ttEntry');
     const ttTrap = document.getElementById('ttTrap');
 
-    // Attach hover and click listeners to all .line-row elements
+    // Detect if device supports true hover (prevents sticky hover tooltip on mobile touchscreens)
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let currentlyPinnedKey = null;
+
+    // Attach hover and click/tap listeners to all .line-row elements
     document.querySelectorAll('.line-row').forEach(row => {
       const key = row.getAttribute('data-key');
       const data = ITEM_KNOWLEDGE[key];
       if (!data) return;
 
       row.addEventListener('mouseenter', (e) => {
+        if (!canHover) return; // Skip floating hover tooltip on touch devices
         ttBadge.textContent = data.badge || 'Formula Note';
         ttTitle.textContent = data.title;
         ttDesc.textContent = data.desc;
@@ -1963,15 +1998,27 @@
       });
 
       row.addEventListener('mousemove', (e) => {
+        if (!canHover) return;
         positionTooltip(e);
       });
 
       row.addEventListener('mouseleave', () => {
+        if (!canHover) return;
         tooltip.classList.add('hidden');
       });
 
-      // Click to pin explanation at top
-      row.addEventListener('click', () => {
+      // Click / Tap to pin or unpin explanation
+      row.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tooltip.classList.add('hidden'); // Ensure hover tooltip is hidden when pinning
+
+        // If tapping the already-pinned row a second time, unpin it
+        if (currentlyPinnedKey === key && row.classList.contains('active-row')) {
+          closePinned();
+          return;
+        }
+
+        currentlyPinnedKey = key;
         document.querySelectorAll('.line-row').forEach(r => r.classList.remove('active-row'));
         row.classList.add('active-row');
 
@@ -1995,8 +2042,8 @@
           pinTrap.classList.add('hidden');
         }
 
-        const inspector = document.getElementById('pinnedInspector');
-        inspector.classList.remove('hidden');
+        document.getElementById('pinnedInspector').classList.remove('hidden');
+        document.getElementById('topUnpinBtn').classList.remove('hidden');
       });
     });
 
@@ -2017,9 +2064,18 @@
     }
 
     function closePinned() {
+      currentlyPinnedKey = null;
       document.getElementById('pinnedInspector').classList.add('hidden');
+      document.getElementById('topUnpinBtn').classList.add('hidden');
       document.querySelectorAll('.line-row').forEach(r => r.classList.remove('active-row'));
     }
+
+    // Allow pressing Escape key to unpin
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && currentlyPinnedKey) {
+        closePinned();
+      }
+    });
 
     // Toggle Intercompany and Fair Value Highlighting
     function toggleHighlight(type) {
