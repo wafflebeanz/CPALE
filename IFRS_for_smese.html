@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAR CPALE Quizzer — PFRS for SMEs & Small Entities (SE)</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --sme-color: #0284c7;
+      --sme-bg: #f0f9ff;
+      --se-color: #7c3aed;
+      --se-bg: #f5f3ff;
+      --full-color: #059669;
+      --full-bg: #ecfdf5;
+      --correct: #16a34a;
+      --correct-bg: #dcfce7;
+      --wrong: #dc2626;
+      --wrong-bg: #fee2e2;
+      --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 60px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .brand p {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .tabs-nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      background: #f1f5f9;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      padding: 12px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.5);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .tab-pill {
+      font-size: 0.73rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .tab-btn.active .tab-pill {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .controls-bar {
+      max-width: 1100px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stats-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .stat-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .stat-chip strong {
+      color: var(--text);
+    }
+
+    .stat-chip.correct strong { color: var(--correct); }
+    .stat-chip.wrong strong { color: var(--wrong); }
+
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .btn.active-filter {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-danger {
+      color: var(--wrong);
+      border-color: #fecaca;
+    }
+
+    .btn-danger:hover {
+      background: var(--wrong-bg);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 18px auto;
+      padding: 0 20px;
+    }
+
+    .quiz-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .q-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s ease;
+    }
+
+    .q-card.answered-correct {
+      border-left: 5px solid var(--correct);
+    }
+
+    .q-card.answered-wrong {
+      border-left: 5px solid var(--wrong);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .q-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .q-topic {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .q-stem {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 14px;
+      white-space: pre-line;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .opt-btn {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.92rem;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: all 0.15s ease;
+      line-height: 1.45;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .opt-btn:disabled {
+      cursor: default;
+    }
+
+    .opt-letter {
+      font-weight: 700;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .opt-btn.correct-choice {
+      border-color: var(--correct);
+      background: var(--correct-bg);
+      color: #064e3b;
+      font-weight: 600;
+    }
+
+    .opt-btn.correct-choice .opt-letter {
+      background: var(--correct);
+      color: #fff;
+    }
+
+    .opt-btn.wrong-choice {
+      border-color: var(--wrong);
+      background: var(--wrong-bg);
+      color: #7f1d1d;
+    }
+
+    .opt-btn.wrong-choice .opt-letter {
+      background: var(--wrong);
+      color: #fff;
+    }
+
+    .q-footer {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .status-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-badge.correct { color: var(--correct); }
+    .status-badge.wrong { color: var(--wrong); }
+
+    .comparison-panel {
+      margin-top: 16px;
+      border-top: 1px dashed var(--border);
+      padding-top: 16px;
+      display: none;
+    }
+
+    .comparison-panel.visible {
+      display: block;
+    }
+
+    .rationale-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 11px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 14px;
+      color: #1e293b;
+    }
+
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 820px) {
+      .comp-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .comp-col {
+      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      font-size: 0.84rem;
+    }
+
+    .comp-col.sme {
+      background: var(--sme-bg);
+      border-color: #bae6fd;
+    }
+
+    .comp-col.se {
+      background: var(--se-bg);
+      border-color: #ddd6fe;
+    }
+
+    .comp-col.full {
+      background: var(--full-bg);
+      border-color: #a7f3d0;
+    }
+
+    .comp-col h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .comp-col.sme h4 { color: var(--sme-color); }
+    .comp-col.se h4 { color: var(--se-color); }
+    .comp-col.full h4 { color: var(--full-color); }
+
+    /* Matrix Table */
+    .matrix-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .matrix-table th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .matrix-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-badge">FAR CPALE</span>
+      <div>
+        <h1>Other Reporting Frameworks Interactive Quizzer</h1>
+        <p>Verbatim Questions &bull; Instant 3-Way Comparison (PFRS for SMEs vs. PFRS for SE vs. Full PFRS)</p>
+      </div>
+    </div>
+    <div class="action-group">
+      <button class="btn" id="revealAllBtn" onclick="toggleRevealAll()">Reveal All Comparisons</button>
+      <button class="btn btn-danger" onclick="resetCurrentTab()">Reset Current Tab</button>
+    </div>
+  </div>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" id="tabBtn-sme" onclick="switchTab('sme')">
+      1. PFRS for SMEs Quiz
+      <span class="tab-pill" id="pill-sme">0 / 30</span>
+    </button>
+    <button class="tab-btn" id="tabBtn-se" onclick="switchTab('se')">
+      2. PFRS for Small Entities (SE) Quiz
+      <span class="tab-pill" id="pill-se">0 / 30</span>
+    </button>
+    <button class="tab-btn" id="tabBtn-matrix" onclick="switchTab('matrix')">
+      3. Salient Differences Matrix (CPALE Notes)
+    </button>
+  </nav>
+</header>
+
+<div class="controls-bar" id="quizControls">
+  <div class="stats-group">
+    <div class="stat-chip">Answered: <strong id="statAnswered">0 / 30</strong></div>
+    <div class="stat-chip correct">Correct: <strong id="statCorrect">0</strong></div>
+    <div class="stat-chip wrong">Incorrect: <strong id="statWrong">0</strong></div>
+    <div class="stat-chip">Accuracy: <strong id="statAccuracy">0%</strong></div>
+  </div>
+  <div class="action-group">
+    <button class="btn active-filter" id="filter-all" onclick="setFilter('all')">All (30)</button>
+    <button class="btn" id="filter-unanswered" onclick="setFilter('unanswered')">Unanswered</button>
+    <button class="btn" id="filter-wrong" onclick="setFilter('wrong')">Incorrect Only</button>
+  </div>
+</div>
+
+<main>
+  <div id="quizContainer" class="quiz-list"></div>
+
+  <div id="matrixContainer" class="matrix-card hidden">
+    <h2 style="margin-bottom: 6px; font-size: 1.2rem;">Salient Differences Matrix: Full PFRS vs. PFRS for SMEs vs. PFRS for Small Entities</h2>
+    <p style="margin-bottom: 16px; font-size: 0.86rem; color: var(--muted);">Consolidated directly from your FAR CPALE Concept Notes (Topic 9: Other Reporting Frameworks).</p>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Topic / Area</th>
+          <th style="width: 26%;">Full PFRS</th>
+          <th style="width: 27%;">PFRS for SMEs</th>
+          <th style="width: 27%;">PFRS for Small Entities (SE)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>SEC Quantitative Thresholds (Assets OR Liabilities)</strong></td>
+          <td><strong>Large:</strong> Assets &gt; P350M OR Liabilities &gt; P250M (plus all Publicly Accountable / Listed / Secondary License / Public Utilities)</td>
+          <td><strong>Medium:</strong> Assets &gt; P100M to P350M OR Liabilities &gt; P100M to P250M.<br><em>Opt-in:</em> May opt for Full PFRS (cannot use SE).</td>
+          <td><strong>Small:</strong> Assets P3M to P100M OR Liabilities P3M to P100M (must have no foreign operations).<br><strong>Micro:</strong> Assets &lt; P3M AND Liabilities &lt; P3M (uses PFRS for SE or Income Tax Basis).</td>
+        </tr>
+        <tr>
+          <td><strong>Other Comprehensive Income (OCI) &amp; Statement of Income</strong></td>
+          <td>P&amp;L + OCI items (Revaluation surplus, Actuarial G/L, Translation G/L, Cash Flow Hedge, FVOCI G/L).</td>
+          <td>P&amp;L + Limited OCI items (Revaluation surplus, Translation G/L, Actuarial G/L policy choice, Cash flow hedge). <strong>No FVOCI.</strong> Can present single Statement of Income &amp; Retained Earnings if qualifying.</td>
+          <td><strong>No OCI recognized.</strong> Consists of P&amp;L items only. Presents Income Statement (not Statement of Comprehensive Income).</td>
+        </tr>
+        <tr>
+          <td><strong>Financial Instruments &amp; Debt/Equity Investments</strong></td>
+          <td>Classified via Business Model &amp; SPPI: <strong>Amortized Cost, FVOCI, or FVPL</strong>.</td>
+          <td>Divided into <strong>Basic</strong> vs. <strong>Other (Non-Basic)</strong>. Basic debt = Amortized Cost (effective interest). Publicly traded / reliable FV ordinary or preference shares = FVPL; otherwise Cost less impairment. Derivatives = FVPL.</td>
+          <td>Initially measured at <strong>Transaction Price including transaction costs</strong>. Debt = Amortized Cost (effective interest). Traded shares = <strong>Lower of Cost or Fair Value</strong> (changes in P/L). Untraded shares = <strong>Cost less impairment</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Inventories (Subsequent Measurement &amp; Writedown)</strong></td>
+          <td><strong>Lower of Cost and NRV (LCNRV)</strong>. Writedown is recognized as a component of Cost of Goods Sold.</td>
+          <td><strong>Lower of Cost and Estimated Selling Price less Cost to Complete and Sell</strong>. Writedown is recognized immediately as an <strong>Impairment Loss</strong> in P/L.</td>
+          <td><strong>Lower of Cost or Market Value (LCM)</strong> (Market Value = middle of Replacement Cost, NRV, and NRV less Normal Profit Margin). Writedown is recognized as an <strong>Impairment Loss</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Investments in Associates</strong></td>
+          <td><strong>Equity Method only</strong>. Implied goodwill is not separately amortized.</td>
+          <td>Policy choice (applied uniformly to all associates): <strong>Cost Model, Equity Method, or Fair Value Model</strong>. Under Equity Method, implied goodwill is amortized over max 10 years.</td>
+          <td>Policy choice (applied uniformly to all associates): <strong>Cost Model or Equity Method only</strong> (No Fair Value Model).</td>
+        </tr>
+        <tr>
+          <td><strong>Investment Property</strong></td>
+          <td>Policy choice of <strong>Cost Model or Fair Value Model</strong>.</td>
+          <td>Circumstance-driven: <strong>Fair Value Model</strong> if FV is reliably measurable without undue cost or effort on an ongoing basis; otherwise <strong>Cost Model</strong> (PPE).</td>
+          <td>Policy choice of <strong>Cost Model or Fair Value Model</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Property, Plant &amp; Equipment (PPE)</strong></td>
+          <td>Policy choice of <strong>Cost Model or Revaluation Model</strong> (Revaluation Surplus in OCI).</td>
+          <td>Policy choice of <strong>Cost Model or Revaluation Model</strong>.</td>
+          <td>Policy choice of <strong>Cost Model or Fair Value Model</strong> (changes in FV go to P/L; not depreciated under FV model).</td>
+        </tr>
+        <tr>
+          <td><strong>Borrowing Costs</strong></td>
+          <td><strong>Capitalized</strong> if directly attributable to a qualifying asset; otherwise expensed.</td>
+          <td><strong>All expensed outright</strong> in the period incurred.</td>
+          <td><strong>All expensed outright</strong> as incurred.</td>
+        </tr>
+        <tr>
+          <td><strong>Intangible Assets &amp; R&amp;D Costs</strong></td>
+          <td><strong>Cost Model or Revaluation Model</strong>. Research = expensed; Development = capitalized when criteria met. Indefinite life = not amortized, tested annually for impairment.</td>
+          <td><strong>Cost Model only</strong>. All R&amp;D expensed outright. All intangibles are considered finite; if unable to estimate reliably, amortize over management's best estimate <strong>not exceeding 10 years</strong>.</td>
+          <td><strong>Cost Model only</strong>. All R&amp;D expensed outright. If useful life cannot be estimated reliably, amortize based on management's best estimate <strong>not exceeding 10 years</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Goodwill</strong></td>
+          <td>Not amortized; tested for impairment at least annually.</td>
+          <td>Amortized over useful life (or management's best estimate <strong>not exceeding 10 years</strong> if unreliable) + tested for impairment when indicators exist.</td>
+          <td>Amortized over management's best estimate <strong>not exceeding 10 years</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Government Grants</strong></td>
+          <td>Recognized in income systematically over periods matching related costs (piecemeal).</td>
+          <td>Unconditional = when receivable. Conditional = recognized in income <strong>only when performance conditions are met</strong>.</td>
+          <td>Unconditional monetary = when receivable. Conditional monetary = when condition is met (liability beforehand). Nonmonetary = policy choice of <strong>No recognition OR Fair Value</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Agriculture (Biological Assets &amp; Produce)</strong></td>
+          <td>Biological Assets = FVLCTS (or Cost if unreliable). Produce = FVLCTS at harvest. Bearer plants = PPE.</td>
+          <td>Specialized activity: FVLCTS if readily determinable without undue cost/effort; otherwise Cost model. Bearer plants = Biological Assets.</td>
+          <td>Biological Assets = Policy choice of <strong>Cost Model or Current Market Price Model</strong>. Agricultural Produce = <strong>Current Market Price at the point of harvest</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Leases (Lessee &amp; Lessor)</strong></td>
+          <td>Lessee: Finance Lease (ROUA &amp; Lease Liability) unless short-term/low-value. Lessor: Finance vs. Operating.</td>
+          <td>Both Lessee &amp; Lessor classify as <strong>Finance Lease vs. Operating Lease</strong> based on transfer of risks &amp; rewards (Operating lease straight-lined).</td>
+          <td><strong>Operating Lease Model only</strong> (no Finance Lease). Rent expense/income equals <strong>actual annual lease payments</strong> (no PV, no straight-lining unless payment is distorted).</td>
+        </tr>
+        <tr>
+          <td><strong>Income Taxes</strong></td>
+          <td>Deferred Tax Method required (recognizes both Current and Deferred Taxes).</td>
+          <td>Deferred Tax Method required (recognizes both Current and Deferred Taxes).</td>
+          <td>Policy choice of <strong>Taxes Payable Method</strong> (current tax only) OR <strong>Deferred Income Taxes Method</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Employee Benefits (Postemployment)</strong></td>
+          <td>Projected Unit Credit Method (PUCM). Actuarial G/L recognized in OCI only.</td>
+          <td>PUCM (or simplified calculation if undue cost/effort). Actuarial G/L recognized in either <strong>P/L or OCI</strong>.</td>
+          <td><strong>Accrual Method</strong> only: calculated under <strong>Company Policy if higher than R.A. 7641</strong> (Retirement Pay Law). Actuarial G/L in P/L (no OCI).</td>
+        </tr>
+        <tr>
+          <td><strong>Share-Based Payment</strong></td>
+          <td>Equity-settled = Fair Value of share options at grant date. Cash-settled = FV of liability remeasured at each reporting/settlement date.</td>
+          <td>Equity-settled = Fair Value at grant date. Cash-settled = FV of liability.</td>
+          <td>Equity-settled = <strong>Net Asset Value (NAV)</strong> = (Total Assets &minus; Total Liabilities) &divide; Shares Outstanding. Cash-settled = <strong>Fair Value of liability at reporting date and remeasured at settlement</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const quizzes = {
+  sme: [
+    {
+      num: 1,
+      topic: "Applicable Standard",
+      stem: "Which standard shall be applied by SMEs?",
+      options: {
+        A: "IFRS for SMEs",
+        B: "Full IFRS",
+        C: "Any acceptable accounting framework",
+        D: "PFRS for Small Entities"
+      },
+      answer: "A",
+      rationale: "Medium-sized entities (SMEs under SEC rules) apply IFRS/PFRS for SMEs as their default reporting framework, though they may opt to apply Full PFRS.",
+      sme: "General rule is IFRS/PFRS for SMEs (with an option to use a higher framework, Full PFRS, but never a lower framework).",
+      se: "Small Entities apply PFRS for Small Entities (SE) as the general rule, or may opt up to PFRS for SMEs or Full PFRS.",
+      full: "Mandatory for Large Entities and Publicly Accountable Entities without exception."
+    },
+    {
+      num: 2,
+      topic: "IASB Definition of SMEs",
+      stem: "The IASB defines SMEs as entities that",
+      options: {
+        A: "Do not have public accountability.",
+        B: "Have public accountability and publish general purpose financial statements for external users.",
+        C: "Do not publish general purpose financial statements for external users.",
+        D: "Do not have public accountability and publish general purpose financial statements for external users."
+      },
+      answer: "D",
+      rationale: "Under Section 1 of IFRS for SMEs, the IASB defines SMEs using two qualitative criteria: (1) they do not have public accountability, and (2) they publish general purpose financial statements for external users.",
+      sme: "Defined qualitatively by IASB (no public accountability + publishes GPFS). In the Philippines, the SEC adds quantitative asset/liability thresholds.",
+      se: "Defined by the Philippine SEC as entities with Total Assets OR Total Liabilities between P3M and P100M without public accountability and with no foreign operations.",
+      full: "Applies to entities WITH public accountability (listed entities, fiduciaries like banks/insurance) and large entities."
+    },
+    {
+      num: 3,
+      topic: "IASB Qualitative Definition",
+      stem: "Which description accurately describes the definition of an SME used by the IASB?",
+      options: {
+        A: "Entities that have no public accountability",
+        B: "Entities that have a specified number of employees",
+        C: "Entities that have a certain statement of financial position total",
+        D: "Entities that have a certain annual turnover"
+      },
+      answer: "A",
+      rationale: "The IASB does not set quantified size tests (like employee headcount, total assets, or turnover) because global jurisdictions vary; instead, it centers on having no public accountability.",
+      sme: "IASB uses 'no public accountability'. National regulators (like the Philippine SEC) establish local monetary ceilings (Assets > P100M to P350M or Liabilities > P100M to P250M).",
+      se: "Philippine-specific framework (no IASB counterpart) bounded by P3M to P100M in total assets or total liabilities.",
+      full: "No upper ceiling; mandatory whenever an entity has public accountability."
+    },
+    {
+      num: 4,
+      topic: "Public Accountability",
+      stem: "Which entity has no public accountability?",
+      options: {
+        A: "An entity whose shares are traded in a public market.",
+        B: "An entity whose debt instruments but not its shares are traded in a public market.",
+        C: "An entity whose shares and debt instruments are traded in an \"over-the-counter market\".",
+        D: "An entity not in the process of issuing its shares and debt instruments for trading in a public market."
+      },
+      answer: "D",
+      rationale: "An entity has public accountability if its debt or equity instruments are traded in a public market (domestic/foreign exchange or OTC market) or it is in the process of issuing such instruments. Not being in that process means it lacks public accountability.",
+      sme: "Eligible for IFRS for SMEs provided it also does not hold assets in a fiduciary capacity as a primary business.",
+      se: "Must also lack public accountability, hold no secondary license, not be a public utility, and fall within P3M–P100M.",
+      full: "Options A, B, and C all have public accountability and must use Full IFRS/PFRS."
+    },
+    {
+      num: 5,
+      topic: "IASB Approach to IFRS for SMEs",
+      stem: "Which approach has the IASB taken in developing IFRS for SMEs?",
+      options: {
+        A: "The exemptions given to smaller entities are prescribed in the mainstream accounting standards",
+        B: "GAAP for SMEs is to be developed on a national basis",
+        C: "The standard is an independently developed set of standards",
+        D: "The standard is a simplified self-contained set of accounting principles based on full IFRS"
+      },
+      answer: "D",
+      rationale: "IFRS for SMEs is a stand-alone, self-contained standard derived from Full IFRS with simplifications in recognition, measurement, and disclosures tailored to SME user needs.",
+      sme: "Self-contained global standard based on Full IFRS principles with topic-by-topic simplifications.",
+      se: "Developed locally by the Philippine FRSC/SEC as an even simpler self-contained framework for Philippine small entities (no foreign operations).",
+      full: "The comprehensive baseline set of standards (PFRS/IFRS) from which SME and SE simplifications are derived."
+    },
+    {
+      num: 6,
+      topic: "Philippine SEC SME Criteria",
+      stem: "In the Philippines, which entity cannot be considered an SME?",
+      options: {
+        A: "A nonpublicly accountable entity with total assets between P3,000,000 and P350,000,000 OR total liabilities between P3,000,000 and P250,000,000",
+        B: "An entity that is not in the process of filing its financial statements for the purpose of issuing any class of instruments in a public market",
+        C: "An entity that is not a holder of a secondary license issued by a regulatory agency",
+        D: "A public utility"
+      },
+      answer: "D",
+      rationale: "Under Philippine SEC rules, public utilities (electricity, water, telecom, petroleum) are considered public interest entities and are disqualified from being classified as SMEs regardless of asset/liability size.",
+      sme: "Excludes public utilities, listed entities, secondary license holders, and SRC Rule 68.1 filers.",
+      se: "Also strictly excludes public utilities and holders of secondary licenses.",
+      full: "Public utilities must always apply Full PFRS."
+    },
+    {
+      num: 7,
+      topic: "Micro-business Entities Threshold",
+      stem: "Entities with total assets or total liabilities below the floor threshold of P3,000,000 are known as",
+      options: {
+        A: "Micro-business entities",
+        B: "Macro-business entities",
+        C: "Medium-sized entities",
+        D: "Small entities"
+      },
+      answer: "A",
+      rationale: "Entities with total assets AND total liabilities below P3,000,000 fall below the small entity floor and are classified as Micro-business entities (microenterprises).",
+      sme: "Medium entities have Total Assets > P100M to P350M OR Total Liabilities > P100M to P250M.",
+      se: "Small entities have Total Assets P3M to P100M OR Total Liabilities P3M to P100M. Below P3M is Micro.",
+      full: "Large entities exceed P350M in assets OR P250M in liabilities."
+    },
+    {
+      num: 8,
+      topic: "Micro-entity Reporting Standard",
+      stem: "Under SEC ruling, which standard can be applied by micro-business entities?",
+      options: {
+        A: "Full IFRS",
+        B: "IFRS for SMEs",
+        C: "Any acceptable basis of accounting",
+        D: "PFRS for Small Entities or Income Tax Basis"
+      },
+      answer: "D",
+      rationale: "Under SEC rules, microenterprises have the option to use either PFRS for Small Entities or the Income Tax Basis of accounting.",
+      sme: "Micro entities are not required to use PFRS for SMEs, though an entity may voluntarily adopt a higher framework.",
+      se: "PFRS for Small Entities is one of the two explicit SEC-approved choices for micro-entities (alongside Income Tax Basis).",
+      full: "Not required for micro-entities."
+    },
+    {
+      num: 9,
+      topic: "First-Time Adoption Definition",
+      stem: "It is defined as \"first annual financial statements in which an SME adopts IFRS for SMEs\"",
+      options: {
+        A: "IFRS financial statements",
+        B: "First financial statements that conform with IFRS for SMEs",
+        C: "Opening statement of financial position",
+        D: "First audited financial statements"
+      },
+      answer: "B",
+      rationale: "Section 35 of IFRS for SMEs defines the first annual financial statements in which the entity makes an explicit and unreserved statement of compliance with IFRS for SMEs as the 'First financial statements that conform with IFRS for SMEs'.",
+      sme: "Governed by Section 35 (Transition to the IFRS for SMEs).",
+      se: "Transition to PFRS for SE follows simplified retrospective transition rules at the beginning of the comparative period.",
+      full: "Governed by PFRS 1 (First-time Adoption of PFRS), calling them 'First PFRS financial statements'."
+    },
+    {
+      num: 10,
+      topic: "Opening SFP at Date of Transition",
+      stem: "The statement of financial position at the date of transition to IFRS for SMEs is described as",
+      options: {
+        A: "Provisional statement of financial position",
+        B: "Closing statement of financial position",
+        C: "Opening statement of financial position",
+        D: "Originating statement of financial position"
+      },
+      answer: "C",
+      rationale: "At the date of transition to IFRS for SMEs, the statement of financial position is termed the 'Opening statement of financial position'.",
+      sme: "Prepared at the date of transition; however, unlike Full PFRS, an SME is not required to present a 3rd SFP on the face of its financial statements.",
+      se: "Also uses the opening balances at the transition date without requiring a 3rd SFP.",
+      full: "Under PFRS 1, a first-time adopter must prepare and present an Opening PFRS Statement of Financial Position (resulting in 3 SFPs)."
+    },
+    {
+      num: 11,
+      topic: "Date of Transition",
+      stem: "What is the date of transition to IFRS for SMEs?",
+      options: {
+        A: "The beginning of latest period in most recent annual financial statements under previous GAAP",
+        B: "The end of the latest period the most recent annual financial statements under previous GAAP",
+        C: "The beginning of the earliest period for which an entity presents full comparative information under IFRS for SMEs",
+        D: "The end of the earliest period for which an entity presents full comparative information under IFRS for SMEs"
+      },
+      answer: "C",
+      rationale: "The date of transition is the beginning of the earliest period for which the entity presents full comparative information under IFRS for SMEs (e.g., Jan 1, 2025 for Dec 31, 2026 first FS with 2025 comparatives).",
+      sme: "Beginning of the earliest comparative period presented under IFRS for SMEs.",
+      se: "Same concept when transitioning to PFRS for SE.",
+      full: "Identical definition under PFRS 1."
+    },
+    {
+      num: 12,
+      topic: "First-Time Adoption Procedures",
+      stem: "Which cannot be done by a first-time adopter of IFRS for SMEs in opening statement of financial position?",
+      options: {
+        A: "Recognize all assets and liabilities whose recognition is required by IFRS for SMEs.",
+        B: "Recognize all assets and liabilities required by full IFRS even if the IFRS for SMEs does not require such recognition.",
+        C: "Reclassify items that it recognized under a previous accounting framework as one type of asset, liability or equity but a different type of asset, liability or equity under IFRS for SMEs.",
+        D: "Apply IFRS for SMEs in measuring all recognized assets and liabilities."
+      },
+      answer: "B",
+      rationale: "In the opening SFP, a first-time adopter must NOT recognize assets or liabilities if IFRS for SMEs does not permit such recognition—even if Full IFRS would require/allow them (e.g., capitalized development costs or borrowing costs).",
+      sme: "Must apply recognition, derecognition, reclassification, and measurement rules of IFRS for SMEs, not Full IFRS.",
+      se: "Must apply recognition and measurement rules of PFRS for Small Entities.",
+      full: "Under PFRS 1, recognizes all assets and liabilities required by Full PFRS."
+    },
+    {
+      num: 13,
+      topic: "Fair Presentation",
+      stem: "Fair presentation in accordance with IFRS for SMEs is presumed to result from",
+      options: {
+        A: "Compliance for IFRS for SMEs by an entity that has public accountability",
+        B: "Compliance for IFRS for SMEs, with additional disclosures where necessary, by an entity that has public accountability",
+        C: "Compliance for IFRS for SMEs by an entity that does not have public accountability",
+        D: "Compliance for IFRS for SMEs, with additional disclosures where necessary, by an entity that does not have public accountability"
+      },
+      answer: "D",
+      rationale: "Section 3 states that fair presentation is presumed to result from applying IFRS for SMEs, with additional disclosures when necessary, by an entity that does NOT have public accountability.",
+      sme: "Requires both (a) no public accountability and (b) compliance with IFRS for SMEs + additional disclosures when necessary.",
+      se: "Fair presentation results from compliance with PFRS for SE by a qualifying small entity.",
+      full: "Publicly accountable entities can never claim fair presentation under IFRS for SMEs even if they add disclosures."
+    },
+    {
+      num: 14,
+      topic: "Statement of Compliance",
+      stem: "A nonpublicly accountable entity must make an explicit and unreserved statement of compliance with the IFRS for SMEs",
+      options: {
+        A: "If the entity complies with all the requirements of IFRS for SMEs.",
+        B: "If the entity complies with the vast majority of the requirements of IFRS for SMEs.",
+        C: "If the entity complies with the US GAAP.",
+        D: "If the entity complies with full IFRS."
+      },
+      answer: "A",
+      rationale: "An entity whose financial statements comply with the IFRS for SMEs shall make an explicit and unreserved statement of such compliance in the notes only if it complies with ALL requirements of the IFRS for SMEs.",
+      sme: "Requires 100% compliance with all provisions of IFRS for SMEs.",
+      se: "Requires full compliance with all provisions of PFRS for Small Entities.",
+      full: "PAS 1 requires an explicit and unreserved statement of compliance with all requirements of Full PFRS."
+    },
+    {
+      num: 15,
+      topic: "Claiming Compliance with IFRS for SMEs",
+      stem: "A nonpublicly accountable entity can claim compliance with IFRS for SMEs when the entity\nI. Complies with local tax requirements that are substantially the same as IFRS for SMEs.\nII. Complies with local tax requirements that are, except in name, word for word the same as IFRS for SMEs.\nIII. Complies with all the requirements of IFRS for SMEs.\nIV. Complies with full IFRS",
+      options: {
+        A: "I and III",
+        B: "II and III",
+        C: "II, III and IV",
+        D: "III and IV"
+      },
+      answer: "B",
+      rationale: "Compliance can only be claimed if the entity follows all requirements of IFRS for SMEs (III), or local regulations that are word-for-word identical to IFRS for SMEs except in name (II). 'Substantially the same' or 'Full IFRS' does not allow claiming compliance with IFRS for SMEs.",
+      sme: "Must follow IFRS for SMEs word-for-word in its entirety.",
+      se: "Complies with PFRS for Small Entities (or micro-entities using Income Tax Basis cannot claim PFRS for SE compliance).",
+      full: "An entity applying Full IFRS claims compliance with Full IFRS, not IFRS for SMEs."
+    },
+    {
+      num: 16,
+      topic: "Nature of Compliance",
+      stem: "Which statement suitably describes the nature of the compliance with the Standard?",
+      options: {
+        A: "The accounting practices used are a mix of full IFRS and IFRS for SMEs",
+        B: "The accounting practices used are a mix of local GAAP and IFRS for SMEs",
+        C: "The accounting practices used are a mix of full IFRS and local GAAP",
+        D: "The SME has followed IFRS for SMEs in its entirety."
+      },
+      answer: "D",
+      rationale: "IFRS for SMEs is a self-contained framework; an entity cannot cherry-pick or mix accounting practices between Full IFRS, local GAAP, and IFRS for SMEs (except for the explicit IAS 39 option for financial instruments).",
+      sme: "Must follow IFRS for SMEs in its entirety.",
+      se: "Must follow PFRS for Small Entities in its entirety.",
+      full: "Must follow Full PFRS in its entirety."
+    },
+    {
+      num: 17,
+      topic: "Measurement of Inventories",
+      stem: "Inventories of an SME shall be measured at",
+      options: {
+        A: "Cost",
+        B: "Lower of cost and estimated selling price less cost to complete and sell",
+        C: "Lower of fair value and estimated selling price less cost to complete and sell",
+        D: "Fair value"
+      },
+      answer: "B",
+      rationale: "Section 13 of IFRS for SMEs requires inventories to be measured at the lower of cost and estimated selling price less costs to complete and sell (the SME equivalent of LCNRV).",
+      sme: "Lower of cost and estimated selling price less cost to complete and sell.",
+      se: "Measured at Lower of Cost or Market Value (LCM), where Market Value is the middle amount of Replacement Cost, NRV, and NRV minus Normal Profit Margin.",
+      full: "PAS 2 uses Lower of Cost and Net Realizable Value (LCNRV), which is functionally identical to the SME formula."
+    },
+    {
+      num: 18,
+      topic: "Inventory Writedown Recognition",
+      stem: "Under IFRS for SMEs, if the selling price less cost to complete and sell is lower than cost of inventory, the writedown is recognized",
+      options: {
+        A: "As an impairment loss",
+        B: "As component of cost of goods sold",
+        C: "As other expense",
+        D: "Directly in retained earnings"
+      },
+      answer: "A",
+      rationale: "Under Section 13 and Section 27 of IFRS for SMEs, an inventory writedown to selling price less cost to complete and sell is treated as an impairment loss recognized immediately in profit or loss.",
+      sme: "Recognized as an Impairment Loss in P/L.",
+      se: "Also recognized as an Impairment Loss in P/L when Market Value is lower than Cost.",
+      full: "Under PAS 2, inventory writedowns are generally recognized as an expense included in Cost of Goods Sold."
+    },
+    {
+      num: 19,
+      topic: "Basic Financial Instruments (Exclusions)",
+      stem: "All of the following are considered basic financial instruments of an SME, except",
+      options: {
+        A: "Cash and demand and fixed term bank deposit",
+        B: "Bonds payable and other similar debt investment",
+        C: "Accounts and notes receivable",
+        D: "Investment in convertible preference shares"
+      },
+      answer: "D",
+      rationale: "Basic financial instruments include cash, bank deposits, trade receivables/payables, standard loans/bonds, and nonconvertible/nonputtable ordinary or preference shares. Convertible preference shares contain an embedded conversion feature and are classified as Other (Non-Basic) financial instruments.",
+      sme: "Convertible securities are Non-Basic financial instruments measured at FVPL.",
+      se: "Also distinguishes basic vs. complex instruments; convertible/derivative instruments are outside basic amortized cost treatment.",
+      full: "Under PFRS 9, convertible debt/preference share investments fail the SPPI test and are measured at FVPL."
+    },
+    {
+      num: 20,
+      topic: "Basic Financial Instruments (Derivatives)",
+      stem: "All of the following are considered basic financial instruments of an SME, except",
+      options: {
+        A: "Accounts payable in local and foreign currency",
+        B: "Derivative contract",
+        C: "Loans from subsidiaries or associates due on demand",
+        D: "Loans from bank and other third parties"
+      },
+      answer: "B",
+      rationale: "Derivative contracts (options, forwards, futures, swaps, warrants) are explicitly classified as Other (Non-Basic) financial instruments under Section 12 of IFRS for SMEs.",
+      sme: "Derivatives are Non-Basic instruments measured at Fair Value through Profit or Loss (FVPL).",
+      se: "Derivatives are not basic financial instruments.",
+      full: "Under PFRS 9, derivatives are measured at FVPL (unless designated in an effective hedging relationship)."
+    },
+    {
+      num: 21,
+      topic: "Subsequent Measurement of Basic Financial Instruments",
+      stem: "Which statement is true about subsequent measurement of basic financial instruments?",
+      options: {
+        A: "Basic debt instruments are measured at amortized cost using the effective interest method.",
+        B: "Investments in nonputtable ordinary shares are measured at FVPL if the shares are publicly traded or if the fair value can be measured reliably.",
+        C: "Investments in nonconvertible and nonputtable preference shares which are not publicly traded or whose fair value cannot be measured reliably are measured at cost less impairment.",
+        D: "All of these statements are true."
+      },
+      answer: "D",
+      rationale: "Under Section 11 of IFRS for SMEs: (1) basic debt instruments = amortized cost via effective interest method; (2) nonputtable ordinary & nonconvertible/nonputtable preference shares = FVPL if publicly traded or FV is reliably measurable without undue cost/effort, otherwise Cost less impairment. No FVOCI category exists.",
+      sme: "Debt = Amortized Cost; Publicly traded basic shares = FVPL; Untraded basic shares = Cost less impairment.",
+      se: "Debt = Amortized Cost (effective interest). Traded shares = Lower of Cost or Fair Value (changes in P/L). Untraded shares = Cost less impairment.",
+      full: "Debt = Amortized Cost, FVOCI, or FVPL. Equity = FVPL (or irrevocable election to FVOCI)."
+    },
+    {
+      num: 22,
+      topic: "Investments in Associates",
+      stem: "An SME shall account for investments in associates after initial recognition using",
+      options: {
+        A: "Cost model for all investments in associates.",
+        B: "Fair value model for all investments in associates.",
+        C: "Cost model, equity method or fair value model and using the same accounting policy for all investments in associates.",
+        D: "Cost model, equity method or fair value model and the model can be elected on an investment by investment basis."
+      },
+      answer: "C",
+      rationale: "Section 14 allows an SME to account for all of its investments in associates using one of three policy choices: Cost Model, Equity Method, or Fair Value Model, applied consistently to all associates.",
+      sme: "Policy choice of Cost Model, Equity Method, or Fair Value Model for all associates. (Under Equity Method, implied goodwill is amortized over max 10 years).",
+      se: "Policy choice of Cost Model or Equity Method only (Fair Value Model is NOT allowed for associates under SE).",
+      full: "Must use the Equity Method for all associates (PAS 28); implied goodwill is not amortized."
+    },
+    {
+      num: 23,
+      topic: "Investment Property",
+      stem: "An SME must measure an investment property after initial recognition",
+      options: {
+        A: "At fair value or using the cost model and same accounting policy for all investment property",
+        B: "At fair value or using the cost model elected item by item",
+        C: "At fair value",
+        D: "At fair value for property whose fair value can be measured reliably without undue cost or effort on an ongoing basis and cost model for all other investment property"
+      },
+      answer: "D",
+      rationale: "Under Section 16 of IFRS for SMEs, measurement of investment property is driven by circumstance, not a free policy choice: if fair value can be measured reliably without undue cost or effort on an ongoing basis, the Fair Value Model must be used; otherwise, it is accounted for under the Cost Model.",
+      sme: "Circumstance-driven: Fair Value Model by default if reliable without undue cost/effort; otherwise Cost Model.",
+      se: "Free accounting policy choice: either Cost Model or Fair Value Model for all investment property.",
+      full: "Free accounting policy choice under PAS 40: either Cost Model or Fair Value Model applied to all investment property."
+    },
+    {
+      num: 24,
+      topic: "Property, Plant and Equipment (PPE)",
+      stem: "An SME shall measure property, plant and equipment after initial recognition using",
+      options: {
+        A: "Cost model",
+        B: "Revaluation model",
+        C: "Either cost model or revaluation model",
+        D: "Either cost model or fair value model"
+      },
+      answer: "C",
+      rationale: "Following the 2015 amendments to Section 17 of IFRS for SMEs, SMEs have an accounting policy choice to measure classes of PPE using either the Cost Model or the Revaluation Model (with revaluation surplus in OCI).",
+      sme: "Policy choice of Cost Model or Revaluation Model (revaluation surplus in OCI).",
+      se: "Policy choice of Cost Model or Fair Value Model (under SE's FV model, changes go to P/L and the asset is not depreciated; SE has no OCI).",
+      full: "Policy choice of Cost Model or Revaluation Model under PAS 16."
+    },
+    {
+      num: 25,
+      topic: "Borrowing Costs",
+      stem: "Under the IFRS for SMEs, all borrowing costs must be",
+      options: {
+        A: "Expensed in the period incurred",
+        B: "Capitalized as part of the cost of the qualifying asset",
+        C: "Either expensed or capitalized",
+        D: "Neither expensed nor capitalized"
+      },
+      answer: "A",
+      rationale: "Section 25 of IFRS for SMEs requires ALL borrowing costs to be recognized as an expense in profit or loss in the period in which they are incurred, regardless of how the borrowings are used.",
+      sme: "Always expensed outright in the period incurred (never capitalized).",
+      se: "Same as SMEs: always expensed outright in the period incurred (never capitalized).",
+      full: "Under PAS 23, borrowing costs directly attributable to the acquisition, construction, or production of a qualifying asset MUST be capitalized."
+    },
+    {
+      num: 26,
+      topic: "Intangible Assets (Subsequent Measurement)",
+      stem: "An SME must measure intangible assets after initial recognition using",
+      options: {
+        A: "Cost model only",
+        B: "Fair value model",
+        C: "Revaluation model",
+        D: "Either cost model or revaluation model"
+      },
+      answer: "A",
+      rationale: "Under Section 18 of IFRS for SMEs, intangible assets must be measured after initial recognition using the Cost Model only (cost less accumulated amortization and accumulated impairment losses). Revaluation is prohibited.",
+      sme: "Cost Model only. All R&D costs are expensed outright; all intangibles have finite lives (max 10 years if unreliable).",
+      se: "Same as SMEs: Cost Model only, all R&D expensed, and amortized over max 10 years if useful life cannot be estimated reliably.",
+      full: "PAS 38 allows either the Cost Model or Revaluation Model (if an active market exists), capitalizes qualifying development costs, and does not amortize indefinite-life intangibles."
+    },
+    {
+      num: 27,
+      topic: "Treatment of Goodwill",
+      stem: "Under IFRS for SMEs, what is the treatment of goodwill?",
+      options: {
+        A: "Not amortized",
+        B: "Tested for impairment at least annually",
+        C: "Amortized over a maximum of 5 years",
+        D: "Amortized based on the best estimate of management not exceeding 10 years and tested for impairment at least annually"
+      },
+      answer: "D",
+      rationale: "Under IFRS for SMEs, goodwill is considered to have a finite useful life and is amortized over its estimated useful life; if unable to estimate reliably, it is amortized over management's best estimate not exceeding 10 years, alongside impairment testing.",
+      sme: "Amortized (if unreliable, based on management's best estimate not exceeding 10 years) and subject to impairment.",
+      se: "Also amortized based on management's best estimate not exceeding 10 years.",
+      full: "Under PFRS 3 / PAS 36, goodwill is NOT amortized; instead, it is tested for impairment at least annually."
+    },
+    {
+      num: 28,
+      topic: "Specialized Activities",
+      stem: "Specialized activities of an SME include all of the following, except",
+      options: {
+        A: "Agriculture",
+        B: "Service concession",
+        C: "Exploration and evaluation of mineral resources",
+        D: "Insurance"
+      },
+      answer: "D",
+      rationale: "Section 34 of IFRS for SMEs covers three specialized activities: (1) Agriculture, (2) Extractive activities (Exploration and evaluation of mineral resources), and (3) Service concession arrangements. Insurance companies have public accountability (fiduciaries) and cannot use IFRS for SMEs.",
+      sme: "Covers Agriculture, Service Concession, and Extractive Activities.",
+      se: "Has specific simplified rules for Agriculture; insurance companies hold secondary licenses and cannot be SEs.",
+      full: "Insurance contracts are governed by PFRS 17 under Full PFRS, as insurers have public accountability."
+    },
+    {
+      num: 29,
+      topic: "Service Concession — Financial Asset Model",
+      stem: "When the private operator in a service concession has a guaranteed or unconditional contractual right to receive a specified amount over the life of the arrangement, the infrastructure asset is recognized as",
+      options: {
+        A: "Financial asset",
+        B: "Intangible asset",
+        C: "Property, planted equipment",
+        D: "Investment"
+      },
+      answer: "A",
+      rationale: "Under Section 34, when the operator has an unconditional contractual right to receive cash or another financial asset from (or at the direction of) the grantor, the operator recognizes a Financial Asset.",
+      sme: "Recognized as a Financial Asset (measured at fair value initially, then amortized cost).",
+      se: "PFRS for SE does not contain a dedicated service concession section.",
+      full: "Identical rule under IFRIC 12 (Service Concession Arrangements): unconditional right to cash = Financial Asset."
+    },
+    {
+      num: 30,
+      topic: "Service Concession — Intangible Asset Model",
+      stem: "When the private operator in a service concession has a right to charge fees for the use of the asset, the infrastructure asset is recognized as",
+      options: {
+        A: "Financial asset",
+        B: "Intangible asset",
+        C: "Property, plant and equipment",
+        D: "Investment"
+      },
+      answer: "B",
+      rationale: "When the operator receives a right (license) to charge users of the public service (where cash flows depend on usage and are not unconditionally guaranteed), the operator recognizes an Intangible Asset.",
+      sme: "Recognized as an Intangible Asset (measured under the Cost Model and amortized).",
+      se: "Not applicable under PFRS for SE.",
+      full: "Identical rule under IFRIC 12: right to charge public users = Intangible Asset."
+    }
+  ],
+  se: [
+    {
+      num: 1,
+      topic: "Applicable Standard for Small Entities",
+      stem: "Which standard shall be applied by small entities?",
+      options: {
+        A: "PFRS for Small Entities",
+        B: "PFRS for SMEs",
+        C: "Full PFRS",
+        D: "All of these can be applied by small entities"
+      },
+      answer: "A",
+      rationale: "As a general rule under SEC regulations, small entities shall apply the PFRS for Small Entities (though exceptions allow opting up to PFRS for SMEs or Full PFRS under specific exemption grounds).",
+      sme: "Medium entities apply PFRS for SMEs as their mandatory baseline (may opt up to Full PFRS, but cannot opt down to PFRS for SE).",
+      se: "General rule is PFRS for Small Entities (SE) for entities with Assets OR Liabilities between P3M and P100M.",
+      full: "Large entities and publicly accountable entities must apply Full PFRS without exception."
+    },
+    {
+      num: 2,
+      topic: "Definition of a Small Entity",
+      stem: "Which is not within the definition of a small entity?",
+      options: {
+        A: "With total assets or total liabilities between P3,000,000 and P100,000,000.",
+        B: "Not required to file financial statements with SEC in accordance with SEC regulations.",
+        C: "Not in the process of filing financial statements for the purpose of issuing equity instruments in a public market.",
+        D: "Holder of a secondary license issued by regulatory agency, such as bank."
+      },
+      answer: "D",
+      rationale: "Holders of secondary licenses issued by a regulatory agency (banks, insurance companies, broker-dealers, finance companies, mutual funds) have public accountability and are always classified as Large Entities—never Small Entities.",
+      sme: "Holders of secondary licenses are also disqualified from PFRS for SMEs.",
+      se: "Must have Assets or Liabilities of P3M–P100M, no public accountability, not a public utility, and NOT a holder of a secondary license.",
+      full: "Holders of secondary licenses must always use Full PFRS regardless of asset/liability size."
+    },
+    {
+      num: 3,
+      topic: "Exemptions from Mandatory Adoption of PFRS for SE",
+      stem: "Which small entity is exempted from the mandatory adoption of PFRS for Small Entities?",
+      options: {
+        A: "A small subsidiary of a parent under full PFRS",
+        B: "A small subsidiary of a foreign parent moving toward full IFRS",
+        C: "A small joint venture under full PFRS",
+        D: "All of these entities are exempted from adoption of PFRS for small entities."
+      },
+      answer: "D",
+      rationale: "Under SEC Revised SRC Rule 68, small entities that are subsidiaries/joint ventures of a parent reporting under Full PFRS/IFRS (or moving toward Full IFRS), or have short-term projections breaching the threshold, or have foreign operations, are exempted from mandatory PFRS for SE and may opt for PFRS for SMEs or Full PFRS.",
+      sme: "Medium entities have similar group-reporting exemptions allowing them to adopt Full PFRS.",
+      se: "Exempted small entities may opt up to PFRS for SMEs or Full PFRS to streamline group consolidation.",
+      full: "Always permitted for exempted small/medium entities."
+    },
+    {
+      num: 4,
+      topic: "No OCI in Small Entities",
+      stem: "Which is not recognized by a small entity?",
+      options: {
+        A: "Change in accounting estimate",
+        B: "Change in accounting policy",
+        C: "Prior period error",
+        D: "Other comprehensive income"
+      },
+      answer: "D",
+      rationale: "Under PFRS for Small Entities, the concept of Other Comprehensive Income (OCI) does NOT exist. All recognized income and expenses go through Profit or Loss.",
+      sme: "Recognizes 4 OCI items: Revaluation surplus, Foreign exchange translation G/L, Actuarial G/L (if elected), and Cash flow hedge G/L.",
+      se: "Does NOT recognize OCI at all. Total comprehensive income is just Profit or Loss.",
+      full: "Recognizes 5+ OCI items (Revaluation surplus, Actuarial G/L, Translation G/L, Cash flow hedge, FVOCI debt/equity, etc.)."
+    },
+    {
+      num: 5,
+      topic: "Initial Measurement of Basic Financial Instruments",
+      stem: "Basic financial instruments of a small entity are initially measured at",
+      options: {
+        A: "Transaction price including transaction cost",
+        B: "Transaction price excluding transaction cost",
+        C: "Amortized cost",
+        D: "Present value of future payments"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities (Section 6), all basic financial instruments are initially measured at the transaction price, including transaction costs.",
+      sme: "Initial measurement is transaction price including transaction costs, EXCEPT for financial instruments subsequently measured at FVPL (where transaction costs are expensed).",
+      se: "Measured initially at transaction price INCLUDING transaction costs.",
+      full: "Fair value plus transaction costs (for Amortized Cost / FVOCI), or Fair Value with transaction costs expensed (for FVPL)."
+    },
+    {
+      num: 6,
+      topic: "Subsequent Measurement of Debt Instruments",
+      stem: "Debt instruments of a small entity are subsequently measured at",
+      options: {
+        A: "Amortized cost using effective interest method",
+        B: "Amortized cost using straight line",
+        C: "Cost",
+        D: "Fair value"
+      },
+      answer: "A",
+      rationale: "Both PFRS for Small Entities and PFRS for SMEs require debt instruments (receivables, payables, loans, bonds) to be subsequently measured at amortized cost using the effective interest method.",
+      sme: "Amortized cost using the effective interest method (no FVOCI classification).",
+      se: "Amortized cost using the effective interest method (no FVOCI classification).",
+      full: "Classified into Amortized Cost (effective interest), FVOCI, or FVPL depending on the business model and SPPI test."
+    },
+    {
+      num: 7,
+      topic: "Untraded Shares of a Small Entity",
+      stem: "Investments in untraded shares of a small entity are subsequently measured at",
+      options: {
+        A: "Cost",
+        B: "Cost less impairment",
+        C: "Fair value",
+        D: "Fair value less transaction cost"
+      },
+      answer: "B",
+      rationale: "Under PFRS for Small Entities, investments in untraded shares (unlisted equity securities) are subsequently measured at cost less impairment.",
+      sme: "Also measured at cost less impairment if shares are not publicly traded and fair value cannot be reliably measured without undue cost/effort.",
+      se: "Untraded shares = Cost less impairment.",
+      full: "Under PFRS 9, unquoted equity instruments must still be measured at Fair Value (FVPL or FVOCI), though cost may be an appropriate estimate of FV in limited circumstances."
+    },
+    {
+      num: 8,
+      topic: "Traded Shares of a Small Entity",
+      stem: "Investment in traded shares of a small entity are subsequently measured at",
+      options: {
+        A: "Cost",
+        B: "Fair value",
+        C: "Lower of cost or fair value with changes in fair value recognized in profit or loss",
+        D: "Lower of cost or fair value with changes in fair value recognized in OCI"
+      },
+      answer: "C",
+      rationale: "A unique hallmark of PFRS for Small Entities: investments in traded (listed) shares are measured at the LOWER of cost or fair value, with changes recognized in profit or loss (and since SE has no OCI, D is impossible).",
+      sme: "Traded shares are measured at Fair Value through Profit or Loss (FVPL)—even if fair value exceeds cost.",
+      se: "Traded shares = Lower of Cost or Fair Value, with changes in P/L.",
+      full: "Measured at Fair Value (either FVPL or irrevocable election to FVOCI)—never capped at cost."
+    },
+    {
+      num: 9,
+      topic: "Impairment of Debt Instrument at Amortized Cost",
+      stem: "For debt instrument at amortized cost, the impairment loss is",
+      options: {
+        A: "Excess carrying amount over the present value of cash flows",
+        B: "Excess of present value of cash flows over carrying amount",
+        C: "Excess of carrying amount over fair value",
+        D: "Excess fair value over carrying amount"
+      },
+      answer: "A",
+      rationale: "For a debt instrument measured at amortized cost, the impairment loss is the excess of the asset's carrying amount over the present value of estimated future cash flows discounted at the asset's original effective interest rate.",
+      sme: "Same rule: Carrying amount minus PV of estimated cash flows discounted at original effective rate.",
+      se: "Carrying amount minus PV of estimated future cash flows.",
+      full: "Uses the Expected Credit Loss (ECL) model (12-month or lifetime ECL) under PFRS 9."
+    },
+    {
+      num: 10,
+      topic: "Impairment of Financial Asset at Cost Less Impairment",
+      stem: "For financial asset measured at cost less impairment, the impairment loss is the excess of",
+      options: {
+        A: "Carrying amount over the best estimate of selling price",
+        B: "Best estimate of selling price over carrying amount",
+        C: "Carrying amount over fair value",
+        D: "Fair value over best estimate of selling price"
+      },
+      answer: "A",
+      rationale: "For an untraded equity instrument measured at cost less impairment, the impairment loss is the difference between the asset's carrying amount and the best estimate of the amount (selling price) that the entity would receive for the asset if it were sold at the reporting date.",
+      sme: "Same rule under Section 11 of IFRS for SMEs: Carrying amount over best estimate of the amount the entity would receive if sold at the reporting date.",
+      se: "Carrying amount over the best estimate of selling price.",
+      full: "Not applicable under PFRS 9 since equity investments are measured at Fair Value."
+    },
+    {
+      num: 11,
+      topic: "Subsequent Measurement of Inventories",
+      stem: "Inventories of a small entity are initially measured at cost and subsequently measured at",
+      options: {
+        A: "Fair value",
+        B: "Market value",
+        C: "Lower of cost or market value",
+        D: "Lower of cost or net realizable value"
+      },
+      answer: "C",
+      rationale: "Under PFRS for Small Entities, inventories are subsequently measured at the Lower of Cost or Market Value (LCM), where Market Value is the middle value of Replacement Cost, NRV (ceiling), and NRV less Normal Profit Margin (floor).",
+      sme: "Measured at Lower of Cost and Estimated Selling Price less Cost to Complete and Sell (LCNRV).",
+      se: "Measured at Lower of Cost or Market Value (LCM).",
+      full: "Measured at Lower of Cost and Net Realizable Value (LCNRV) under PAS 2."
+    },
+    {
+      num: 12,
+      topic: "Accounting for Inventory Writedown (SE)",
+      stem: "If the market value of inventory of small entity is lower than cost, the difference is accounted for as",
+      options: {
+        A: "Impairment loss",
+        B: "Component of other comprehensive income",
+        C: "Component of cost of goods sold",
+        D: "Operating expense"
+      },
+      answer: "A",
+      rationale: "When the market value of inventory is lower than cost under PFRS for Small Entities, the writedown is recognized immediately as an Impairment Loss in profit or loss.",
+      sme: "Same as SE: recognized as an Impairment Loss in profit or loss.",
+      se: "Recognized as an Impairment Loss in profit or loss.",
+      full: "Recognized as an expense included in Cost of Goods Sold under PAS 2."
+    },
+    {
+      num: 13,
+      topic: "Investments in Associates (SE)",
+      stem: "All investments in associate of a small entity are accounted for using",
+      options: {
+        A: "Cost model",
+        B: "Equity method",
+        C: "Either cost model or equity method",
+        D: "Cost model, equity method or fair value model"
+      },
+      answer: "C",
+      rationale: "Under PFRS for Small Entities, an entity has an accounting policy choice to account for all of its investments in associates using either the Cost Model or the Equity Method. The Fair Value Model is NOT permitted for associates under SE.",
+      sme: "Allows 3 models: Cost Model, Equity Method, OR Fair Value Model.",
+      se: "Allows 2 models only: Cost Model OR Equity Method (No Fair Value Model).",
+      full: "Allows 1 model only: Equity Method (PAS 28)."
+    },
+    {
+      num: 14,
+      topic: "Investment Property (SE)",
+      stem: "All investments property of a small entity shall be subsequently measured using",
+      options: {
+        A: "Cost model",
+        B: "Fair value model",
+        C: "Either cost model or revaluation model",
+        D: "Either cost model or fair value model"
+      },
+      answer: "D",
+      rationale: "Under PFRS for Small Entities, an entity has a free accounting policy choice to measure all investment property subsequently using either the Cost Model or the Fair Value Model.",
+      sme: "Circumstance-driven (not a free choice): must use Fair Value Model if reliable without undue cost/effort; otherwise Cost Model.",
+      se: "Free accounting policy choice: Either Cost Model or Fair Value Model.",
+      full: "Free accounting policy choice under PAS 40: Either Cost Model or Fair Value Model."
+    },
+    {
+      num: 15,
+      topic: "Property, Plant and Equipment (SE)",
+      stem: "A small entity shall apply which accounting policy for property, plant and equipment?",
+      options: {
+        A: "Cost model",
+        B: "Fair value model",
+        C: "Either cost model or fair value model",
+        D: "Either cost model or revaluation model"
+      },
+      answer: "C",
+      rationale: "Because PFRS for Small Entities does NOT recognize OCI (and thus cannot recognize Revaluation Surplus in OCI), a small entity chooses between the Cost Model and the Fair Value Model for PPE (under the FV model, changes in fair value go to P/L and PPE is not depreciated).",
+      sme: "Either Cost Model or Revaluation Model (revaluation surplus in OCI).",
+      se: "Either Cost Model or Fair Value Model (FV changes in P/L; no depreciation under FV model).",
+      full: "Either Cost Model or Revaluation Model (revaluation surplus in OCI)."
+    },
+    {
+      num: 16,
+      topic: "Monetary Government Grants (SE)",
+      stem: "Which statement is true with respect to government grant of a small entity?",
+      options: {
+        A: "Unconditional monetary grant is recognized in income when receivable.",
+        B: "Conditional monetary grant is recognized in income only when condition is met.",
+        C: "Monetary grant is recognized as liability before recognition criteria are met.",
+        D: "All of the statements are true."
+      },
+      answer: "D",
+      rationale: "Under PFRS for Small Entities (and PFRS for SMEs), unconditional monetary grants are recognized in income when receivable, conditional grants are recognized only when performance conditions are actually fulfilled (at the end), and cash received beforehand is recognized as a liability.",
+      sme: "Identical treatment for monetary grants (unconditional = when receivable; conditional = when conditions met).",
+      se: "All three statements (A, B, and C) are true for monetary government grants.",
+      full: "Under PAS 20, grants are recognized in P/L on a systematic (piecemeal) basis over the periods in which the entity recognizes the related costs/depreciation."
+    },
+    {
+      num: 17,
+      topic: "Nonmonetary Government Grants (SE)",
+      stem: "What is the accounting policy of a small entity for a nonmonetary grant?",
+      options: {
+        A: "No recognition",
+        B: "Recognition at fair value",
+        C: "Either no recognition or recognition at fair value",
+        D: "Recognition at cost"
+      },
+      answer: "C",
+      rationale: "A unique feature of PFRS for Small Entities: for nonmonetary government grants (e.g., land or equipment granted by the government), a small entity has a policy choice of either (1) not recognizing the nonmonetary grant at all, or (2) recognizing it at fair value.",
+      sme: "Must recognize all government grants (including nonmonetary grants) at the fair value of the asset received or receivable.",
+      se: "Policy choice for nonmonetary grants: Either No Recognition OR Recognition at Fair Value.",
+      full: "Under PAS 20, nonmonetary grants are recorded at Fair Value or at a nominal amount."
+    },
+    {
+      num: 18,
+      topic: "Borrowing Costs (SE)",
+      stem: "What is the treatment of borrowing cost of a small entity?",
+      options: {
+        A: "Expensed as incurred",
+        B: "Capitalized",
+        C: "May be expensed or capitalized depending on circumstances",
+        D: "Not recognized"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities, all borrowing costs are recognized as an expense in profit or loss in the period incurred. Capitalization is prohibited.",
+      sme: "Same as SE: all borrowing costs are expensed as incurred.",
+      se: "All borrowing costs are expensed as incurred.",
+      full: "Capitalized if directly attributable to a qualifying asset (PAS 23); otherwise expensed."
+    },
+    {
+      num: 19,
+      topic: "Intangible Assets Measurement (SE)",
+      stem: "A small entity shall measure intangible asset using",
+      options: {
+        A: "Cost model only",
+        B: "Fair value model",
+        C: "Revaluation model",
+        D: "Either cost model or fair value model"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities, intangible assets are measured strictly using the Cost Model only (and all research & development costs are expensed outright).",
+      sme: "Same as SE: Cost Model only, and all R&D costs are expensed outright.",
+      se: "Cost Model only.",
+      full: "Cost Model or Revaluation Model (if an active market exists), and qualifying development costs are capitalized."
+    },
+    {
+      num: 20,
+      topic: "Useful Life of Intangible Assets (SE)",
+      stem: "If the useful life of an intangible asset of a small entity cannot be estimated reliably.",
+      options: {
+        A: "The intangible asset is not amortized",
+        B: "The useful life must be 10 years.",
+        C: "The useful life is based on the best estimate of management",
+        D: "The useful life is based on the best estimate of management not exceeding 10 years."
+      },
+      answer: "D",
+      rationale: "Under both PFRS for Small Entities and PFRS for SMEs, all intangible assets are considered to have a finite useful life. If the useful life cannot be estimated reliably, it is determined based on management's best estimate but shall not exceed 10 years.",
+      sme: "Same rule: management's best estimate not exceeding 10 years.",
+      se: "Management's best estimate not exceeding 10 years.",
+      full: "Under PAS 38, an intangible asset with an indefinite useful life is NOT amortized, but tested for impairment annually."
+    },
+    {
+      num: 21,
+      topic: "Biological Assets (SE)",
+      stem: "Biological asset of a small entity is measured using",
+      options: {
+        A: "Cost model",
+        B: "Current market price model",
+        C: "Either cost model or fair value model",
+        D: "Either cost model or current market price model"
+      },
+      answer: "D",
+      rationale: "Under PFRS for Small Entities, an entity engaged in agriculture has a free accounting policy choice to measure its biological assets using either the Cost Model or the Current Market Price Model (and bearer plants are classified as biological assets).",
+      sme: "Circumstance-driven: Fair Value Less Costs to Sell (FVLCTS) if readily determinable without undue cost/effort; otherwise Cost Model.",
+      se: "Policy choice: Either Cost Model or Current Market Price Model.",
+      full: "Measured at Fair Value Less Costs to Sell (FVLCTS) under PAS 41 (unless FV is unreliable), and bearer plants are accounted for as PPE under PAS 16."
+    },
+    {
+      num: 22,
+      topic: "Agricultural Produce (SE)",
+      stem: "Agricultural produce of a small entity is measured at",
+      options: {
+        A: "Current market price at the point of harvest",
+        B: "Current market price less cost of disposal at the point of harvest",
+        C: "Fair value at the point of harvest",
+        D: "Fair value less cost of disposal at the point of harvest"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities, agricultural produce harvested from biological assets is measured at its Current Market Price at the point of harvest (without deducting cost to sell).",
+      sme: "Measured at Fair Value Less Estimated Costs to Sell (FVLCTS) at the point of harvest.",
+      se: "Measured at Current Market Price at the point of harvest.",
+      full: "Measured at Fair Value Less Costs to Sell (FVLCTS) at the point of harvest under PAS 41."
+    },
+    {
+      num: 23,
+      topic: "Lease Accounting (SE)",
+      stem: "A small entity shall account for lease using",
+      options: {
+        A: "Operating lease model",
+        B: "Finance lease model",
+        C: "Either operating lease or finance lease",
+        D: "Operating lease for lessee and finance lease for lessor"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities, ALL leases (for both lessee and lessor) are accounted for under the Operating Lease Model—there is no Finance Lease classification, no ROU asset/lease liability, and rent expense/income is simply recognized equal to the actual lease payments.",
+      sme: "Classifies leases into Finance Lease vs. Operating Lease based on transfer of risks and rewards (and straight-lines operating leases).",
+      se: "Operating Lease Model only (actual rental payments = rent expense/income; no PV and no straight-lining unless payments are artificially distorted).",
+      full: "Lessee uses the Finance Lease / Right-of-Use (ROU) Model under PFRS 16; Lessor classifies into Finance vs. Operating Lease."
+    },
+    {
+      num: 24,
+      topic: "Income Taxes (SE)",
+      stem: "A small entity shall account for income tax using",
+      options: {
+        A: "Taxes payable method",
+        B: "Deferred income taxes method",
+        C: "Either taxes payable method or deferred income taxes method",
+        D: "Neither taxes payable method nor deferred income taxes method"
+      },
+      answer: "C",
+      rationale: "Under PFRS for Small Entities, an entity has an accounting policy choice to account for income taxes using either the Taxes Payable Method (recognizing current tax only) OR the Deferred Income Taxes Method (recognizing both current and deferred taxes).",
+      sme: "Must use the Deferred Income Taxes Method (recognizing both current and deferred taxes).",
+      se: "Policy choice: Either Taxes Payable Method OR Deferred Income Taxes Method.",
+      full: "Must use the Deferred Income Taxes Method under PAS 12."
+    },
+    {
+      num: 25,
+      topic: "Postemployment Benefits (SE)",
+      stem: "A small entity shall account for postemployment benefits using",
+      options: {
+        A: "Accrual method",
+        B: "Cash method",
+        C: "Either accrual method or cash method",
+        D: "Either accrual method or projected benefit method"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities, postemployment benefits are accounted for using the simplified Accrual Method (not the actuarial Projected Unit Credit Method).",
+      sme: "Uses the Projected Unit Credit Method (or a simplified approximation if PUCM requires undue cost or effort).",
+      se: "Uses the Accrual Method.",
+      full: "Must use the actuarial Projected Unit Credit Method (PUCM) under PAS 19."
+    },
+    {
+      num: 26,
+      topic: "Calculation of Benefit Obligation (SE)",
+      stem: "The benefit obligation of small entity is calculated under",
+      options: {
+        A: "R.A. 7641",
+        B: "Company policy",
+        C: "Company policy if higher than R.A. 7641",
+        D: "Qualifying insurance policy"
+      },
+      answer: "C",
+      rationale: "Under PFRS for Small Entities, the postemployment retirement obligation is accrued based on the Company Policy if it provides higher benefits than Republic Act (R.A.) 7641 (The Philippine Retirement Pay Law); otherwise, the minimum statutory rate under R.A. 7641 applies.",
+      sme: "Actuarial present value of defined benefit obligation under Section 28.",
+      se: "Accrual based on Company Policy if higher than R.A. 7641 (whichever is superior).",
+      full: "Actuarial PUCM valuation based on plan terms (or R.A. 7641 minimum retirement benefit if no formal plan exists)."
+    },
+    {
+      num: 27,
+      topic: "Equity-Settled Share-Based Payments (SE)",
+      stem: "Equity settled transactions of a small entity are measured at",
+      options: {
+        A: "Net asset value",
+        B: "Fair value",
+        C: "Liquidation value",
+        D: "Assessed value"
+      },
+      answer: "A",
+      rationale: "Under PFRS for Small Entities, equity-settled share-based payment transactions are measured using the Net Asset Value (NAV) of the shares—not fair value of share options.",
+      sme: "Measured at the Fair Value of the goods/services or the Fair Value of the equity instruments granted.",
+      se: "Measured at Net Asset Value (NAV).",
+      full: "Measured at the Fair Value of the goods/services or the Grant-Date Fair Value of the equity instruments under PFRS 2."
+    },
+    {
+      num: 28,
+      topic: "Definition of Net Asset Value (SE)",
+      stem: "Net asset value is equal to",
+      options: {
+        A: "Total assets less total liabilities",
+        B: "Total assets at fair value",
+        C: "Net assets at fair value",
+        D: "Total assets less total liabilities divided by shares outstanding"
+      },
+      answer: "D",
+      rationale: "Net Asset Value (NAV) per share for measuring equity-settled share-based payments in a small entity is equal to (Total Assets minus Total Liabilities) divided by the number of shares outstanding.",
+      sme: "Uses observable market price or valuation technique for fair value per share.",
+      se: "NAV = (Total Assets - Total Liabilities) / Number of Shares Outstanding.",
+      full: "Uses market price or option pricing models (e.g., Black-Scholes) at grant date."
+    },
+    {
+      num: 29,
+      topic: "Cash-Settled Share-Based Payments (SE)",
+      stem: "Cash settled transactions of a small entity are measured at",
+      options: {
+        A: "Fair value of liability at reporting date",
+        B: "Net asset value of liability at reporting date",
+        C: "Fair value of liability at reporting date and remeasured at date of settlement",
+        D: "Net asset value of liability at reporting date and remeasured at date of settlement"
+      },
+      answer: "C",
+      rationale: "For cash-settled share-based payments, all three frameworks (Full PFRS, PFRS for SMEs, and PFRS for Small Entities) measure the transaction at the fair value of the liability at each reporting date and remeasure it through profit or loss until the date of settlement.",
+      sme: "Same rule: Fair value of the liability at each reporting date and at the date of settlement, with changes in P/L.",
+      se: "Fair value of the liability at reporting date and remeasured at the date of settlement.",
+      full: "Same rule under PFRS 2."
+    },
+    {
+      num: 30,
+      topic: "Basis of Accounting (SE)",
+      stem: "A small entity shall apply which method of recognizing revenue and expense?",
+      options: {
+        A: "Accrual basis",
+        B: "Cash basis",
+        C: "Modified cash basis",
+        D: "Either accrual basis or cash basis"
+      },
+      answer: "A",
+      rationale: "Small entities must prepare their financial statements (and recognize revenue and expenses) using the Accrual Basis of accounting.",
+      sme: "Accrual basis of accounting (revenue recognized based on transfer of risks and rewards / stage of completion).",
+      se: "Accrual basis of accounting (revenue recognized based on transfer of risks and rewards).",
+      full: "Accrual basis of accounting (revenue recognized using the 5-Step Model under PFRS 15)."
+    }
+  ]
+};
+
+let currentTab = 'sme';
+let currentFilter = 'all';
+let revealAll = false;
+
+// State storage: userAnswers[tab][qNum] = selectedLetter, revealed[tab][qNum] = bool
+const state = {
+  sme: { answers: {}, revealed: {} },
+  se: { answers: {}, revealed: {} }
+};
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tabBtn-sme').classList.toggle('active', tab === 'sme');
+  document.getElementById('tabBtn-se').classList.toggle('active', tab === 'se');
+  document.getElementById('tabBtn-matrix').classList.toggle('active', tab === 'matrix');
+
+  const quizContainer = document.getElementById('quizContainer');
+  const matrixContainer = document.getElementById('matrixContainer');
+  const quizControls = document.getElementById('quizControls');
+
+  if (tab === 'matrix') {
+    quizContainer.classList.add('hidden');
+    quizControls.classList.add('hidden');
+    matrixContainer.classList.remove('hidden');
+  } else {
+    quizContainer.classList.remove('hidden');
+    quizControls.classList.remove('hidden');
+    matrixContainer.classList.add('hidden');
+    renderQuiz();
+  }
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.getElementById('filter-all').classList.toggle('active-filter', filter === 'all');
+  document.getElementById('filter-unanswered').classList.toggle('active-filter', filter === 'unanswered');
+  document.getElementById('filter-wrong').classList.toggle('active-filter', filter === 'wrong');
+  renderQuiz();
+}
+
+function toggleRevealAll() {
+  revealAll = !revealAll;
+  const btn = document.getElementById('revealAllBtn');
+  btn.textContent = revealAll ? 'Hide Unanswered Comparisons' : 'Reveal All Comparisons';
+  btn.classList.toggle('active-filter', revealAll);
+  renderQuiz();
+}
+
+function selectOption(tab, qNum, letter) {
+  if (state[tab].answers[qNum]) return; // Lock answer once chosen
+  state[tab].answers[qNum] = letter;
+  state[tab].revealed[qNum] = true;
+  renderQuiz();
+}
+
+function toggleSingleComparison(tab, qNum) {
+  state[tab].revealed[qNum] = !state[tab].revealed[qNum];
+  renderQuiz();
+}
+
+function resetQuestion(tab, qNum) {
+  delete state[tab].answers[qNum];
+  delete state[tab].revealed[qNum];
+  renderQuiz();
+}
+
+function resetCurrentTab() {
+  if (currentTab === 'matrix') return;
+  state[currentTab].answers = {};
+  state[currentTab].revealed = {};
+  renderQuiz();
+}
+
+function updateStats() {
+  ['sme', 'se'].forEach(tab => {
+    const questions = quizzes[tab];
+    const ansObj = state[tab].answers;
+    const answeredCount = Object.keys(ansObj).length;
+    let correctCount = 0;
+    questions.forEach(q => {
+      if (ansObj[q.num] === q.answer) correctCount++;
+    });
+    document.getElementById(`pill-${tab}`).textContent = `${correctCount} / ${questions.length}`;
+  });
+
+  if (currentTab === 'matrix') return;
+  const questions = quizzes[currentTab];
+  const ansObj = state[currentTab].answers;
+  const answeredCount = Object.keys(ansObj).length;
+  let correctCount = 0;
+  let wrongCount = 0;
+
+  questions.forEach(q => {
+    if (ansObj[q.num]) {
+      if (ansObj[q.num] === q.answer) correctCount++;
+      else wrongCount++;
+    }
+  });
+
+  const acc = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+  document.getElementById('statAnswered').textContent = `${answeredCount} / ${questions.length}`;
+  document.getElementById('statCorrect').textContent = correctCount;
+  document.getElementById('statWrong').textContent = wrongCount;
+  document.getElementById('statAccuracy').textContent = `${acc}%`;
+}
+
+function renderQuiz() {
+  updateStats();
+  if (currentTab === 'matrix') return;
+
+  const container = document.getElementById('quizContainer');
+  const questions = quizzes[currentTab];
+  const tabState = state[currentTab];
+
+  const filtered = questions.filter(q => {
+    const userAns = tabState.answers[q.num];
+    if (currentFilter === 'unanswered') return !userAns;
+    if (currentFilter === 'wrong') return userAns && userAns !== q.answer;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="q-card" style="text-align:center; color: var(--muted); padding: 40px;">No questions match the selected filter.</div>`;
+    return;
+  }
+
+  const tabLabel = currentTab === 'sme' ? 'PFRS for SMEs' : 'PFRS for Small Entities';
+
+  container.innerHTML = filtered.map(q => {
+    const userAns = tabState.answers[q.num];
+    const isAnswered = Boolean(userAns);
+    const isCorrect = userAns === q.answer;
+    const showComp = revealAll || Boolean(tabState.revealed[q.num]);
+
+    const cardClass = isAnswered ? (isCorrect ? 'q-card answered-correct' : 'q-card answered-wrong') : 'q-card';
+
+    const optionsHtml = Object.entries(q.options).map(([letter, text]) => {
+      let btnClass = 'opt-btn';
+      if (isAnswered || showComp) {
+        if (letter === q.answer) btnClass += ' correct-choice';
+        else if (userAns === letter && letter !== q.answer) btnClass += ' wrong-choice';
+      }
+      return `
+        <button class="${btnClass}" ${isAnswered ? 'disabled' : ''} onclick="selectOption('${currentTab}', ${q.num}, '${letter}')">
+          <span class="opt-letter">${letter}</span>
+          <span>${text}</span>
+        </button>
+      `;
+    }).join('');
+
+    let statusHtml = `<span style="font-size:0.82rem; color:var(--muted);">Select an option to check your answer</span>`;
+    if (isAnswered) {
+      statusHtml = isCorrect
+        ? `<span class="status-badge correct">&#10004; Correct! (Answer: ${q.answer})</span>`
+        : `<span class="status-badge wrong">&#10008; Incorrect — You chose ${userAns}. Correct Answer: ${q.answer}</span>`;
+    } else if (showComp) {
+      statusHtml = `<span class="status-badge correct">Answer Key Revealed: ${q.answer}</span>`;
+    }
+
+    return `
+      <div class="${cardClass}" id="q-${currentTab}-${q.num}">
+        <div class="q-header">
+          <span class="q-num">${tabLabel} &bull; Question ${q.num}</span>
+          <span class="q-topic">${q.topic}</span>
+        </div>
+        <div class="q-stem">${q.num}. ${q.stem}</div>
+        <div class="options-grid">
+          ${optionsHtml}
+        </div>
+        <div class="q-footer">
+          <div>${statusHtml}</div>
+          <div class="action-group">
+            <button class="btn" onclick="toggleSingleComparison('${currentTab}', ${q.num})">
+              ${showComp ? 'Hide Comparison' : 'Show Answer & Comparison'}
+            </button>
+            ${isAnswered ? `<button class="btn" onclick="resetQuestion('${currentTab}', ${q.num})">Retry</button>` : ''}
+          </div>
+        </div>
+        <div class="comparison-panel ${showComp ? 'visible' : ''}">
+          <div class="rationale-box">
+            <strong>Why ${q.answer} is correct:</strong> ${q.rationale}
+          </div>
+          <div class="comp-grid">
+            <div class="comp-col sme">
+              <h4>&#9679; PFRS / IFRS for SMEs</h4>
+              <p>${q.sme}</p>
+            </div>
+            <div class="comp-col se">
+              <h4>&#9679; PFRS for Small Entities (SE)</h4>
+              <p>${q.se}</p>
+            </div>
+            <div class="comp-col full">
+              <h4>&#9679; Full PFRS / IFRS</h4>
+              <p>${q.full}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Initial render
+renderQuiz();
+</script>
+</body>
+</html>
