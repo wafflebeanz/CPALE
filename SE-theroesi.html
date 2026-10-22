@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PFRS for Small Entities - Interactive Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-20">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">PFRS for Small Entities</h1>
+        <p class="text-xs text-indigo-200">Interactive Assessment Quiz (30 Questions)</p>
+      </div>
+      <div class="text-right">
+        <span id="score-counter" class="text-sm font-semibold bg-indigo-800/80 px-3 py-1.5 rounded-full border border-indigo-500/30">
+          Score: 0 / 0
+        </span>
+      </div>
+    </div>
+    <!-- Progress Bar -->
+    <div class="w-full bg-indigo-900 h-1.5">
+      <div id="progress-bar" class="bg-emerald-400 h-1.5 transition-all duration-300" style="width: 3.33%;"></div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-3xl w-full mx-auto p-4 md:p-6 flex-grow flex items-center justify-center">
+    
+    <!-- Question Card -->
+    <div id="quiz-card" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 w-full transition-all">
+      
+      <!-- Top meta info -->
+      <div class="flex items-center justify-between mb-4">
+        <span id="question-tracker" class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+          Question 1 of 30
+        </span>
+        <span id="status-pill" class="text-xs font-medium text-slate-400">
+          Unanswered
+        </span>
+      </div>
+
+      <!-- Question Text -->
+      <h2 id="question-text" class="text-lg md:text-xl font-semibold text-slate-900 leading-snug mb-6">
+        Question text goes here
+      </h2>
+
+      <!-- Options Container -->
+      <div id="options-container" class="space-y-3 mb-6">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Feedback / Rationale Box (Hidden until answer chosen) -->
+      <div id="feedback-box" class="hidden rounded-xl p-4 mb-6 border transition-all">
+        <p id="feedback-title" class="font-bold text-sm mb-1"></p>
+        <p id="feedback-text" class="text-sm text-slate-600"></p>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+        <button id="prev-btn" onclick="prevQuestion()" class="px-4 py-2 rounded-lg text-sm font-medium border border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          Previous
+        </button>
+        <div class="flex items-center gap-2">
+          <button id="next-btn" onclick="nextQuestion()" class="px-5 py-2 rounded-lg text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm transition-colors">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Result Summary (Hidden initially) -->
+    <div id="results-card" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 w-full text-center">
+      <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600 text-2xl font-bold">
+        ✓
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-2">Quiz Completed!</h2>
+      <p class="text-slate-600 mb-6">Here is your overall performance on PFRS for Small Entities:</p>
+      
+      <div class="bg-slate-50 border border-slate-100 rounded-xl p-6 mb-6 max-w-sm mx-auto">
+        <div class="text-4xl font-extrabold text-indigo-600 mb-1" id="final-score">0 / 30</div>
+        <div class="text-sm text-slate-500 font-medium" id="final-percentage">0%</div>
+      </div>
+
+      <div class="flex justify-center gap-3">
+        <button onclick="restartQuiz()" class="px-6 py-2.5 rounded-lg text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition">
+          Retake Quiz
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">
+    Based on Philippine Financial Reporting Standards (PFRS) for Small Entities
+  </footer>
+
+  <script>
+    const questions = [
+      {
+        num: 1,
+        question: "Which standard shall be applied by small entities?",
+        options: [
+          "A. PFRS for Small Entities",
+          "B. PFRS for SMEs",
+          "C. Full PFRS",
+          "D. All of these can be applied by small entities"
+        ],
+        answer: 0,
+        rationale: "Small entities fall under the specific scope of the 'PFRS for Small Entities' standard issued by the FRSC and SEC."
+      },
+      {
+        num: 2,
+        question: "Which is not within the definition of a small entity?",
+        options: [
+          "A. With total assets or total liabilities between P3,000,000 and P100,000,000.",
+          "B. Not required to file financial statements with SEC in accordance with SEC regulations.",
+          "C. Not in the process of filing financial statements for the purpose of issuing equity instruments in a public market.",
+          "D. Holder of a secondary license issued by regulatory agency, such as bank."
+        ],
+        answer: 3,
+        rationale: "Holders of a secondary license issued by a regulatory agency (like banks or financial institutions) have public accountability and are excluded from being small entities."
+      },
+      {
+        num: 3,
+        question: "Which small entity is exempted from the mandatory adoption of PFRS for Small Entities?",
+        options: [
+          "A. A small subsidiary of a parent under full PFRS",
+          "B. A small subsidiary of a foreign parent moving toward full IFRS",
+          "C. A small joint venture under full PFRS",
+          "D. All of these entities are exempted from adoption of PFRS for small entities."
+        ],
+        answer: 3,
+        rationale: "Entities that are subsidiaries, joint ventures, or associates of parents reporting under full PFRS or moving to IFRS are permitted exemptions to ensure reporting consistency."
+      },
+      {
+        num: 4,
+        question: "Which is not recognized by a small entity?",
+        options: [
+          "A. Change in accounting estimate",
+          "B. Change in accounting policy",
+          "C. Prior period error",
+          "D. Other comprehensive income"
+        ],
+        answer: 3,
+        rationale: "Under PFRS for Small Entities, there is no presentation or recognition of other comprehensive income (OCI); all recognized gains and losses are recognized in profit or loss."
+      },
+      {
+        num: 5,
+        question: "Basic financial instruments of a small entity are initially measured at",
+        options: [
+          "A. Transaction price including transaction cost",
+          "B. Transaction price excluding transaction cost",
+          "C. Amortized cost",
+          "D. Present value of future payments"
+        ],
+        answer: 0,
+        rationale: "Under PFRS for Small Entities, basic financial instruments are initially measured at transaction price including transaction costs."
+      },
+      {
+        num: 6,
+        question: "Debt instruments of a small entity are subsequently measured at",
+        options: [
+          "A. Amortized cost using effective interest method",
+          "B. Amortized cost using straight line",
+          "C. Cost",
+          "D. Fair value"
+        ],
+        answer: 0,
+        rationale: "Debt instruments are subsequently carried at amortized cost determined by applying the effective interest method."
+      },
+      {
+        num: 7,
+        question: "Investments in untraded shares of a small entity are subsequently measured at",
+        options: [
+          "A. Cost",
+          "B. Cost less impairment",
+          "C. Fair value",
+          "D. Fair value less transaction cost"
+        ],
+        answer: 1,
+        rationale: "Investments in equity instruments that are untraded (not quoted in an active market) are subsequently measured at cost less impairment."
+      },
+      {
+        num: 8,
+        question: "Investment in traded shares of a small entity are subsequently measured at",
+        options: [
+          "A. Cost",
+          "B. Fair value",
+          "C. Lower of cost or fair value with changes in fair value recognized in profit or loss",
+          "D. Lower of cost or fair value with changes in fair value recognized in OCI"
+        ],
+        answer: 2,
+        rationale: "Investments in traded/quoted shares are measured at the lower of cost or fair value, with any adjustments recognized in profit or loss."
+      },
+      {
+        num: 9,
+        question: "For debt instrument at amortized cost, the impairment loss is",
+        options: [
+          "A. Excess carrying amount over the present value of cash flows",
+          "B. Excess of present value of cash flows over carrying amount",
+          "C. Excess of carrying amount over fair value",
+          "D. Excess fair value over carrying amount"
+        ],
+        answer: 0,
+        rationale: "Impairment for amortized cost instruments is the difference when the carrying amount exceeds the present value of expected future cash flows."
+      },
+      {
+        num: 10,
+        question: "For financial asset measured at cost less impairment, the impairment loss is the excess of",
+        options: [
+          "A. Carrying amount over the best estimate of selling price",
+          "B. Best estimate of selling price over carrying amount",
+          "C. Carrying amount over fair value",
+          "D. Fair value over best estimate of selling price"
+        ],
+        answer: 0,
+        rationale: "In PFRS for Small Entities, the benchmark for impairment of cost-measured financial assets is the excess of carrying amount over the best estimate of selling price."
+      },
+      {
+        num: 11,
+        question: "Inventories of a small entity are initially measured at cost and subsequently measured at",
+        options: [
+          "A. Fair value",
+          "B. Market value",
+          "C. Lower of cost or market value",
+          "D. Lower of cost or net realizable value"
+        ],
+        answer: 2,
+        rationale: "PFRS for Small Entities specifically uses the 'lower of cost or market value' rule rather than NRV."
+      },
+      {
+        num: 12,
+        question: "If the market value of inventory of small entity is lower than cost, the difference is accounted for as",
+        options: [
+          "A. Impairment loss",
+          "B. Component of other comprehensive income",
+          "C. Component of cost of goods sold",
+          "D. Operating expense"
+        ],
+        answer: 0,
+        rationale: "Any write-down of inventory below cost is recognized as an impairment loss in profit or loss."
+      },
+      {
+        num: 13,
+        question: "All investments in associate of a small entity are accounted for using",
+        options: [
+          "A. Cost model",
+          "B. Equity method",
+          "C. Either cost model or equity method",
+          "D. Cost model, equity method or fair value model"
+        ],
+        answer: 2,
+        rationale: "Small entities have the explicit accounting policy choice between the cost model and the equity method."
+      },
+      {
+        num: 14,
+        question: "All investments property of a small entity shall be subsequently measured using",
+        options: [
+          "A. Cost model",
+          "B. Fair value model",
+          "C. Either cost model or revaluation model",
+          "D. Either cost model or fair value model"
+        ],
+        answer: 3,
+        rationale: "PFRS for Small Entities allows entities to choose between the cost model or fair value model for investment property."
+      },
+      {
+        num: 15,
+        question: "A small entity shall apply which accounting policy for property, plant and equipment?",
+        options: [
+          "A. Cost model",
+          "B. Fair value model",
+          "C. Either cost model or fair value model",
+          "D. Either cost model or revaluation model"
+        ],
+        answer: 2,
+        rationale: "For PPE, small entities can choose between the cost model or fair value model (note that revaluation model with OCI is not used)."
+      },
+      {
+        num: 16,
+        question: "Which statement is true with respect to government grant of a small entity?",
+        options: [
+          "A. Unconditional monetary grant is recognized in income when receivable.",
+          "B. Conditional monetary grant is recognized in income only when condition is met.",
+          "C. Monetary grant is recognized as liability before recognition criteria are met.",
+          "D. All of the statements are true."
+        ],
+        answer: 3,
+        rationale: "All three statements correctly state the grant recognition rules under PFRS for Small Entities."
+      },
+      {
+        num: 17,
+        question: "What is the accounting policy of a small entity for a nonmonetary grant?",
+        options: [
+          "A. No recognition",
+          "B. Recognition at fair value",
+          "C. Either no recognition or recognition at fair value",
+          "D. Recognition at cost"
+        ],
+        answer: 2,
+        rationale: "A small entity can adopt an accounting policy of either not recognizing nonmonetary grants or recognizing them at fair value."
+      },
+      {
+        num: 18,
+        question: "What is the treatment of borrowing cost of a small entity?",
+        options: [
+          "A. Expensed as incurred",
+          "B. Capitalized",
+          "C. May be expensed or capitalized depending on circumstances",
+          "D. Not recognized"
+        ],
+        answer: 0,
+        rationale: "Borrowing costs are required to be expensed outright as incurred; capitalization into qualifying assets is not permitted."
+      },
+      {
+        num: 19,
+        question: "A small entity shall measure intangible asset using",
+        options: [
+          "A. Cost model only",
+          "B. Fair value model",
+          "C. Revaluation model",
+          "D. Either cost model or fair value model"
+        ],
+        answer: 0,
+        rationale: "Intangible assets under PFRS for Small Entities must be measured solely using the cost model."
+      },
+      {
+        num: 20,
+        question: "If the useful life of an intangible asset of a small entity cannot be estimated reliably.",
+        options: [
+          "A. The intangible asset is not amortized",
+          "B. The useful life must be 10 years.",
+          "C. The useful life is based on the best estimate of management",
+          "D. The useful life is based on the best estimate of management not exceeding 10 years."
+        ],
+        answer: 3,
+        rationale: "When the useful life cannot be reliably determined, management estimates it, with a strict cap of 10 years."
+      },
+      {
+        num: 21,
+        question: "Biological asset of a small entity is measured using",
+        options: [
+          "A. Cost model",
+          "B. Current market price model",
+          "C. Either cost model or fair value model",
+          "D. Either cost model or current market price model"
+        ],
+        answer: 3,
+        rationale: "Biological assets are measured using either the cost model or the current market price model."
+      },
+      {
+        num: 22,
+        question: "Agricultural produce of a small entity is measured at",
+        options: [
+          "A. Current market price at the point of harvest",
+          "B. Current market price less cost of disposal at the point of harvest",
+          "C. Fair value at the point of harvest",
+          "D. Fair value less cost of disposal at the point of harvest"
+        ],
+        answer: 0,
+        rationale: "Under PFRS for Small Entities, agricultural produce is valued at the current market price at point of harvest."
+      },
+      {
+        num: 23,
+        question: "A small entity shall account for lease using",
+        options: [
+          "A. Operating lease model",
+          "B. Finance lease model",
+          "C. Either operating lease or finance lease",
+          "D. Operating lease for lessee and finance lease for lessor"
+        ],
+        answer: 0,
+        rationale: "Leases in a small entity are accounted for using the operating lease model (simplifying away finance lease accounting)."
+      },
+      {
+        num: 24,
+        question: "A small entity shall account for income tax using",
+        options: [
+          "A. Taxes payable method",
+          "B. Deferred income taxes method",
+          "C. Either taxes payable method or deferred income taxes method",
+          "D. Neither taxes payable method nor deferred income taxes method"
+        ],
+        answer: 2,
+        rationale: "An accounting policy choice is provided between the simple taxes payable method and the deferred income taxes method."
+      },
+      {
+        num: 25,
+        question: "A small entity shall account for postemployment benefits using",
+        options: [
+          "A. Accrual method",
+          "B. Cash method",
+          "C. Either accrual method or cash method",
+          "D. Either accrual method or projected benefit method"
+        ],
+        answer: 0,
+        rationale: "Postemployment benefits must be accounted for on an accrual basis."
+      },
+      {
+        num: 26,
+        question: "The benefit obligation of small entity is calculated under",
+        options: [
+          "A. R.A. 7641",
+          "B. Company policy",
+          "C. Company policy if higher than R.A. 7641",
+          "D. Qualifying insurance policy"
+        ],
+        answer: 2,
+        rationale: "Retirement benefits obligation is computed under company policy if that provides benefits higher than the minimum prescribed under R.A. 7641."
+      },
+      {
+        num: 27,
+        question: "Equity settled transactions of a small entity are measured at",
+        options: [
+          "A. Net asset value",
+          "B. Fair value",
+          "C. Liquidation value",
+          "D. Assessed value"
+        ],
+        answer: 0,
+        rationale: "Share-based payments settled in equity instruments are measured at Net Asset Value (NAV)."
+      },
+      {
+        num: 28,
+        question: "Net asset value is equal to",
+        options: [
+          "A. Total assets less total liabilities",
+          "B. Total assets at fair value",
+          "C. Net assets at fair value",
+          "D. Total assets less total liabilities divided by shares outstanding"
+        ],
+        answer: 3,
+        rationale: "NAV per share is calculated as total assets less total liabilities divided by outstanding shares (book value per share)."
+      },
+      {
+        num: 29,
+        question: "Cash settled transactions of a small entity are measured at",
+        options: [
+          "A. Fair value of liability at reporting date",
+          "B. Net asset value of liability at reporting date",
+          "C. Fair value of liability at reporting date and remeasured at date of settlement",
+          "D. Net asset value of liability at reporting date and remeasured at date of settlement"
+        ],
+        answer: 2,
+        rationale: "Cash-settled transactions are measured at fair value of the liability at each reporting date and remeasured at settlement."
+      },
+      {
+        num: 30,
+        question: "A small entity shall apply which method of recognizing revenue and expense?",
+        options: [
+          "A. Accrual basis",
+          "B. Cash basis",
+          "C. Modified cash basis",
+          "D. Either accrual basis or cash basis"
+        ],
+        answer: 0,
+        rationale: "Under general financial reporting principles and PFRS for Small Entities, revenue and expenses must be recognized under the accrual basis of accounting."
+      }
+    ];
+
+    let currentIdx = 0;
+    const userAnswers = new Array(questions.length).fill(null);
+
+    function updateHeader() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      let correctCount = 0;
+      userAnswers.forEach((ans, idx) => {
+        if (ans === questions[idx].answer) correctCount++;
+      });
+      document.getElementById('score-counter').innerText = `Score: ${correctCount} / ${answeredCount}`;
+      const progressPercent = ((currentIdx + 1) / questions.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIdx];
+      document.getElementById('question-tracker').innerText = `Question ${q.num} of ${questions.length}`;
+      document.getElementById('question-text').innerText = q.question;
+
+      const answered = userAnswers[currentIdx] !== null;
+      const statusPill = document.getElementById('status-pill');
+      if (answered) {
+        const isRight = userAnswers[currentIdx] === q.answer;
+        statusPill.innerText = isRight ? "Correct" : "Incorrect";
+        statusPill.className = isRight ? "text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded" : "text-xs font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded";
+      } else {
+        statusPill.innerText = "Unanswered";
+        statusPill.className = "text-xs font-medium text-slate-400";
+      }
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-xl border text-sm font-medium transition-all flex items-start gap-3 ";
+
+        if (!answered) {
+          btn.className += "border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 bg-white text-slate-700";
+          btn.onclick = () => selectOption(idx);
+        } else {
+          btn.disabled = true;
+          if (idx === q.answer) {
+            btn.className += "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold ring-1 ring-emerald-500";
+          } else if (idx === userAnswers[currentIdx]) {
+            btn.className += "border-rose-400 bg-rose-50 text-rose-900";
+          } else {
+            btn.className += "border-slate-100 bg-slate-50/50 text-slate-400 opacity-60";
+          }
+        }
+
+        const indicator = document.createElement('span');
+        indicator.className = "w-5 h-5 rounded-full border flex-shrink-0 flex items-center justify-center text-xs mt-0.5 ";
+        if (answered) {
+          if (idx === q.answer) {
+            indicator.className += "bg-emerald-500 border-emerald-500 text-white";
+            indicator.innerText = "✓";
+          } else if (idx === userAnswers[currentIdx]) {
+            indicator.className += "bg-rose-500 border-rose-500 text-white";
+            indicator.innerText = "✕";
+          } else {
+            indicator.className += "border-slate-300 text-transparent";
+          }
+        } else {
+          indicator.className += "border-slate-300 text-transparent";
+        }
+
+        const textSpan = document.createElement('span');
+        textSpan.innerText = optText;
+
+        btn.appendChild(indicator);
+        btn.appendChild(textSpan);
+        container.appendChild(btn);
+      });
+
+      // Feedback box
+      const fbBox = document.getElementById('feedback-box');
+      if (answered) {
+        fbBox.classList.remove('hidden');
+        const isRight = userAnswers[currentIdx] === q.answer;
+        fbBox.className = isRight 
+          ? "rounded-xl p-4 mb-6 border border-emerald-200 bg-emerald-50/80 text-emerald-900" 
+          : "rounded-xl p-4 mb-6 border border-rose-200 bg-rose-50/80 text-rose-900";
+        document.getElementById('feedback-title').innerText = isRight ? "Correct Answer!" : "Incorrect Answer";
+        document.getElementById('feedback-text').innerText = q.rationale;
+      } else {
+        fbBox.classList.add('hidden');
+      }
+
+      // Prev/Next buttons
+      document.getElementById('prev-btn').disabled = currentIdx === 0;
+      const nextBtn = document.getElementById('next-btn');
+      if (currentIdx === questions.length - 1) {
+        nextBtn.innerText = "View Results";
+      } else {
+        nextBtn.innerText = "Next";
+      }
+
+      updateHeader();
+    }
+
+    function selectOption(index) {
+      if (userAnswers[currentIdx] !== null) return;
+      userAnswers[currentIdx] = index;
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (currentIdx > 0) {
+        currentIdx--;
+        renderQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      if (currentIdx < questions.length - 1) {
+        currentIdx++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-card').classList.add('hidden');
+      const resultsCard = document.getElementById('results-card');
+      resultsCard.classList.remove('hidden');
+
+      let correctCount = 0;
+      userAnswers.forEach((ans, idx) => {
+        if (ans === questions[idx].answer) correctCount++;
+      });
+
+      document.getElementById('final-score').innerText = `${correctCount} / ${questions.length}`;
+      const percentage = Math.round((correctCount / questions.length) * 100);
+      document.getElementById('final-percentage').innerText = `${percentage}% Accuracy`;
+    }
+
+    function restartQuiz() {
+      for (let i = 0; i < userAnswers.length; i++) userAnswers[i] = null;
+      currentIdx = 0;
+      document.getElementById('results-card').classList.add('hidden');
+      document.getElementById('quiz-card').classList.remove('hidden');
+      renderQuestion();
+    }
+
+    // Initialize
+    renderQuestion();
+  </script>
+</body>
+</html>
+```eof
+
+### What has been built:
+- **Interactive Quiz Application (`pfrs_small_entities_quiz.html`)**: Contains all 30 questions transcribed verbatim from the provided images, with the exact highlighted correct answers.
+- **Immediate Feedback & Explanations**: Selecting an answer instantly reveals whether the choice is correct or incorrect alongside the rationale.
+- **Progress & Scoring Tracker**: Keeps track of your cumulative score and progress through the questions, concluding with a performance review screen and restart option.
